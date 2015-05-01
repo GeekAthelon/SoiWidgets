@@ -1,0 +1,80 @@
+.all-flairs
+ {
+  display: inline-block;
+  margin-left: 2.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 25px;
+
+  border: 1px dotted white;
+  border-style: outset;
+  background-color: black;
+  color: silver;
+}
+
+.all-flairs > span {
+  font-size: 75%;
+}
+
+.ath {
+  border: 2px solid yellow;
+  border-style: outset;
+  background-color: black;
+  color: yellow;
+}
+
+.ld {
+  border: 2px solid black;
+  border-style: outset;
+  background-color: white;
+  color: black;
+}
+
+.vi {
+  background-color: solid blue;
+  border-style: outset;
+}
+
+.unregistered {
+  border: 1px dotted white;
+  border-style: outset;
+  background-color: black;
+  color: silver;
+}
+
+/************************************ NEWLY ADDED CSS ***************************************/
+
+.flair-has-extra {
+  cursor: "pointer";
+}
+
+.all-flairs-extra {
+  position: absolute;
+  border: none;
+  width: 400px;
+  overflow: hidden;
+  
+/*
+  opacity: 1;
+    -webkit-transition: opacity 1s ease-in;
+       -moz-transition: opacity 1s ease-in;
+        -ms-transition: opacity 1s ease-in;
+         -o-transition: opacity 1s ease-in;
+            transition: opacity 1s ease-in;
+			*/
+			
+   max-height: 0px; 
+   -moz-transition: 2s;
+   -ms-transition: 2s;
+   -o-transition: 2s;
+   -webkit-transition: 2s;
+   transition: 2s;
+}
+
+.all-flairs-extra.flair-load {
+	/*
+    opacity: 1;
+	*/
+	
+	max-height:999px;
+}

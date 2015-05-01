@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0052)http://soiroom.hyperchat.com/multiloc/multiedit.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 6 November 2007), see www.w3.org">
+  
+  <script src="./multilocBuilder_files/json.js" type="text/javascript">
+</script>
+  <script src="./multilocBuilder_files/tabber.js" type="text/javascript">
+</script>
+  <link rel="stylesheet" type="text/css" href="./multilocBuilder_files/tabber.css">
+
+  <title>The SOI Multiroom builder</title>
+  <script type="text/javascript" src="./multilocBuilder_files/multiedit.js">
+</script>
+</head>
+
+<body background="./multilocBuilder_files/background.gif" onload="showTab(1)">
+  <form name="navform" onsubmit="return false" id="navform">
+    <img src="./multilocBuilder_files/back_button.gif" onclick="doBack();"> (Don't use the
+    browser's back button);
+  </form>
+
+  <h1>The SOI Multiroom builder</h1>
+
+  <div id="step1">
+    <h2>Step 1: Import data</h2>
+
+    <form name="import" onsubmit="return false" id="import">
+      <button onclick="makeDefault();importData();showTab(2)">Load
+      blank data</button><br>
+      <button onclick="importData();showTab(2)">Next
+      &gt;&gt;</button><br>
+      If you already have an existing "Multiloc" config file,
+      please paste it here:
+
+      <p>
+      <textarea id="imp_textarea" cols="80" rows="25"></textarea></p>
+    </form>
+  </div><!-- step1 -->
+
+  <div id="step2" style="display: none;">
+    <h2>Step 2: Add, remove, or change a view.</h2>
+
+    <form name="viewlistform" id="viewlistform" onsubmit="return false">
+      <center>
+        <p>To create a new view, select the Add radio button, enter
+        the room id (2-8 alphanumeric characters) in the text box,
+        and press "Make Change".</p>
+
+        <p>If you wish to delete a view, select the Delete radio
+        button, enter the room id you wish to delete in the text
+        box, and press "Make Change".</p><i>There is no maximum
+        number of views you can create, but over a dozen become
+        awkward.</i><br>
+        <input type="radio" name="addDelete" value="add"> Add
+        <input type="radio" name="addDelete" value="delete"> Delete
+        <input name="viewName" size="20"><br>
+        <button onclick="addDel();">MakeChange</button><br>
+        <button onclick="showTab(4)">Finish up</button>
+
+        <p>Currently existing views</p>
+
+        <div id="viewlist"></div>
+      </center><br>
+    </form>
+  </div><!-- step2 -->
+
+  <div id="step3" style="display: none;">
+    <h2>Step 3: Edit a view</h2>
+
+    <form name="roomedit" id="roomedit" onsubmit="return false">
+      <script type="text/javascript">
+jsonToForm(multiDetails);
+      </script>Name of this view <input type="text" name="rName" maxlength="80"><br><br>Full URL to background image for this view <input type="text" name="backgroundImage" maxlength="200"><br><br>Room Text Left Side Chat Box <br><textarea name="chatleft" rows="5" cols="100"></textarea><br><br>Room Text Under Chat Box <br><textarea name="underchat" rows="5" cols="100"></textarea><br><br>Text for Top Level of Room <br><textarea name="roomtop" rows="5" cols="100"></textarea><br><br>Text for Bottom of Room <br><textarea name="roombottom" rows="5" cols="100"></textarea><br><br><br>
+      <button onclick="saveView(); showTab(2)">Save</button>
+    </form>
+  </div><!-- step3 -->
+
+  <div id="step4" style="display: none;">
+    <h2>Step 4: Choose order and default view</h2>
+
+    
+    <form name="chatedit" id="chatedit" onsubmit="return false">
+      <p>This section allows you to control how the location message that
+      is posted in the room looks.</p>
+      <script type="text/javascript">
+jsonToForm(configDetails);
+      </script>Text color of location messages <input type="text" name="locationColor" maxlength="15"><br><br>
+    
+      
+      <hr>
+      <p>This section is for the room setup. While it doesn't
+      control what goes IN the room, it does control some important
+      details on how the room works.</p>
+
+      <table border="1">
+        <thead>
+          <tr>
+            <td>Select</td>
+            <td>Name</td>
+            <td>long description</td>
+            <td>Default</td>
+          </tr>
+        </thead>
+        <tbody id="view_tbody">
+          <tr>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+          </tr>
+        </tbody>
+      </table><button name="save_btn" onclick="showTab(5)">Save</button><br>
+    </form>
+  </div><!-- step4 -->
+
+  <div id="step5" style="display: none;">
+    <h2>Step 5: Finish Up</h2>
+
+    <form name="json_form" id="json_form" onsubmit="return false">
+      To save your changes, copy-and-paste this code to the server. 
+      <textarea id="json_out" cols="80" rows="25"></textarea>
+    </form>
+  </div><!-- step5 -->
+  <pre><script type="text/javascript">
+
+//document.write(JSON.stringify(configDetails, null, " "));
+</script>
+  
+</pre>
+
+
+</body></html>

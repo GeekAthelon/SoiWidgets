@@ -1,0 +1,69 @@
+PostRankWidget.instances[0].render({
+	"meta": {
+		"title": "Steve Hanov's Technology Blog - PostRank (PostRank: All)",
+		"postrank:searchPostrank": 1.0,
+		"opensearch:startIndex": 0,
+		"opensearch:itemsPerPage": 5,
+		"image": {
+			"title": "PostRank",
+			"url": "http://www.postrank.com/graphics/header_logo.png",
+			"link": "http://www.postrank.com/feed/164308eb6b574eb40da88ed83854e4a6"
+		}
+	},
+	"feed": {
+		"title": "Steve Hanov's Technology Blog",
+		"link": "http://gandolf.homelinux.org/~smhanov/blog"
+	},
+	"items": [
+		{
+			"title": "Fast and Easy Levenshtein distance using a Trie",
+			"link": "http://stevehanov.ca/blog?id=114",
+			"feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+			"pubdate": 1295053620,
+			"postrank": 10.0,
+			"postrank_color": "#ff6514",
+			"original_link": "http://stevehanov.ca/blog?id=114",
+			"id": "200be49b4238a5d4311d5c7be9d71f33"
+		},
+		{
+			"title": "Throw away the keys: Easy, Minimal Perfect Hashing",
+			"link": "http://stevehanov.ca/blog?id=119",
+			"feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+			"pubdate": 1299711600,
+			"postrank": 9.1,
+			"postrank_color": "#ff7220",
+			"original_link": "http://stevehanov.ca/blog?id=119",
+			"id": "50ce6e9ae389bd5f528def39623c3498"
+		},
+		{
+			"title": "Succinct Data Structures: Cramming 80,000 words into a Javascript file.",
+			"link": "http://stevehanov.ca/blog?id=120",
+			"feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+			"pubdate": 1300679220,
+			"postrank": 7.3,
+			"postrank_color": "#ff9d38",
+			"original_link": "http://stevehanov.ca/blog?id=120",
+			"id": "bef29cdda5987aeb6d194d86f8f950d0"
+		},
+		{
+			"title": "A Rhyming Engine",
+			"link": "http://stevehanov.ca/blog?id=8",
+			"feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+			"pubdate": 1175873460,
+			"postrank": 6.4,
+			"postrank_color": "#ffa944",
+			"original_link": "http://stevehanov.ca/blog?id=8",
+			"id": "87ac13d35303fd213417e9ba758b54fb"
+		},
+		{
+			"title": "Finding the top K items in a list efficiently",
+			"link": "http://stevehanov.ca/blog?id=122",
+			"feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+			"pubdate": 1307246160,
+			"postrank": 6.2,
+			"postrank_color": "#ffab46",
+			"original_link": "http://stevehanov.ca/blog?id=122",
+			"id": "8a998fa48ee4e76484cf40090771c417"
+		}
+	]
+})

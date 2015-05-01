@@ -1,0 +1,75 @@
+=== TOP OF ROOM ===
+<!--Sometimes cuddles are better than anything else.  Gentle hugs and light touches more rewarding then hot passion.
+
+Here sits the man, his arm draped over one corner of the couch  as though someone should fit there.
+-->
+
+<script>
+
+
+document.domain = "hyperchat.com";
+
+
+document.write("<div id='place'><\/div>'");
+if (window.top === window.self) {
+window.onload = loc_init;
+} else {
+window.onload = window.top.init2;
+}
+
+function getUricValueByName(n) {
+  var el = document.getElementsByName(n);
+  if (!el) {return;}
+
+  return encodeURIComponent(el[0].value);
+}
+
+function getReturnUrl() {
+  var links = document.getElementsByTagName("a");
+  var i, l = links.length;
+  var a;
+  for (i = 0; i < l; i++) {  
+    a = links[i];
+    if (a.innerHTML == "[Reload This Page]") {
+      return a;
+    } 
+  }
+}
+
+function loc_init() {
+  var place = document.getElementById('place');
+
+  var vals = [];
+  vals.push("user=" + getUricValueByName('vqxus'));
+  vals.push("room=" + getUricValueByName('vqxro'));
+  vals.push("url=" +  encodeURIComponent(getReturnUrl()));
+
+  // This is really hacky, but we go for the 'Reload this page' link
+
+  var a = document.createElement("a");
+  a.href = "http://soiroom.hyperchat.com/chatplus/bogggle.html?" + vals.join("&");
+  
+  var img = new Image();
+  img.src = 'http://soiroom.hyperchat.com/tocuddle/boggle.jpg';
+
+  a.appendChild(img);
+  a.appendChild(document.createElement("br"));
+  a.appendChild(document.createTextNode("Enter Game World"));
+  place.appendChild(a);
+
+  place.innerHTML = "<div>" + place.innerHTML + "</div>";
+
+  place.innerHTML += '<br>Welcome to Boggle at SOI, another cheap production brought to you by Athelon AKA Lord of the Dice.  Right now the game is still in a development phase, but it has hit the point where it is playable as long as you are willing to keep score yourself.<br>Coming soon, a multi-player mode and MUCH better scoring...';
+}
+</script>
+
+<h2>Known issues</h2>
+<ol><li><strike>Crashes under IE8 -- will be fixed.</strike></li><li>Sometimes a long word list will get eaten -- not sure why</li><li><strike>The challege stuff isn't working properly.  it should give people exactly the same board at (more or less) the same time.</strike></li><li>Challenge mode should be working now.  Click 'Challenge!' to start a challenge, then to accept a challenge just click on the 'Accept Challenge' button in the post.<li>Thanks to a player, I found out that a recent change at SOI broke the game room (You got redirected to the room home page on entering game  mode).  This is now fixed.</li>
+</ol>
+
+<h2>Quick how to play</h2>
+<p><b>After you click on the first letter, you can only use a letter that is TOUCHING the last letter you played.  It can be up, down, side to side or diagonal -- but it must be touching.</b></p>
+<p>Feel free to start a game, any number of people can play at once without interrupting each other.  Accepting a challenge just gives all of the players (of that challenge) the same dice setup.</p>
+=====
+
+

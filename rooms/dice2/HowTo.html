@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+  <head>
+    <title>
+    	How to set up Yahtze at SOI
+    </title>
+
+
+    <style>
+      body {
+        background:url(http://soiroom.hyperchat.com/dice/dicebg.gif) repeat;
+      }
+
+
+		div.inner {
+          width:90%;
+
+          margin: auto;
+          background-color:#044;
+          border:1px solid black;
+          filter:alpha(opacity=90); 
+          opacity:0.9;
+          color: white;
+          padding-left: 1em;
+          padding-right: 1em;
+      }
+
+
+      pre {
+      	border: .25em solid black;
+      	color: yellow;
+      	background-color: gray;
+      	padding: .25em;
+      }
+      </style>
+</head>
+
+	<body>
+
+		<div class="inner">
+<h1>How to set up Yahtze at SOI</h1>
+<p>
+	To set up Yahtzee at SOI, it might be easier to start with an empty room, 
+	though an existing room can be reused if you are careful.
+</p>
+
+
+<h2>Differences</h2>
+<p>There are several very important things to know about this version of
+	Yahtzee compared to the old one.
+</p>
+
+<ul>
+	<li>
+		It no longer works with IE 6 or IE 7.  Sorry.  Not really. I no longer care about
+		those browsers on things I'm not getting paid for.
+	</li>
+	<li>
+		It requires sessionStorage.  Most modern browsers should support this, though it
+		may be disabled if you turned cookies off.  There are some systems that don't
+		support sessionStorage (such as the Kindle 3 Keyboard) -- oh well.
+	</li>
+	<li>
+		The first time you visit the game in a session (under the same browser tab),
+		it takes a few moments to load the game.  After that, it doesn't need reloaded
+		when you take a turn.  This makes it <strong>much</strong> faster than before.
+	</li>
+	<li>
+		This version allows more local setup options, such as registering your own
+		dice and setting up your own GameLords.
+	</li>
+	<li>
+		The source code is compressed, but not uglified.  If you'd like the original source,
+		feel free to ask
+	</li>
+</ul>
+	
+<hr>
+
+<h2>Room Setup</h2>
+<p>Go to the <strong>[Room_Controls]</strong> of SOI, then select the room
+you wish to turn into a Yahtzee room.</p>
+
+<p border="1px solid black"><strong><em>EDIT:</em>  The room must have a spirit list.
+For room type, I suggest choosing <em>11</em> from the dropdown menu.</strong>
+</p>
+
+<p>In the section <em>Text for Top Level of Room</em>, enter the following, 
+	exactly as it appears here: <em>(If you use triples, this should go after all of that...)</em>
+</p>
+
+
+<pre>
+
+&lt;form id="diceform" action="#" onsubmit="return false;"&gt;
+&lt;div id="dicepanel"&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;div style="clear:both"&gt;
+  &lt;div id="gameBoard"&gt; &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="diceStatus"&gt; &lt;/div&gt;
+</pre>
+
+
+<p>In the section <em>Text for Bottom of Room</em>, enter the following, 
+	exactly as it appears here:
+</p>
+
+<pre>
+&lt;script&gt;
+function runOnload() {
+  window.onload = function () {
+    window.dicegame2.init();
+  }
+}
+
+
+
+if (!window.sessionStorage) {
+  alert("I'm sorry, your browser must support sessionStorage.");
+} else {
+  var sessionKeyTest = "" + new Date().getTime();
+
+  sessionStorage.setItem(sessionKeyTest, sessionKeyTest);
+  if (sessionStorage.getItem(sessionKeyTest) !== sessionKeyTest) {
+    alert("Session storage not working... are cookies disabled?");
+  } else {
+    var game = sessionStorage.getItem("yahtzee.game.json");
+    if (game) {
+      eval(game);
+    } else {
+      document.write('&lt;script type="text/javascript" src="http://soiroom.hyperchat.com/testdice/dice2.json.js">&lt;\/script>');          
+    }
+
+    runOnload();
+  }
+}
+
+&lt;/script&gt;
+</pre>
+
+
+<h2>Enhancements</h2>
+
+<h3>Configuring a GameLord</h3>
+<p>To configure a GameLord, the name <strong>must</strong> be registered exactly as it appears
+in the Yahtzee game.  This may be much shorter than it normally appears or appears in the
+Spirit List.  In this example, we register two players called <strong>nobody</strong> and 
+<strong>Athelon</strong>.
+
+ GameLord status:</p>
+	<pre>
+    window.dicegame2.registerGameLord("nobody");
+    window.dicegame2.registerGameLord("Athelon");
+</pre>
+
+
+<h3>Registering custom dice sets</h3>
+<pre>
+    window.dicegame2.registerDice("duplicate_old2", {
+      "path": 'http://soiroom.hyperchat.com/dice/dice/old/',
+      "clear": ["d0.jpg", "d1.jpg", "d2.jpg", "d3.jpg", "d4.jpg", "d5.jpg", "d6.jpg"],
+      "marked": ["d0.jpg", "d1x.jpg", "d2x.jpg", "d3x.jpg", "d4x.jpg", "d5x.jpg", "d6x.jpg"]
+
+    });
+</pre>
+
+<h2>Complete example</h2>
+
+<pre>
+&lt;script&gt;
+function runOnload() {
+  window.onload = function () {
+
+    window.dicegame2.registerGameLord("nobody");
+    window.dicegame2.registerGameLord("Athelon");
+
+    window.dicegame2.registerDice("duplicate_old2", {
+      "path": 'http://soiroom.hyperchat.com/dice/dice/old/',
+      "clear": ["d0.jpg", "d1.jpg", "d2.jpg", "d3.jpg", "d4.jpg", "d5.jpg", "d6.jpg"],
+      "marked": ["d0.jpg", "d1x.jpg", "d2x.jpg", "d3x.jpg", "d4x.jpg", "d5x.jpg", "d6x.jpg"]
+    });
+
+    window.dicegame2.init();
+  }
+}
+
+if (!window.sessionStorage) {
+  alert("I'm sorry, your browser must support sessionStorage.");
+} else {
+  var sessionKeyTest = "" + new Date().getTime();
+
+  sessionStorage.setItem(sessionKeyTest, sessionKeyTest);
+  if (sessionStorage.getItem(sessionKeyTest) !== sessionKeyTest) {
+    alert("Session storage not working... are cookies disabled?");
+  } else {
+    var game = sessionStorage.getItem("yahtzee.game.json");
+    if (game) {
+      eval(game);
+    } else {
+      document.write('&lt;script type="text/javascript" src="http://soiroom.hyperchat.com/testdice/dice2.json.js">&lt;\/script>');    
+      
+    }
+
+    runOnload();
+  }
+}
+&lt;/script&gt;
+</pre>
+
+<h2>Decorating the room</h2>
+There are a number of CSS classes that can be used to decorate the room.
+
+<pre>
+&lt;style&gt;
+/* The game board itself */
+#diceform .dice_tbl {
+
+}
+
+
+/* Hide question mark hint on the game board */
+#diceform .hint {
+  display: none;
+}
+
+
+#diceform .scoreButton {
+	/* The scoring buttons */
+}
+
+
+.gamelord {
+    /* The special GameLord buttons -- make them stand out */
+	opacity: 50%;
+}
+
+#dicebox button {
+	/* Any special decorations for the dice roll buttons */
+}
+
+&lt;/style&gt;
+</pre>
+
+</div>
+
+	</body>
+</html>

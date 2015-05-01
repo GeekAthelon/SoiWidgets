@@ -1,0 +1,1495 @@
+<!--?xml version="1.0" encoding="utf-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"><head>
+	<title>Succinct Data Structures: Cramming 80,000 words into a Javascript file. - Steve Hanov's Programming Blog</title>
+    <meta name="googlebot" content="noarchive">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="alternate" type="application/atom+xml" href="http://stevehanov.ca/blog/?atom" title="RSS">
+    <script type="text/javascript" src="trie_files/jquery.js"></script>
+    <style media="screen" type="text/css">
+    /* <!-- */
+    /* General styles */
+    body {
+        margin:0;
+        padding:0;
+        border:0;			/* This removes the border around the viewport in old versions of IE */
+        width:100%;
+        min-width:1200px;    /* Minimum width of layout - remove line if not required */
+							/* The min-width property does not work in old versions of Internet Explorer */
+        background: black;
+    }
+    img { margin: 0; }
+    #header {
+        clear:both;
+        float:left;
+        width:100%;
+        background: orange;
+    }
+	/* column container */
+	.colmask {
+		position:relative;		/* This fixes the IE7 overflow hidden bug and stops the layout jumping out of place */
+	    clear:both;
+	    float:left;
+        width:100%;				/* width of whole page */
+		overflow:hidden;		/* This chops off any overhanging divs */
+	}
+	/* 3 column blog style settings */
+	.blogstyle {
+	    background:#909090;    	/* Right column background colour */
+	}
+    .blogstyle .colmid {
+        float:left;
+        width:200%;
+        margin-left:-170px; 	/* Width of right column */
+        position:relative;
+        right:100%;
+        background:#000000;    	/* Centre column background colour */
+    }
+    .blogstyle .colleft {
+        float:left;
+        width:100%;
+        margin-left:-200px; 	/* Width of centre column */
+        background:#000000;    	/* Left column background colour */
+    }
+    .blogstyle .col1wrap {
+        float:left;
+	    width:50%;
+	    padding-bottom:1em; 	/* Centre column bottom padding. Leave it out if it's zero */
+	}
+	.blogstyle .col1 {
+        margin:0 15px 0 385px;	/* Centre column side padding:
+                            	Left padding = left column width + centre column left padding width
+                            	Right padding = right column width + centre column right padding width */
+        position:relative;
+	    left:100%;
+	    overflow:hidden;
+	}
+    .blogstyle .col2 {
+        float:right;
+        width:170px;        	/* Width of left column content (left column width minus left and right padding) */
+        position:relative;
+        left:185px;         	/* Width of the left-had side padding on the left column */
+    }
+    .blogstyle .col3 {
+        float:right;
+        width:160px;        	/* Width of right column content (right column width minus left and right padding) */
+        position:relative;
+        left:555px;
+        font-family: calibri,tahoma,arial,sans-serif;
+    }
+
+    .notice {
+        background: #C0C0C0;
+        border: 3px dotted #0000C0;
+        font-family: calibri,tahoma,arial,sans-serif;
+        font-size: small;
+        padding: 10px;
+    }
+
+    .col3 a {
+      text-decoration: none;
+    }
+
+    a.nextlink, a.prevlink {
+        font-size: smaller;
+        font-family: Tahoma,sans;
+        display: inline;
+        text-decoration: none;
+    }
+
+    a.nextlink {
+        float: right;
+    }
+
+    a.prevlink {
+        float: left;
+    }
+
+    textarea { font-family: sans-serif,Arial } 
+
+	/* Footer styles */
+	#footer {
+        clear:both;
+        float:left;
+        width:100%;
+		border-top:1px solid #000;
+    }
+    #footer p {
+        padding:10px;
+        margin:0;
+    }
+
+    div.menu {
+         background: #0257c5;
+         font-family: arial;
+         font-size: large;
+    }
+
+    div.menu a {
+         color: white;
+         text-decoration: none;
+    }
+
+    div.menu a:hover {
+        background: green;
+    }
+
+H1,H2,H3,H4 {
+    font-family: verdana;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+H1 {
+    margin-bottom: 0px;
+}
+
+H2 {
+    font-size: medium;
+}
+
+
+H3 {
+    font-size: small;
+}
+
+ul.links {
+    font-size: small;
+    padding-left: 0;
+    margin-left: 0;
+}
+ul.links li {
+margin-bottom: 0.5em;
+margin-left: 0;
+padding-left: 0;
+list-style-type: none;
+text-align: center;
+}
+
+pre {
+    font-size: medium;
+    background: rgb(240,240,240);
+    border: 1px dashed rgb(128, 128, 128);
+    padding: 2px;
+}
+
+DIV.body {
+    padding: 8px 0px 0px 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+DIV.body H1 {
+    color: rgb(0,0,102);
+    margin-bottom: 0px;
+}
+
+a {
+    color: #0257c5;
+}
+
+a:visited {
+    color: #74459f;
+}
+
+blockquote
+{
+    background: #f2eee7;
+    padding: 0.5em;
+    font-size: smaller;
+    font-family: arial,helvetica,sans;
+}
+
+div.blogentry {
+}
+
+div.blogText {
+    font-family: calibri,tahoma,arial,sans-serif;
+}
+
+A.blogTitle {
+    padding: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    font-family: "Verdana", "Arial";
+    text-decoration: none;
+    color: #0257c5;
+}
+
+div.floatAd {
+    display: inline;
+    float: right;
+}
+
+div.date {
+    margin-bottom: 1em;
+    font-size: 10px;
+    color: rgb(128,128,128);
+}
+
+div.commentBox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #b1bbdb;
+    font-family: arial;
+    font-size: smaller;
+}
+
+div.commentBox h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 15px;
+}
+
+div.clear {
+    clear: both;
+}
+
+div.versions h2 {
+    margin-bottom: 0px;
+    font-size: small;
+}
+
+div.features h2 {
+    font-size: 12pt;
+    margin-bottom: 0px;
+    color: rgb(128,0,0);
+}
+
+DIV#pageHeader {
+    position: relative;
+    height: 100px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-repeat: no-repeat;
+}
+
+DIV.adsense {
+    position: absolute;
+    left: -140px;
+}
+
+DIV.pagebody {
+    position: absolute;
+    top: 110px;
+}
+
+DIV.slogan {
+    font-family: verdana,arial;
+    font-size: large;
+    margin: 1em;
+    color: rgb(128,0,0);
+    text-align: center;
+}
+
+.small {
+    color: rgb(128,128,128);
+    font-size: smallest;
+}
+
+DIV.bannerMenu {
+    margin: 0px;
+    text-align: right;
+    line-height: 1.8em;
+    font-family: "Fixed","Terminal","Lucida Console","Courier New";
+    display: inline;
+    float: right;
+}
+
+div.blogtext {
+    text-align: justify;
+}
+
+div.blogtext li {
+    margin-bottom: 0.5em;
+}
+
+img.prodimage {
+    margin-bottom: 5px;
+}
+
+div.prodname {
+    background: rgb(0,0,102);
+    padding: 3px;
+    background-image: url("tl.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 760;
+    font-weight: bold;
+}
+
+em {
+    font-size: larger;
+    font-style: normal;
+    color: rgb(0,0,102);
+}
+
+.rightfloat {
+    float: right;
+    width: 180px;
+    margin: 1em;
+}
+
+DIV.bannermenu a {
+    text-decoration: none;
+    color: rgb(0,0,0);
+}
+
+DIV.bannermenu a:hover {
+    background: rgb(225,225,225);
+}
+
+DIV.left {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    background: yellow;
+    width: 180;
+    height: 500px;
+}
+
+DIV.boxTop {
+    background: blue;
+    color: yellow;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: Verdana;
+    font-size: smaller;
+}
+
+DIV.boxContents {
+    padding-left: 5px;
+    padding-right: 5px;
+    background: rgb(225,225,255);
+    border-left: 2px solid blue;
+    border-right: 2px solid blue;
+    border-bottom: 2px solid blue;
+}
+
+DIV.content {
+    position: relative;
+    left: 180px;
+    padding: 10px;
+    width: 720px;
+}
+
+DIV.rightSide {
+    position: absolute;
+    left: 930px;
+    top: 160px;
+    width: 130px;
+    border: 2px solid black;
+}
+DIV.rightSide p A {
+    margin-bottom: 0.5em;
+}
+
+DIV.col2 {
+    font-family: "Terminal", "Fixed","Lucida Console", "Monospace";
+    font-size: 10pt;
+    padding: 10px;
+    color: white;
+}
+
+DIV.col2 h1 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 14px;
+}
+
+A.recentPost {
+    margin-top: 1.0em;
+    margin-bottom: 1.0em;
+    display: block;
+}
+
+A.recentPost:hover {
+    background: #808080;
+}
+
+DIV.col2 A {
+    color: #CCCCCC;
+    text-decoration: none;
+}
+
+DIV.col2 A:visited {
+    color: #C0C0C0;
+}
+
+DIV.pad {
+    padding: 10px;
+}
+
+TABLE.form {
+
+}
+
+DIV.button {
+    background: orange;
+    border: 2px solid orange;
+}
+
+DIV.button:hover {
+    background: orange;
+    border: 2px dotted red;
+}
+    
+
+P.warning {
+    color: red;
+    font-weight: bold;
+}
+
+P {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+}
+
+DIV.top {
+    background: rgb(200,200,200);
+    border-width: 5px;
+    border-style: outset;
+    font-size: 12px;
+}
+
+span.loginText {
+    font-family: arial,sans-serif;
+    color: #c0c0c0;
+}
+
+a.loginText {
+    font-size: 60%;
+    font-family: arial,sans-serif;
+}
+
+span.label {
+    font-family: arial,sans-serif;
+}
+
+div.releasenotes {
+    
+
+}
+
+.add {
+}
+.del {
+    display: none;
+}
+
+.addShown {
+    background: yellow;
+}
+.delShown {
+    background: yellow;
+    text-decoration: line-through;
+    display: inline;
+}
+
+
+.roundedcornr_box_740409 {
+   background: #ffffff;
+   margin-top: 10px;            
+}
+.roundedcornr_top_740409 div {
+   background: url(roundedcornr_740409_tl.png) no-repeat top left;
+}
+.roundedcornr_top_740409 {
+   background: url(roundedcornr_740409_tr.png) no-repeat top right;
+}
+.roundedcornr_bottom_740409 div {
+   background: url(roundedcornr_740409_bl.png) no-repeat bottom left;
+}
+.roundedcornr_bottom_740409 {
+   background: url(roundedcornr_740409_br.png) no-repeat bottom right;
+}
+
+.roundedcornr_top_740409 div, .roundedcornr_top_740409, 
+.roundedcornr_bottom_740409 div, .roundedcornr_bottom_740409 {
+   width: 100%;
+   height: 20px;
+   font-size: 1px;
+}
+.roundedcornr_content_740409 { margin: 0 20px; }
+
+.roundedcornr_box_473174 {
+   background: #b1bbdb;
+   margin-top: 10px;            
+}
+.roundedcornr_top_473174 div {
+   background: url(roundedcornr_473174_tl.png) no-repeat top left;
+}
+.roundedcornr_top_473174 {
+   background: url(roundedcornr_473174_tr.png) no-repeat top right;
+}
+.roundedcornr_bottom_473174 div {
+   background: url(roundedcornr_473174_bl.png) no-repeat bottom left;
+}
+.roundedcornr_bottom_473174 {
+   background: url(roundedcornr_473174_br.png) no-repeat bottom right;
+}
+
+.roundedcornr_top_473174 div, .roundedcornr_top_473174, 
+.roundedcornr_bottom_473174 div, .roundedcornr_bottom_473174 {
+   width: 100%;
+   height: 10px;
+   font-size: 1px;
+}
+.roundedcornr_content_473174 { margin: 0 10px; }
+
+DIV#zinresults {
+    border: 3px dotted orange;
+    background: rgb(225,225,225);
+    padding: 3px;
+}
+
+DIV#zinresults p {
+    margin-top: 0px;
+}
+    /* --> */
+    </style>
+    <!--[if lt IE 7]>
+    <style media="screen" type="text/css">
+    .col1 {
+	    width:100%;
+	}
+    </style>
+    <![endif]-->
+<link href="trie_files/widget-v2.css" media="screen" type="text/css" rel="stylesheet"><script type="text/javascript" src="trie_files/topposts"></script></head>
+<body>
+
+<div id="header">
+    
+         <img src="trie_files/caption.png" alt="Steve Hanov's Blog">
+   
+     <div class="menu">
+         <a href="http://stevehanov.ca/blog/index.php">View all posts</a> |  
+         <a href="http://stevehanov.ca/resume.pdf">Resume</a> | 
+         <a href="http://www.hanovsolutions.com/">Software</a> | 
+         <a href="http://rhymebrain.com/">RhymeBrain</a> | 
+         <a href="http://zwibbler.com/">Zwibbler</a> | 
+         <a href="http://stevehanov.ca/blog/index.php?about">About</a>  |
+         <a href="http://www.google.com/profiles/steve.hanov#buzz">Google Buzz!</a> 
+         <div style="clear:both;"></div>
+     </div>
+</div>
+<div class="colmask blogstyle">
+    <div class="colmid">
+        <div class="colleft">
+            <div class="col1wrap">
+                <div class="col1">
+                    <div style="margin:5px;background:white;border:1px solid orange;padding=0.5em;font-family:sans,helvetica,arial" onclick="document.location.href='http://www.websequencediagrams.com'">
+<table>
+<tbody><tr>
+<td>
+<img src="trie_files/angry.jpg" style="margin-right: 1em;">
+</td>
+<td valign="middle">
+<h2 style="color:blue">Hate UML?</h2>
+Draw sequence diagrams in seconds.<br>
+<a href="http://www.websequencediagrams.com/">http://www.websequencediagrams.com</a>
+</td>
+</tr>
+</tbody></table>
+</div><div class="roundedcornr_box_740409">
+   <div class="roundedcornr_top_740409"><div></div></div>
+      <div class="roundedcornr_content_740409">
+      <div class="blogentry"><div><a class="prevlink" href="http://stevehanov.ca/blog/index.php?id=119"> &lt;&lt;&lt; Throw away the keys: Easy, Minimal Perfect Hashing</a><a class="nextlink" href="http://stevehanov.ca/blog/index.php?id=121">An instant rhyming dictionary for any web site &gt;&gt;&gt;</a></div><div style="clear:both"></div><hr><a href="http://stevehanov.ca/blog/index.php?id=120" id="blogTitle" class="blogTitle">Succinct Data Structures: Cramming 80,000 words into a Javascript file.</a><div class="date">Posted on: 2011-03-20 22:47:59</div><div id="blogText" class="blogText"><p>
+Let's continue our short tour of data structures for storing words. Today, we will over-optimize John Resig's <a href="http://ejohn.org/blog/javascript-trie-performance-analysis/">Word Game</a>. Along the way, we shall learn about a little-known branch of computer science, called <i>succinct data structures</i>.
+</p><p>
+John wants to load a large dictionary of words into a web application, 
+so his Javascript program can quickly check if a word is in the 
+dictionary. He could transfer the words as long string, separated by 
+spaces. This doesn't take much space once it is gzip-compressed by the 
+web server. However, we also have to consider the amount of memory used 
+in the browser itself. In a mobile application, memory is at a premium. 
+If the user switches tabs, everything not being used is swapped out to <a href="http://en.wikipedia.org/wiki/Flash_memory">flash memory</a>. This results in long pauses when switching back.
+</p><p>
+One of the best data structures for searching a dictionary is a trie. 
+The speed of search does not depend on the number of words in the 
+dictionary. It depends only on the number of letters in the word. For 
+example, here is a trie containing the words "hat", "it", "is", and "a".
+ The trie seems to compress the data, since words sharing the same 
+beginnings only show up once.
+</p><p align="center">
+<img src="trie_files/1024.png">
+</p>
+<p>
+We need to solve two problems. If we transmit the word list to the web 
+browser, it then has to build the trie structure. This takes up a lot of
+ time and memory.  To save time, we could pre-encode the trie on the 
+server in JSON format, which is parsed very quickly by the web browser. 
+However, JSON is not a compact format, so some bandwidth is wasted 
+downloading the data to the browser. We could avoid the wasted bandwidth
+ by compressing the trie using <a href="http://lookups.pageforest.com/">a more compact format</a>.
+ The data is then smaller, but the web browser still has to decompress 
+it to use it. In any case, the browser needs to create the trie in 
+memory. 
+</p><p>
+This leads us to the the second major problem. Despite appearances, <i>tries use a lot of memory</i> to store all of those links between nodes.
+</p><p>
+ Fortunately, there is a way to store these links in a tiny amount of space.
+</p><p>
+
+</p><h2>Succinct Data Structures</h2>
+Succinct data structures were introduced in Guy Jacobson's 1989 thesis, 
+which you cannot read because it is not available anywhere. Fortunately,
+ this important work has been referenced by many <a href="http://www.cs.cmu.edu/afs/cs/project/aladdin/wwwlocal/compression/00063533.pdf">other papers</a> <a href="http://www.aclweb.org/anthology/P/P09/P09-2086.pdf">since</a> <a href="http://www.springerlink.com/index/pr061mhfqwm6grrw.pdf">then.</a> 
+<p>A succinct data structure <b>encodes data very efficiently,</b> so that it <b>does not need to be decoded to be used.</b>
+ Everything is accessed in-place, by reading bits at various positions 
+in the data. To achieve optimal encoding, we use bits instead of bytes. 
+All of our structures are encoded as a series of 0's and 1's.
+</p><p>
+Two important functions for succinct structures are:
+</p><ul>
+<li><b>rank(x)</b> - returns the number of bits set to 1, up to and including position x
+</li><li><b>select(y)</b> - returns the position of the <i>yth</i> 1. This is the inverse of the rank function. For example, if select(8) = 10, then rank(10) = 8.
+</li></ul>
+<p>Corresponding functions exist to find the rank/select of 0's instead 
+of 1's. The rank function can be implemented in O(1) time using a lookup
+ table (called a "directory"), which summarizes the number of 1's in 
+certain parts of the string. The select() function is implemented in 
+O(logn) time by performing binary search on the rank() function. It is 
+possible <a href="http://uwspace.uwaterloo.ca/handle/10012/64">to implement <i>select</i> in constant time</a>, but it is complicated and space-hungry.
+</p><center>
+<table border="1" cellspacing="0">
+<tbody><tr>
+<th>p</th>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+
+<tr>
+<th>Bit</th>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<th>rank(p)</th>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<th>select(p)</th>
+<td></td>
+<td>0</td>
+<td>1</td>
+<td>7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</center>
+<p>
+
+</p><h2>A Succinct Trie</h2>
+Here's a trie containing the words "hat", "is", "it", and "a".
+<p align="center">
+<img src="trie_files/1024.png">
+</p>
+First, we add a "super root". This is just an additional node above the root. It's there to make the math work out later. <p>
+We then process the nodes in <i>level order</i> -- that is, we go row by row and process the nodes left to right. We encode them to the bit string in that order.
+</p><p>
+In the picture below, I've labeled each node in level order for 
+convenience. I've also placed the nodes encoding above it. The encoding 
+is a "1" for each child, plus a 0. So a node with 5 children would be 
+"111110" and a node with no children is "0".
+</p><p align="center">
+<img src="trie_files/1025.png">
+</p>
+
+<p>
+Now, we encode the nodes one after another. In the example, the bits 
+would be 10111010110010000. I've separated them out in this table so you
+ can see what's going on, but only the middle row is actually stored.
+</p>
+<center>
+<table border="1" cellspacing="0">
+<tbody><tr>
+<th>Position</th>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<th>Bit</th>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Node</th>
+<td colspan="2"></td>
+<td colspan="4">0</td>
+<td colspan="2">1</td>
+<td colspan="3">2</td>
+<td colspan="1">3</td>
+<td colspan="2">4</td>
+<td colspan="1">5</td>
+<td colspan="1">6</td>
+<td colspan="1">7</td>
+</tr>
+</tbody></table>
+</center>
+<p>
+We then encode the <i>data</i> for each node after that. To get the data for a given node, just read it directly from that node's index in the data array.
+</p><pre>hiaatst
+</pre>
+
+<h3>Getting the data</h3>
+<p>The main thing that we want to do with a trie is follow links from 
+each node to its children. Using our encoding, we can follow a link 
+using a simple formula. If a node is numbered <i>i</i>, then the number of its first child is <i>select<sub>0</sub>(i + 1) - i</i>. The second child is the one after that, and so forth. To obtain the number of children, look up the first child of the <i>i+1</i>th node and subtract, since they are stored consecutively.
+</p><p>
+For example: We want the first child of node 2. The 3rd 0 is at position
+ 7. Seven minus two is five. Therefore the first child is numbered 5. 
+Similarly the first child of node 3 is found to be 7 by this formula 
+(no, it doesn't really exist, but it works for the calculation). So node
+ 2 has 7 minus 5 equals 2 children.
+
+</p><h2>Demo</h2>
+Here is a demonstration, hosted on my faster server. (Source code: <a href="http://www.hanovsolutions.com/trie/Bits.js">Bits.js</a>) (<a href="http://stevehanov.ca/blog/index.php?id=120">It doesn't work in RSS readers -- go to my blog to see it</a>.
+ Paste a list of words in the top text area (or click Load dictionary to
+ load one). Click "Encode" to create the trie and encode it. This step 
+can be very slow, because I did not optimize the encoding process. Once 
+encoding is complete, you can use the Lookup button to check if words 
+are in the dictionary.
+<p>
+Using this encoding method, a 611K dictionary containing 80000 words is 
+compressed to 216K, or 132K gzipped. The browser does not need to decode
+ it to use it. The whole trie takes as much space as a 216K string.
+</p><p>
+<iframe src="trie_files/index.htm" height="700" width="700">
+Your browser does not support iframes
+</iframe>
+
+</p><h3>Details</h3>
+The <i>directory</i> contains the information needed to compute the rank and select functions quickly. The <i>trie</i> is the bitstring representing the trie and the connections between all of its nodes. 
+<p>
+To avoid problems with UTF encoding formats and escaped characters, the 
+bit strings are encoded in BASE-64. All of the bit decoding functions 
+are configured to operated on BASE64 encoded units, so that the input 
+string does not need to be decoded before being used.
+</p><p>
+We only handle the letters "a" to "z" in lower case. That way, we can encode each letter in 5 bits.
+</p><p>
+You can decrease space usage and performance by increasing the L2 
+constant, and setting L1 = L2*L2. This controls the number of bits 
+summarized in each section of the rank directory. L2 is the maximum 
+number of bits that have to be scanned to implement rank(). More bits 
+means fewer directory entries, but the select() and rank() functions 
+will take longer to scan the range of bits.
+
+</p><h3>Caveats</h3>
+I described <a href="http://stevehanov.ca/blog/index.php?id=115">how to create an MA-FSA</a>
+ in a previous article. There is no known way to succinctly encode one. 
+You must store one pointer for each edge. However, as the number of 
+words increases, an MA-FSA (also known as a DAWG) may eventually become 
+more compact than the trie. This is because a trie does not compress 
+common word endings together. 
+<ul><li><a href="http://stevehanov.ca/blog/index.php?id=111">The Curious Complexity of Being Turned On</a></li><li><a href="http://stevehanov.ca/blog/index.php?id=54">Usability Nightmare: Xfce Settings Manager</a></li><li><a href="http://stevehanov.ca/blog/index.php?id=7">Rules for Effective C++</a></li><li><a href="http://stevehanov.ca/blog/index.php?id=58">Email Etiquette</a></li><li><a href="http://stevehanov.ca/blog/index.php?id=12">Creating a Todo list in Ajax</a></li></ul><p>Want more programming tech talk?<br>
+                    <img src="trie_files/buzz.png" valign="center" border="0"> 
+                    <a href="http://www.google.com/profiles/steve.hanov#buzz" style="color: rgb(255, 140, 0); margin-top: 1em;">
+                    Follow on Google Buzz</a><br>
+                    <img src="trie_files/feed.png" valign="center" height="14" border="0" width="14"> 
+                    <a href="http://stevehanov.ca/blog/index.php?atom" style="color: rgb(255, 140, 0); margin-top: 1em;">
+                    Subscribe to posts</a></p></div>            <script type="text/javascript">
+            function validate_field(field, alerttxt)
+            {
+                if ( field.value==null || field.value == "") {
+                    alert(alerttxt);
+                    return false;
+                }
+                return true;
+            }
+        
+            function validateCommentForm(form)
+            {
+                if ( !validate_field(form.comment, "Please fill out all fields.") ) {
+                    return false;
+                }
+                if ( !validate_field(form.displayname, "Please fill out all fields.") ) {
+                    return false;
+                }
+                return true;
+            }
+
+            </script>
+            <div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174">
+        <div id="commentBox" class="commentBox"> 
+        <div class="pad">
+        <h2>Post comment</h2>
+        <form action="/blog/index.php" method="POST" onsubmit="return validateCommentForm(this);">
+        Real Name: <input name="displayname" type="text"><br>
+        <span style="visibility:hidden"> Your Email (Not displayed): <input name="email" type="text"></span>
+        <p>Text only. No HTML. If you write "http:" your message will be ignored.
+        <br>
+        Choose an edit password if you want to be able to edit or delete
+        your comment later.
+        <br>
+        Editing Password (Optional): <input name="editpassword" type="text"><br>
+        <textarea cols="60" name="comment" rows="10" wrap="soft"></textarea><br>
+        <input value="Post" type="submit">
+        <input name="id" value="120" type="hidden">
+        </p></form>
+        </div>
+        <div class="comment">
+        </div>
+        </div>
+
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div>              <script type="text/javascript">function MakeAjaxRequest( strUrl, params, fnCallBack, param ) 
+{
+    var xmlHttpReq;
+
+    try {
+        xmlHttpReq = new XMLHttpRequest();
+    } catch ( trymicrosoft ) {
+        try {
+            xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch(othermicrosoft) {
+            try {
+                xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch(failed) {
+                xmlHttpReq = null;
+            }
+        }
+    }
+
+    xmlHttpReq.open('POST', strUrl, true);
+    xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlHttpReq.onreadystatechange = function() {
+        if (xmlHttpReq.readyState === 4) {
+            var result = { status: "", json: null };
+            if (xmlHttpReq.status === 200 ) {
+                try {
+                    //result.json = window.JSON.parse(xmlHttpReq.responseText);
+                    result.json = eval("("+xmlHttpReq.responseText+")");
+                    result.status = result.json["status"];
+                } catch( e ) {
+                    //alert(e);
+                    result.status = "Error in server response";
+                }
+            } else if ( xmlHttpReq.message ) {
+                result.status = xmlHttpReq.message;
+            } else if ( xmlHttpReq.status === 0 ) {
+                result.status = "Network error. Check internet connection";
+            } else {
+                result.status = 
+                    "Server returned status " + xmlHttpReq.status;
+            }
+            fnCallBack( result );
+        }
+    };
+
+    var query = "";
+    var first = true;
+    for ( var key in params ) {
+        if ( params.hasOwnProperty( key ) ) {
+            if ( !first ) {
+                query += '&';
+            } 
+            first = false;
+            query += key + "=" + encodeURIComponent(params[key]);
+        }
+    }
+
+    xmlHttpReq.send(query);
+}
+
+function delcomment(id)
+{
+    elem = document.getElementById("comment"+id);
+    makeAjaxRequest("?delcomment="+id, "", null, null );
+    $(elem).slideUp("slow");
+    return null;
+}
+
+function rtrim( buffer )
+{   
+    var pos = buffer.length - 1;
+    while( pos >= 0 && 
+        ( buffer.charAt(pos) === ' ' ||
+          buffer.charAt(pos) === '\t' ||
+          buffer.charAt(pos) === '\r' ||
+          buffer.charAt(pos) === '\n' ) ) {
+        pos--;      
+    }
+
+    return buffer.substr(0, pos + 1);
+}
+
+function ltrim( buffer )
+{   
+    var pos = 0;
+    while( pos < buffer.length && 
+        ( buffer.charAt(pos) === ' ' ||
+          buffer.charAt(pos) === '\t' ||
+          buffer.charAt(pos) === '\r' ||
+          buffer.charAt(pos) === '\n' ) ) {
+        pos += 1;
+    }
+
+    return buffer.substr(pos);
+}
+
+function divToText( div )
+{
+    var stack = [div];
+    var text = [];
+    while( stack.length > 0 ) {
+        var node = stack.pop();
+
+        if ( node.nodeType === 1 && node.nodeName === "P" ) {
+            var t = ltrim(rtrim(node.textContent));
+            if ( t !== "" && t !== "Edit" ) {
+                text.push(t);
+                text.push("\n\n");
+            }
+        } else if ( node.nodeType === 3 ) {
+            var t = ltrim(rtrim(node.data));
+            if ( t !== "" && t !== "Edit" ) {
+                text.push(t);
+                text.push("\n\n");
+            }
+
+        } else {
+            for ( node = node.lastChild;
+                  node !== null;  
+                  node = node.previousSibling )
+            {
+                stack.push( node );
+            }
+        }
+
+    }
+
+    return text.join("");
+}
+
+function textToDiv( div, text )
+{
+    while( div.firstChild !== null ) {
+        div.removeChild( div.firstChild);
+    }
+
+    var arr = text.split("\n" );
+    for ( var i = 0; i < arr.length; i++ ) {
+        var p = document.createElement("p");
+        p.appendChild( document.createTextNode(arr[i]));
+        div.appendChild( p );
+    }
+}
+
+function editcomment(id)
+{
+    var commentDiv = document.getElementById("commentText" + id);
+    var textarea = document.createElement("textarea" );
+    textarea.cols = 80;
+    textarea.rows = 15;
+    textarea.wrap = "soft";
+    textarea.value = divToText( commentDiv );
+    commentDiv.style.display = "none";
+
+    var containerDiv = commentDiv.parentNode;
+    var div = document.createElement("div");
+    containerDiv.appendChild( div );
+
+    div.appendChild(textarea);
+    div.appendChild(document.createElement("br"));
+
+    var passwordInput = document.createElement("input");
+    passwordInput.type = "text";
+    div.appendChild(document.createTextNode("Edit Password"));
+    div.appendChild(passwordInput);
+    div.appendChild(document.createElement("br"));
+    
+    var saveButton = document.createElement("input");
+    saveButton.type = "button";
+    saveButton.value = "Save Changes";
+    div.appendChild(saveButton);
+
+    var deleteButton = document.createElement("input");
+    deleteButton.type = "button";
+    deleteButton.value = "Delete Comment";
+    div.appendChild(deleteButton);
+
+    var cancelButton = document.createElement("input");
+    cancelButton.type = "button";
+    cancelButton.value = "Cancel";
+    div.appendChild(cancelButton);
+
+    var statusDiv = document.createElement("div");
+    div.appendChild(statusDiv);
+    statusDiv.style.color = "red";
+
+    saveButton.onclick = function()
+    {
+        div.style.visibility = "hidden";
+        MakeAjaxRequest(
+            "index.php",
+            {
+                'editcomment': 1,
+                'id': id,
+                'text': textarea.value,
+                "password": passwordInput.value
+            },
+
+            function( result ) {
+                if ( result.status === "ok" ) {
+                    containerDiv.removeChild(div);
+                    commentDiv.style.display = "block";
+                    textToDiv( commentDiv, textarea.value );
+                    var adiv = document.createElement("div");
+                    var a= document.createElement("a");
+                    a.href="javascript:editcomment("+id+")";
+                    a.appendChild(document.createTextNode("Edit"));
+                    adiv.appendChild(a);
+                    commentDiv.appendChild(adiv);
+                } else {
+                    div.style.visibility = "visible";
+                    while( statusDiv.firstChild !== null ) {
+                        statusDiv.removeChild( statusDiv.firstChild );
+                    }
+                    statusDiv.appendChild(document.createTextNode(result.status) );
+                }
+            },
+            null
+        );
+    };
+
+    deleteButton.onclick = function()
+    {
+        if ( confirm( "Are you sure you want to delete this comment?" ) ) {
+            div.style.visibility = "hidden";
+            MakeAjaxRequest(
+                "index.php",
+                {
+                    'delcomment': 1,
+                    'id': id,
+                    "password": passwordInput.value
+                },
+
+                function( result ) {
+                    if ( result.status === "ok" ) {
+                        var box = document.getElementById("wholecomment" + id);
+                        box.parentNode.removeChild(box);
+                    } else {
+                        div.style.visibility = "visible";
+                        while( statusDiv.firstChild !== null ) {
+                            statusDiv.removeChild( statusDiv.firstChild );
+                        }
+                        statusDiv.appendChild(document.createTextNode(result.status) );
+                    }
+                },
+                null
+            );
+        }
+    };
+
+    cancelButton.onclick = function()
+    {
+        containerDiv.removeChild(div);
+        commentDiv.style.display = "block";
+    };
+}
+
+</script>            <div id="wholecomment2305"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2305" class="commentBox"><div class="pad">
+<h2>tba</h2><div class="date">2011-03-21 01:16:31</div>
+<div id="commentText2305">Very interesting post.
+<p>
+
+</p><p>
+One question:
+</p><p>
+"For example, if rank(10) = 8, then select(8) = 10"
+</p><p>
+Isn't this only true if the tenth bit is a 1? The converse appears to always be true. </p><div><a href="javascript:editcomment(2305)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2306"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2306" class="commentBox"><div class="pad">
+<h2>Steve Hanov</h2><div class="date">2011-03-21 01:24:23</div>
+<div id="commentText2306">tba: Thanks I corrected it. select(8) = 10 implies rank(10) = 8, but the reverse is not necessarily true. <div><a href="javascript:editcomment(2306)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2308"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2308" class="commentBox"><div class="pad">
+<h2>Fredrik</h2><div class="date">2011-03-21 04:55:53</div>
+<div id="commentText2308">Interesting read, I love bit-fiddling.. :)
+<p>
+
+</p><p>
+But for this particular problem - cramming a bunch of words into JS - 
+wouldn't a MA-FSA (also known as DAWG I suppose, commonly used to 
+compress dictionaries) do an even better job at compressing the data? 
+You wouldn't be able to use this particular representation though (which
+ was the goal of the article I guess?) </p><div><a href="javascript:editcomment(2308)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2309"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2309" class="commentBox"><div class="pad">
+<h2>Steve Hanov</h2><div class="date">2011-03-21 07:17:08</div>
+<div id="commentText2309">About using a DAWG:<p></p><p>A DAWG is not a 
+planar graph, and succinctly encoding arbitrary graphs is possible but 
+too difficult. Instead, we have to store a pointer with each edge to 
+another node. Since the number of edges in a DAWG is much smaller than a
+ Trie, there is some promise to using the less complicated DAWG 
+structure. With the 80,000 words they are very close.</p><p></p><p>According
+ to my earlier program, an MA-FSA (or DAWG) containing the same 80000 
+words contains 61231 edges. So each edge stores a 16-bit pointer to 
+another node, plus 5 bits for the letter. This would result in 160732 
+bytes. With the 4/3 BASE-64 overhead, this string would take 214310 
+characters. This is less than the succinct trie. However, we are 
+dangerously close to needing to use more bits for the pointers if more 
+words are used.</p><p></p><p> </p><div><a href="javascript:editcomment(2309)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2312"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2312" class="commentBox"><div class="pad">
+<h2>Iain Beeston</h2><div class="date">2011-03-23 05:35:46</div>
+<div id="commentText2312">Interesting concept.
+<p>
+
+</p><p>
+But I think I've spotted a typo, where you've written "in the example, 
+the bits would be 0111010110010000", shouldn't there be an extra "1" at 
+the start? (ie. "in the example, the bits would be 10111010110010000") </p><div><a href="javascript:editcomment(2312)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2313"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2313" class="commentBox"><div class="pad">
+<h2>David Gingrich</h2><div class="date">2011-03-23 14:33:24</div>
+<div id="commentText2313">Very interesting post.  I think there's a minor typo.  You're missing a 1 from the front of your example bit string:
+<p>
+
+</p><p>
+"In the example, the bits would be 0111010110010000."
+</p><p>
+
+</p><p>
+should be:
+</p><p>
+
+</p><p>
+"In the example, the bits would be 10111010110010000.
+</p><p>
+ </p><div><a href="javascript:editcomment(2313)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2314"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2314" class="commentBox"><div class="pad">
+<h2>Mike Koss</h2><div class="date">2011-03-23 17:20:53</div>
+<div id="commentText2314">One correction.  You state that using the 
+compressed Trie requires "web browser still has to decompress it to use 
+it".  That's not really true.  If you look at my PackedTrie 
+implementation, I do lookups directly from the data structure, without 
+having to expand it in memory at all (unless you count calling "split" 
+on the string, "decompressing it").
+<p>
+
+</p><p>
+github.com/mckoss/lookups/blob/master/scripts/ptrie.js </p><div><a href="javascript:editcomment(2314)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2318"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2318" class="commentBox"><div class="pad">
+<h2>Marc Lepage</h2><div class="date">2011-03-25 10:14:40</div>
+<div id="commentText2318">I didn't know these were called succinct data 
+structures, but a few years ago I invented a similar data structure for 
+geospatial addressing of hexagon tesselations. It used only 1 byte per 
+hex: 7 for the sides plus center, and a bit for denoting the end of a 
+sequence. I remember explaining to my colleagues that you don't need to 
+build the tree/trie in memory, you can just perform lookups directly 
+from the data structure, and it's so small it will still be fast. We did
+ implement it, and it was. <div><a href="javascript:editcomment(2318)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2329"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2329" class="commentBox"><div class="pad">
+<h2>BlueRaja</h2><div class="date">2011-03-28 16:59:12</div>
+<div id="commentText2329">Where did you get the code for Rank/Select?  
+I'm trying to understand it, but it was clearly not written by the same 
+person who wrote FrozenTrie (which I assume was you).
+<p>
+
+</p><p>
+PS. The thesis isn't online, but the paper he wrote with it is:
+</p><p>
+www.cs.cmu.edu/afs/cs.cmu.edu/project/aladdin/wwwlocal/compression/00063533.pdf </p><div><a href="javascript:editcomment(2329)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2334"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2334" class="commentBox"><div class="pad">
+<h2>Nick Tulett</h2><div class="date">2011-04-05 09:29:32</div>
+<div id="commentText2334">Wasn't this once called Huffman coding? <div><a href="javascript:editcomment(2334)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2345"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2345" class="commentBox"><div class="pad">
+<h2>Steve Hanov</h2><div class="date">2011-04-28 21:36:13</div>
+<div id="commentText2345">BlueRaja: I wrote all the code.
+<p>
+
+</p><p>
+Nick Tulett: Huffman coding is very different. </p><div><a href="javascript:editcomment(2345)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2349"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2349" class="commentBox"><div class="pad">
+<h2>Zach </h2><div class="date">2011-05-12 17:03:59</div>
+<div id="commentText2349">Hi Steve - love your blog. Just curious what tool
+<p>
+you use to generate your freehand looking drawings?
+</p><p>
+
+</p><p>
+-z </p><div><a href="javascript:editcomment(2349)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2365"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2365" class="commentBox"><div class="pad">
+<h2>Dan</h2><div class="date">2011-05-29 23:22:38</div>
+<div id="commentText2365">I've always wanted to know more about this topic. This has been a very useful post.
+<p>
+
+</p><p>
+Forgive what is perhaps an incredibly naive question, but how could this
+ implementation be extended to include a wider range of characters?
+</p><p>
+
+</p><p>
+I've ported it to another language for the purposes of storing and 
+processing a large amount of street names and numbers. It works very 
+well in general, but there are some cases were it falls over. In these 
+cases spaces, apostrophes, and occasionally numbers, are used as part of
+ the street name.
+</p><p>
+
+</p><p>
+I have tried working with encoding width and extending the range of 
+bits, but I suspect that either my alterations are incorrect, or my 
+understanding of the encoding process is wrong. </p><div><a href="javascript:editcomment(2365)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2367"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2367" class="commentBox"><div class="pad">
+<h2>Steve Hanov</h2><div class="date">2011-06-02 11:33:09</div>
+<div id="commentText2367">Dan:
+<p>
+
+</p><p>
+The algorithm was written with characters from a-z in mind. To allow 
+more characters, you only need to change the Trie.encode and 
+FrozenTrie.getNodeByIndex functions. They represent a-z as number from 
+0..26 which fit into 6 bits. 
+</p><p>
+
+</p><p>
+(There is no need to touch the ORD and CHR functions. They are not related to the alphabet used). </p><div><a href="javascript:editcomment(2367)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2394"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2394" class="commentBox"><div class="pad">
+<h2>tatumizer</h2><div class="date">2011-07-01 15:14:22</div>
+<div id="commentText2394">"Huffman coding is very different"
+<p>
+
+</p><p>
+Let's talk about the part where we encode the number of children of a 
+node: 0 children as 0, 1 as 10, 2 as 110, ... 10 as 11111111110
+</p><p>
+  Looks like a cute trick: numbers get encoded essentially in numeric 
+system base 1, which is highly unusual. But how efficient it is from 
+informational perspective?
+</p><p>
+I  calculated frequencies for the trie -encoded scrabble dictionary: 
+that is, how many nodes have exactly 0 children, how many nodes have 1 
+child, etc.
+</p><p>
+Turns out, this encoding is almost Huffman-perfect. There's always more 
+nodes having N children than N+1, and (often) even than N+1, N+2, etc 
+combined, which is exactly what required for the above encoding to be 
+efficient. The only questionable part if 0 children vs 1 child, but it 
+depends on how we treat terminators (that is, whether we add "$" as 
+terminator to mark the end of a word which is a part of another word), 
+but overall, the thing is VERY efficient.
+</p><p>
+So we have an encoding which is:
+</p><p>
+1) very memory-efficient
+</p><p>
+2) lends itself to performance-efficient processing (based on rank and select)
+</p><p>
+3) cute
+</p><p>
+I find this combination truly remarkable.
+</p><p>
+
+</p><p>
+Now the crazy part. DNA is all about encoding. I heard there are parts 
+of so called junk DNA (=97% of genome) that, among other strange things,
+ contain long sequences of the same "letter". If there is any biologist 
+reading this blog, my question is: in these sequences of "ones" in DNA, 
+are there at least some zeros in between?  </p><div><a href="javascript:editcomment(2394)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2481"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2481" class="commentBox"><div class="pad">
+<h2>Ravi Menon</h2><div class="date">2012-01-06 19:00:16</div>
+<div id="commentText2481">Excellent blog post and wonderful Javascript code. 
+<p>
+Thank you.
+</p><p>
+
+</p><p>
+Is your Javascript code free for use? I did not see any copyright notices in it but wanted to make sure.
+</p><p>
+
+</p><p>
+I have been in the field for over 25 years and it is amazing  how there is new stuff to learn every day.
+</p><p>
+
+</p><p>
+Thanks again.
+</p><p>
+ravi_menon@menongroup.com </p><div><a href="javascript:editcomment(2481)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div>            <div id="wholecomment2483"><div class="roundedcornr_box_473174">
+   <div class="roundedcornr_top_473174"><div></div></div>
+      <div class="roundedcornr_content_473174"><div id="comment2483" class="commentBox"><div class="pad">
+<h2>Steve Hanov</h2><div class="date">2012-01-09 16:26:16</div>
+<div id="commentText2483">The Javascript code is released to the public 
+domain. That means there is no copyright. You can put your name at the 
+top and sell it as your own. I don't care. <div><a href="javascript:editcomment(2483)">Edit</a></div></div></div></div>
+      </div>
+   <div class="roundedcornr_bottom_473174"><div></div></div>
+</div></div><div class="clear"></div></div></div><div class="roundedcornr_bottom_740409"><div></div></div></div>
+                </div>
+            </div>
+            <div class="col2">
+                 <div style="text-align:center;font-family:arial,helvetica,sans">Supporter</div><a style="text-align: center; padding: 0.5em; display: block; font-family: arial,helvetica,sans; background: none repeat scroll 0% 0% gray; color: black;" href="http://www.allstream.com/solutions/it-network/managed-services.html">
+                AllStream Managed IT Services</a><p></p><div style="text-align:center;font-family:arial,helvetica,sans">Email</div><a href="mailto:steve.hanov@gmail.com">steve.hanov@gmail.com</a><h1>Other posts by Steve</h1><a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=130">VP trees: A data structure for finding stuff fast</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=129">ADATA SH93 Teardown</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=128">Why you should go to the Business of Software Conference Next Year</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=127">Four ways of handling asynchronous operations in node.js</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=126">Type-checked CoffeeScript with jzbuild</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=124">Creating binary RPM/DEB packages the easy way</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=123">Zero load time file formats</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=122">Finding the top K items in a list efficiently</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=121">An instant rhyming dictionary for any web site</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=120">Succinct Data Structures: Cramming 80,000 words into a Javascript file.</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=119">Throw away the keys: Easy, Minimal Perfect Hashing</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=117">Why don't web browsers do this?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=116">Fun with Colour Difference</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=115">Compressing dictionaries with a DAWG</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=114">Fast and Easy Levenshtein distance using a Trie</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=111">The Curious Complexity of Being Turned On</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=109">Cross-domain communication the HTML5 way</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=106">Five essential steps to prepare for your next programming interview</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=107">Minimal usable Ubuntu with one command</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=105">Finding awesome developers in programming interviews</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=104">Compress your JSON with automatic type extraction</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=103">JZBUILD - An Easy Javascript Build System</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=102">Pssst! Want to stream your videos to your iPod?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=101">"This is stupid. Your program doesn't work," my wife told me</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=100">Google Buzz gets less awful every day</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=99">The simple and obvious way to walk through a graph</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=98">Asking users for steps to reproduce bugs, and other dumb ideas</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=97">Creating portable binaries on Linux</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=96">Bending over: How to sell your software to large companies</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=90">Regular Expression Matching can be Ugly and Slow</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=95">C++: A language for next generation web apps</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=92">qb.js: An implementation of QBASIC in Javascript (part 1)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=93">Zwibbler: A simple drawing program using Javascript and Canvas</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=91">You don't need a project/solution to use the VC++ debugger</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=86">Boring Date (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=85">barcamp (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=88">How IE &lt;canvas&gt; tag emulation works</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=84">I didn't know you could mix and match (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=83">Sign here (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=78">It's a dirty job... (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=82">The PenIsland Problem: Text-to-speech for domain names</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=77">Pitching to VCs #2 (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=81">Building a better rhyming dictionary</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=76">Does Android team with eccentric geeks?  (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=80">Comment spam defeated at last</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=75">Pitching to VCs (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=79">How QBASIC almost got me killed</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=74">Blame the extensions (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=73">How to run a linux based home web server</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=72">Microsoft's generosity knows no end for a year (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=71">Using the Acer Aspire One as a web server</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=68">When programmers design web sites (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=70">Finding great ideas for your startup</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=67">Game Theory, Salary Negotiation, and Programmers</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=57">Coding tips they don't teach you in school</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=59">When a reporter mangles your elevator pitch</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=66">Test Driven Development without Tears</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=65">Drawing Graphs with Physics</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=64">Free up disk space in Ubuntu</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=63">Keeping Abreast of Pornographic Research in Computer Science </a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=62">Exploiting perceptual colour difference for edge detection</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=61">Experiment: Deleting a post from the Internet</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=60">Is 2009 the year of  Linux malware?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=58">Email Etiquette</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=56">How a programmer reads your resume (comic)</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=55">How wide should you make your web page?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=54">Usability Nightmare: Xfce Settings Manager</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=53">cairo blur image surface</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=52">Automatically remove wordiness from your writing</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=50">Why Perforce is more scalable than Git</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=49">A complete blogging system in 1900 lines of php</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=48">Optimizing Ubuntu to run from a USB key or SD card </a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=38">UMA Questions Answered</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=44">Make Windows XP look like Ubuntu, with Spinning Cube Effect</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=41">See sound without drugs</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=40">Standby Preventer</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=39">Stock Picking using Python</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=37">Spoke.com scam</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=36">Stackoverflow.com</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=35">Copy a cairo surface to the windows clipboard</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=33">Simulating freehand drawing with Cairo</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=31">Free, Raw Stock Data</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=29">Installing Ubuntu on the Via Artigo</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=28">Why are all my lines fuzzy in cairo?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=26">A simple command line calculator</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=25">Tool for Creating UML Sequence Diagrams</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=22">Exploring sound with Wavelets</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=16">A Fast Calorie Calculator for Windows</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=4">UMA and free long distance</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=2">UMA's dirty secrets</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=12">Creating a Todo list in Ajax</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=19">Installing the Latest Debian on an Ancient Laptop</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=21">Dissecting Adsense</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=20">HTML/ Javascript/ CSS Pretty Printer</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=18">Comment Spam</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=17">Web Comic Aggregator</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=14">Experiments in making money online</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=15">How much cash do celebrities make?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=13">Draw waveforms and hear them</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=11">Cell Phones on Airplanes</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=10">Detecting C++ memory leaks</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=9">What does your phone number spell?</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=8">A Rhyming Engine</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=7">Rules for Effective C++</a> <a class="recentPost" href="http://stevehanov.ca/blog/index.php?id=3">Cell Phone Secrets</a> 
+            </div>
+            <div class="col3">
+                <p align="center">
+                <a href="http://stevehanov.ca/blog/index.php?atom" style="color: rgb(255, 140, 0); margin-top: 1em; font-weight: bold;"><img src="trie_files/rss-large.png" valign="center" height="56" border="0" width="56"><br>subscribe to this blog</a>
+                        </p>
+                <script type="text/javascript" src="trie_files/widget-v2.js"></script>
+                <script type="text/javascript">
+                var options = {
+                    "feed_hash": "164308eb6b574eb40da88ed83854e4a6",
+                    "num":        5 ,
+                    "theme":     "theDarkSide" 
+                };
+                new PostRankWidget(options);
+                </script><div style="height: 359px;" id="prwidget-0-wrapper" class="postrank-wrapper"><iframe id="prwidget-0-iframe" class="postrank-iframe" name="prwidget-0-iframe" style="border-width: 0px; width: 100%; overflow: hidden; height: 369px;" allowtransparency="true" frameborder="0"></iframe><!--[if lte IE 6]><style type="text/css">  .powered-by-postrank-wrapper .pr_bottomCornerSet { display: none; }  .powered-by-postrank { border-bottom: solid 1px; }  .powered-by-postrank a { background-image: url( http://api.postrank.com/static/powered.gif ); }  .postrank-widget.springMeadows .powered-by-postrank a, .postrank-widget.hotChocolate .powered-by-postrank a, .postrank-widget.siren .powered-by-postrank a, .postrank-widget.pimento .powered-by-postrank a { background-image: url( http://api.postrank.com/static/poweredAlt.gif ); }</style><![endif]--><!--[if lte IE 7]><style type="text/css">.powered-by-postrank-wrapper { margin-top: -8px; }</style><![endif]--></div>
+
+                <!--
+                <p align=center style="margin: 0px;"><span style="font-size:smaller;color:#dddddd;"><img style="margin:4px;" src="book.png"></p>
+                <hr>
+                <p align=center><a href="speaking.html">Speaking engagements</a></p>
+                <hr> -->
+                <ul class="links">
+                <li><a href="http://alicemommyblog.blogspot.com/">Alice's Mommy
+                Blog</a>
+                </li><li><a href="http://www.sentex.net/%7Emwandel/">Matthias Wandel's Home Page</a>
+                </li><li><a href="http://jimlawless.wordpress.com/">Direct Threaded Daydreams</a>
+                </li><li><a href="http://papersincomputerscience.org/">Papers in Computer Science</a>
+                </li><li><a href="http://aliasaria.ca/blog">a canadian startup</a>
+                </li><li><a href="http://www.codinghorror.com/">Coding Horror</a>
+                </li><li><a href="http://successfulsoftware.net/">Successful Software</a>
+                </li><li><a href="http://www.garywill.com/blog">Gary Will's Tech Digest</a>
+                </li><li><a href="http://blogs.msdn.com/oldnewthing/default.aspx">The Old New Thing</a>
+                </li><li><a href="http://linuxhaters.blogspot.com/">Linux Hater's Blog</a>
+                </li><li><a href="http://ridiculousfish.com/blog">Ridiculous Fish</a>
+                </li></ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="trie_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-5751047-4");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body></html>

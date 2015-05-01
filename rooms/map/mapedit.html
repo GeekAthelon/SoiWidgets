@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="content-type" content="text/html; UTF-8">
+  <title>Map Map Room</title>
+  
+  <script>
+    var isBadIE = false;
+  </script>
+</head>
+
+  <body>
+  <!--[if lt IE 9]>
+  <script>isBadIE = true;</script>
+  <h1>This kinda works under IE, but it isn't pretty.</h1>
+  <![endif]-->
+  
+<!--
+This form is filled in from data passed elsewhere
+-->  
+  
+<form action="http://sftp.hyperchat.com/cgi-bin/soi.exe#newtalk" method="POST" id="formFind">
+<input type="hidden" name="vqxsq" value="">
+<input type="hidden" name="vqvbs" value="">
+<input type="hidden" name="vqxus" value="">
+<input type="hidden" name="vqxha" value="">
+<input type="hidden" name="roomsite" value="">
+<input type="hidden" name="vqxfi" value = "">
+<input type="hidden" name="vqxti" value="">
+<input type="hidden" name="vqvak" value="">
+</form>  
+  
+  
+  This is a test of a map system
+
+  
+  
+<div id="map_edit_directions">&nbsp;</div>
+<img id="map_image" src="map_beware.jpg">
+
+
+<style>
+body {
+  background-color: black;
+  color: white;
+}
+
+
+#mapEditBox {
+  position:absolute;
+  border:2px solid #000;
+  background-color:#000;
+  margin-left:.25em;
+  margin-right:.25em;
+  color:#FF0;
+  zoom:1;
+}
+
+
+/* 
+ * Ok, this is a nasty hack to get a nice background for the map labels, but
+ * it works.
+ *
+ * Each map label consists of two parts:
+ *  1) The label itself which has a TRANSPARENT background.  In other words, it
+ *     has no background of its own.
+ *  2) A div UNDER the label, which has been resized.  This div has a nice
+ *     opacity defined, so we can kind of see the map under the words.
+ *
+ * There are advantage of doing it this way:
+ *     The background has opacity, but not the letters.  Makes reading the 
+ *     labels much easier.
+ */
+  
+ 
+ .mapDot {
+  z-index: 9000;
+ }
+ 
+ 
+.mapText, .mapTextBackground {
+  position:absolute;
+  border:2px solid #000;
+  background-color:transparent; 
+  margin-left:.25em;
+  margin-right:.25em;
+  color:#FFF;
+  zoom:1;
+  z-index: 100;
+  cursor: pointer;
+  /* Wow, this may be the only time in my LIFE I have set the font-size using px */
+  font-size:14px;
+}
+
+.mapTextBackground {
+  border:none;
+  background-color:green;
+  -ms-filter:"Alpha(Opacity=50)";
+  opacity:0.50; 
+  z-index: 99;
+}
+
+
+a.mapText {
+  text-decoration:none!important;
+}
+
+.mapText:hover {
+  -ms-filter:"Alpha(Opacity=99)";
+  opacity:0.99;
+}
+
+
+.centerVert {
+  text-align: center;
+}
+  
+</style>
+
+<script src="map_show.js"></script>
+
+</body>
+</html>

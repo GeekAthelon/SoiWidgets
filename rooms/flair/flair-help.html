@@ -1,0 +1,189 @@
+<html>
+<head>
+<title>How to set up UserFlair's at SOI</title>
+
+<style>
+body {
+background-image: url(http://ssomf.hyperchat.com/images/cloud1/chatplus/BG-Puzzle.gif);
+}
+
+a {
+color: white;
+}
+
+div.content {
+  width: 600px;
+  background-color: black;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+h1, h2, h3 {
+  color: #EEE8AA;
+}
+
+code, pre {
+  color: #E0FFFF;
+}
+
+code {
+  white-space: nowrap;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="content">
+<h1>Setting up User Flairs</h1>
+
+<h2>Step 1 - Add the JavaScript to your room</h2>
+
+<p>Under Room Controls, add this code to the "Text for Bottom of Room" section:</p>
+<pre>
+&lt;script src="http://soiroom.hyperchat.com/chatplus/flair.js"&gt;&lt;/script&gt;
+</pre>
+
+<h2>Step 2 - Configure Nicknames and Flair Messages</h2>
+
+<p><strike>Apparently some rooms mangle the JavaScript when it is
+embedded in the page.  I now recommend creating a separate file.</strike></p>
+
+<p>Go to the FTP Files for the room you are working with and create a
+new file called <code>flair-config.js</code>.  Note, you'll be able
+to edit the file the same way, by typing <code>flair-config.js</code>
+into the Create filename box and pressing the button.</p>
+
+<p>You'll need the full URL of this file and you'll need to include a new
+<code>script</code> element in your page setup to load this.</p>
+
+<p>For example, in my case the URL to the file is:<br>
+<code>http://soiroom.hyperchat.com/testdice/flair-config.js</code><br>
+<br>
+So I would include the line<br>
+<code>
+&lt;script src="http://soiroom.hyperchat.com/testdice/flair-config.js"&gt;&lt;/script&gt;
+</code>
+
+
+<p>The format is fairly simple:<br>
+  <br>
+  [<code>NickName</code>, <code>FlairMessage</code>, <code>CSSClass</code>]
+</p>
+
+<p><i>The nickname must be <strong>exactly</strong> as it appears in the room.
+ Note that while my nickname is <strong>"Athelon"</strong>, with the formatting
+ it appears as <strong>"-=[Athelon]=-"</strong>.</i></p>
+
+<pre>
+
+var flairs = [
+  ["-=[Athelon]=-", "Athelon Da Geek", "ath"],
+  ["-=[Lord of the Dice]=-", "Noble User of Dice", "ld"],
+  ["Visitor", "Honored Visitor", "vi"],
+];
+
+</pre>
+
+<h2>Step 3 - Add the basic CSS</h2>
+
+<p>While this step is optional, it is strongly recommended that you add
+the basic CSS to make the Flair messages stand out a bit more and be noticed.
+</p>
+
+<p>Go to the FTP_File Controls and create the file <code>flair-style.css</code>
+by typing the name <br><code>flair-style.css</code> into the <code>Create File</code>
+box and pressing the <code>Edit File</code> button.   <strong>You can later
+EDIT the file the same way.</strong></p>
+
+<p>Give the file this content:</p>
+<pre>
+.all-flairs {
+  display: inline-block;
+  margin-left: 2.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 25px;
+
+  border: 1px dotted white;
+  border-style: outset;
+  background-color: black;
+  color: silver;
+}
+
+.all-flairs &gt; span {
+  font-size: 75%;
+}
+
+</pre>
+
+<p>Next you will need the URL of that file.  In my case the file name is:<br><br>
+<code>http://soiroom.hyperchat.com/testdice/flair-style.css</code>
+<br>
+<br>
+So I will go to my Room Controls and add the following line to the bottom
+of the page controls.</p>
+
+<pre>&lt;link rel="stylesheet"
+ type="text/css" 
+ href="http://soiroom.hyperchat.com/testdice/flair-style.css"&gt;</pre>
+
+
+<h2>Step 4 - Add Optional Custom CSS</h2>
+
+<p>You may wish to give different people, or different groups of people,
+different colored flairs.   You may wish to give close friends one color
+of flair, while giving frequent visitors another.  This is where that 
+third option in the <code>flairs</code> set up comes in.  In my example,
+I used the names of <code>ath</code>, <code>ld</code> and <code>vi</code>.
+</p>
+
+<p>To give those their own coloring, simply add this code to the end of
+the <code>flair-style.css</code> created in step 3.<p>
+
+<pre>
+.ath {
+  border: 2px solid yellow;
+  border-style: outset;
+  background-color: black;
+  color: yellow;
+}
+
+.ld {
+  border: 2px solid black;
+  border-style: outset;
+  background-color: white;
+  color: black;
+}
+
+
+.vi {
+  background-color: solid blue;
+  border-style: outset;
+  color: yellow;
+}
+</pre>
+
+<h2>Step 5 - Clearing the Cache</h2>
+
+<p>Sometimes, in order to see the changes faster, you'll want to clear your 
+browser's cache so it will request a new version of the files.</p>
+
+<p><a href="http://www.refreshyourcache.com/en/home/">Help on clearing your cache</a></p>
+
+
+<br>
+<br>
+<br>
+<br>
+
+</div>
+
+
+</body>
+</html>

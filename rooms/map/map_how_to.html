@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="content-type" content="text/html; UTF-8">
+  <title>Map Map Room</title>
+
+  <style>
+body {
+  background-color: black;
+  color: white;
+}
+</style>
+
+  </head>
+
+  <body>
+
+  <h1>The Map Editor Software for SOI</h1>
+  
+  <h2>The boring stuff</h2>
+  <p>Right now, this program is still somewhat
+  experimental and NOT ready for prime time use.</p>
+  
+  <p>Permission to  use this map program AT SOI is granted,
+  so long as my name remains intact.</p>
+<hr>  
+  <h2>How it works</h2>
+  <p>The map viewer works by taking a regular image file with
+  no writing on it, and then reads through a list of names
+  and places, and writes various legends on the map.  In 
+  theory, this makes updating the map very easy compared to
+  the older method of actually having to change the graphic.</p>
+  
+  <p>There are several parts of map viewer system, and all
+  of them must be in place.</p>
+  
+ <dl>
+<dt>makeseebutton.js</dt>
+<dd>This file must be included on any page that will link
+to the map page.</dd>
+
+<dt>mapedit.html</dt>
+<dd>This is the image map viewer and editor</dd>
+
+<dt>map_show.js</dt>
+<dd>The driving force behind mapedit.html</dd>
+
+</dl>
+
+<hr>  
+  <h3>How to install it</h3>
+<p>These directions assume you are fairly comfortable with HTML 
+and basic file editing.</p>
+
+<p>Upload the following files to whichever room will be
+hosting the map viewer</p>
+<ol>
+<li>makeseebutton.js</li>
+<li>map_show.js</li>
+<li>mapedit.html</li>
+</ol>
+
+<p>Edit <code>madeseebutton.js</code> and edit the variable 
+<code>URL_TO_MAP_PAGE</code> to refer to the 
+<code>mapedit.html</code> that you just uploaded.</p>
+
+<p>In any room that will link to the map file, go to room
+controls and make the following two changes:</p>
+<ol>
+<li>Add 
+<br><code>&lt;script src="PATH_TO_YOUR_ROOM/makeseebutton.js"&gt;&lt;/script&gt;</code>
+<br>It doesn't matter where you add it.
+</li>
+<li>Whereever you would like a link to the map file, add this code:
+<br><code>&lt;span id="putSeeMapHere"&gt;SeeMapWillGoHere2&lt;/span&gt;</code>
+<br>You may only add this once per room.
+</li>
+</ol>
+
+<p>Once you have the map viewer/editor installed, go the room
+that has the link to the map viewer and hit 'view map.'  You
+will see a rather basic map with just a few entries on it.</p>
+
+<p>I'm not going to detail how to use the editor here, it should
+be fairly simple to work out. Once you have your new rooms areas added,
+click on the <code>Generate Javascript</code> and then cut-and-paste
+the given code into the file <code>map_show.js</code>, just overwriting
+the data that is there -- NOT the entire file.</p>
+
+</body>
+</html>

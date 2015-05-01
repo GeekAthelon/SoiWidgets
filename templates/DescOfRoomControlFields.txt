@@ -1,0 +1,19 @@
+{
+  vqxcb: "A small inner office.", 
+  vqvaf: "XX A Private Area", 
+  vqvcx: "*Quick Reference",
+  vqvcf: "Desc of Room, 200 chars max",
+  vqvad: "Room Owner",
+  vqvbi: "Left side of chat box",
+  vqvbg: "Text under chat box",
+  vqvbh: "Room format -- 11 Chat box on top of page, table, spirit list. ",
+  vqvae: "Background Image",
+  vqvah: "Icon file",
+  vqvbl: "Background color",
+  vqvbn: "Text Color",
+  vqvbm: "Link Color",
+  vqvbo: "Alink color",
+  vqvbp: "Vlink color",
+  vqvcd: "Top of Text Area",
+  rbtext: "Room bottom text"
+}

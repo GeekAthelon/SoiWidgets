@@ -1,0 +1,161 @@
+
+<html>
+  <head>
+  ##header_refresh##
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>##roomname##</title>
+</head>
+
+  <body
+    link="##color_link##"
+    background="##background##"
+    bgcolor="##color_bccolor##"
+    text="##color_text##"
+    vlink="##color_vlink##"
+    alink="##color_alink##"
+
+    style="margin-left: 1.25em"
+  >
+  <a name="newtalk"></a>
+
+  <a name="top"></a>
+  ##room_top##
+  <a name="chatmark"></a>
+  <br>
+  <a href="##url_homepage##">
+    <font size="2"><i><b>##roomname##...(##room_short##)</b></i></font>
+  </a>
+
+  <table border="3">
+    <tbody>
+      <tr>
+        <td>
+          <center>
+            <!--
+            This is the form to change what room you are in
+            -->
+            <form action="##php_self###newtalk" method="POST">
+              <input name="vqxsq" value="##vqxsq##" type="hidden">
+              <input name="vqvbs" value="##vqvbs##" type="hidden">
+              <input name="vqxus" value="##vqxus##" type="hidden">
+              <input name="vqxha" value="##vqxha##" type="hidden">
+              <input name="roomsite" value="##room_tail##" type="hidden">
+              <input name="vqxfi" size="8" type="text">
+              <input name="vqxti" value="##vqxti##" type="hidden">
+              <br>
+              <input name="vqvak" value="Find" type="submit">
+              <br>##room_left##<br>
+            </form>
+            [##human_time##]
+          </center>
+        </td>
+
+
+        <td>
+          <center>
+            <!-- The main chatroom form -->
+
+            <form action="##php_self###chatmark" method="POST">
+              <input name="vqxsq" value="##vqxsq##" type="hidden">
+              <input name="vqvbs" value="##vqvbs##" type="hidden">
+              <input name="vqxus" value="##vqxus##" type="hidden">
+              <input name="vqxro" value="##vqxro##" type="hidden">
+              [
+			  <a href="##link_hotlist##">HOT</a>
+			  |
+              <a href="##link_localcontrols##">Local_Controls</a>
+              ]
+              <br>
+              ##chat_entry_box##
+              <input name="vqvaj" value="Talk/Listen" type="submit">
+              . .
+              <input name="vqvcg" type="checkbox">
+              . .
+              <a href="##link_undo##">[Undo]</a>
+              [
+              <a href="##link_auto##">##link_auto_text##</a>
+              |
+              <a href="##link_old">Old</a>
+              ]
+              . . . . . .
+              <input value="Reset" type="reset">
+            </form>
+          </center>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <input name="vqvas" value="qsrabqar8sd4khwzywz2gj2hnfwzdv" type="hidden">
+  <input name="vqxti" value="1328918368" type="hidden">
+  ##room_under##
+  <hr>
+  ##room_body##
+  <hr>
+  ##room_bottom##
+  <a name="bottom"></a>
+  <center>
+    <a href="##url_self##">[Reload This Page]</a>
+    <br>
+    <a href="##url_homepage##">
+      <font size="2">
+        <i><b>##room_name##...(##room_short##)</b></i>
+      </font>
+    </a>
+
+    <a href="#top">[Top]</a>
+    <a href="http://soi.hyperchat.com/">[Entrance]</a>
+  </center>
+  <br clear="left">
+  <center>
+    <font size="2">(Your Browser is: XXXXX</font><br>
+    <font size="2">Yada Yada Yada</font>
+    <br>
+    <font size="2">More Yada Yata</font>
+    <br>
+    <font size="2">(Mail server? Wot dat?)</font>
+    <br>
+    <font size="1">
+      <a href="http://www.cyberhelp.net/">Copyright © 1995-2009 Cyber Help, Inc., all rights reserved</a>
+    </font>
+    <br>
+    <a href="http://soi.hyperchat.com/chat/perm/rules.htm">[Rules/Conditions of Use]</a>
+    <br>
+
+    <font size="1">'HyperChat Software' and 'State of Insanity' are registered in the U.S. Pat. Off. </font>
+    <br>
+  </center>
+
+  <style>
+  div.fake_soi_warning {
+    font-family: monospace;
+    height: 100%;
+    width:1em;
+    background-color: black;
+    color:yellow;
+    top: 0px;
+    left:0px;
+    position: fixed;
+  }
+  </style>
+
+  <!--[if IE]>
+  <style>
+  div.fake_soi_warning {
+    position:absolute; /* position fixed for IE6 */
+    top:expression(0+((e=document.documentElement.scrollTop)?e:document.body.scrollTop)+'px');
+    left:expression(0+((e=document.documentElement.scrollLeft)?e:document.body.scrollLeft)+'px');
+  }
+  </style>
+  <![endif]-->
+
+  <div class="fake_soi_warning">
+  <marquee style="height: 100%" direction="up">
+  <center>
+  T<br>h<br>i<br>s<br> <br>i<br>s<br> <br>n<br>o<br>t<br> <br>S<br>O<br>I<br>.<br> <br> <br> <br>T<br>h<br>i<br>s<br> <br>j<br>u<br>s<br>t<br> <br>l<br>o<br>o<br>k<br>s<br> <br>l<br>i<br>k<br>e<br> <br>S<br>O<br>I<br>.<br>
+  </center>
+  </marquee>
+  </div>
+
+</body>
+</html>
