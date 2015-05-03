@@ -7,7 +7,7 @@ $top = <<<EOF
      <link rel="stylesheet" type="text/css" href="http://soiroom.hyperchat.com/timewarp/timewarp?v4.css">
      <link rel="stylesheet" type="text/css" href="http://soiroom.hyperchat.com/timewarp/timewarp.css?v4">
   -->
-    <link rel="stylesheet" type="text/css" href="http://76.188.44.119/fakesoi/rooms/timewarp/timewarp.css?v5">
+    <link rel="stylesheet" type="text/css" href="http://76.188.44.119:8080/SoiWidgets/rooms/timewarp/timewarp.css">
 
   
   <table id="triple1">
