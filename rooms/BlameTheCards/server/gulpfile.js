@@ -39,5 +39,6 @@ gulp.task('tests', function () {
 
 gulp.task('watch', function() {
     gulp.watch(srcPaths.es6, ['babel']);
+	gulp.watch(testPaths.es6, ['tests']);
 });
 gulp.task('default', ['babel', 'tests']);
