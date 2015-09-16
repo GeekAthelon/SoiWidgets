@@ -8,11 +8,15 @@
   },
   "author": "Athelon",
   "license": " MIT",
-  "dependencies" : {
-    "express"    : "latest",
-    "request"    : "latest",
-    "cheerio"    : "latest",
-	"mocha"      : "latest",
-	"chai"       : "latest"
+  "dependencies": {
+    "chai": "latest",
+    "cheerio": "latest",
+    "express": "latest",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "mocha": "latest",
+    "request": "latest",
+    "source-map-support": "^0.3.2"
   }
 }

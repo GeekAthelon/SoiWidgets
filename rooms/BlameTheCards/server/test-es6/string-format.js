@@ -4,7 +4,7 @@ var stringFormat = require("../btc/lib/string-format");
 describe("stringFormat Gizmo", function() {
 	
   var expectedResult = "Hello world";
-
+  
   describe("Basic substitution Tests", function() {
     it("One Parameter", function() {
 		var str = "Hello {0}";
@@ -15,25 +15,25 @@ describe("stringFormat Gizmo", function() {
 
     it("One element array", function() {
 		var str = "Hello {0}";
-		result = stringFormat(str, ["world"]);
+		var result = stringFormat(str, ["world"]);
 		expect(result).to.equal(expectedResult);		
     });
 
     it("Two parameters", function() {
 		var str = "{0} {1}";
-		result = stringFormat(str, "Hello", "world");
+		var result = stringFormat(str, "Hello", "world");
 		expect(result).to.equal(expectedResult);		
     });
 
     it("Two element array", function() {
 		var str = "{0} {1}";
-		result = stringFormat(str, ["Hello", "world"]);
+		var result = stringFormat(str, ["Hello", "world"]);
 		expect(result).to.equal(expectedResult);		
     });
 			
     it("Three element array (one extra)", function() {
 		var str = "{0} {1}";
-		result = stringFormat(str, ["Hello", "world", "extra!"]);
+		var result = stringFormat(str, ["Hello", "world", "extra!"]);
 		expect(result).to.equal(expectedResult);		
     });
 	
