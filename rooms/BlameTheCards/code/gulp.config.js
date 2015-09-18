@@ -4,6 +4,7 @@ module.exports = function() {
 
 	config.src = ['./server/code/**/*.js'];
 	config.dest = './build';
+	config.srcDir = './server/code';
 
 	return config;
 }

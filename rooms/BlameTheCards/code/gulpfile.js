@@ -6,8 +6,16 @@ var del = require('del');
 
 var $ = require('gulp-load-plugins')({lazy: true});
 
+gulp.task('reformat', function () {
+	return gulp.src(gulpConfig.src)
+        .pipe(jscs({
+            fix: true
+        }))
+        .pipe(gulp.dest(config.srcDir));
+});
+
 gulp.task('vet', function() {
-    return gulp.src([config.srcPaths.es6[0], config.testPaths.es6[0]])
+    return gulp.src(gulpConfig.src)
 		.pipe($.if(args.verbose, $.print()))
 		.pipe($.jscs())
 		.pipe($.jshint())
