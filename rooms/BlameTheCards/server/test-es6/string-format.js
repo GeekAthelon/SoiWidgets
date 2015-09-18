@@ -1,10 +1,24 @@
 let expect    = require("chai").expect;
 let stringFormat = require("../btc/lib/string-format");
+require("6to5/polyfill");
 
 describe("stringFormat Gizmo", function() {
 	
-  let expectedResult = "Hello world";
-    
+  let expectedResult = "Hello world";		
+
+  function *three() {
+	yield 1;
+	yield 2;
+	return 3;
+  }
+  
+  var geni = three();
+  console.log(geni.next());
+  console.log(geni.next());
+  console.log(geni.next());
+  console.log(geni.next());
+  
+  
   describe("Basic substitution Tests", function() {
     it("One Parameter", function() {
 		let str = "Hello {0}";
