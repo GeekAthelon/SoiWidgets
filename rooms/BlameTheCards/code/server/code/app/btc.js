@@ -1,61 +1,62 @@
 var express = require('express');
-var fs      = require('fs');
+var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var app     = express();
+var app = express();
 
 var btcConfig = require('./get-btc-config.js')();
 
-console.log(btcConfig);
+app.get('/scrape', function(req, res) {
 
+    var url = 'http://www.imdb.com/title/tt1229340/';
+    var json;
 
-app.get('/scrape', function(req, res){
+    request(url, function(error, response, html) {
+        if (!error) {
+            var $ = cheerio.load(html);
 
-url = 'http://www.imdb.com/title/tt1229340/';
+            var title, release, rating;
+            json = {
+                title: '',
+                release: '',
+                rating: ''
+            };
 
-request(url, function(error, response, html){
-    if(!error){
-        var $ = cheerio.load(html);
+            $('.header').filter(function() {
+                var data = $(this);
+                title = data.children().first().text();
+                release = data.children().last().children().text();
 
-    var title, release, rating;
-    var json = { title : "", release : "", rating : ""};
+                json.title = title;
+                json.release = release;
+            });
 
-    $('.header').filter(function(){
-        var data = $(this);
-        title = data.children().first().text();            
-        release = data.children().last().children().text();
+            $('.star-box-giga-star').filter(function() {
+                var data = $(this);
+                rating = data.text();
 
-        json.title = title;
-        json.release = release;
-    })
+                json.rating = rating;
+            });
+        }
 
-    $('.star-box-giga-star').filter(function(){
-        var data = $(this);
-        rating = data.text();
+        // To write to the system we will use the built in 'fs' library.
+        // In this example we will pass 3 parameters to the writeFile function
+        // Parameter 1 :  output.json - this is what the created filename will be called
+        // Parameter 2 :  JSON.stringify(json, null, 4) - the data to write, here we do an
+        // extra step by calling JSON.stringify to make our JSON easier to read
+        // Parameter 3 :  callback function - a callback function to let us know the status of our function
 
-        json.rating = rating;
-    })
-}
+        fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err) {
+            console.log('File successfully written! - Check your project directory for' +
+                ' the output.json file');
+        });
 
-// To write to the system we will use the built in 'fs' library.
-// In this example we will pass 3 parameters to the writeFile function
-// Parameter 1 :  output.json - this is what the created filename will be called
-// Parameter 2 :  JSON.stringify(json, null, 4) - the data to write, here we do an extra step by calling JSON.stringify to make our JSON easier to read
-// Parameter 3 :  callback function - a callback function to let us know the status of our function
+        // Finally, we'll just send out a message to the browser reminding you that this app does not have a UI.
+        res.send('Check your console!');
 
-fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
+    });
+});
 
-    console.log('File successfully written! - Check your project directory for the output.json file');
-
-})
-
-// Finally, we'll just send out a message to the browser reminding you that this app does not have a UI.
-res.send('Check your console!')
-
-    }) ;
-})
-
-
-app.listen("8082");
+app.listen('8082');
 console.log('Magic happens on port 8082');
 exports = module.exports = app;

@@ -6,12 +6,29 @@ var del = require('del');
 
 var $ = require('gulp-load-plugins')({lazy: true});
 
+gulp.task('git-pre-js', function() {
+  gulp.src('./src/foo.js', './src/bar.json')
+    .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_ONLY'}))
+});
+
+gulp.task('format-js', function() {
+  return gulp.src(gulpConfig.src)
+    .pipe($.jsbeautifier({
+		config: '.jsbeautifyrc', 
+		mode: 'VERIFY_AND_WRITE'
+	}))
+    .pipe(gulp.dest(gulpConfig.srcDir))
+});
+
 gulp.task('reformat', function () {
 	return gulp.src(gulpConfig.src)
-        .pipe(jscs({
-            fix: true
-        }))
-        .pipe(gulp.dest(config.srcDir));
+		.pipe($.if(args.verbose, $.print()))
+        .pipe($.jscs({
+            fix: true,
+			esnext: true,
+			configPath: './.jscsrc'
+        })) 
+        .pipe(gulp.dest("tmp" /*gulpConfig.srcDir */));
 });
 
 gulp.task('vet', function() {
