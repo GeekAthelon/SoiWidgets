@@ -1,0 +1,35 @@
+{
+  "name": "btc",
+  "version": "1.0.0",
+  "description": "Blame The Cards",
+  "main": "btc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Athelon",
+  "license": " MIT",
+  "dependencies": {
+    "6to5": "^3.6.5",
+    "chai": "latest",
+    "cheerio": "latest",
+    "express": "latest",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "mocha": "latest",
+    "request": "latest",
+    "source-map-support": "^0.3.2"
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp-if": "^1.2.5",
+    "gulp-jscs": "^2.0.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-print": "^1.2.0",
+    "gulp-util": "^3.0.6",
+    "jshint-stylish": "^2.0.1",
+    "rimraf": "^2.4.3",
+    "yargs": "^3.25.0"
+  }
+}
