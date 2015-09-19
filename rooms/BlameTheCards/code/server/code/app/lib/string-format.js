@@ -1,4 +1,6 @@
 function stringFormat(str, col) {
+    'use strict';
+
     /// <summary>Format a string use parameter substitution</summary>
     /// <param name="str" type="String">The string to format</param>
     /// <param name="col" type="String" parameterArray="true">
@@ -6,7 +8,7 @@ function stringFormat(str, col) {
     /// </param>
     /// <returns type="String">The formatted string</returns>
 
-    var col1 = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
+    let col1 = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
     return str.replace(/\{\{|\}\}|\{(\w+)\}/g, function(m, n) {
         if (m === '{{') {
