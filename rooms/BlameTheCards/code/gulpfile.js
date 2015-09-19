@@ -8,35 +8,109 @@ var $ = require('gulp-load-plugins')({lazy: true});
 
 var port = process.env.PORT || gulpConfig.defaultPort;
 
+// Informational
 gulp.task('help', $.taskListing);
+gulp.task('default', ['help']);
 
-gulp.task('istanbul', function (cb) {
-  gulp.src(['build/app/**/*.js'])
+// Testing
+
+function runTest(testConfig, done) {
+  gulp.src(testConfig.src)
 	.pipe($.if(args.verbose, $.print()))
     .pipe($.istanbul()) // Covering files
     .pipe($.istanbul.hookRequire()) // Force `require` to return covered files
     .on('finish', function () {
-      gulp.src(['build/test/*.js'])
+      gulp.src(testConfig.tests)
 		.pipe($.if(args.verbose, $.print()))
         .pipe($.mocha())
         .pipe($.istanbul.writeReports(
 			{
-				dir: './coverage',
+				dir: testConfig.coverageDir,
 				reporters: [ 'html', 'lcov', 'json', 'text', 'text-summary'],
 				reportOpts: { dir: './coverage' },
 			}
 		)) // Creating the reports after tests ran
         .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } })) // Enforce a coverage of at least 90%
-        .on('end', cb);
+        .on('end', done);
     });
+}
+
+
+gulp.task('coverage', ['babel'], function (done) {
+	runTest({
+		src: ['build/app/**/*.js', '!build/app/btc.js'],
+		tests: ['build/test/**/*.js'],
+		coverageDir: './coverage'
+	}, done);
+});
+
+gulp.task('coverage-es6', function (done) {
+	runTest({
+		src: ['server/code/app/**/*.js'],
+		tests: ['server/code/test/**/*.js'],
+		coverageDir: './coverage'
+	}, done);
 });
 
 
-gulp.task('mocha', function() {
+gulp.task('quick-test', function() {
     return gulp.src([gulpConfig.dest + '/test/**/*.js'], { read: false })
         .pipe($.mocha({ reporter: 'list' }))
         .on('error', $.util.log);
 });
+
+
+// Style and Linting Tasks
+
+gulp.task('vet', function() {
+    return gulp.src(gulpConfig.src)
+		.pipe($.if(args.verbose, $.print()))
+		.pipe($.jscs())
+		.pipe($.jshint())
+		.pipe($.jshint.reporter('jshint-stylish', {verbose: false}))
+		.pipe($.jshint.reporter('fail'));
+});
+
+// File Converstion Tasks
+
+gulp.task('build-src', ['babel'], function () {
+});
+
+gulp.task('babel', /*['clean-build'], */ function () {
+   log('Converting files to ES5');
+
+   	var config = {
+		src: gulpConfig.src,
+		dest: gulpConfig.dest,
+		// Must be absolute or relative to source map
+		sourceRoot: path.join(__dirname, gulpConfig.dest)
+	};
+	
+    return gulp.src(config.src)
+		.pipe($.if(args.verbose, $.print()))
+        .pipe($.sourcemaps.init())
+        .pipe($.babel())
+        .pipe($.sourcemaps.write('.', { sourceRoot: config.src }))
+        .pipe(gulp.dest(config.dest));
+});
+
+// Full Build
+
+gulp.task('build', ['build-src'], function() {
+});
+
+// Reformatting Tasks
+
+gulp.task('format-js', function() {
+  return gulp.src(gulpConfig.src)
+    .pipe($.jsbeautifier({
+		config: '.jsbeautifyrc', 
+		mode: 'VERIFY_AND_WRITE'
+	}))
+    .pipe(gulp.dest(gulpConfig.srcDir))
+});
+
+
 
 gulp.task('serve-dev', ['vet'], function() {
 	var isDev = true;
@@ -67,55 +141,16 @@ gulp.task('serve-dev', ['vet'], function() {
 		});
 	
 });
-
+8
 gulp.task('git-pre-js', function() {
   gulp.src('./src/foo.js', './src/bar.json')
     .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_ONLY'}))
 });
 
-gulp.task('format-js', function() {
-  return gulp.src(gulpConfig.src)
-    .pipe($.jsbeautifier({
-		config: '.jsbeautifyrc', 
-		mode: 'VERIFY_AND_WRITE'
-	}))
-    .pipe(gulp.dest(gulpConfig.srcDir))
-});
-
-gulp.task('vet', function() {
-    return gulp.src(gulpConfig.src)
-		.pipe($.if(args.verbose, $.print()))
-		.pipe($.jscs())
-		.pipe($.jshint())
-		.pipe($.jshint.reporter('jshint-stylish', {verbose: false}))
-		.pipe($.jshint.reporter('fail'));
-});
 
 gulp.task('clean-build', function() {
 	log('Cleaning ' + gulpConfig.dest);
 	return del([gulpConfig.dest]);
-});
-
-gulp.task('babel', /*['clean-build'], */ function () {
-   log('Converting files to ES5');
-
-   	var config = {
-		src: gulpConfig.src,
-		dest: gulpConfig.dest,
-		// Must be absolute or relative to source map
-		sourceRoot: path.join(__dirname, gulpConfig.dest)
-	};
-
-	if (args.verbose) {
-		log("Files to be processed:")
-	};
-	
-    return gulp.src(config.src)
-		.pipe($.if(args.verbose, $.print()))
-        .pipe($.sourcemaps.init())
-        .pipe($.babel())
-        .pipe($.sourcemaps.write('.', { sourceRoot: config.src }))
-        .pipe(gulp.dest(config.dest));
 });
 
 
@@ -123,7 +158,6 @@ gulp.task('watch', function() {
     gulp.watch(gulpConfig.src, ['babel']);
 });
 
-gulp.task('default', ['babel']);
 
 function log(msg) {
 	if (typeof (msg) === 'object') {
