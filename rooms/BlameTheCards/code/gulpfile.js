@@ -6,6 +6,40 @@ var del = require('del');
 
 var $ = require('gulp-load-plugins')({lazy: true});
 
+var port = process.env.PORT || gulpConfig.defaultPort;
+
+gulp.task('help', $.taskListing);
+
+gulp.task('serve-dev', ['vet'], function() {
+	var isDev = true;
+	
+	var nodeOptions = {
+		script: gulpConfig.nodeServer,
+		delayTime: 1,
+		env: {
+			PORT: port,
+			NODE_ENV: isDev ? 'dev' : 'build'
+		},
+		watch: [gulpConfig.dest]
+	};
+	
+	return $.nodemon(nodeOptions)
+		.on('restart', function(ev) {
+			log('*** nodemon restarted ***');
+			log('Files changed on restart: \n' + ev);
+		})
+		.on('start', function() {
+			log('*** nodemon started ***');
+		})
+		.on('crash', function(ev) {
+			log('*** nodemon crash: script crashed for some reason');
+		})
+		.on('exit', function() {
+			log('*** nodemon crash: script exited cleanly');
+		});
+	
+});
+
 gulp.task('git-pre-js', function() {
   gulp.src('./src/foo.js', './src/bar.json')
     .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_ONLY'}))
@@ -18,17 +52,6 @@ gulp.task('format-js', function() {
 		mode: 'VERIFY_AND_WRITE'
 	}))
     .pipe(gulp.dest(gulpConfig.srcDir))
-});
-
-gulp.task('reformat', function () {
-	return gulp.src(gulpConfig.src)
-		.pipe($.if(args.verbose, $.print()))
-        .pipe($.jscs({
-            fix: true,
-			esnext: true,
-			configPath: './.jscsrc'
-        })) 
-        .pipe(gulp.dest("tmp" /*gulpConfig.srcDir */));
 });
 
 gulp.task('vet', function() {
@@ -45,7 +68,7 @@ gulp.task('clean-build', function() {
 	return del([gulpConfig.dest]);
 });
 
-gulp.task('babel', ['clean-build'], function () {
+gulp.task('babel', /*['clean-build'], */ function () {
    log('Converting files to ES5');
 
    	var config = {
