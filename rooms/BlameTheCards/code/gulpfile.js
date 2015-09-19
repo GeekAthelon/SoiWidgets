@@ -10,6 +10,34 @@ var port = process.env.PORT || gulpConfig.defaultPort;
 
 gulp.task('help', $.taskListing);
 
+gulp.task('istanbul', function (cb) {
+  gulp.src(['build/app/**/*.js'])
+	.pipe($.if(args.verbose, $.print()))
+    .pipe($.istanbul()) // Covering files
+    .pipe($.istanbul.hookRequire()) // Force `require` to return covered files
+    .on('finish', function () {
+      gulp.src(['build/test/*.js'])
+		.pipe($.if(args.verbose, $.print()))
+        .pipe($.mocha())
+        .pipe($.istanbul.writeReports(
+			{
+				dir: './coverage',
+				reporters: [ 'html', 'lcov', 'json', 'text', 'text-summary'],
+				reportOpts: { dir: './coverage' },
+			}
+		)) // Creating the reports after tests ran
+        .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } })) // Enforce a coverage of at least 90%
+        .on('end', cb);
+    });
+});
+
+
+gulp.task('mocha', function() {
+    return gulp.src([gulpConfig.dest + '/test/**/*.js'], { read: false })
+        .pipe($.mocha({ reporter: 'list' }))
+        .on('error', $.util.log);
+});
+
 gulp.task('serve-dev', ['vet'], function() {
 	var isDev = true;
 	
