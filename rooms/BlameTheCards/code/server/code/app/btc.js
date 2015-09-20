@@ -57,6 +57,7 @@ app.get('/scrape', function(req, res) {
     });
 });
 
-app.listen('8082');
-console.log('Magic happens on port 8082');
+var port = process.env.PORT;
+app.listen(port);
+console.log('Magic happens on port ' + port);
 exports = module.exports = app;
