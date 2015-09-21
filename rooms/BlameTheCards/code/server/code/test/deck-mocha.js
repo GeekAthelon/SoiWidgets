@@ -1,9 +1,12 @@
 /* globals it: true, describe: true */
 
 var expect = require('chai').expect;
+var QuestionCard = require('../app/lib/question-card');
+var AnswerCard = require('../app/lib/answer-card');
+var Card = require('../app/lib/card');
+
 var Deck = require('../app/lib/deck');
 var deck = new Deck();
-
 
 describe('Testing Deck', function() {
     'use strict';
@@ -22,6 +25,8 @@ describe('Testing Deck', function() {
         db.on('trace', function(sql) {
             //console.info("sql: " + sql);
         });
+
+        db.run(`DROP TABLE if exists deck`);
 
         return db;
     }
@@ -74,13 +79,10 @@ describe('Testing Deck', function() {
             deck = new Deck(db);
         });
 
-        it('Add Card', function(done) {
+        it('Add Question Card', function(done) {
             function addOneCard() {
-                return deck.addCard({
-                    num: 1,
-                    text: " What is the _",
-                    type: Deck.cardType.QUESTION
-                });
+                var questionCard = new QuestionCard(1, " What is the _");
+                return deck.addCard(questionCard);
             }
 
             deck.init().then(function() {;
@@ -98,9 +100,50 @@ describe('Testing Deck', function() {
             }).catch(function(err) {
                 console.log("Err: " + err);
             });
+        });
 
+        it('Add Answer Card', function(done) {
+            function addOneCard() {
+                let answerCard = new AnswerCard(1, " What is the _");
+                return deck.addCard(answerCard);
+            }
+
+            deck.init().then(function() {;
+                return addOneCard();
+            }).then(function() {
+                return deck.getAnswerCards();
+            }).then(function(cards) {
+                let card = cards[0];
+                expect(cards.length).to.equal(1);
+                expect(card.num).to.equal(1);
+                expect(card.text).to.equal(" What is the _");
+                expect(card.type).to.equal(Deck.cardType.ANSWER);
+
+                done();
+            }).catch(function(err) {
+                console.log("Err: " + err);
+            });
         });
 
     });
+});
 
+describe('Testing Question Cards', function() {
+    'use strict';
+
+    var questionCard = new QuestionCard(1, "Huzzah");
+
+    it('Testing QuestionCard isntanceof Card', function() {
+        expect(questionCard instanceof Card).to.equal(true);
+    });
+});
+
+describe('Testing Answer Cards', function() {
+    'use strict';
+
+    var answerCard = new AnswerCard(1, "Huzzah");
+
+    it('Testing answerCard isntanceof Card', function() {
+        expect(answerCard instanceof Card).to.equal(true);
+    });
 });
