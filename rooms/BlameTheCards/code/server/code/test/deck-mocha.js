@@ -26,12 +26,18 @@ describe('Testing Deck', function() {
         return db;
     }
 
-    describe('Testing for life', function() {
+    describe('Testing for life', function(done) {
         it('init runs successfully', function(done) {
             var db = createDbObj();
             let deck = new Deck(db);
-            deck.init(done);
-            expect(true).to.equal(true);
+
+            deck.init().then(function() {;
+                    expect(true).to.equal(true);
+                    done();
+                })
+                .catch(function(reason) {
+                    console.log("init failed: " + reason);
+                });
         });
     });
 
@@ -59,26 +65,42 @@ describe('Testing Deck', function() {
 
     });
 
-    describe('Card Handling', function() {
+    describe('Card Handling', function(done) {
         let db;
         let deck;
 
         beforeEach(function() {
             db = createDbObj();
             deck = new Deck(db);
-            deck.init(function() {});
         });
 
         it('Add Card', function(done) {
+            function addOneCard() {
+                return deck.addCard({
+                    num: 1,
+                    text: " What is the _",
+                    type: Deck.cardType.QUESTION
+                });
+            }
 
-            deck.addCard({
-                num: 1,
-                text: "What is the _",
-                type: Deck.cardType.QUESTION
-            }, done);
+            deck.init().then(function() {;
+                return addOneCard();
+            }).then(function() {
+                return deck.getQuestionCards();
+            }).then(function(cards) {
+                let card = cards[0];
+                expect(cards.length).to.equal(1);
+                expect(card.num).to.equal(1);
+                expect(card.text).to.equal(" What is the _");
+                expect(card.type).to.equal(Deck.cardType.QUESTION);
 
-            expect(true).to.equal(true);
+                done();
+            }).catch(function(err) {
+                console.log("Err: " + err);
+            });
+
         });
+
     });
 
 });
