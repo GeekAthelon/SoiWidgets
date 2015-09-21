@@ -41,62 +41,59 @@ class Deck {
         });
     };
 
-<<<<<<< HEAD
-    _getCards(type) {
-=======
-	_getCards(type) {
->>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
-        let db = this.db;
-        return new Promise(function(resolve, reject) {
+    << << << < HEAD
+    _getCards(type) { === === =
+        _getCards(type) { >>> >>> > b08372bc065f13ab532b91e236f14c61827dc0e7
+            let db = this.db;
+            return new Promise(function(resolve, reject) {
 
-            let cards = [];
-            db.each(`SELECT rowid AS id, text, cardtype, cardnumber 
+                let cards = [];
+                db.each(`SELECT rowid AS id, text, cardtype, cardnumber 
 				FROM deck
 				where cardtype = ` + type,
-                function(err, row) {
-                    let card = {
-                        text: row.text,
-                        type: row.cardtype,
-                        num: row.cardnumber
-                    };
+                    function(err, row) {
+                        let card = {
+                            text: row.text,
+                            type: row.cardtype,
+                            num: row.cardnumber
+                        };
 
-                    Object.freeze(card);
-                    cards.push(card);
+                        Object.freeze(card);
+                        cards.push(card);
+                    });
+
+                db.run("--", [], () => {
+                    resolve(cards);
                 });
-
-            db.run("--", [], () => {
-                resolve(cards);
             });
-        });
 
-	}
-	
-    getQuestionCards() {
-		return this._getCards(Deck.cardType.QUESTION);
+        }
+
+        getQuestionCards() {
+            return this._getCards(Deck.cardType.QUESTION);
+        }
+
+        getAnswerCards() {
+            return this._getCards(Deck.cardType.ANSWER);
+        }
+
+        << << << < HEAD
+        getQuestionCards() {
+            return this._getCards(Deck.cardType.QUESTION);
+        }
+
+        getAnswerCards() {
+            return this._getCards(Deck.cardType.ANSWER);
+        }
+
+        === === = >>> >>> > b08372bc065f13ab532b91e236f14c61827dc0e7
     }
 
-    getAnswerCards() {
-		return this._getCards(Deck.cardType.ANSWER);
-    }
+    Deck.cardType = {
+        QUESTION: 1,
+        ANSWER: 2
+    };
 
-<<<<<<< HEAD
-    getQuestionCards() {
-        return this._getCards(Deck.cardType.QUESTION);
-    }
+    Object.freeze(Deck.cardType);
 
-    getAnswerCards() {
-        return this._getCards(Deck.cardType.ANSWER);
-    }
-
-=======
->>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
-}
-
-Deck.cardType = {
-    QUESTION: 1,
-    ANSWER: 2
-};
-
-Object.freeze(Deck.cardType);
-
-exports = module.exports = Deck;
+    exports = module.exports = Deck;
