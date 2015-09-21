@@ -26,7 +26,11 @@ describe('Testing Deck', function() {
             //console.info("sql: " + sql);
         });
 
+<<<<<<< HEAD
         db.run(`DROP TABLE if exists deck`);
+=======
+		db.run(`DROP TABLE if exists deck`);
+>>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
 
         return db;
     }
@@ -107,6 +111,7 @@ describe('Testing Deck', function() {
                 let answerCard = new AnswerCard(1, " What is the _");
                 return deck.addCard(answerCard);
             }
+<<<<<<< HEAD
 
             deck.init().then(function() {;
                 return addOneCard();
@@ -119,13 +124,27 @@ describe('Testing Deck', function() {
                 expect(card.text).to.equal(" What is the _");
                 expect(card.type).to.equal(Deck.cardType.ANSWER);
 
+=======
+
+            deck.init().then(function() {;
+                return addOneCard();
+            }).then(function() {
+                return deck.getAnswerCards();
+            }).then(function(cards) {
+                let card = cards[0];
+                expect(cards.length).to.equal(1);
+                expect(card.num).to.equal(1);
+                expect(card.text).to.equal(" What is the _");
+                expect(card.type).to.equal(Deck.cardType.ANSWER);
+
+>>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
                 done();
             }).catch(function(err) {
                 console.log("Err: " + err);
             });
         });
 
-    });
+		});
 });
 
 describe('Testing Question Cards', function() {
@@ -137,6 +156,19 @@ describe('Testing Question Cards', function() {
         expect(questionCard instanceof Card).to.equal(true);
     });
 });
+<<<<<<< HEAD
+
+describe('Testing Question Cards', function() {
+    'use strict';
+
+    var questionCard = new QuestionCard(1, "Huzzah");
+
+    it('Testing QuestionCard isntanceof Card', function() {
+        expect(questionCard instanceof Card).to.equal(true);
+    });
+});
+=======
+>>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
 
 describe('Testing Answer Cards', function() {
     'use strict';

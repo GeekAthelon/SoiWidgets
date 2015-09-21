@@ -41,7 +41,11 @@ class Deck {
         });
     };
 
+<<<<<<< HEAD
     _getCards(type) {
+=======
+	_getCards(type) {
+>>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
         let db = this.db;
         return new Promise(function(resolve, reject) {
 
@@ -65,8 +69,17 @@ class Deck {
             });
         });
 
+	}
+	
+    getQuestionCards() {
+		return this._getCards(Deck.cardType.QUESTION);
     }
 
+    getAnswerCards() {
+		return this._getCards(Deck.cardType.ANSWER);
+    }
+
+<<<<<<< HEAD
     getQuestionCards() {
         return this._getCards(Deck.cardType.QUESTION);
     }
@@ -75,6 +88,8 @@ class Deck {
         return this._getCards(Deck.cardType.ANSWER);
     }
 
+=======
+>>>>>>> b08372bc065f13ab532b91e236f14c61827dc0e7
 }
 
 Deck.cardType = {
