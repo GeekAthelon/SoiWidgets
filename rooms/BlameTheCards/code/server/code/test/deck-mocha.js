@@ -9,167 +9,153 @@ var Deck = require('../app/lib/deck');
 var deck = new Deck();
 
 describe('Testing Deck', function() {
-            'use strict';
+    'use strict';
 
-            this.timeout(3000);
-            this.slow(3000);
+    this.timeout(3000);
+    this.slow(3000);
 
-            function createDbObj() {
-                var fs = require("fs");
-                var file = "test.db";
-                var exists = fs.existsSync(file);
+    function createDbObj() {
+        var fs = require("fs");
+        var file = "test.db";
+        var exists = fs.existsSync(file);
 
-                var sqlite3 = require('sqlite3').verbose();
-                var db = new sqlite3.Database(':memory:');
+        var sqlite3 = require('sqlite3').verbose();
+        var db = new sqlite3.Database(':memory:');
 
-                db.on('trace', function(sql) {
-                    //console.info("sql: " + sql);
+        db.on('trace', function(sql) {
+            //console.info("sql: " + sql);
+        });
+
+
+        db.run(`DROP TABLE if exists deck`)
+
+        return db;
+    }
+
+    describe('Testing for life', function(done) {
+        it('init runs successfully', function(done) {
+            var db = createDbObj();
+            let deck = new Deck(db);
+
+            deck.init().then(function() {;
+                    expect(true).to.equal(true);
+                    done();
+                })
+                .catch(function(reason) {
+                    console.log("init failed: " + reason);
                 });
+        });
+    });
 
-                << << << < HEAD
-                db.run(`DROP TABLE if exists deck`); === === =
-                db.run(`DROP TABLE if exists deck`); >>> >>> > b08372bc065f13ab532b91e236f14c61827dc0e7
+    describe('Testing ENUMS', function() {
+        var db = createDbObj();
+        let deck = new Deck(db);
 
-                return db;
+        it('Testing QUESTION enum', function() {
+            expect(Deck.cardType.QUESTION).to.equal(1000);
+        });
+
+        it('Testing ANSWER enum', function() {
+            expect(Deck.cardType.ANSWER).to.equal(2000);
+        });
+
+        it('Testing object frozen', function() {
+            let result = false;
+            try {
+                Deck.cardType.ANSWER = 10;
+            } catch (e) {
+                result = true;
+            }
+            expect(result).to.equal(true);
+        });
+
+    });
+
+    describe('Card Handling', function(done) {
+        let db;
+        let deck;
+
+        beforeEach(function() {
+            db = createDbObj();
+            deck = new Deck(db);
+        });
+
+        it('Add Question Card', function(done) {
+            function addOneCard() {
+                var questionCard = new QuestionCard(1, " What is the _");
+                return deck.addCard(questionCard);
             }
 
-            describe('Testing for life', function(done) {
-                it('init runs successfully', function(done) {
-                    var db = createDbObj();
-                    let deck = new Deck(db);
+            deck.init().then(function() {;
+                return addOneCard();
+            }).then(function() {
+                return deck.getQuestionCards();
+            }).then(function(cards) {
+                let card = cards[0];
+                expect(cards.length).to.equal(1);
+                expect(card.num).to.equal(1);
+                expect(card.text).to.equal(" What is the _");
+                expect(card.type).to.equal(Deck.cardType.QUESTION);
 
-                    deck.init().then(function() {;
-                            expect(true).to.equal(true);
-                            done();
-                        })
-                        .catch(function(reason) {
-                            console.log("init failed: " + reason);
-                        });
-                });
+                done();
+            }).catch(function(err) {
+                console.log("Err: " + err);
             });
+        });
 
-            describe('Testing ENUMS', function() {
-                var db = createDbObj();
-                let deck = new Deck(db);
+        it('Add Answer Card', function(done) {
+            function addOneCard() {
+                let answerCard = new AnswerCard(1, "42, the answer to everything");
+                return deck.addCard(answerCard);
+            }
 
-                it('Testing QUESTION enum', function() {
-                    expect(Deck.cardType.QUESTION).to.equal(1);
-                });
+            deck.init().then(function() {;
+                return addOneCard();
+            }).then(function() {
+                return deck.getAnswerCards();
+            }).then(function(cards) {
+                let card = cards[0];
 
-                it('Testing ANSWER enum', function() {
-                    expect(Deck.cardType.ANSWER).to.equal(2);
-                });
+                expect(cards.length).to.equal(1);
+                expect(card.num).to.equal(1);
+                expect(card.text).to.equal("42, the answer to everything");
+                expect(card.type).to.equal(Deck.cardType.ANSWER);
 
-                it('Testing object frozen', function() {
-                    let result = false;
-                    try {
-                        Deck.cardType.ANSWER = 10;
-                    } catch (e) {
-                        result = true;
-                    }
-                    expect(result).to.equal(true);
-                });
-
+                done();
+            }).catch(function(err) {
+                console.log("Err: " + err);
             });
+        });
 
-            describe('Card Handling', function(done) {
-                let db;
-                let deck;
+    });
+});
 
-                beforeEach(function() {
-                    db = createDbObj();
-                    deck = new Deck(db);
-                });
+describe('Testing Question Cards', function() {
+    'use strict';
 
-                it('Add Question Card', function(done) {
-                    function addOneCard() {
-                        var questionCard = new QuestionCard(1, " What is the _");
-                        return deck.addCard(questionCard);
-                    }
+    var questionCard = new QuestionCard(1, "Huzzah");
 
-                    deck.init().then(function() {;
-                        return addOneCard();
-                    }).then(function() {
-                        return deck.getQuestionCards();
-                    }).then(function(cards) {
-                        let card = cards[0];
-                        expect(cards.length).to.equal(1);
-                        expect(card.num).to.equal(1);
-                        expect(card.text).to.equal(" What is the _");
-                        expect(card.type).to.equal(Deck.cardType.QUESTION);
+    it('Testing QuestionCard isntanceof Card', function() {
+        expect(questionCard instanceof Card).to.equal(true);
+    });
+});
 
-                        done();
-                    }).catch(function(err) {
-                        console.log("Err: " + err);
-                    });
-                });
+describe('Testing Question Cards', function() {
+    'use strict';
 
-                it('Add Answer Card', function(done) {
-                    function addOneCard() {
-                        let answerCard = new AnswerCard(1, " What is the _");
-                        return deck.addCard(answerCard);
-                    } << << << < HEAD
+    var questionCard = new QuestionCard(1, "Huzzah");
 
-                    deck.init().then(function() {;
-                        return addOneCard();
-                    }).then(function() {
-                        return deck.getAnswerCards();
-                    }).then(function(cards) {
-                        let card = cards[0];
-                        expect(cards.length).to.equal(1);
-                        expect(card.num).to.equal(1);
-                        expect(card.text).to.equal(" What is the _");
-                        expect(card.type).to.equal(Deck.cardType.ANSWER);
+    it('Testing QuestionCard isntanceof Card', function() {
+        expect(questionCard instanceof Card).to.equal(true);
+    });
+});
 
-                        === === =
+describe('Testing Answer Cards', function() {
+    'use strict';
 
-                        deck.init().then(function() {;
-                            return addOneCard();
-                        }).then(function() {
-                            return deck.getAnswerCards();
-                        }).then(function(cards) {
-                            let card = cards[0];
-                            expect(cards.length).to.equal(1);
-                            expect(card.num).to.equal(1);
-                            expect(card.text).to.equal(" What is the _");
-                            expect(card.type).to.equal(Deck.cardType.ANSWER);
+    var answerCard = new AnswerCard(1, "Huzzah");
 
-                            >>> >>> > b08372bc065f13ab532b91e236f14c61827dc0e7
-                            done();
-                        }).catch(function(err) {
-                            console.log("Err: " + err);
-                        });
-                    });
-
-                });
-            });
-
-            describe('Testing Question Cards', function() {
-                'use strict';
-
-                var questionCard = new QuestionCard(1, "Huzzah");
-
-                it('Testing QuestionCard isntanceof Card', function() {
-                    expect(questionCard instanceof Card).to.equal(true);
-                });
-            }); << << << < HEAD
-
-            describe('Testing Question Cards', function() {
-                'use strict';
-
-                var questionCard = new QuestionCard(1, "Huzzah");
-
-                it('Testing QuestionCard isntanceof Card', function() {
-                    expect(questionCard instanceof Card).to.equal(true);
-                });
-            }); === === = >>> >>> > b08372bc065f13ab532b91e236f14c61827dc0e7
-
-            describe('Testing Answer Cards', function() {
-                'use strict';
-
-                var answerCard = new AnswerCard(1, "Huzzah");
-
-                it('Testing answerCard isntanceof Card', function() {
-                    expect(answerCard instanceof Card).to.equal(true);
-                });
-            });
+    it('Testing answerCard isntanceof Card', function() {
+        expect(answerCard instanceof Card).to.equal(true);
+    });
+});
