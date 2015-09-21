@@ -16,10 +16,6 @@ class Deck {
 				cardtype INT,
 				cardnumber INT)`);
 
-                db.each("SELECT rowid AS id, text, cardtype, cardnumber FROM deck", function(err, row) {
-                    //console.log([row.text, row.cardtype, row.cardnumber]);
-                });
-
                 db.run("--", [], () => {
                     resolve();
                 });
@@ -45,14 +41,14 @@ class Deck {
         });
     };
 
-    getQuestionCards() {
+	_getCards(type) {
         let db = this.db;
         return new Promise(function(resolve, reject) {
 
             let cards = [];
             db.each(`SELECT rowid AS id, text, cardtype, cardnumber 
 				FROM deck
-				where cardtype = ` + Deck.cardType.QUESTION,
+				where cardtype = ` + type,
                 function(err, row) {
                     let card = {
                         text: row.text,
@@ -69,7 +65,16 @@ class Deck {
             });
         });
 
+	}
+	
+    getQuestionCards() {
+		return this._getCards(Deck.cardType.QUESTION);
     }
+
+    getAnswerCards() {
+		return this._getCards(Deck.cardType.ANSWER);
+    }
+
 }
 
 Deck.cardType = {
@@ -78,6 +83,5 @@ Deck.cardType = {
 };
 
 Object.freeze(Deck.cardType);
-
 
 exports = module.exports = Deck;
