@@ -42,21 +42,19 @@ class CardStackManager {
     }
 
     drawQuestion() {
-        if (this.questionDrawStack._cards.length > 0) {
-            return this.questionDrawStack.draw();
+        if (this.questionDrawStack._cards.length === 0) {
+            reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }
 
-        reshuffle(this.questionDiscardStack, this.questionDrawStack);
-        return this.drawQuestion();
+        return this.questionDrawStack.draw();
     }
 
     drawAnswer() {
-        if (this.answerDrawStack._cards.length > 0) {
-            return this.answerDrawStack.draw();
+        if (this.answerDrawStack._cards.length === 0) {
+            reshuffle(this.answerDiscardStack, this.answerDrawStack);
         }
 
-        reshuffle(this.answerDiscardStack, this.answerDrawStack);
-        return this.drawAnswer();
+        return this.answerDrawStack.draw();
     }
 
     addPlayer(name) {
