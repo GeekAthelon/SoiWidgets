@@ -47,7 +47,17 @@ describe('Testing Card Stack - basics', function() {
         it('Can\'t draw from empty stack', function() {
             var result = false;
             try {
-                testStack.draw(qCard);
+                testStack.draw();
+            } catch (err) {
+                result = true;
+            }
+            expect(result).to.equal(true);
+        });
+
+        it('Can\'t remove non-existant', function() {
+            var result = false;
+            try {
+                testStack.remove(qCard);
             } catch (err) {
                 result = true;
             }
@@ -55,9 +65,16 @@ describe('Testing Card Stack - basics', function() {
         });
 
 
+        it('Can add and draw QuestionCard', function() {
+            testStack.add(qCard);
+            var card2 = testStack.draw();
+
+            expect(testStack._cards.length).to.equal(0);
+        });
+
         it('Can add and remove QuestionCard', function() {
             testStack.add(qCard);
-            testStack.draw(qCard);
+            testStack.remove(qCard);
 
             expect(testStack._cards.length).to.equal(0);
         });

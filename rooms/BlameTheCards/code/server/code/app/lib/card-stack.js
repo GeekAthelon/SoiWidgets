@@ -26,6 +26,24 @@ class CardStack {
         return this._cards.shift();
     }
 
+    remove(card) {
+
+        var idx = this._cards.indexOf(card);
+
+        if (idx === -1) {
+            throw new Error(`CardStack: Cannot remove. Card not found`);
+        }
+
+        var removedCard = this._cards.splice(idx, 1);
+
+        console.log(card);
+        console.log(removedCard);
+
+        /* istanbul ignore next */
+        if (card !== removedCard[0]) {
+            throw new Error(`CardStack: Card removed was not card found`);
+        }
+    }
 }
 
 exports = module.exports = CardStack;
