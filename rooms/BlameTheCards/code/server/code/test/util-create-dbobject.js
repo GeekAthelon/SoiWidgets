@@ -1,19 +1,18 @@
-    function createDbObj() {
-        var fs = require("fs");
-        var file = "test.db";
-        var exists = fs.existsSync(file);
+function createDbObj() {
+    var fs = require('fs');
+    var file = 'test.db';
+    var exists = fs.existsSync(file);
 
-        var sqlite3 = require('sqlite3').verbose();
-        var db = new sqlite3.Database(':memory:');
+    var sqlite3 = require('sqlite3').verbose();
+    var db = new sqlite3.Database(':memory:');
 
-        db.on('trace', function(sql) {
-            //console.info("sql: " + sql);
-        });
+    db.on('trace', function(sql) {
+        //console.info("sql: " + sql);
+    });
 
+    db.run(`DROP TABLE if exists deck`);
 
-        db.run(`DROP TABLE if exists deck`)
+    return db;
+}
 
-        return db;
-    }
-
-    exports = module.exports = createDbObj;
+exports = module.exports = createDbObj;

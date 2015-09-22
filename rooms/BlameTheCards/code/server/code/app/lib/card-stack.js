@@ -3,7 +3,7 @@
 class CardStack {
     constructor(name, cardType) {
         this.name = name;
-        this.cardType = cardType
+        this.cardType = cardType;
         this._cards = [];
     }
 
@@ -35,9 +35,6 @@ class CardStack {
         }
 
         var removedCard = this._cards.splice(idx, 1);
-
-        console.log(card);
-        console.log(removedCard);
 
         /* istanbul ignore next */
         if (card !== removedCard[0]) {

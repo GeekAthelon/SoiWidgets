@@ -1,4 +1,4 @@
-/* globals it: true, describe: true */
+/* globals it: true, describe: true, before: true */
 
 var expect = require('chai').expect;
 var QuestionCard = require('../app/lib/question-card');
@@ -21,12 +21,12 @@ describe('Testing Deck', function() {
             var db = createDbObj();
             let deck = new Deck(db);
 
-            deck.init().then(function() {;
+            deck.init().then(function() {
                     expect(true).to.equal(true);
                     done();
                 })
                 .catch(function(reason) {
-                    console.log("init failed: " + reason);
+                    console.log('init failed: ' + reason);
                 });
         });
     });
@@ -61,7 +61,7 @@ describe('Testing Deck', function() {
         let deck = new Deck(db);
 
         function addOneCard() {
-            var questionCard = new QuestionCard(1, " What is the _");
+            var questionCard = new QuestionCard(1, ' What is the _');
             return deck.addCard(questionCard);
         }
 
@@ -70,7 +70,7 @@ describe('Testing Deck', function() {
         let card;
 
         before(function(done) {
-            deck.init().then(function() {;
+            deck.init().then(function() {
                 return addOneCard();
             }).then(function() {
                 return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
@@ -80,7 +80,7 @@ describe('Testing Deck', function() {
                 card = cards[0];
                 done();
             }).catch(function(err) {
-                console.log("Err: " + err);
+                console.log('Err: ' + err);
             });
         });
 
@@ -93,24 +93,19 @@ describe('Testing Deck', function() {
         });
 
         it('card.text', function() {
-            expect(card.text).to.equal(" What is the _");
+            expect(card.text).to.equal(' What is the _');
         });
 
         it('card.type', function() {
             expect(card.type).to.equal(Deck.cardType.QUESTION);
         });
-
-
     });
-
-
-
 });
 
 describe('Testing Question Cards', function() {
     'use strict';
 
-    var questionCard = new QuestionCard(1, "Huzzah");
+    var questionCard = new QuestionCard(1, 'Huzzah');
 
     it('Testing QuestionCard isntanceof Card', function() {
         expect(questionCard instanceof Card).to.equal(true);
@@ -120,7 +115,7 @@ describe('Testing Question Cards', function() {
 describe('Testing Question Cards', function() {
     'use strict';
 
-    var questionCard = new QuestionCard(1, "Huzzah");
+    var questionCard = new QuestionCard(1, 'Huzzah');
 
     it('Testing QuestionCard isntanceof Card', function() {
         expect(questionCard instanceof Card).to.equal(true);
@@ -130,7 +125,7 @@ describe('Testing Question Cards', function() {
 describe('Testing Answer Cards', function() {
     'use strict';
 
-    var answerCard = new AnswerCard(1, "Huzzah");
+    var answerCard = new AnswerCard(1, 'Huzzah');
 
     it('Testing answerCard isntanceof Card', function() {
         expect(answerCard instanceof Card).to.equal(true);

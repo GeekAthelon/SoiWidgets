@@ -9,14 +9,13 @@ class Deck {
         var db = this.db;
         return new Promise(function(resolve, reject) {
 
-
             db.serialize(function() {
                 db.run(`CREATE TABLE if not exists deck (
 				text TEXT,
 				cardtype INT,
 				cardnumber INT)`);
 
-                db.run("--", [], () => {
+                db.run('--', [], () => {
                     resolve();
                 });
             });
@@ -29,24 +28,24 @@ class Deck {
         return new Promise(function(resolve, reject) {
             var stmt = db.prepare(
                 `INSERT INTO deck
-				(text, cardtype, cardnumber) 
+				(text, cardtype, cardnumber)
 				VALUES (?,?,?)`);
 
             stmt.run(card.text, card.type, card.num);
             stmt.finalize();
 
-            db.run("--", [], () => {
+            db.run('--', [], () => {
                 resolve();
             });
         });
-    };
+    }
 
     _getCards(type) {
         let db = this.db;
         return new Promise(function(resolve, reject) {
 
             let cards = [];
-            db.each(`SELECT rowid AS id, text, cardtype, cardnumber 
+            db.each(`SELECT rowid AS id, text, cardtype, cardnumber
 				FROM deck
 				where cardtype = ` + type,
                 function(err, row) {
@@ -60,7 +59,7 @@ class Deck {
                     cards.push(card);
                 });
 
-            db.run("--", [], () => {
+            db.run('--', [], () => {
                 resolve(cards);
             });
         });
