@@ -14,25 +14,9 @@ describe('Testing Deck', function() {
     this.timeout(3000);
     this.slow(3000);
 
-    function createDbObj() {
-        var fs = require("fs");
-        var file = "test.db";
-        var exists = fs.existsSync(file);
+    let createDbObj = require('./util-create-dbobject');
 
-        var sqlite3 = require('sqlite3').verbose();
-        var db = new sqlite3.Database(':memory:');
-
-        db.on('trace', function(sql) {
-            //console.info("sql: " + sql);
-        });
-
-
-        db.run(`DROP TABLE if exists deck`)
-
-        return db;
-    }
-
-    describe('Testing for life', function(done) {
+    describe('Testing for life', function() {
         it('init runs successfully', function(done) {
             var db = createDbObj();
             let deck = new Deck(db);
@@ -71,63 +55,56 @@ describe('Testing Deck', function() {
 
     });
 
-    describe('Card Handling', function(done) {
-        let db;
-        let deck;
+    describe('Adding Question Card', function() {
 
-        beforeEach(function() {
-            db = createDbObj();
-            deck = new Deck(db);
-        });
+        let db = createDbObj();
+        let deck = new Deck(db);
 
-        it('Add Question Card', function(done) {
-            function addOneCard() {
-                var questionCard = new QuestionCard(1, " What is the _");
-                return deck.addCard(questionCard);
-            }
+        function addOneCard() {
+            var questionCard = new QuestionCard(1, " What is the _");
+            return deck.addCard(questionCard);
+        }
 
+        let cards;
+        let aCards;
+        let card;
+
+        before(function(done) {
             deck.init().then(function() {;
                 return addOneCard();
             }).then(function() {
-                return deck.getQuestionCards();
-            }).then(function(cards) {
-                let card = cards[0];
-                expect(cards.length).to.equal(1);
-                expect(card.num).to.equal(1);
-                expect(card.text).to.equal(" What is the _");
-                expect(card.type).to.equal(Deck.cardType.QUESTION);
-
+                return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
+            }).then(function(_cards) {
+                cards = _cards[0];
+                aCards = cards[1];
+                card = cards[0];
                 done();
             }).catch(function(err) {
                 console.log("Err: " + err);
             });
         });
 
-        it('Add Answer Card', function(done) {
-            function addOneCard() {
-                let answerCard = new AnswerCard(1, "42, the answer to everything");
-                return deck.addCard(answerCard);
-            }
-
-            deck.init().then(function() {;
-                return addOneCard();
-            }).then(function() {
-                return deck.getAnswerCards();
-            }).then(function(cards) {
-                let card = cards[0];
-
-                expect(cards.length).to.equal(1);
-                expect(card.num).to.equal(1);
-                expect(card.text).to.equal("42, the answer to everything");
-                expect(card.type).to.equal(Deck.cardType.ANSWER);
-
-                done();
-            }).catch(function(err) {
-                console.log("Err: " + err);
-            });
+        it('cards.length', function() {
+            expect(cards.length).to.equal(1);
         });
+
+        it('card.num', function() {
+            expect(card.num).to.equal(1);
+        });
+
+        it('card.text', function() {
+            expect(card.text).to.equal(" What is the _");
+        });
+
+        it('card.type', function() {
+            expect(card.type).to.equal(Deck.cardType.QUESTION);
+        });
+
 
     });
+
+
+
 });
 
 describe('Testing Question Cards', function() {
