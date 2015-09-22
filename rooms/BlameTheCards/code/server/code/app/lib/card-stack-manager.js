@@ -27,6 +27,19 @@ function reshuffle(fromStack, toStack) {
     fromStack._cards = [];
 }
 
+class Player {
+    constructor(name) {
+        this.stack = new CardStack(`Player ${name}`, Deck.cardType.ANSWER);
+    }
+
+    fillHand(cardStackManager) {
+        for (var i = this.stack._cards.length; i < HAND_SIZE; i++) {
+            let aCard = cardStackManager.drawAnswer();
+            this.stack.add(aCard);
+        }
+    }
+}
+
 class CardStackManager {
     constructor() {
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
@@ -62,17 +75,23 @@ class CardStackManager {
             return;
         }
 
-        var playerDetails = {
-            cards: new CardStack(`Player ${name}`, Deck.cardType.ANSWER)
-        };
-
-        this.players[name] = playerDetails;
+        let player = new Player(name);
+        this.players[name] = player;
     }
 
     removePlayer(name) {
         throw new Error('Not Implemented');
     }
 
+    startRound() {
+        let qCard = this.drawQuestion();
+        this.questionTableStack.add(qCard);
+
+        Object.keys(this.players).forEach((name) => {
+            var player = this.players[name];
+            player.fillHand(this);
+        });
+    }
 }
 
 exports = module.exports = CardStackManager;

@@ -103,11 +103,13 @@ describe('Testing Card Stack Manager', function() {
 
         console.log(btcConfig);
 
-        let maxQuestionCards = 4;
-        let maxAnswerCards = 4;
+        let maxQuestionCards = 40;
+        let maxAnswerCards = 40;
 
-        beforeEach(() => {
+        before(() => {
             populateCards(cardStackManager, maxQuestionCards, maxAnswerCards);
+            cardStackManager.addPlayer(btcConfig.nick);
+            cardStackManager.startRound();
         });
 
         it('Checking bot name', () => {
@@ -115,18 +117,24 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Adding Bot to game', () => {
-            cardStackManager.addPlayer(btcConfig.nick);
             expect(cardStackManager.players[btcConfig.nick]).to.not.equal(undefined);
         });
 
         it('Adding Bot to game twice', () => {
-            cardStackManager.addPlayer(btcConfig.nick);
             let p1 = cardStackManager.players[btcConfig.nick];
             cardStackManager.addPlayer(btcConfig.nick);
             let p2 = cardStackManager.players[btcConfig.nick];
             expect(p1).to.equal(p2);
         });
 
+        it('One Question Card On the Table', () => {
+            expect(cardStackManager.questionTableStack._cards.length).to.equal(1);
+        });
+
+        it('Bot\'s hand filled correctly', () => {
+            let p1 = cardStackManager.players[btcConfig.nick];
+            expect(p1.stack._cards.length).to.equal(10);
+        });
     });
 
 });
