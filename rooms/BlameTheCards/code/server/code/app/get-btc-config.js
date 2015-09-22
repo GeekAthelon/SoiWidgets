@@ -1,4 +1,5 @@
 function getBtcConfig() {
+    'use strict';
 
     let fs = require('fs');
     let stringFormat = require('./lib/string-format');
@@ -9,7 +10,7 @@ function getBtcConfig() {
     );
 
     // Fill in the template.
-    configuration = stringFormat(configuration.url, configuration);
+    configuration.url = stringFormat(configuration.url, configuration);
 
     return configuration;
 }

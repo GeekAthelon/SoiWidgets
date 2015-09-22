@@ -1,7 +1,31 @@
 'use strict';
 
+const HAND_SIZE = 10;
 var CardStack = require('./card-stack');
 var Deck = require('./deck');
+
+/**
+ * Randomize array element order in-place.
+ * Using Durstenfeld shuffle algorithm.
+ */
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
+function reshuffle(fromStack, toStack) {
+    let fromCards = fromStack._cards;
+    let toCards = toStack._cards;
+
+    shuffleArray(fromCards);
+    toStack._cards = fromCards;
+    fromStack._cards = [];
+}
 
 class CardStackManager {
     constructor() {
@@ -14,11 +38,37 @@ class CardStackManager {
         this.answerTableStack = new CardStack('Answer Table Stack', Deck.cardType.ANSWER);
         this.questionTableStack = new CardStack('Question Table Stack', Deck.cardType.QUESTION);
 
-        this.hand = {};
+        this.players = {};
+    }
+
+    drawQuestion() {
+        if (this.questionDrawStack._cards.length > 0) {
+            return this.questionDrawStack.draw();
+        }
+
+        reshuffle(this.questionDiscardStack, this.questionDrawStack);
+        return this.drawQuestion();
+    }
+
+    drawAnswer() {
+        if (this.answerDrawStack._cards.length > 0) {
+            return this.answerDrawStack.draw();
+        }
+
+        reshuffle(this.answerDiscardStack, this.answerDrawStack);
+        return this.drawAnswer();
     }
 
     addPlayer(name) {
-        throw new Error('Not Implemented');
+        if (this.players[name]) {
+            return;
+        }
+
+        var playerDetails = {
+            cards: new CardStack(`Player ${name}`, Deck.cardType.ANSWER)
+        };
+
+        this.players[name] = playerDetails;
     }
 
     removePlayer(name) {
