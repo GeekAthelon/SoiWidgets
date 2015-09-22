@@ -12,14 +12,13 @@ var deck = new Deck();
 describe('Testing Card Stack - basics', function() {
     'use strict';
 
-    beforeEach(function() {
-        //db = createDbObj();
-        //deck = new Deck(db);
+    let questionCardStack;
+    let answerCardStack;
+
+    before(function() {
+        questionCardStack = new CardStack("answerDraw", Deck.cardType.QUESTION);
+        answerCardStack = new CardStack("answerDraw", Deck.cardType.ANSWER);
     });
-
-    let questionCardStack = new CardStack("answerDraw", Deck.cardType.QUESTION);
-    let answerCardStack = new CardStack("answerDraw", Deck.cardType.ANSWER);
-
 
     it('questionCardStack exists', function() {
         expect(questionCardStack instanceof CardStack).to.equal(true);
