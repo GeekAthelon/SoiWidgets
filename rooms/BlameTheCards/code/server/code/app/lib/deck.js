@@ -9,7 +9,7 @@ class Deck {
         var db = this.db;
         return new Promise(function(resolve, reject) {
 
-            db.serialize(function() {
+            db.serialize(() => {
                 db.run(`CREATE TABLE if not exists deck (
 				text TEXT,
 				cardtype INT,
@@ -20,22 +20,23 @@ class Deck {
                 });
             });
         });
-
     }
 
     addCard(card) {
         var db = this.db;
         return new Promise(function(resolve, reject) {
-            var stmt = db.prepare(
-                `INSERT INTO deck
+            db.serialize(() => {
+                var stmt = db.prepare(
+                    `INSERT INTO deck
 				(text, cardtype, cardnumber)
 				VALUES (?,?,?)`);
 
-            stmt.run(card.text, card.type, card.num);
-            stmt.finalize();
+                stmt.run(card.text, card.type, card.num);
+                stmt.finalize();
 
-            db.run('--', [], () => {
-                resolve();
+                db.run('--', [], () => {
+                    resolve();
+                });
             });
         });
     }
@@ -43,27 +44,28 @@ class Deck {
     _getCards(type) {
         let db = this.db;
         return new Promise(function(resolve, reject) {
+            db.serialize(() => {
 
-            let cards = [];
-            db.each(`SELECT rowid AS id, text, cardtype, cardnumber
+                let cards = [];
+                db.each(`SELECT rowid AS id, text, cardtype, cardnumber
 				FROM deck
 				where cardtype = ` + type,
-                function(err, row) {
-                    let card = {
-                        text: row.text,
-                        type: row.cardtype,
-                        num: row.cardnumber
-                    };
+                    function(err, row) {
+                        let card = {
+                            text: row.text,
+                            type: row.cardtype,
+                            num: row.cardnumber
+                        };
 
-                    Object.freeze(card);
-                    cards.push(card);
+                        Object.freeze(card);
+                        cards.push(card);
+                    });
+
+                db.run('--', [], () => {
+                    resolve(cards);
                 });
-
-            db.run('--', [], () => {
-                resolve(cards);
             });
         });
-
     }
 
     getAnswerCards() {

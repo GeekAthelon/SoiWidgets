@@ -57,24 +57,28 @@ describe('Testing Deck', function() {
 
     describe('Adding Question Card', function() {
 
-        let db = createDbObj();
-        let deck = new Deck(db);
+        let db;
+        let deck;
+
+        let cards;
+        let aCards;
+        let card;
 
         function addOneCard() {
             var questionCard = new QuestionCard(1, ' What is the _');
             return deck.addCard(questionCard);
         }
 
-        let cards;
-        let aCards;
-        let card;
-
         before(function(done) {
+            db = createDbObj();
+            deck = new Deck(db);
+
             deck.init().then(function() {
                 return addOneCard();
             }).then(function() {
                 return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
             }).then(function(_cards) {
+
                 cards = _cards[0];
                 aCards = cards[1];
                 card = cards[0];
