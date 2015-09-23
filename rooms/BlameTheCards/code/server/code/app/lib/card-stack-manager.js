@@ -29,14 +29,28 @@ function reshuffle(fromStack, toStack) {
 
 class Player {
     constructor(name) {
-        this.stack = new CardStack(`Player ${name}`, Deck.cardType.ANSWER);
+        this.hand = new CardStack(`Player ${name} Hand`, Deck.cardType.ANSWER);
+        this.table = new CardStack(`Player ${name} Table`, Deck.cardType.ANSWER);
     }
 
     fillHand(cardStackManager) {
-        for (var i = this.stack._cards.length; i < HAND_SIZE; i++) {
+        for (var i = this.hand._cards.length; i < HAND_SIZE; i++) {
             let aCard = cardStackManager.drawAnswer();
-            this.stack.add(aCard);
+            this.hand.add(aCard);
         }
+    }
+
+    playByIndex(cardIndexes) {
+        /* istanbul ignore if  */
+        if (!Array.isArray(cardIndexes)) {
+            cardIndexes = [cardIndexes];
+        }
+
+        cardIndexes.forEach((idx) => {
+            var card = this.hand._cards[idx];
+            this.hand.remove(card);
+            this.table.add(card);
+        });
     }
 }
 
@@ -55,6 +69,7 @@ class CardStackManager {
     }
 
     drawQuestion() {
+        /* istanbul ignore next */
         if (this.questionDrawStack._cards.length === 0) {
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }

@@ -132,9 +132,32 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Bot\'s hand filled correctly', () => {
-            let p1 = cardStackManager.players[btcConfig.nick];
-            expect(p1.stack._cards.length).to.equal(10);
+            let player = cardStackManager.players[btcConfig.nick];
+            expect(player.hand._cards.length).to.equal(10);
         });
+
+        it('Bot\'s table correctly', () => {
+            let player = cardStackManager.players[btcConfig.nick];
+            expect(player.table._cards.length).to.equal(0);
+        });
+
+        describe('Bot\'s Plays Two cards', () => {
+            let player;
+
+            before(() => {
+                player = cardStackManager.players[btcConfig.nick];
+                player.playByIndex([1, 2]);
+            });
+
+            it('table.length', () => {
+                expect(player.table._cards.length).to.equal(2);
+            });
+
+            it('hand.length', () => {
+                expect(player.hand._cards.length).to.equal(8);
+            });
+        });
+
     });
 
 });
