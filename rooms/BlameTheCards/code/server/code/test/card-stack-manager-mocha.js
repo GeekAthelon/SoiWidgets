@@ -7,6 +7,8 @@ var CardStack = require('../app/lib/card-stack');
 var CardStackManager = require('../app/lib/card-stack-manager');
 var Card = require('../app/lib/card');
 
+var btcConfig = require('../app/get-btc-config.js')();
+
 function populateCards(cardStackManager, maxQuestionCards, maxAnswerCards) {
     'use strict';
 
@@ -53,10 +55,6 @@ describe('Testing Card Stack Manager', function() {
             expect(cardStackManager.answerDiscardStack instanceof CardStack).to.equal(true);
         });
 
-        it('cardStackManager.answerTableStack exists', function() {
-            expect(cardStackManager.answerTableStack instanceof CardStack).to.equal(true);
-        });
-
         it('cardStackManager.questionTableStack exists', function() {
             expect(cardStackManager.questionTableStack instanceof CardStack).to.equal(true);
         });
@@ -99,9 +97,6 @@ describe('Testing Card Stack Manager', function() {
 
     describe('Testing NPC', function() {
         let cardStackManager = new CardStackManager();
-        let btcConfig = require('../app/get-btc-config.js')();
-
-        console.log(btcConfig);
 
         let maxQuestionCards = 40;
         let maxAnswerCards = 40;
@@ -136,7 +131,7 @@ describe('Testing Card Stack Manager', function() {
             expect(player.hand._cards.length).to.equal(10);
         });
 
-        it('Bot\'s table correctly', () => {
+        it('Bot\'s table created correctly', () => {
             let player = cardStackManager.players[btcConfig.nick];
             expect(player.table._cards.length).to.equal(0);
         });
@@ -157,7 +152,44 @@ describe('Testing Card Stack Manager', function() {
                 expect(player.hand._cards.length).to.equal(8);
             });
         });
+    });
 
+    describe('Testing endRound', () => {
+        let cardStackManager = new CardStackManager();
+
+        let player;
+
+        let maxQuestionCards = 4;
+        let maxAnswerCards = 10;
+
+        before(() => {
+            populateCards(cardStackManager, maxQuestionCards, maxAnswerCards);
+            cardStackManager.addPlayer(btcConfig.nick);
+            cardStackManager.startRound();
+
+            player = cardStackManager.players[btcConfig.nick];
+            player.playByIndex([1, 2]);
+
+            //console.log(JSON.stringify(cardStackManager, null, 2));
+            cardStackManager._endRound();
+            //console.log(JSON.stringify(cardStackManager, null, 2));
+        });
+
+        it('table.length should be 0', () => {
+            expect(player.table._cards.length).to.equal(0);
+        });
+
+        it('questionDiscard Stack', () => {
+            expect(cardStackManager.questionDiscardStack._cards.length).to.equal(1);
+        });
+
+        it('questionTableStack Stack', () => {
+            expect(cardStackManager.questionTableStack._cards.length).to.equal(0);
+        });
+
+        it('answerDiscard Stack', () => {
+            expect(cardStackManager.answerDiscardStack._cards.length).to.equal(2);
+        });
     });
 
 });

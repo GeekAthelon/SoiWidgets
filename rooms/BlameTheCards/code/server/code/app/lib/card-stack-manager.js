@@ -62,7 +62,6 @@ class CardStackManager {
         this.answerDrawStack = new CardStack('Answer Draw Stack', Deck.cardType.ANSWER);
         this.answerDiscardStack = new CardStack('Answer Draw Stack', Deck.cardType.ANSWER);
 
-        this.answerTableStack = new CardStack('Answer Table Stack', Deck.cardType.ANSWER);
         this.questionTableStack = new CardStack('Question Table Stack', Deck.cardType.QUESTION);
 
         this.players = {};
@@ -96,6 +95,29 @@ class CardStackManager {
 
     removePlayer(name) {
         throw new Error('Not Implemented');
+    }
+
+    _endRound() {
+        Object.keys(this.players).forEach((name) => {
+            var player = this.players[name];
+
+            while (true) {
+                let card = player.table._cards[0];
+                if (!card) {
+                    break;
+                }
+
+                player.table.remove(card);
+                this.answerDiscardStack.add(card);
+            }
+
+            let qcard = this.questionTableStack._cards[0];
+            /* istanbul ignore else */
+            if (qcard) {
+                this.questionTableStack.remove(qcard);
+                this.questionDiscardStack.add(qcard);
+            }
+        });
     }
 
     startRound() {
