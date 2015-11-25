@@ -39,6 +39,7 @@ class Player {
     constructor(name) {
         this.hand = new CardStack(`Player ${name} Hand`, Deck.cardType.ANSWER);
         this.table = new CardStack(`Player ${name} Table`, Deck.cardType.ANSWER);
+        this.playedRound = false;
     }
 
     fillHand(cardStackManager) {
@@ -127,6 +128,7 @@ class CardStackManager {
 
         const player = this.players[name];
         player.playByCardsId(cards);
+        player.playedRound = true;
     }
 
     getDataFor(name) {
@@ -137,7 +139,8 @@ class CardStackManager {
             data = {
                 hand: player.getHand(),
                 table: player.getTable(),
-                inGame: true
+                inGame: true,
+                playedRound: player.playedRound,
             };
         } else {
             data = {
@@ -193,6 +196,7 @@ class CardStackManager {
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];
             player.fillHand(this);
+            player.playedRound = false;
         });
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;

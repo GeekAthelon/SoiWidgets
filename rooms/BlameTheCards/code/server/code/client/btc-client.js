@@ -1,5 +1,5 @@
 //var gameUrl = 'http://127.0.0.1:1701';
-var gameUrl = 'http://192.168.40.2:1701';
+var gameUrl = 'http://76.188.44.119:1701';
 
 //window.onerror = function() {
 //    window.alert(JSON.stringify(arguments));
@@ -9,10 +9,43 @@ window.onload = function() {
     const username = document.getElementsByName('vqxus')[0].value.toLowerCase();
     const playerAnswers = [];
     let gameState;
+    let timerId;
+
+    function setTimer(countDown) {
+        clearTimeout(timerId);
+        let endTime = Date.now() + countDown;
+
+        function showTime() {
+            var leftHome = document.getElementsByClassName('question-card-time-left')[0];
+            timerId = setTimeout(() => {
+                const now = Date.now();
+                const left = endTime - now;
+
+                if (left > 0) {
+                    showTime();
+                    leftHome.innerHTML = Math.floor(left / 1000);
+                } else {
+                    leftHome.innerHTML = 'Loading new question';
+                    getData();
+                }
+            }, 25);
+        }
+
+        showTime();
+    }
 
     function answerCardsNeeded(data) {
         var temp = data.inPlay[0].text;
         return temp.split('_').length - 1;
+    }
+
+    function fillInQuestionCard(txt) {
+        playerAnswers.forEach((cardNum) => {
+            const cardList = gameState.hand.filter((c) => c.num === cardNum);
+            const card = cardList[0];
+            txt = txt.replace(/_/, `<i>${card.text}</i>`);
+        });
+        return txt;
     }
 
     function drawBoard(data) {
@@ -26,19 +59,20 @@ window.onload = function() {
             const inPlay = data.inPlay[0];
             if (inPlay) {
                 const qcard = document.createElement('div');
-                let txt = inPlay.text;
                 qcard.innerHTML = '' + qtemplate;
 
-                playerAnswers.forEach((cardNum) => {
-                    const cardList = data.hand.filter((c) => c.num === cardNum);
-                    const card = cardList[0];
-                    txt = txt.replace(/_/, `<i>${card.text}</i>`);
-                });
-
+                let txt = fillInQuestionCard(inPlay.text);
                 txt = txt.replace(/_/g, '__________');
                 qcard.getElementsByClassName('question-card-text')[0]
                     .innerHTML = txt;
 
+                if (data.playedRound) {
+                    let playButton =
+                        qcard.getElementsByClassName('question-card-play-answers')[0];
+
+                    playButton.innerHTML = 'Already played';
+                    playButton.disabled = true;
+                }
                 gameDiv.appendChild(qcard);
             }
         }
@@ -53,10 +87,10 @@ window.onload = function() {
 
                 if (playPosition !== -1) {
                     acard.getElementsByClassName('answer-card-marker-span')[0]
-                        .innerText = playPosition + 1;
+                        .innerHTML = playPosition + 1;
                 }
 
-                acard.getElementsByClassName('answer-card-text')[0].innerText = card.text;
+                acard.getElementsByClassName('answer-card-text')[0].innerHTML = card.text;
                 acard.setAttribute('data-card-num', card.num);
 
                 gameDiv.appendChild(acard);
@@ -70,7 +104,7 @@ window.onload = function() {
 
             const acard = document.createElement('div');
             acard.innerHTML = '' + atemplate;
-            acard.getElementsByClassName('answer-card-text')[0].innerText =
+            acard.getElementsByClassName('answer-card-text')[0].innerHTML =
                 'Deal me some cards!';
             gameDiv.appendChild(acard);
 
@@ -95,7 +129,7 @@ window.onload = function() {
         };
 
         request.onerror = function(err) {
-            window.alert('Error: ' + JSON.stringify(err.message));
+            //window.alert('Error: ' + JSON.stringify(err.message));
         };
 
         request.open('GET', file, true);
@@ -104,7 +138,9 @@ window.onload = function() {
 
     function getData() {
         getJSON(`${gameUrl}/getdata/${username}`, (data) => {
+            clearSelectedAnswers();
             drawBoard(data);
+            setTimer(data.countdown);
             gameState = data;
         });
     }
@@ -116,12 +152,20 @@ window.onload = function() {
     }
 
     function handleCardClick(cardNum) {
+        if (gameState.playedRound) {
+            return;
+        }
+
         var maxAnswers = answerCardsNeeded(gameState);
 
         if (playerAnswers.length < maxAnswers) {
             playerAnswers.push(cardNum);
             drawBoard(gameState);
         }
+    }
+
+    function clearSelectedAnswers() {
+        playerAnswers.length = 0;
     }
 
     function captureAnswerClicks() {
@@ -144,9 +188,40 @@ window.onload = function() {
             var target = event.target;
 
             while (target && target !== document) {
-                if (target.className === 'quetion-card-clear-answers') {
-                    playerAnswers.length = 0;
+                if (target.className === 'question-card-clear-answers') {
+                    clearSelectedAnswers();
                     drawBoard(gameState);
+                }
+                target = target.parentNode;
+            }
+        });
+    }
+
+    function playAnswers() {
+        var cards = playerAnswers.join('/');
+
+        if (playerAnswers.length !== answerCardsNeeded(gameState)) {
+            //alert('Not enough answers');
+            return;
+        }
+
+        getJSON(`${gameUrl}/play/${username}/${cards}`, (data) => {
+            const inPlay = gameState.inPlay[0];
+            const txtBox = document.getElementsByName('vqxsp')[0];
+            const txt = fillInQuestionCard(inPlay.text);
+
+            txtBox.value = `<p class='question-card'>${txt}</p>`;
+            txtBox.form.submit();
+        });
+    }
+
+    function capturePlayAnswerClicks() {
+        document.body.addEventListener('click', function(event) {
+            var target = event.target;
+
+            while (target && target !== document) {
+                if (target.className === 'question-card-play-answers') {
+                    playAnswers();
                 }
                 target = target.parentNode;
             }
@@ -155,5 +230,6 @@ window.onload = function() {
 
     captureAnswerClicks();
     captureClearAnswerClicks();
+    capturePlayAnswerClicks();
     getData();
 };

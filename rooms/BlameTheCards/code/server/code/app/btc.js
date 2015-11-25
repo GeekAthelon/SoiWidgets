@@ -113,7 +113,11 @@
         console.log(req.params);
         const ids = req.params[0].split('/').map(Number);
         game.playCardsFor(req.params.name, ids);
-        res.send(`OK - Cards played: ${ids}`);
+        res.json({
+            status: 'OK',
+            text: `Cards played: ${ids}`
+        });
+
     });
 
     app.get('/set-test-mode', (req, res) => {

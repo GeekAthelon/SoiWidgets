@@ -134,7 +134,15 @@ $top = <<<EOF
 <script type='text/html' id='question-template'>
 	<div class="question-card">
 		 <div class="question-card-text"></div>
-		 <button class="quetion-card-clear-answers">Clear answers</button>
+		 <button class="question-card-clear-answers">Clear answers</button>
+		 &nbsp;
+		 <button class="question-card-play-answers">Play this hand</button>
+		 &nbsp;
+		 <span>
+		    Next question in 
+			<strong class="question-card-time-left">XXX</strong>
+			seconds.
+		 </span>
 	</div>
 </script>
 
