@@ -7,30 +7,13 @@ $top = <<<EOF
 
 <style>
 
-.zoom-tilt {
-  -webkit-transition:all 0.3s ease-out;
-  -moz-transition:all 0.3s ease-out;
-  -ms-transition:all 0.3s ease-out;
-  -o-transition:all 0.3s ease-out;
-  transition:all 0.3s ease-out;
-}
-
-.zoom-tilt:hover {
-  -webkit-transform:rotate(5deg) scale(1.3);
-  -moz-transform:rotate(5deg) scale(1.3);
-  -ms-transform:rotate(5deg) scale(1.3);
-  -o-transform:rotate(5deg) scale(1.3);
-  transform:rotate(5deg) scale(1.3);
-}
 
 .question-card {
-  float: left;
-  height: 20em;
-  width: 10em;
+  /* height: 20em; */
+  width: 90%;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  width: 160px;
   padding: 20px;
   overflow: hidden;
   border: none;
@@ -50,14 +33,10 @@ $top = <<<EOF
   -o-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
   transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
 }
-.answer-home {
-float: left;
-
-  width: 25em;
-}
 
 .danswer-card {
-width: 100%;
+  text-align: left;
+  width: 90%;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -79,10 +58,10 @@ width: 100%;
 
   }
 
-.answer-card {
+.answer-card {  
   float: left;
   height: 10em;
-  width: 10em;
+  width: 100%;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -108,6 +87,23 @@ width: 100%;
 }
 
 
+.answer-card-marker-home {
+  float: left;
+  width: 1.5em;
+  background-color: #A0A0A0;
+  color: #050505;
+  text-align: center; 
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  margin-right: 0.5em;
+}
+
+.answer-card-text {
+  float: left;
+  width: 95%;
+}
+
+
 </style>
 
 <div id='game-div'>
@@ -115,17 +111,43 @@ width: 100%;
 	<div class="question-card">
 	Blame the Cards
 	<hr>
-	Waiting to see if Athelon's computer is alive.
+	<p>Waiting to see if Athelon's computer is alive.</p>
+	<p>
+	  If this takes more than a few seconds, there is
+	  either a network issue or Athelon's computer isn't
+	  running.  Either way, nothing you can do about
+	  it.
+	</p>
+	
 	</div>
 </div>
+
+<script type='text/html' id='answer-template'>
+  <button class="danswer-card">
+     <div class="answer-card-marker-home">
+	   <div class="answer-card-marker-span">&nbsp;</div>
+	 </div>
+	 <div class="answer-card-text"></div>
+  </button>
+</script>
+
+<script type='text/html' id='question-template'>
+	<div class="question-card">
+		 <div class="question-card-text"></div>
+		 <button class="quetion-card-clear-answers">Clear answers</button>
+	</div>
+</script>
+
 
 <div style='clear:both'></div>
 
 
 EOF;
 
+
+
 $bot = <<<EOF
-<script src="http://127.0.0.1:1702/SoiWidgets/rooms/BlameTheCards/code/build/client/btc-client.js?bust={$rnd}"></script>
+<script src="http://192.168.40.2:1702/SoiWidgets/rooms/BlameTheCards/code/build/client/btc-client.js?bust={$rnd}"></script>
 EOF;
 
 $roomDetails = array (

@@ -97,13 +97,16 @@
 
     app.get('/addplayer/:name', function(req, res) {
         game.addPlayer(req.params.name);
-        res.send('OK - Player added');
+        res.json({
+            status: 'OK',
+            text: 'Player added'
+        });
     });
 
     app.get('/getdata/:name', function(req, res) {
         //http://127.0.0.1:1701/getdata/tinker?callback=handleHand
         const hand = game.getDataFor(req.params.name);
-        res.jsonp(hand);
+        res.json(hand);
     });
 
     app.get('/play/:name/*', function(req, res) {

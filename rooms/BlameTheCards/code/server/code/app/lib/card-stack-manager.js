@@ -16,7 +16,7 @@ const Deck = require('./deck');
  * Using Durstenfeld shuffle algorithm.
  */
 function shuffleArray(array) {
-    console.info('SHUFFLING DECK');
+    console.info(`SHUFFLING DECK: ${array.length}`);
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(random.real(0, 1, false) * (i + 1));
         var temp = array[i];
@@ -117,6 +117,7 @@ class CardStackManager {
 
         const player = new Player(name);
         this.players[name] = player;
+        player.fillHand(this);
     }
 
     playCardsFor(name, cards) {
@@ -217,7 +218,6 @@ class CardStackManager {
             this.answerDiscardStack.add(card);
         });
     }
-
 }
 
 exports = module.exports = CardStackManager;
