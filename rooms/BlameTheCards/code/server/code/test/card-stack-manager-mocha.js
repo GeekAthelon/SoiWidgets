@@ -1,38 +1,34 @@
+'use strict';
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
-var expect = require('chai').expect;
-var QuestionCard = require('../app/lib/question-card');
-var AnswerCard = require('../app/lib/answer-card');
-var CardStack = require('../app/lib/card-stack');
-var CardStackManager = require('../app/lib/card-stack-manager');
-var Card = require('../app/lib/card');
+const expect = require('chai').expect;
+const QuestionCard = require('../app/lib/question-card');
+const AnswerCard = require('../app/lib/answer-card');
+const CardStack = require('../app/lib/card-stack');
+const CardStackManager = require('../app/lib/card-stack-manager');
+const Card = require('../app/lib/card');
 
 var btcConfig = require('../app/get-btc-config.js')();
 
 function populateCards(cardStackManager, maxQuestionCards, maxAnswerCards) {
-    'use strict';
-
     cardStackManager.questionDiscardStack._cards.length = 0;
     cardStackManager.answerDiscardStack._cards.length = 0;
 
     for (let i = 0; i < maxQuestionCards; i++) {
-        let card = new QuestionCard(i, `What is the question _? (${i})`);
+        const card = new QuestionCard(i, `What is the question _? (${i})`);
         cardStackManager.questionDiscardStack.add(card);
     }
 
     for (let i = 0; i < maxAnswerCards; i++) {
-        let card = new AnswerCard(i, `Answer # ${i}`);
+        const card = new AnswerCard(i, `Answer # ${i}`);
         cardStackManager.answerDiscardStack.add(card);
     }
 }
 
 describe('Testing Card Stack Manager', function() {
-    'use strict';
-
-    var cardStackManager = new CardStackManager();
+    const cardStackManager = new CardStackManager();
 
     describe('Basic Existence', function() {
-
         before(function() {});
 
         it('cardStackManager exists', function() {
@@ -66,10 +62,9 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Dealing and overdealing', function() {
-        var cardStackManager = new CardStackManager();
-
-        let maxQuestionCards = 4;
-        let maxAnswerCards = 4;
+        const cardStackManager = new CardStackManager();
+        const maxQuestionCards = 4;
+        const maxAnswerCards = 4;
 
         beforeEach(() => {
             populateCards(cardStackManager, maxQuestionCards, maxAnswerCards);
@@ -84,22 +79,22 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('drawing Question from empty stack - forced reshuffle', function() {
-            let card1 = cardStackManager.drawQuestion();
+            const card1 = cardStackManager.drawQuestion();
             expect(card1).to.not.equal(undefined);
         });
 
         it('drawing Answer from empty stack - forced reshuffle', function() {
-            let card1 = cardStackManager.drawAnswer();
+            const card1 = cardStackManager.drawAnswer();
             expect(card1).to.not.equal(undefined);
         });
 
     });
 
     describe('Testing NPC', function() {
-        let cardStackManager = new CardStackManager();
+        const cardStackManager = new CardStackManager();
 
-        let maxQuestionCards = 40;
-        let maxAnswerCards = 40;
+        const maxQuestionCards = 40;
+        const maxAnswerCards = 40;
 
         before(() => {
             populateCards(cardStackManager, maxQuestionCards, maxAnswerCards);
@@ -116,9 +111,9 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Adding Bot to game twice', () => {
-            let p1 = cardStackManager.players[btcConfig.nick];
+            const p1 = cardStackManager.players[btcConfig.nick];
             cardStackManager.addPlayer(btcConfig.nick);
-            let p2 = cardStackManager.players[btcConfig.nick];
+            const p2 = cardStackManager.players[btcConfig.nick];
             expect(p1).to.equal(p2);
         });
 
@@ -127,12 +122,12 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Bot\'s hand filled correctly', () => {
-            let player = cardStackManager.players[btcConfig.nick];
+            const player = cardStackManager.players[btcConfig.nick];
             expect(player.hand._cards.length).to.equal(10);
         });
 
         it('Bot\'s table created correctly', () => {
-            let player = cardStackManager.players[btcConfig.nick];
+            const player = cardStackManager.players[btcConfig.nick];
             expect(player.table._cards.length).to.equal(0);
         });
 
@@ -155,12 +150,11 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Testing endRound', () => {
-        let cardStackManager = new CardStackManager();
+        const cardStackManager = new CardStackManager();
+        const maxQuestionCards = 4;
+        const maxAnswerCards = 10;
 
         let player;
-
-        let maxQuestionCards = 4;
-        let maxAnswerCards = 10;
 
         before(() => {
             populateCards(cardStackManager, maxQuestionCards, maxAnswerCards);
@@ -210,11 +204,10 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Created the second card correctly', () => {
-            expect(cardStackManager.questionDiscardStack._cards[1].num).to.equal(1);
-            expect(cardStackManager.questionDiscardStack._cards[1].text).to.equal('What interrupted the game? _');
+            const card = cardStackManager.questionDiscardStack._cards[1];
+            expect(card.num).to.equal(1);
+            expect(card.text).to.equal('What interrupted the game? _');
         });
-
-
     });
 
 });

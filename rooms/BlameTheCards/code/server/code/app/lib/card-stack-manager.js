@@ -1,9 +1,9 @@
 'use strict';
 
 const HAND_SIZE = 10;
-var CardStack = require('./card-stack');
-var QuestionCard = require('./question-card');
-var Deck = require('./deck');
+const CardStack = require('./card-stack');
+const QuestionCard = require('./question-card');
+const Deck = require('./deck');
 
 /**
  * Randomize array element order in-place.
@@ -20,8 +20,8 @@ function shuffleArray(array) {
 }
 
 function reshuffle(fromStack, toStack) {
-    let fromCards = fromStack._cards;
-    let toCards = toStack._cards;
+    const fromCards = fromStack._cards;
+    const toCards = toStack._cards;
 
     shuffleArray(fromCards);
     toStack._cards = fromCards;
@@ -35,8 +35,8 @@ class Player {
     }
 
     fillHand(cardStackManager) {
-        for (var i = this.hand._cards.length; i < HAND_SIZE; i++) {
-            let aCard = cardStackManager.drawAnswer();
+        for (let i = this.hand._cards.length; i < HAND_SIZE; i++) {
+            const aCard = cardStackManager.drawAnswer();
             this.hand.add(aCard);
         }
     }
@@ -48,7 +48,7 @@ class Player {
         }
 
         cardIndexes.forEach((idx) => {
-            var card = this.hand._cards[idx];
+            const card = this.hand._cards[idx];
             this.hand.remove(card);
             this.table.add(card);
         });
@@ -93,7 +93,7 @@ class CardStackManager {
             return;
         }
 
-        let player = new Player(name);
+        const player = new Player(name);
         this.players[name] = player;
     }
 
@@ -103,7 +103,7 @@ class CardStackManager {
 
     _endRound() {
         Object.keys(this.players).forEach((name) => {
-            var player = this.players[name];
+            const player = this.players[name];
 
             while (true) {
                 let card = player.table._cards[0];
@@ -129,14 +129,14 @@ class CardStackManager {
         this.questionTableStack.add(qCard);
 
         Object.keys(this.players).forEach((name) => {
-            var player = this.players[name];
+            const player = this.players[name];
             player.fillHand(this);
         });
     }
 
     loadQuestionCards(cards) {
         cards.forEach(str => {
-            let card = new QuestionCard(this.questionCardIndex, `${str}`);
+            const card = new QuestionCard(this.questionCardIndex, `${str}`);
             this.questionCardIndex++;
             this.questionDiscardStack.add(card);
 

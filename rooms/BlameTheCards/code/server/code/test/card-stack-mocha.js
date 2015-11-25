@@ -1,17 +1,17 @@
+'use strict';
+
 /* globals it: true, describe: true, before: true, beforeEach: true */
 
-var expect = require('chai').expect;
-var QuestionCard = require('../app/lib/question-card');
-var AnswerCard = require('../app/lib/answer-card');
-var CardStack = require('../app/lib/card-stack');
-var Card = require('../app/lib/card');
+const expect = require('chai').expect;
+const QuestionCard = require('../app/lib/question-card');
+const AnswerCard = require('../app/lib/answer-card');
+const CardStack = require('../app/lib/card-stack');
+const Card = require('../app/lib/card');
 
-var Deck = require('../app/lib/deck');
-var deck = new Deck();
+const Deck = require('../app/lib/deck');
+const deck = new Deck();
 
 describe('Testing Card Stack - basics', function() {
-    'use strict';
-
     let questionCardStack;
     let answerCardStack;
 
@@ -35,8 +35,8 @@ describe('Testing Card Stack - basics', function() {
             testStack = new CardStack('testStack', Deck.cardType.QUESTION);
         });
 
-        let qCard = new QuestionCard(10, `What is the question _?`);
-        let aCard = new AnswerCard(11, `42, of course`);
+        const qCard = new QuestionCard(10, `What is the question _?`);
+        const aCard = new AnswerCard(11, `42, of course`);
 
         it('Can add QuestionCard', function() {
             testStack.add(qCard);
@@ -44,7 +44,7 @@ describe('Testing Card Stack - basics', function() {
         });
 
         it('Can\'t draw from empty stack', function() {
-            var result = false;
+            let result = false;
             try {
                 testStack.draw();
             } catch (err) {
@@ -54,7 +54,7 @@ describe('Testing Card Stack - basics', function() {
         });
 
         it('Can\'t remove non-existant', function() {
-            var result = false;
+            let result = false;
             try {
                 testStack.remove(qCard);
             } catch (err) {
@@ -65,7 +65,7 @@ describe('Testing Card Stack - basics', function() {
 
         it('Can add and draw QuestionCard', function() {
             testStack.add(qCard);
-            var card2 = testStack.draw();
+            const card2 = testStack.draw();
 
             expect(testStack._cards.length).to.equal(0);
         });
@@ -78,7 +78,7 @@ describe('Testing Card Stack - basics', function() {
         });
 
         it('Can\'t add QuestionCard twice', function() {
-            var result = false;
+            let result = false;
             try {
                 testStack.add(qCard);
                 testStack.add(qCard);
@@ -89,7 +89,7 @@ describe('Testing Card Stack - basics', function() {
         });
 
         it('Can\'t add AnswerCard', function() {
-            var result = false;
+            let result = false;
             try {
                 testStack.add(aCard);
             } catch (err) {
