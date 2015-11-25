@@ -131,12 +131,47 @@ describe('Testing Card Stack Manager', function() {
             expect(player.table._cards.length).to.equal(0);
         });
 
+        it('getDataFor the Bot', () => {
+            var data = cardStackManager.getDataFor(btcConfig.nick);
+            expect(data.hand.length).to.equal(10);
+            expect(data.table.length).to.equal(0);
+            expect(data.inPlay.length).to.equal(1);
+        });
+
+        it('getDataFor the an invalid player', () => {
+            var data = cardStackManager.getDataFor('**NOBODY**');
+            expect(data.hand.length).to.equal(0);
+            expect(data.table.length).to.equal(0);
+            expect(data.inPlay.length).to.equal(1);
+        });
+
+        describe('Bot\'s plays card not in his hand', () => {
+
+            let player;
+            before(() => {
+                player = cardStackManager.players[btcConfig.nick];
+            });
+
+            it('should fail badly', () => {
+                let res = false;
+
+                try {
+                    player.playByCardsId(-10);
+                } catch (err) {
+                    res = true;
+                }
+
+                expect(res).to.be.equal(true);
+            });
+        });
+
         describe('Bot\'s Plays Two cards', () => {
             let player;
 
             before(() => {
                 player = cardStackManager.players[btcConfig.nick];
-                player.playByIndex([1, 2]);
+                const hand = player.getHand();
+                player.playByCardsId([hand[1].num, hand[2].num]);
             });
 
             it('table.length', () => {
@@ -162,7 +197,8 @@ describe('Testing Card Stack Manager', function() {
             cardStackManager.startRound();
 
             player = cardStackManager.players[btcConfig.nick];
-            player.playByIndex([1, 2]);
+            const hand = player.getHand();
+            player.playByCardsId([hand[0].num, hand[1].num]);
 
             //console.log(JSON.stringify(cardStackManager, null, 2));
             cardStackManager._endRound();

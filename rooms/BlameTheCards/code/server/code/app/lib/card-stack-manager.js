@@ -43,18 +43,32 @@ class Player {
         }
     }
 
-    playByIndex(cardIndexes) {
+    getHand() {
+        return this.hand._cards;
+    }
+
+    getTable() {
+        return this.table._cards;
+    }
+
+    playByCardsId(cardIndexes) {
         /* istanbul ignore if  */
         if (!Array.isArray(cardIndexes)) {
             cardIndexes = [cardIndexes];
         }
 
         cardIndexes.forEach((idx) => {
-            const card = this.hand._cards[idx];
-            this.hand.remove(card);
-            this.table.add(card);
+            const cardList = this.hand._cards.filter((c) => c.num === idx);
+            if (cardList.length === 1) {
+                const card = cardList[0];
+                this.hand.remove(card);
+                this.table.add(card);
+            } else {
+                throw new Error(`Unable to find card index ${idx} in hand`);
+            }
         });
     }
+
 }
 
 class CardStackManager {
@@ -97,6 +111,36 @@ class CardStackManager {
 
         const player = new Player(name);
         this.players[name] = player;
+    }
+
+    playCardsFor(name, cards) {
+        if (!this.players[name]) {
+            throw new Error(`Player ${name} is not in the game.`);
+        }
+
+        const player = this.players[name];
+        player.playByCardsId(cards);
+    }
+
+    getDataFor(name) {
+        let data;
+        const player = this.players[name];
+
+        if (player) {
+            data = {
+                hand: player.getHand(),
+                table: player.getTable(),
+                inPlay: this.questionTableStack._cards
+            };
+        } else {
+            data = {
+                hand: [],
+                table: [],
+                inPlay: this.questionTableStack._cards
+            };
+        }
+
+        return data;
     }
 
     removePlayer(name) {

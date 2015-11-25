@@ -122,7 +122,8 @@ gulp.task('serve-dev', ['vet'], function() {
 			PORT: port,
 			NODE_ENV: isDev ? 'dev' : 'build'
 		},
-		watch: [gulpConfig.dest]
+		//watch: [gulpConfig.dest]
+		watch: ['./server/code']
 	};
 	
 	return $.nodemon(nodeOptions)

@@ -1,14 +1,14 @@
 (function() {
     'use strict';
-    var express = require('express');
-    var fs = require('fs');
-    var request = require('request');
-    var cheerio = require('cheerio');
-    var app = express();
-    var btcConfig = require('./get-btc-config.js')();
-    var CardStackManager = require('./lib/card-stack-manager.js');
+    const express = require('express');
+    const fs = require('fs');
+    const request = require('request');
+    const cheerio = require('cheerio');
+    const app = express();
+    const btcConfig = require('./get-btc-config.js')();
+    const CardStackManager = require('./lib/card-stack-manager.js');
 
-    var game = new CardStackManager();
+    const game = new CardStackManager();
 
     (function() {
         function readOne(fname) {
@@ -42,6 +42,7 @@
 
     app.set('views', './views');
     app.set('view engine', 'jade');
+    app.set('jsonp callback name', 'callback');
 
     app.get('/', function(req, res) {
         res.render('index', {
@@ -51,13 +52,36 @@
     });
 
     app.get('/debug', function(req, res) {
-        let json = JSON.stringify(game, null, 2);
+        const json = JSON.stringify(game, null, 2);
 
         res.render('index', {
             title: 'Debugging Info',
             message: 'Debugging info',
             json: json
         });
+    });
+
+    app.get('/addplayer/:name', function(req, res) {
+        game.addPlayer(req.params.name);
+        res.send('OK - Player added');
+    });
+
+    app.get('/getdata/:name', function(req, res) {
+        //http://127.0.0.1:1701/getdata/tinker?callback=handleHand
+        const hand = game.getDataFor(req.params.name);
+        res.jsonp(hand);
+    });
+
+    app.get('/play/:name/*', function(req, res) {
+        console.log(req.params);
+		const ids = req.params[0].split('/').map(Number);
+		game.playCardsFor(req.params.name, ids);
+        res.send(`OK - Cards played: ${ids}`);
+    });
+
+    app.get('/startround/', function(req, res) {
+        game.startRound();
+        res.send('OK -- Started Round');
     });
 
     app.get('/scrape', function(req, res) {
