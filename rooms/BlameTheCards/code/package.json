@@ -18,6 +18,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "jade": "^1.11.0",
     "mocha": "latest",
+    "random-js": "^1.0.8",
     "request": "latest",
     "source-map-support": "^0.3.2",
     "sqlite3": "^3.1.0"

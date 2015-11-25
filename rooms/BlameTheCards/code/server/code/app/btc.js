@@ -74,9 +74,14 @@
 
     app.get('/play/:name/*', function(req, res) {
         console.log(req.params);
-		const ids = req.params[0].split('/').map(Number);
-		game.playCardsFor(req.params.name, ids);
+        const ids = req.params[0].split('/').map(Number);
+        game.playCardsFor(req.params.name, ids);
         res.send(`OK - Cards played: ${ids}`);
+    });
+
+    app.get('/set-test-mode', (req, res) => {
+        game._setTestingMode();
+        res.send(`OK - Testing mode ON`);
     });
 
     app.get('/startround/', function(req, res) {

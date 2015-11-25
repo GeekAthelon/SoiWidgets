@@ -4,6 +4,8 @@ const HAND_SIZE = 10;
 const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
+const Random = require('random-js');
+var random = new Random(Random.engines.mt19937().autoSeed());
 
 const Deck = require('./deck');
 
@@ -12,8 +14,9 @@ const Deck = require('./deck');
  * Using Durstenfeld shuffle algorithm.
  */
 function shuffleArray(array) {
+
     for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
+        var j = Math.floor(random.real(0, 1, false) * (i + 1));
         var temp = array[i];
         array[i] = array[j];
         array[j] = temp;
@@ -168,6 +171,10 @@ class CardStackManager {
                 this.questionDiscardStack.add(qcard);
             }
         });
+    }
+
+    _setTestingMode() {
+        random = new Random(Random.engines.mt19937().seed(1701));
     }
 
     startRound() {
