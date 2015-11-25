@@ -1,5 +1,7 @@
 'use strict';
 
+const TIME_BETWEEN_HANDS = 1 * 1000 * 60;
+
 const HAND_SIZE = 10;
 const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
@@ -14,7 +16,7 @@ const Deck = require('./deck');
  * Using Durstenfeld shuffle algorithm.
  */
 function shuffleArray(array) {
-
+    console.info('SHUFFLING DECK');
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(random.real(0, 1, false) * (i + 1));
         var temp = array[i];
@@ -88,6 +90,7 @@ class CardStackManager {
 
         this.questionCardIndex = 0;
         this.answerCardIndex = 0;
+        this.countdown = -1;
     }
 
     drawQuestion() {
@@ -133,16 +136,18 @@ class CardStackManager {
             data = {
                 hand: player.getHand(),
                 table: player.getTable(),
-                inPlay: this.questionTableStack._cards
+                inGame: true
             };
         } else {
             data = {
                 hand: [],
                 table: [],
-                inPlay: this.questionTableStack._cards
+                inGame: false
             };
         }
 
+        data.inPlay = this.questionTableStack._cards;
+        data.countdown = this.countdown - Date.now();
         return data;
     }
 
@@ -151,6 +156,7 @@ class CardStackManager {
     }
 
     _endRound() {
+        console.info('Ending round');
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];
 
@@ -163,21 +169,23 @@ class CardStackManager {
                 player.table.remove(card);
                 this.answerDiscardStack.add(card);
             }
-
-            let qcard = this.questionTableStack._cards[0];
-            /* istanbul ignore else */
-            if (qcard) {
-                this.questionTableStack.remove(qcard);
-                this.questionDiscardStack.add(qcard);
-            }
         });
+
+        let qcard = this.questionTableStack._cards[0];
+        /* istanbul ignore else */
+        if (qcard) {
+            this.questionTableStack.remove(qcard);
+            this.questionDiscardStack.add(qcard);
+        }
     }
 
     _setTestingMode() {
+        console.info('Test Mode Activated');
         random = new Random(Random.engines.mt19937().seed(1701));
     }
 
     startRound() {
+        console.info('Starting new round');
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
 
@@ -185,6 +193,12 @@ class CardStackManager {
             const player = this.players[name];
             player.fillHand(this);
         });
+
+        this.countdown = Date.now() + TIME_BETWEEN_HANDS;
+        setTimeout(() => {
+            this._endRound();
+            this.startRound();
+        }, TIME_BETWEEN_HANDS);
     }
 
     loadQuestionCards(cards) {

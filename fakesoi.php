@@ -392,7 +392,7 @@ function makeHotList() {
   $templateName = "templates/blank_file.html";
   $template = file_get_contents($templateName);
   
-  $roomList = array("gtest", "dice", "dice2", "jsgames", "refresh", "map", "timewarp", "ponyrace", "flair");
+  $roomList = array("gtest", "dice", "dice2", "jsgames", "refresh", "map", "timewarp", "ponyrace", "flair", "BlameTheCards");
   $out = array();
   
   $out[] = "<h1>The fake HOT list</h1>";

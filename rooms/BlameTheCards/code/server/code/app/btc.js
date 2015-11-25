@@ -7,39 +7,73 @@
     const app = express();
     const btcConfig = require('./get-btc-config.js')();
     const CardStackManager = require('./lib/card-stack-manager.js');
-
+    const cors = require('cors');
     const game = new CardStackManager();
 
-    (function() {
+    const questionPromise = (function() {
+        var list = [
+            './data/official-cah/questions.txt'
+        ];
+
         function readOne(fname) {
-            fs.readFile(fname, 'utf8', function(err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                const lines = data.split(/\r\n|\r|\n/);
-                console.log(`Read question file: ${fname}.  ${lines.length} lines.`);
-                game.loadQuestionCards(lines);
+            return new Promise((resolve, reject) => {
+                fs.readFile(fname, 'utf8', function(err, data) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    const lines = data.split(/\r\n|\r|\n/);
+                    console.log(`Read question file: ${fname}.  ${lines.length} lines.`);
+                    game.loadQuestionCards(lines);
+                    resolve();
+                });
             });
         }
 
-        readOne('./data/official-cah/questions.txt');
+        return new Promise(function(resolve, reject) {
+            const pmis = list.map(readOne);
+            Promise.all(pmis).then(resolve).catch(err => reject(err));
+        });
     }());
 
-    (function() {
+    const answerPromise = (function() {
+        var list = [
+            './data/official-cah/answers.txt'
+        ];
+
         function readOne(fname) {
-            fs.readFile(fname, 'utf8', function(err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                const lines = data.split(/\r\n|\r|\n/);
-                console.log(`Read answer file: ${fname}.  ${lines.length} lines.`);
-                game.loadAnswerCards(lines);
+            return new Promise((resolve, reject) => {
+                fs.readFile(fname, 'utf8', function(err, data) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    const lines = data.split(/\r\n|\r|\n/);
+                    console.log(`Read answer file: ${fname}.  ${lines.length} lines.`);
+                    game.loadAnswerCards(lines);
+                    resolve();
+                });
             });
         }
 
-        readOne('./data/official-cah/answers.txt');
+        return new Promise(function(resolve, reject) {
+            const pmis = list.map(readOne);
+            Promise.all(pmis).then(resolve).catch(err => reject(err));
+        });
     }());
 
+    Promise.all([questionPromise, answerPromise]).then(() => {
+        console.log('All questions and answers loaded');
+        var port = process.env.PORT;
+        app.listen(port);
+        console.log('Listening to port ' + port);
+
+        game.startRound();
+    }).catch((err) => {
+        console.log('Promise.all', err);
+    });
+
+    app.use(cors());
     app.set('views', './views');
     app.set('view engine', 'jade');
     app.set('jsonp callback name', 'callback');
@@ -84,9 +118,27 @@
         res.send(`OK - Testing mode ON`);
     });
 
-    app.get('/startround/', function(req, res) {
+    app.get('/startround', function(req, res) {
         game.startRound();
         res.send('OK -- Started Round');
+    });
+
+    app.get('/client.js', function(req, res) {
+        fs.readFile('build/client/btc-client.js', 'utf8', function(err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            res.send(data);
+        });
+    });
+
+    app.get('/client.js.map', function(req, res) {
+        fs.readFile('build/client/btc-client.js.map', 'utf8', function(err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            res.send(data);
+        });
     });
 
     app.get('/scrape', function(req, res) {
@@ -140,8 +192,5 @@
         });
     });
 
-    var port = process.env.PORT;
-    app.listen(port);
-    console.log('Magic happens on port ' + port);
     exports = module.exports = app;
 }());

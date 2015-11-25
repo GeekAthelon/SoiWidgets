@@ -112,7 +112,7 @@ gulp.task('format-js', function() {
 
 
 
-gulp.task('serve-dev', ['vet'], function() {
+gulp.task('serve-dev', ['vet', 'build'], function() {
 	var isDev = true;
 	
 	var nodeOptions = {
@@ -122,8 +122,7 @@ gulp.task('serve-dev', ['vet'], function() {
 			PORT: port,
 			NODE_ENV: isDev ? 'dev' : 'build'
 		},
-		//watch: [gulpConfig.dest]
-		watch: ['./server/code']
+		watch: [gulpConfig.dest]
 	};
 	
 	return $.nodemon(nodeOptions)
@@ -156,7 +155,7 @@ gulp.task('clean-build', function() {
 
 
 gulp.task('watch', function() {
-    gulp.watch(gulpConfig.src, ['babel']);
+    gulp.watch(gulpConfig.src, ['build']);
 });
 
 
