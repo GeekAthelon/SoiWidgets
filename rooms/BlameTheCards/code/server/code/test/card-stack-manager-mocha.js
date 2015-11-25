@@ -210,4 +210,27 @@ describe('Testing Card Stack Manager', function() {
         });
     });
 
+    describe('Populating Answer Cards from Array', () => {
+        let cardStackManager;
+
+        before(() => {
+            cardStackManager = new CardStackManager();
+            cardStackManager.loadAnswerCards(
+                [
+                    'Because!',
+                    'I said so!'
+                ]
+            );
+        });
+
+        it('Created the two cards', () => {
+            expect(cardStackManager.answerDiscardStack._cards.length).to.equal(2);
+        });
+
+        it('Created the second card correctly', () => {
+            const card = cardStackManager.answerDiscardStack._cards[1];
+            expect(card.num).to.equal(1);
+            expect(card.text).to.equal('I said so!');
+        });
+    });
 });

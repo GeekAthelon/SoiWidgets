@@ -25,6 +25,21 @@
         readOne('./data/official-cah/questions.txt');
     }());
 
+    (function() {
+        function readOne(fname) {
+            fs.readFile(fname, 'utf8', function(err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+                const lines = data.split(/\r\n|\r|\n/);
+                console.log(`Read answer file: ${fname}.  ${lines.length} lines.`);
+                game.loadAnswerCards(lines);
+            });
+        }
+
+        readOne('./data/official-cah/answers.txt');
+    }());
+
     app.set('views', './views');
     app.set('view engine', 'jade');
 

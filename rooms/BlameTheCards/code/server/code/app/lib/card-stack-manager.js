@@ -3,6 +3,8 @@
 const HAND_SIZE = 10;
 const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
+const AnswerCard = require('./answer-card');
+
 const Deck = require('./deck');
 
 /**
@@ -142,6 +144,15 @@ class CardStackManager {
 
         });
     }
+
+    loadAnswerCards(cards) {
+        cards.forEach(str => {
+            const card = new AnswerCard(this.answerCardIndex, `${str}`);
+            this.answerCardIndex++;
+            this.answerDiscardStack.add(card);
+        });
+    }
+
 }
 
 exports = module.exports = CardStackManager;
