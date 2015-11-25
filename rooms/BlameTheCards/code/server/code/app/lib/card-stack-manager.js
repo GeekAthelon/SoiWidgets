@@ -2,6 +2,7 @@
 
 const HAND_SIZE = 10;
 var CardStack = require('./card-stack');
+var QuestionCard = require('./question-card');
 var Deck = require('./deck');
 
 /**
@@ -65,6 +66,9 @@ class CardStackManager {
         this.questionTableStack = new CardStack('Question Table Stack', Deck.cardType.QUESTION);
 
         this.players = {};
+
+        this.questionCardIndex = 0;
+        this.answerCardIndex = 0;
     }
 
     drawQuestion() {
@@ -127,6 +131,15 @@ class CardStackManager {
         Object.keys(this.players).forEach((name) => {
             var player = this.players[name];
             player.fillHand(this);
+        });
+    }
+
+    loadQuestionCards(cards) {
+        cards.forEach(str => {
+            let card = new QuestionCard(this.questionCardIndex, `${str}`);
+            this.questionCardIndex++;
+            this.questionDiscardStack.add(card);
+
         });
     }
 }

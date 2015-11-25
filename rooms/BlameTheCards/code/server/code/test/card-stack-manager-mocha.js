@@ -192,4 +192,29 @@ describe('Testing Card Stack Manager', function() {
         });
     });
 
+    describe('Populating Question Cards from Array', () => {
+        let cardStackManager;
+
+        before(() => {
+            cardStackManager = new CardStackManager();
+            cardStackManager.loadQuestionCards(
+                [
+                    'Why did the _ cross the _?',
+                    'What interrupted the game? _'
+                ]
+            );
+        });
+
+        it('Created the two cards', () => {
+            expect(cardStackManager.questionDiscardStack._cards.length).to.equal(2);
+        });
+
+        it('Created the second card correctly', () => {
+            expect(cardStackManager.questionDiscardStack._cards[1].num).to.equal(1);
+            expect(cardStackManager.questionDiscardStack._cards[1].text).to.equal('What interrupted the game? _');
+        });
+
+
+    });
+
 });
