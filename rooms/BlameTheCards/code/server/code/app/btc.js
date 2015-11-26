@@ -110,7 +110,7 @@
     });
 
     app.get('/play/:name/*', function(req, res) {
-        //http://127.0.0.1:1701/play/tinker/1/2/3        
+        //http://127.0.0.1:1701/play/tinker/1/2/3
         const ids = req.params[0].split('/').map(Number);
         game.playCardsFor(req.params.name, ids);
         res.json({
@@ -129,13 +129,30 @@
         res.send('OK -- Started Round');
     });
 
+    let clientAppSrc;
     app.get('/client.js', function(req, res) {
-        fs.readFile('build/client/btc-client.js', 'utf8', function(err, data) {
-            if (err) {
-                return console.log(err);
+
+        function send() {
+            res.setHeader('Cache-Control', 'public, max-age=31557600'); // one year
+            res.send(clientAppSrc);
+        }
+
+        return (function() {
+            if (clientAppSrc) {
+                console.log('Serving cached client.js');
+                send();
+                return;
             }
-            res.send(data);
-        });
+
+            fs.readFile('build/client/btc-client.js', 'utf8', function(err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+                clientAppSrc = data;
+                console.log('Serving freshly loaded client.js');
+                send();
+            });
+        }());
     });
 
     app.get('/client.js.map', function(req, res) {
