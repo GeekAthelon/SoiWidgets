@@ -156,7 +156,29 @@ class CardStackManager {
     }
 
     removePlayer(name) {
-        throw new Error('Not Implemented');
+        const player = this.players[name];
+
+        while (true) {
+            let card = player.table._cards[0];
+            if (!card) {
+                break;
+            }
+
+            player.table.remove(card);
+            this.answerDiscardStack.add(card);
+        }
+
+        while (true) {
+            let card = player.hand._cards[0];
+            if (!card) {
+                break;
+            }
+
+            player.hand.remove(card);
+            this.answerDiscardStack.add(card);
+        }
+
+        delete this.players[name];
     }
 
     _endRound() {

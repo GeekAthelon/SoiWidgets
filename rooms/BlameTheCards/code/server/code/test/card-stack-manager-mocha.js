@@ -222,6 +222,50 @@ describe('Testing Card Stack Manager', function() {
         });
     });
 
+    describe('Testing removingPlayer', () => {
+        const game = new CardStackManager();
+        const maxQuestionCards = 4;
+        const maxAnswerCards = 40;
+
+        let player;
+
+        before(() => {
+            populateCards(game, maxQuestionCards, maxAnswerCards);
+            game.addPlayer(btcConfig.nick);
+            game.startRound();
+
+            player = game.players[btcConfig.nick];
+            const hand = player.getHand();
+            player.playByCardsId([hand[0].num, hand[1].num]);
+
+            game.removePlayer(btcConfig.nick);
+        });
+
+        it('table.length should be 0', () => {
+            expect(player.table._cards.length).to.equal(0);
+        });
+
+        it('hand.length should be 0', () => {
+            expect(player.hand._cards.length).to.equal(0);
+        });
+
+        it('answerDiscard Stack', () => {
+            expect(game.answerDiscardStack._cards.length).to.equal(10);
+        });
+
+        it('answerDiscard Stack', () => {
+            let l = game.answerDiscardStack._cards.length +
+                game.answerDrawStack._cards.length;
+            expect(l).to.equal(40);
+        });
+
+        it('Should not be in game', () => {
+            var data = game.getDataFor(btcConfig.nick);
+            expect(data.inGame).to.equal(false);
+        });
+
+    });
+
     describe('Populating Question Cards from Array', () => {
         let game;
 
