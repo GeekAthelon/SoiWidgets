@@ -6,8 +6,8 @@ _. High five bro.
 _. It's a trap!
 _. That's how I want to die.
 //(Draw 2, Pick 3) _ + _ = _ 
-//(Draw 2, Pick 3) I went from _ to _, all thanks to.
-//(Draw 2, Pick 3) Make a haiku.
+//(Draw 2, Pick 3) I went from _ to _, all thanks to _.
+//(Draw 2, Pick 3) Make a haiku. _ _ _
 _ would be woefully incomplete without _.
 _ is a slippery slope that leads to _.
 An international tribunal has found guilty of _.
