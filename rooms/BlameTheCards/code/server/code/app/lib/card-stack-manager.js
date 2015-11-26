@@ -1,6 +1,7 @@
 'use strict';
 
 const TIME_BETWEEN_HANDS = 1 * 1000 * 60;
+const PLAYER_TIME_OUT_DELAY = 5 * 1000 * 60;
 
 const HAND_SIZE = 10;
 const CardStack = require('./card-stack');
@@ -40,6 +41,7 @@ class Player {
         this.hand = new CardStack(`Player ${name} Hand`, Deck.cardType.ANSWER);
         this.table = new CardStack(`Player ${name} Table`, Deck.cardType.ANSWER);
         this.playedRound = false;
+        this.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
     }
 
     fillHand(cardStackManager) {
@@ -129,6 +131,7 @@ class CardStackManager {
         const player = this.players[name];
         player.playByCardsId(cards);
         player.playedRound = true;
+        player.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
     }
 
     getDataFor(name) {
@@ -183,6 +186,7 @@ class CardStackManager {
 
     _endRound() {
         console.info('Ending round');
+        const now = Date.now();
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];
 
@@ -194,6 +198,13 @@ class CardStackManager {
 
                 player.table.remove(card);
                 this.answerDiscardStack.add(card);
+            }
+
+            console.log(['Drop?', player.dropTime, now, now > player.dropTime]);
+
+            if (now > player.dropTime) {
+                console.log(`Dropping player ${name}`);
+                this.removePlayer(name);
             }
         });
 

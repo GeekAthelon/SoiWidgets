@@ -105,7 +105,9 @@
 
     app.get('/getdata/:name', function(req, res) {
         //http://127.0.0.1:1701/getdata/tinker
-        const hand = game.getDataFor(req.params.name);
+        const name = req.params.name;
+        const hand = game.getDataFor(name);
+        console.log(`getData: ${name}`);
         res.json(hand);
     });
 
