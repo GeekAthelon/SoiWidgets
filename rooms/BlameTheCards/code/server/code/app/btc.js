@@ -104,20 +104,19 @@
     });
 
     app.get('/getdata/:name', function(req, res) {
-        //http://127.0.0.1:1701/getdata/tinker?callback=handleHand
+        //http://127.0.0.1:1701/getdata/tinker
         const hand = game.getDataFor(req.params.name);
         res.json(hand);
     });
 
     app.get('/play/:name/*', function(req, res) {
-        console.log(req.params);
+        //http://127.0.0.1:1701/play/tinker/1/2/3        
         const ids = req.params[0].split('/').map(Number);
         game.playCardsFor(req.params.name, ids);
         res.json({
             status: 'OK',
             text: `Cards played: ${ids}`
         });
-
     });
 
     app.get('/set-test-mode', (req, res) => {
