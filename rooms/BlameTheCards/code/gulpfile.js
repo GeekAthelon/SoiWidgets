@@ -140,7 +140,7 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 	
 });
 
-gulp.task('serve-prod', ['build'], function() {
+gulp.task('serve-prod', [], function() {
 	var isDev = true;
 	
 	var nodeOptions = {
