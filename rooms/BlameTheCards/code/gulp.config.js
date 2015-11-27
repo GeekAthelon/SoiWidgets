@@ -7,7 +7,7 @@ module.exports = function() {
 	config.srcDir = './server/code';
 
 	config.nodeServer = './server/code/app/btc.js';
-	config.defaultPort = 1701;
+	config.defaultPort = 5000;
 	
 	return config;
 }
