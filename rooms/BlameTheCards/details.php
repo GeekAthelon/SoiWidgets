@@ -14,7 +14,7 @@ $top = <<<EOF
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  padding: 20px;
+  /* padding: 20px; */
   overflow: hidden;
   border: none;
   -webkit-border-radius: 12px;

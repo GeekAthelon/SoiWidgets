@@ -6,7 +6,7 @@
         const now = Date.now();
         const status = {
             title: 'BtC Status',
-            message: 'BtC Status',
+            message: `BtC Status - round ${game.round}`,
             playerList: [],
             cardTotals: []
         };

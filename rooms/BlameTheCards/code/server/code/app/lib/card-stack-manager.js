@@ -94,6 +94,8 @@ class CardStackManager {
         this.questionCardIndex = 0;
         this.answerCardIndex = 0;
         this.countdown = -1;
+
+        this.round = 0;
     }
 
     drawQuestion() {
@@ -144,6 +146,7 @@ class CardStackManager {
                 table: player.getTable(),
                 inGame: true,
                 playedRound: player.playedRound,
+                round: this.round
             };
         } else {
             data = {
@@ -223,6 +226,7 @@ class CardStackManager {
 
     startRound() {
         console.info('Starting new round');
+        this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
 

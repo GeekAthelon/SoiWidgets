@@ -8,7 +8,7 @@ window.onload = function() {
     const soiUsername = document.getElementsByName('vqxus')[0].value.toLowerCase();
     const username = hashFnv32a(soiUsername, true);
     const playerAnswers = [];
-    let gameState;
+    let game;
     let timerId;
 
     /**
@@ -68,7 +68,7 @@ window.onload = function() {
 
     function fillInQuestionCard(txt) {
         playerAnswers.forEach((cardNum) => {
-            const cardList = gameState.hand.filter((c) => c.num === cardNum);
+            const cardList = game.hand.filter((c) => c.num === cardNum);
             const card = cardList[0];
             txt = txt.replace(/_/, `<i>${card.text}</i>`);
         });
@@ -168,7 +168,7 @@ window.onload = function() {
             clearSelectedAnswers();
             drawBoard(data);
             setTimer(data.countdown);
-            gameState = data;
+            game = data;
         });
     }
 
@@ -179,15 +179,15 @@ window.onload = function() {
     }
 
     function handleCardClick(cardNum) {
-        if (gameState.playedRound) {
+        if (game.playedRound) {
             return;
         }
 
-        var maxAnswers = answerCardsNeeded(gameState);
+        var maxAnswers = answerCardsNeeded(game);
 
         if (playerAnswers.length < maxAnswers) {
             playerAnswers.push(cardNum);
-            drawBoard(gameState);
+            drawBoard(game);
         }
     }
 
@@ -217,7 +217,7 @@ window.onload = function() {
             while (target && target !== document) {
                 if (target.className === 'question-card-clear-answers') {
                     clearSelectedAnswers();
-                    drawBoard(gameState);
+                    drawBoard(game);
                 }
                 target = target.parentNode;
             }
@@ -227,17 +227,21 @@ window.onload = function() {
     function playAnswers() {
         var cards = playerAnswers.join('/');
 
-        if (playerAnswers.length !== answerCardsNeeded(gameState)) {
+        if (playerAnswers.length !== answerCardsNeeded(game)) {
             //alert('Not enough answers');
             return;
         }
 
         getJSON(`${gameUrl}/play/${username}/${cards}`, (data) => {
-            const inPlay = gameState.inPlay[0];
+            const inPlay = game.inPlay[0];
             const txtBox = document.getElementsByName('vqxsp')[0];
             const txt = fillInQuestionCard(inPlay.text);
 
-            txtBox.value = `<p class='question-card'>${txt}</p>`;
+            txtBox.value = `<p class='question-card'`+
+				`data-btc-player='${username}' ` +
+                `data-btc-round='${game.round}'` +
+                `data-btc-inplay='${game.inPlay[0].num}'` +
+				`><span>${txt}</span></p>`;
             txtBox.form.submit();
         });
     }
@@ -270,6 +274,71 @@ window.onload = function() {
         });
     }
 
+    function addVoteButtons() {
+        const posts = document.querySelectorAll('[data-btc-round]');
+
+        function removeOldbuttons() {
+            const buttons = document.querySelectorAll('.btc-vote');
+            [].forEach.call(buttons, button => {
+                button.parentNode.removeChild(button);
+            });
+        }
+
+        function attachClick(but) {
+            but.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                const parent = but.parentNode;
+                const msg = document.createElement('div');
+                msg.innerHTML = '<strong>Voting coming soon</strong>';
+
+                parent.appendChild(msg);
+                addVoteButtons();
+
+            });
+        }
+
+        function setHeight(el, parent) {
+            // Changing the height of the button can force the parent holding it
+            // to change size as things reflow.
+            // But, we can't just loop indefinately, as sometimes thigns just don't
+            // ever fit.
+            //
+            // This seems to offer a pretty good compromise that works in all but
+            // some extreme cases.
+            for (let i = 0; i < 10; i++) {
+                el.style.height = parent.offsetHeight;
+            }
+        }
+
+        removeOldbuttons();
+        [].forEach.call(posts, post => {
+            const span = post.querySelector('span');
+            if (!span) {
+                return;
+            }
+
+            const voteButton = document.createElement('input');
+            voteButton.value = 'Vote';
+            voteButton.type = 'submit';
+            voteButton.style.cssFloat = 'left';
+            voteButton.style.display = 'block';
+            voteButton.style.position = 'relative';
+            voteButton.className = 'btc-vote';
+            voteButton.style.marginRight = '1em';
+
+            attachClick(voteButton);
+            post.insertBefore(voteButton, post.firstChild);
+            setHeight(voteButton, post);
+        });
+    }
+
+    window.addEventListener('resize', function(event) {
+        addVoteButtons();
+    });
+
+    addVoteButtons();
     addStatusButton();
     captureAnswerClicks();
     captureClearAnswerClicks();
