@@ -10,6 +10,9 @@
     const cors = require('cors');
     const game = new CardStackManager();
 
+    // Views
+    const getStatusViewData = require('./views/status.js');
+
     const questionPromise = (function() {
         var list = [
             './data/official-cah/questions.txt'
@@ -93,6 +96,12 @@
             message: 'Debugging info',
             json: json
         });
+    });
+
+    app.get('/status', function(req, res) {
+        const status = getStatusViewData(game);
+        console.log('/status called');
+        res.render('status', status);
     });
 
     app.get('/addplayer/:name', function(req, res) {

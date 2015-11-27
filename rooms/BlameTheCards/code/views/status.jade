@@ -1,0 +1,38 @@
+- var reloadSeconds = 10
+
+doctype html
+html
+  head
+    title!= title
+  body
+    h1!= message
+
+    p!= 'Reload in ' + reloadSeconds + ' seconds'
+
+    p= 'Number of players: ' + playerList.length
+
+    ul
+        each playerData in playerList
+            - var idle = playerData.idle
+            - var playerCode = playerData.name
+
+            if idle > 0
+                li!= 'Player <code>' + playerCode + '</code> to be dropped in ' + idle + ' seconds.'
+             else
+                li!= 'Player <code>' + playerCode + '</code> to be dropped next round.'
+
+    table
+        thead
+            tr
+                th Location
+                th Qty
+        tbody
+            each d in cardTotals
+                tr
+                    td= d.desc
+                    td= d.qty
+
+    script.
+        window.setTimeout(function() {
+            window.location.reload(true);
+        }, #{reloadSeconds} *1000);

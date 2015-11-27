@@ -1,3 +1,4 @@
+var gameUrl;
 
 //window.onerror = function() {
 //    window.alert(JSON.stringify(arguments));
@@ -254,6 +255,22 @@ window.onload = function() {
         });
     }
 
+    function addStatusButton() {
+        const findButton = document.querySelector('input[value="Find"]');
+        const statusButton = document.createElement('input');
+        statusButton.value = 'Status';
+        statusButton.type = 'submit';
+
+        findButton.parentNode.insertBefore(statusButton, findButton.nextSibling);
+
+        statusButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            window.location = `${gameUrl}/status`;
+        });
+    }
+
+    addStatusButton();
     captureAnswerClicks();
     captureClearAnswerClicks();
     capturePlayAnswerClicks();
