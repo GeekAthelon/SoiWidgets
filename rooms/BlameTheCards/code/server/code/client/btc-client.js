@@ -1,5 +1,3 @@
-//var gameUrl = 'http://127.0.0.1:1701';
-var gameUrl = 'http://76.188.44.119:1701';
 
 //window.onerror = function() {
 //    window.alert(JSON.stringify(arguments));

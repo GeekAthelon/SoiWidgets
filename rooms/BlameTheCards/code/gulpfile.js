@@ -110,8 +110,6 @@ gulp.task('format-js', function() {
     .pipe(gulp.dest(gulpConfig.srcDir))
 });
 
-
-
 gulp.task('serve-dev', ['vet', 'build'], function() {
 	var isDev = true;
 	
@@ -119,8 +117,8 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 		script: gulpConfig.nodeServer,
 		delayTime: 1,
 		env: {
-			PORT: port,
-			NODE_ENV: isDev ? 'dev' : 'build'
+			PORT: gulpConfig.dev.port,
+			URL: gulpConfig.dev.url
 		},
 		watch: [gulpConfig.dest]
 	};
@@ -141,23 +139,50 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 		});
 	
 });
-8
+
+gulp.task('serve-prod', ['build'], function() {
+	var isDev = true;
+	
+	var nodeOptions = {
+		script: gulpConfig.nodeServer,
+		delayTime: 1,
+		env: {
+			PORT: gulpConfig.prod.port,
+			URL: gulpConfig.prod.url
+		},
+		watch: [gulpConfig.dest]
+	};
+	
+	return $.nodemon(nodeOptions)
+		.on('restart', function(ev) {
+			log('*** nodemon restarted ***');
+			log('Files changed on restart: \n' + ev);
+		})
+		.on('start', function() {
+			log('*** nodemon started ***');
+		})
+		.on('crash', function(ev) {
+			log('*** nodemon crash: script crashed for some reason');
+		})
+		.on('exit', function() {
+			log('*** nodemon crash: script exited cleanly');
+		});
+	
+});
+
 gulp.task('git-pre-js', function() {
   gulp.src('./src/foo.js', './src/bar.json')
     .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_ONLY'}))
 });
-
 
 gulp.task('clean-build', function() {
 	log('Cleaning ' + gulpConfig.dest);
 	return del([gulpConfig.dest]);
 });
 
-
 gulp.task('watch', function() {
     gulp.watch(gulpConfig.src, ['build']);
 });
-
 
 function log(msg) {
 	if (typeof (msg) === 'object') {

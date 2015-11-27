@@ -150,7 +150,7 @@
                 if (err) {
                     return console.log(err);
                 }
-                clientAppSrc = data;
+                clientAppSrc = `var gameUrl = "${process.env.URL}";${data}`;
                 console.log('Serving freshly loaded client.js');
                 send();
             });

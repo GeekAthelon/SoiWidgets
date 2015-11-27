@@ -155,7 +155,7 @@ EOF;
 
 
 $bot = <<<EOF
-<script src="http://192.168.40.2:1702/SoiWidgets/rooms/BlameTheCards/code/build/client/btc-client.js?bust={$rnd}"></script>
+<script src="http://76.188.44.119:4242/client.js?bust=5&zbust={$rnd}"></script>
 EOF;
 
 $roomDetails = array (
