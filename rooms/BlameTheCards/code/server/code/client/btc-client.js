@@ -10,7 +10,8 @@ window.onload = function() {
     const playerAnswers = [];
     let game;
     let timerId;
-
+    let votedHash = {};
+	
     /**
      * Calculate a 32 bit FNV-1a hash
      * Found here: https://gist.github.com/vaiorabbit/5657561
@@ -76,6 +77,7 @@ window.onload = function() {
     }
 
 	function drawVotes(voteData) {
+	    votedHash = {};
 		// function addVoteMessage(adiv, message, className) {
 		Object.keys(voteData).forEach(round => {
 		  const votes = voteData[round];
@@ -83,7 +85,8 @@ window.onload = function() {
 		  
 		  votes.forEach(v => {
 		    list[v.votee] = list[v.votee] || [];
-			list[v.votee].push(v.voter)
+			list[v.votee].push(v.voter);
+			votedHash[`${round}__${v.voter}`] = true;
 		  });
 
 		Object.keys(list).forEach(votee => {
@@ -318,13 +321,38 @@ window.onload = function() {
                 event.preventDefault();
 
                 const parent = but.parentNode;
-
                 const votee = parent.getAttribute('data-btc-player');
                 const round = parent.getAttribute('data-btc-round');
                 const inplay = parent.getAttribute('data-btc-inplay');
 
+				if (!game.inGame) {
+					addVoteMessage(parent, 'You aren\'t even in the game.');
+					return;
+				}
+
+				if (!game.lastRoundPlayed) {
+					addVoteMessage(parent, 'You\ve got cards, but you haven\'t played any yet.');
+					return;
+				}
+
+				if (game.round - game.lastRoundPlayed > 3) {
+					addVoteMessage(parent, 'You haven\'t played in a few rounds -- You must play to vote.');
+					return;
+				}
+
+				if (votedHash[`${round}__${soiUsername}`]) {
+					addVoteMessage(parent, 'You already voted on this round.');
+					return;
+				}
+
+				if (soiUsername === votee) {
+					addVoteMessage(parent, 'You can\'t vote for yourself');
+					return;
+				}
+				
                 getJSON(`${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (voteData) => {
 					addVoteMessage(parent, 'Vote Registered');
+					game.gameHistory = voteData;
 					drawVotes(voteData)
                 });
 

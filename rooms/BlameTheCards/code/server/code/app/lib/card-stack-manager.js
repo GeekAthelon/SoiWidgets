@@ -96,6 +96,7 @@ class CardStackManager {
         this.round = 0;
 
         this.history = gameHistory;
+		this.lastRoundPlaced = -1;
     }
 
     drawQuestion() {
@@ -134,6 +135,7 @@ class CardStackManager {
         player.playByCardsId(cards);
         player.playedRound = true;
         player.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
+		player.lastRoundPlayed = this.round;
     }
 
     getDataFor(name) {
@@ -146,7 +148,8 @@ class CardStackManager {
                 table: player.getTable(),
                 inGame: true,
                 playedRound: player.playedRound,
-                round: this.round
+                round: this.round,
+				lastRoundPlayed: player.lastRoundPlayed
             };
         } else {
             data = {
