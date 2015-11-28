@@ -7,7 +7,7 @@
     const app = express();
     const btcConfig = require('./get-btc-config.js')();
     const CardStackManager = require('./lib/card-stack-manager.js');
-    const history = require('./lib/game-history');
+    const gameHistory = require('./lib/game-history');
     const cors = require('cors');
     const game = new CardStackManager();
 
@@ -117,7 +117,6 @@
         //http://127.0.0.1:1701/getdata/tinker
         const name = req.params.name;
         const hand = game.getDataFor(name);
-        console.log(`getData: ${name}`);
         res.json(hand);
     });
 
@@ -132,19 +131,14 @@
     });
 
     app.get('/vote/:voter/:votee/:round/:inplay', function(req, res) {
-        history.registerVote({
+        gameHistory.registerVote({
             round: req.params.round,
             voter: req.params.voter,
             votee: req.params.votee
         });
 
-        res.json({
-            status: 'OK',
-            text: `Voted for ${req.params.voter} -
-            ${req.params.votee} -
-            ${req.params.round} -
-            ${req.params.inplay}`
-        });
+        const votes = gameHistory.getAllVotes();
+        res.json(votes);
     });
 
     app.get('/set-test-mode', (req, res) => {

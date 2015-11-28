@@ -158,6 +158,7 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
+		data.gameHistory = gameHistory.getAllVotes();
         return data;
     }
 

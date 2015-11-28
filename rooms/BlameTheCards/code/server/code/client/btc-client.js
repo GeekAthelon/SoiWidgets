@@ -75,7 +75,27 @@ window.onload = function() {
         return txt;
     }
 
+	function drawVotes(voteData) {
+		// function addVoteMessage(adiv, message, className) {
+		Object.keys(voteData).forEach(round => {
+		  const votes = voteData[round];
+		  const list = {};
+		  
+		  votes.forEach(v => {
+		    list[v.votee] = list[v.votee] || [];
+			list[v.votee].push(v.voter)
+		  });
+
+		Object.keys(list).forEach(votee => {
+  		    const adiv = document.querySelector(`[data-btc-player="${votee}"][data-btc-round="${round}"`);
+			const voteeList = list[votee].join(', ');
+			addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
+		  });
+		});
+	}
+	
     function drawBoard(data) {
+		drawVotes(data.gameHistory);
         var gameDiv = document.getElementById('game-div');
         const atemplate = document.getElementById('answer-template').innerHTML;
         const qtemplate = document.getElementById('question-template').innerHTML;
@@ -274,6 +294,14 @@ window.onload = function() {
         });
     }
 
+	function addVoteMessage(adiv, message, className) {
+            const msg = document.createElement('div');
+			msg.className = className || '';
+            msg.innerHTML = `<strong>${message}</strong>`;
+			adiv.appendChild(msg);
+            addVoteButtons();
+	}
+	
     function addVoteButtons() {
         const posts = document.querySelectorAll('[data-btc-round]');
 
@@ -290,20 +318,17 @@ window.onload = function() {
                 event.preventDefault();
 
                 const parent = but.parentNode;
-                const msg = document.createElement('div');
-                msg.innerHTML = '<strong>Voting coming soon</strong>';
 
                 const votee = parent.getAttribute('data-btc-player');
                 const round = parent.getAttribute('data-btc-round');
                 const inplay = parent.getAttribute('data-btc-inplay');
 
-                getJSON(`${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (data) => {
-                    console.log(data);
+                getJSON(`${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (voteData) => {
+					addVoteMessage(parent, 'Vote Registered');
+					drawVotes(voteData)
                 });
 
-                parent.appendChild(msg);
-                addVoteButtons();
-
+				addVoteMessage(parent, 'Sending vote');
             });
         }
 
