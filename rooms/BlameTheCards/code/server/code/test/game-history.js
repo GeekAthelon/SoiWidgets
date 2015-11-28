@@ -1,22 +1,24 @@
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
 const expect = require('chai').expect;
-const History = require('../app/lib/game-history');
+const gameHistory = require('../app/lib/game-history');
 
 describe('Testing History', function() {
     'use strict';
 
+    beforeEach(() => {
+        gameHistory.clearAll();
+    });
+
     it('Created empty history', () => {
-        const history = new History();
         expect(history).to.not.equal(undefined);
     });
 
     it('Creates One history element', () => {
-        const history = new History();
-        history.addRound(1);
+        gameHistory.addRound(1);
 
-        expect(history.rounds).to.deep.equal([1]);
-        expect(history.data).to.deep.equal({
+        expect(gameHistory.rounds).to.deep.equal([1]);
+        expect(gameHistory.data).to.deep.equal({
             1: {
                 votes: []
             }
@@ -24,15 +26,14 @@ describe('Testing History', function() {
     });
 
     it('Overflows properly', () => {
-        const history = new History();
         for (let i = 0; i < 12; i++) {
-            history.addRound(i);
+            gameHistory.addRound(i);
         }
 
-        expect(history.rounds).to.deep.equal([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);
+        expect(gameHistory.rounds).to.deep.equal([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);
 
         /* beautify preserve:start */
-        expect(history.data).to.deep.equal({
+        expect(gameHistory.data).to.deep.equal({
             11: {votes: []},
             10: {votes: []},
             9: {votes: []},
@@ -48,16 +49,15 @@ describe('Testing History', function() {
     });
 
     it('Registers a vote in a known round', () => {
-        const history = new History();
-        history.addRound(1);
+        gameHistory.addRound(1);
 
-        history.registerVote({
+        gameHistory.registerVote({
             round: 1,
             voter: 'athelon',
             votee: 'athelondageek'
         });
 
-        expect(history.data).to.deep.equal({
+        expect(gameHistory.data).to.deep.equal({
             1: {
                 votes: [{
                     round: 1,
@@ -69,16 +69,15 @@ describe('Testing History', function() {
     });
 
     it('Ignore votes in an unknown round', () => {
-        const history = new History();
-        history.addRound(1);
+        gameHistory.addRound(1);
 
-        history.registerVote({
+        gameHistory.registerVote({
             round: 5,
             voter: 'athelon',
             votee: 'athelondageek'
         });
 
-        expect(history.data).to.deep.equal({
+        expect(gameHistory.data).to.deep.equal({
             1: {
                 votes: []
             }
@@ -86,17 +85,16 @@ describe('Testing History', function() {
     });
 
     it('Get All Votes', () => {
-        const history = new History();
-        history.addRound(1);
-        history.addRound(2);
+        gameHistory.addRound(1);
+        gameHistory.addRound(2);
 
         /* beautify preserve:start */
-        history.registerVote({round: 1, voter: 'athelon', votee: 'athelondageek'});
-        history.registerVote({round: 1, voter: 'athelon2', votee: 'athelondageek'});
-        history.registerVote({round: 2, voter: 'tiny', votee: 'alice'});
+        gameHistory.registerVote({round: 1, voter: 'athelon', votee: 'athelondageek'});
+        gameHistory.registerVote({round: 1, voter: 'athelon2', votee: 'athelondageek'});
+        gameHistory.registerVote({round: 2, voter: 'tiny', votee: 'alice'});
         /* beautify preserve:end */
 
-        const allVotes = history.getAllVotes();
+        const allVotes = gameHistory.getAllVotes();
 
         /* beautify preserve:start */
         expect(allVotes).to.deep.equal({

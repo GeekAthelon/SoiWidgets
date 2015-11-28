@@ -7,6 +7,7 @@
     const app = express();
     const btcConfig = require('./get-btc-config.js')();
     const CardStackManager = require('./lib/card-stack-manager.js');
+    const history = require('./lib/game-history');
     const cors = require('cors');
     const game = new CardStackManager();
 
@@ -131,6 +132,12 @@
     });
 
     app.get('/vote/:voter/:votee/:round/:inplay', function(req, res) {
+        history.registerVote({
+            round: req.params.round,
+            voter: req.params.voter,
+            votee: req.params.votee
+        });
+
         res.json({
             status: 'OK',
             text: `Voted for ${req.params.voter} -

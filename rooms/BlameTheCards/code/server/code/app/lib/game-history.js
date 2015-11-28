@@ -2,6 +2,10 @@
 
 class History {
     constructor() {
+        this.clearAll();
+    }
+
+    clearAll() {
         this.rounds = [];
         this.data = {};
     }
@@ -41,4 +45,4 @@ class History {
     }
 }
 
-exports = module.exports = History;
+exports = module.exports = new History();

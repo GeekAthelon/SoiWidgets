@@ -32,6 +32,20 @@ html
                     td= d.desc
                     td= d.qty
 
+    table
+        thead
+            tr
+                th Round
+                th Voter
+                th Votee
+        tbody
+            each data,round in votes
+                each v in data
+                    tr
+                        td= round
+                        td= v.voter
+                        td= v.votee
+
     script.
         window.setTimeout(function() {
             window.location.reload(true);

@@ -8,7 +8,7 @@ const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
-const History = require('./game-history');
+const gameHistory = require('./game-history');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -95,7 +95,7 @@ class CardStackManager {
         this.countdown = -1;
         this.round = 0;
 
-        this.history = new History();
+        this.history = gameHistory;
     }
 
     drawQuestion() {
@@ -229,6 +229,7 @@ class CardStackManager {
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
+        this.history.addRound(this.round);
 
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];
