@@ -130,6 +130,16 @@
         });
     });
 
+    app.get('/vote/:voter/:votee/:round/:inplay', function(req, res) {
+        res.json({
+            status: 'OK',
+            text: `Voted for ${req.params.voter} -
+            ${req.params.votee} -
+            ${req.params.round} -
+            ${req.params.inplay}`
+        });
+    });
+
     app.get('/set-test-mode', (req, res) => {
         game._setTestingMode();
         res.send(`OK - Testing mode ON`);

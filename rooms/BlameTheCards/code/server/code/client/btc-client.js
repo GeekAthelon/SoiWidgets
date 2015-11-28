@@ -237,11 +237,11 @@ window.onload = function() {
             const txtBox = document.getElementsByName('vqxsp')[0];
             const txt = fillInQuestionCard(inPlay.text);
 
-            txtBox.value = `<p class='question-card'`+
-				`data-btc-player='${username}' ` +
+            txtBox.value = `<p class='question-card'` +
+                `data-btc-player='${soiUsername}' ` +
                 `data-btc-round='${game.round}'` +
                 `data-btc-inplay='${game.inPlay[0].num}'` +
-				`><span>${txt}</span></p>`;
+                `><span>${txt}</span></p>`;
             txtBox.form.submit();
         });
     }
@@ -292,6 +292,14 @@ window.onload = function() {
                 const parent = but.parentNode;
                 const msg = document.createElement('div');
                 msg.innerHTML = '<strong>Voting coming soon</strong>';
+
+                const votee = parent.getAttribute('data-btc-player');
+                const round = parent.getAttribute('data-btc-round');
+                const inplay = parent.getAttribute('data-btc-inplay');
+
+                getJSON(`${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (data) => {
+                    console.log(data);
+                });
 
                 parent.appendChild(msg);
                 addVoteButtons();

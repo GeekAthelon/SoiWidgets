@@ -8,6 +8,8 @@ const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
+const History = require('./game-history');
+
 var random = new Random(Random.engines.mt19937().autoSeed());
 
 const Deck = require('./deck');
@@ -83,19 +85,17 @@ class CardStackManager {
     constructor() {
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
         this.questionDiscardStack = new CardStack('Question Discard Stack', Deck.cardType.QUESTION);
-
         this.answerDrawStack = new CardStack('Answer Draw Stack', Deck.cardType.ANSWER);
         this.answerDiscardStack = new CardStack('Answer Draw Stack', Deck.cardType.ANSWER);
-
         this.questionTableStack = new CardStack('Question Table Stack', Deck.cardType.QUESTION);
-
         this.players = {};
 
         this.questionCardIndex = 0;
         this.answerCardIndex = 0;
         this.countdown = -1;
-
         this.round = 0;
+
+        this.history = new History();
     }
 
     drawQuestion() {
