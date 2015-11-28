@@ -96,7 +96,7 @@ class CardStackManager {
         this.round = 0;
 
         this.history = gameHistory;
-		this.lastRoundPlaced = -1;
+        this.lastRoundPlaced = -1;
     }
 
     drawQuestion() {
@@ -135,7 +135,7 @@ class CardStackManager {
         player.playByCardsId(cards);
         player.playedRound = true;
         player.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
-		player.lastRoundPlayed = this.round;
+        player.lastRoundPlayed = this.round;
     }
 
     getDataFor(name) {
@@ -149,7 +149,7 @@ class CardStackManager {
                 inGame: true,
                 playedRound: player.playedRound,
                 round: this.round,
-				lastRoundPlayed: player.lastRoundPlayed
+                lastRoundPlayed: player.lastRoundPlayed
             };
         } else {
             data = {
@@ -161,7 +161,7 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
-		data.gameHistory = gameHistory.getAllVotes();
+        data.gameHistory = gameHistory.getAllVotes();
         return data;
     }
 

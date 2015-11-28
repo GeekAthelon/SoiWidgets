@@ -11,7 +11,7 @@ window.onload = function() {
     let game;
     let timerId;
     let votedHash = {};
-	
+
     /**
      * Calculate a 32 bit FNV-1a hash
      * Found here: https://gist.github.com/vaiorabbit/5657561
@@ -76,29 +76,30 @@ window.onload = function() {
         return txt;
     }
 
-	function drawVotes(voteData) {
-	    votedHash = {};
-		// function addVoteMessage(adiv, message, className) {
-		Object.keys(voteData).forEach(round => {
-		  const votes = voteData[round];
-		  const list = {};
-		  
-		  votes.forEach(v => {
-		    list[v.votee] = list[v.votee] || [];
-			list[v.votee].push(v.voter);
-			votedHash[`${round}__${v.voter}`] = true;
-		  });
+    function drawVotes(voteData) {
+        votedHash = {};
+        // function addVoteMessage(adiv, message, className) {
+        Object.keys(voteData).forEach(round => {
+            const votes = voteData[round];
+            const list = {};
 
-		Object.keys(list).forEach(votee => {
-  		    const adiv = document.querySelector(`[data-btc-player="${votee}"][data-btc-round="${round}"`);
-			const voteeList = list[votee].join(', ');
-			addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
-		  });
-		});
-	}
-	
+            votes.forEach(v => {
+                list[v.votee] = list[v.votee] || [];
+                list[v.votee].push(v.voter);
+                votedHash[`${round}__${v.voter}`] = true;
+            });
+
+            Object.keys(list).forEach(votee => {
+                const adiv = document.querySelector(
+                    `[data-btc-player="${votee}"]` + `[data-btc-round="${round}"`);
+                const voteeList = list[votee].join(', ');
+                addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
+            });
+        });
+    }
+
     function drawBoard(data) {
-		drawVotes(data.gameHistory);
+        drawVotes(data.gameHistory);
         var gameDiv = document.getElementById('game-div');
         const atemplate = document.getElementById('answer-template').innerHTML;
         const qtemplate = document.getElementById('question-template').innerHTML;
@@ -260,10 +261,10 @@ window.onload = function() {
             const txtBox = document.getElementsByName('vqxsp')[0];
             const txt = fillInQuestionCard(inPlay.text);
 
-            txtBox.value = `<p class='question-card'` +
-                `data-btc-player='${soiUsername}' ` +
-                `data-btc-round='${game.round}'` +
-                `data-btc-inplay='${game.inPlay[0].num}'` +
+            txtBox.value = `<p class='question-card' ` +
+                ` data-btc-player='${soiUsername}' ` +
+                ` data-btc-round='${game.round}'` +
+                ` data-btc-inplay='${game.inPlay[0].num}'` +
                 `><span>${txt}</span></p>`;
             txtBox.form.submit();
         });
@@ -297,14 +298,14 @@ window.onload = function() {
         });
     }
 
-	function addVoteMessage(adiv, message, className) {
-            const msg = document.createElement('div');
-			msg.className = className || '';
-            msg.innerHTML = `<strong>${message}</strong>`;
-			adiv.appendChild(msg);
-            addVoteButtons();
-	}
-	
+    function addVoteMessage(adiv, message, className) {
+        const msg = document.createElement('div');
+        msg.className = className || '';
+        msg.innerHTML = `<strong>${message}</strong>`;
+        adiv.appendChild(msg);
+        addVoteButtons();
+    }
+
     function addVoteButtons() {
         const posts = document.querySelectorAll('[data-btc-round]');
 
@@ -325,38 +326,44 @@ window.onload = function() {
                 const round = parent.getAttribute('data-btc-round');
                 const inplay = parent.getAttribute('data-btc-inplay');
 
-				if (!game.inGame) {
-					addVoteMessage(parent, 'You aren\'t even in the game.');
-					return;
-				}
+                if (!game.inGame) {
+                    addVoteMessage(parent,
+                        'You aren\'t even in the game.');
+                    return;
+                }
 
-				if (!game.lastRoundPlayed) {
-					addVoteMessage(parent, 'You\ve got cards, but you haven\'t played any yet.');
-					return;
-				}
+                if (!game.lastRoundPlayed) {
+                    addVoteMessage(parent,
+                        'You\ve got cards, but you haven\'t played any yet.');
+                    return;
+                }
 
-				if (game.round - game.lastRoundPlayed > 3) {
-					addVoteMessage(parent, 'You haven\'t played in a few rounds -- You must play to vote.');
-					return;
-				}
+                if (game.round - game.lastRoundPlayed > 3) {
+                    addVoteMessage(parent,
+                        'You haven\'t played in a few rounds -- You must play to vote.');
+                    return;
+                }
 
-				if (votedHash[`${round}__${soiUsername}`]) {
-					addVoteMessage(parent, 'You already voted on this round.');
-					return;
-				}
+                if (votedHash[`${round}__${soiUsername}`]) {
+                    addVoteMessage(parent,
+                        'You already voted on this round.');
+                    return;
+                }
 
-				if (soiUsername === votee) {
-					addVoteMessage(parent, 'You can\'t vote for yourself');
-					return;
-				}
-				
-                getJSON(`${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (voteData) => {
-					addVoteMessage(parent, 'Vote Registered');
-					game.gameHistory = voteData;
-					drawVotes(voteData)
-                });
+                if (soiUsername === votee) {
+                    addVoteMessage(parent,
+                        'You can\'t vote for yourself');
+                    return;
+                }
 
-				addVoteMessage(parent, 'Sending vote');
+                getJSON(
+                    `${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (voteData) => {
+                        addVoteMessage(parent, 'Vote Registered');
+                        game.gameHistory = voteData;
+                        drawVotes(voteData);
+                    });
+
+                addVoteMessage(parent, 'Sending vote');
             });
         }
 
