@@ -10,7 +10,7 @@ function getBtcConfig() {
     );
 
     // Fill in the template.
-    configuration.url = stringFormat(configuration.url, configuration);
+    configuration.getUrl = stringFormat(configuration.getUrl, configuration);
 
     return configuration;
 }

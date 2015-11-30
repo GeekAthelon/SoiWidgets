@@ -8,7 +8,7 @@ const CardStack = require('../app/lib/card-stack');
 const CardStackManager = require('../app/lib/card-stack-manager');
 const Card = require('../app/lib/card');
 
-var btcConfig = require('../app/get-btc-config.js')();
+var btcConfig = require('../app/get-btc-config')();
 
 function populateCards(game, maxQuestionCards, maxAnswerCards) {
     game.questionDiscardStack._cards.length = 0;

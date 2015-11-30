@@ -9,6 +9,7 @@ const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
 const gameHistory = require('./game-history');
+const soi = require('./soi');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -97,6 +98,10 @@ class CardStackManager {
 
         this.history = gameHistory;
         this.lastRoundPlaced = -1;
+    }
+
+    postToRoom(text) {
+        soi.postToRoom(text);
     }
 
     drawQuestion() {
@@ -229,7 +234,6 @@ class CardStackManager {
     }
 
     startRound() {
-        console.info('Starting new round');
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -240,6 +244,13 @@ class CardStackManager {
             player.fillHand(this);
             player.playedRound = false;
         });
+
+        let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
+        this.postToRoom(`Starting new round: <b>${this.round}</b>
+		
+		<b>${txt}</b>
+		`);
+
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {
