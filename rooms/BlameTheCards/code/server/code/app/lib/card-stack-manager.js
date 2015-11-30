@@ -246,11 +246,10 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
-        this.postToRoom(`Starting new round: <b>${this.round}</b>
-		
-		<b>${txt}</b>
-		`);
-
+        //this.postToRoom(`Starting new round: <b>${this.round}</b>
+        //
+        //<b>${txt}</b>
+        //`);
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {
