@@ -11,7 +11,7 @@ describe('Testing History', function() {
     });
 
     it('Created empty history', () => {
-        expect(history).to.not.equal(undefined);
+        expect(gameHistory).to.not.equal(undefined);
     });
 
     it('Creates One history element', () => {
