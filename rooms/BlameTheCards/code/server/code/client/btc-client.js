@@ -5,7 +5,7 @@ var gameUrl;
 //};
 
 window.onload = function() {
-    const soiUsername = document.getElementsByName('vqxus')[0].value.toLowerCase();
+    const soiUsername = document.getElementsByName('vqxus')[0].value.toLowerCase().replace(/[^a-z1234567890]/g, '');
     const username = hashFnv32a(soiUsername, true);
     const playerAnswers = [];
     let game;
