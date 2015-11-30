@@ -375,6 +375,7 @@ window.onload = function() {
             //
             // This seems to offer a pretty good compromise that works in all but
             // some extreme cases.
+            return;
             for (let i = 0; i < 10; i++) {
                 el.style.height = parent.offsetHeight;
             }
