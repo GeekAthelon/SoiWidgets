@@ -4,9 +4,27 @@ var args = require('yargs').argv;
 var gulpConfig = require('./gulp.config')();
 var del = require('del');
 
+var notify = require("gulp-notify");
+
 var $ = require('gulp-load-plugins')({lazy: true});
 
 var port = process.env.PORT || gulpConfig.defaultPort;
+
+
+function tattle(msg) {
+	var nn = require('node-notifier');
+
+	nn.notify({
+		title: 'Error from BtC Builder',
+		message: msg,
+		//icon: path.join(__dirname, 'coulson.jpg'), // absolute path (not balloons)
+		sound: true, // Only Notification Center or Windows Toasters
+		wait: true // wait with callback until user action is taken on notification
+		}, function (err, response) {
+			// response is response from notification
+		});
+}
+
 
 // Informational
 gulp.task('help', $.taskListing);
@@ -90,6 +108,10 @@ gulp.task('babel', /*['clean-build'], */ function () {
 		.pipe($.if(args.verbose, $.print()))
         .pipe($.sourcemaps.init())
         .pipe($.babel())
+		.on('error', (err) => {
+			 tattle('Build error under Babel');
+			 log(err);
+		})
         .pipe($.sourcemaps.write('.', { sourceRoot: config.src }))
         .pipe(gulp.dest(config.dest));
 });
@@ -120,7 +142,8 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 			PORT: gulpConfig.dev.port,
 			URL: gulpConfig.dev.url
 		},
-		watch: [gulpConfig.dest]
+		tasks: ['vet', 'build'],
+		watch: [gulpConfig.srcDir]
 	};
 	
 	return $.nodemon(nodeOptions)
@@ -133,6 +156,7 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 		})
 		.on('crash', function(ev) {
 			log('*** nodemon crash: script crashed for some reason');
+			 tattle('Build error under Babel');
 		})
 		.on('exit', function() {
 			log('*** nodemon crash: script exited cleanly');
@@ -140,7 +164,7 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 	
 });
 
-gulp.task('serve-prod', [], function() {
+gulp.task('serve-prod', ['build'], function() {
 	var isDev = true;
 	
 	var nodeOptions = {
@@ -150,7 +174,7 @@ gulp.task('serve-prod', [], function() {
 			PORT: gulpConfig.prod.port,
 			URL: gulpConfig.prod.url
 		},
-		watch: [gulpConfig.dest]
+		watch: [gulpConfig.src]
 	};
 	
 	return $.nodemon(nodeOptions)
