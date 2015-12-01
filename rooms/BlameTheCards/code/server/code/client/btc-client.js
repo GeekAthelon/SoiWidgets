@@ -78,7 +78,12 @@ window.onload = function() {
 
     function drawVotes(voteData) {
         votedHash = {};
-        // function addVoteMessage(adiv, message, className) {
+
+        const oldVotes = document.querySelectorAll('.votee-list');
+        [].forEach.call(oldVotes, v => {
+            v.parentNode.removeChild(v);
+        });
+
         Object.keys(voteData).forEach(round => {
             const votes = voteData[round];
             const list = {};
