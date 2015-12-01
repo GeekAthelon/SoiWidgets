@@ -237,7 +237,6 @@ class CardStackManager {
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
-        this.history.addRound(this.round);
 
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];

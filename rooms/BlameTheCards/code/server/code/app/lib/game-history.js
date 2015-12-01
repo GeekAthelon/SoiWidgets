@@ -10,13 +10,16 @@ class History {
         this.data = {};
     }
 
-    addRound(round) {
+    _addRound(round) {
+        if (this.rounds.indexOf(round) !== -1) {
+            return;
+        }
         this.rounds.unshift(round);
         this.data[round] = {
             votes: []
         };
 
-        if (this.rounds.length > 10) {
+        if (this.rounds.length > 1000) {
             const top = this.rounds.pop();
             delete this.data[top];
         }
@@ -24,9 +27,12 @@ class History {
 
     registerVote(voteData) {
         const h = this.data[voteData.round];
-        if (h) {
-            h.votes.push(voteData);
+        if (!h) {
+            this._addRound(voteData.round);
+            this.registerVote(voteData);
+            return;
         }
+        h.votes.push(voteData);
     }
 
     getAllVotes() {

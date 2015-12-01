@@ -5,7 +5,7 @@ var gameUrl;
 //};
 
 window.onload = function() {
-    const soiUsername = document.getElementsByName('vqxus')[0].value.toLowerCase().replace(/[^a-z1234567890]/g, '');
+    const soiUsername = document.getElementsByName('vqxus')[0].value.toLowerCase().replace(/[^a-z1234567890@]/g, '');
     const username = hashFnv32a(soiUsername, true);
     const playerAnswers = [];
     let game;
@@ -376,9 +376,9 @@ window.onload = function() {
             // This seems to offer a pretty good compromise that works in all but
             // some extreme cases.
             return;
-            for (let i = 0; i < 10; i++) {
-                el.style.height = parent.offsetHeight;
-            }
+            //for (let i = 0; i < 10; i++) {
+            //    el.style.height = parent.offsetHeight;
+            //}
         }
 
         removeOldbuttons();
