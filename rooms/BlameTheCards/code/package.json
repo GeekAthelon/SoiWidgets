@@ -15,17 +15,16 @@
     "cheerio": "latest",
     "cors": "^2.7.1",
     "express": "latest",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1",
-    "gulp-sourcemaps": "^1.5.2",
     "jade": "^1.11.0",
     "mocha": "latest",
     "random-js": "^1.0.8",
-    "request": "latest",
-    "source-map-support": "^0.3.2",
-    "sqlite3": "^3.1.0"
+    "request": "latest"
   },
   "devDependencies": {
+    "source-map-support": "^0.3.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-sourcemaps": "^1.5.2",
     "del": "^2.0.2",
     "gulp-if": "^1.2.5",
     "gulp-istanbul": "^0.10.0",
