@@ -7,79 +7,79 @@ const AnswerCard = require('../app/lib/answer-card');
 const Card = require('../app/lib/card');
 const Deck = require('../app/lib/deck');
 const locallydb = require('locallydb');
-const db = new locallydb('./data/dbs/unit-test'); // jshint ignore:line
+//const db = new locallydb('./data/dbs/unit-test'); // jshint ignore:line
 
 describe('Testing Deck', function() {
 
-    this.timeout(3000);
-    this.slow(3000);
+    // this.timeout(3000);
+    // this.slow(3000);
 
-    describe('Testing ENUMS', function() {
-        let deck = new Deck(db);
+    // describe('Testing ENUMS', function() {
+    // let deck = new Deck(db);
 
-        it('Testing QUESTION enum', function() {
-            expect(Deck.cardType.QUESTION).to.equal(1000);
-        });
+    // it('Testing QUESTION enum', function() {
+    // expect(Deck.cardType.QUESTION).to.equal(1000);
+    // });
 
-        it('Testing ANSWER enum', function() {
-            expect(Deck.cardType.ANSWER).to.equal(2000);
-        });
+    // it('Testing ANSWER enum', function() {
+    // expect(Deck.cardType.ANSWER).to.equal(2000);
+    // });
 
-        it('Testing object frozen', function() {
-            let result = false;
-            try {
-                Deck.cardType.ANSWER = 10;
-            } catch (e) {
-                result = true;
-            }
-            expect(result).to.equal(true);
-        });
+    // it('Testing object frozen', function() {
+    // let result = false;
+    // try {
+    // Deck.cardType.ANSWER = 10;
+    // } catch (e) {
+    // result = true;
+    // }
+    // expect(result).to.equal(true);
+    // });
 
-    });
+    // });
 
-    describe('Adding Question Card', function() {
-        let cards;
-        let aCards;
-        let card;
+    // describe('Adding Question Card', function() {
+    // let cards;
+    // let aCards;
+    // let card;
 
-        function addOneCard(deck) {
-            const questionCard = new QuestionCard(1, ' What is the _');
-            return deck.addQuestionCard(questionCard);
-        }
+    // function addOneCard(deck) {
+    // const questionCard = new QuestionCard(1, ' What is the _');
+    // return deck.addQuestionCard(questionCard);
+    // }
 
-        before(function(done) {
-            const deck = new Deck(db);
+    // before(function(done) {
+    // const deck = new Deck(db);
 
-            deck.empty().then(function() {
-                return addOneCard(deck);
-            }).then(function() {
-                return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
-            }).then(function(_cards) {
-                cards = _cards[0];
-                aCards = cards[1];
-                card = cards[0];
-                done();
-            }).catch(function(err) {
-                console.log('Err: ' + err);
-            });
-        });
+    // deck.empty().then(function() {
+    // return addOneCard(deck);
+    // }).then(function() {
+    // return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
+    // }).then(function(_cards) {
+    // cards = _cards[0];
+    // aCards = cards[1];
+    // card = cards[0];
+    // done();
+    // }).catch(function(err) {
+    // console.log('Err: ' + err);
+    // });
+    // });
 
-        it('cards.length', function() {
-            expect(cards.length).to.equal(1);
-        });
+    // it('cards.length', function() {
+    // expect(cards.length).to.equal(1);
+    // });
 
-        it('card.num', function() {
-            expect(card.num).to.equal(1);
-        });
+    // it('card.num', function() {
+    // expect(card.num).to.equal(1);
+    // });
 
-        it('card.text', function() {
-            expect(card.text).to.equal(' What is the _');
-        });
+    // it('card.text', function() {
+    // expect(card.text).to.equal(' What is the _');
+    // });
 
-        it('card.type', function() {
-            expect(card.type).to.equal(Deck.cardType.QUESTION);
-        });
-    });
+    // it('card.type', function() {
+    // expect(card.type).to.equal(Deck.cardType.QUESTION);
+    // });
+    // });
 });
 
 describe('Testing Question Cards', function() {

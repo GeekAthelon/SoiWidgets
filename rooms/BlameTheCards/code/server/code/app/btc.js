@@ -1,7 +1,6 @@
 (function() {
     'use strict';
     const express = require('express');
-    const fs = require('fs');
     const request = require('request');
     const cheerio = require('cheerio');
     const app = express();
@@ -11,64 +10,20 @@
     const cors = require('cors');
     const game = new CardStackManager();
     const bodyParser = require('body-parser');
+    const cardLoader = require('./lib/card-loader');
+    const fs = require('fs');
 
     // Views
     const getStatusViewData = require('./views/status.js');
 
-    const questionPromise = (function() {
-        var list = [
-            './data/official-cah/questions.txt'
-        ];
+    const cardSources = {
+        questions: ['./data/official-cah/questions.txt'],
+        answers: ['./data/official-cah/answers.txt']
+    };
 
-        function readOne(fname) {
-            return new Promise((resolve, reject) => {
-                fs.readFile(fname, 'utf8', function(err, data) {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    const lines = data.split(/\r\n|\r|\n/);
-                    console.log(`Read question file: ${fname}.  ${lines.length} lines.`);
-                    game.loadQuestionCards(lines);
-                    resolve();
-                });
-            });
-        }
+    const cardLoaderPromise = cardLoader.load(game, cardSources);
 
-        return new Promise(function(resolve, reject) {
-            const pmis = list.map(readOne);
-            Promise.all(pmis).then(resolve).catch(err => reject(err));
-        });
-    }());
-
-    const answerPromise = (function() {
-        var list = [
-            './data/official-cah/answers.txt'
-        ];
-
-        function readOne(fname) {
-            return new Promise((resolve, reject) => {
-                fs.readFile(fname, 'utf8', function(err, data) {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    const lines = data.split(/\r\n|\r|\n/);
-                    console.log(`Read answer file: ${fname}.  ${lines.length} lines.`);
-                    game.loadAnswerCards(lines);
-                    resolve();
-                });
-            });
-        }
-
-        return new Promise(function(resolve, reject) {
-            const pmis = list.map(readOne);
-            Promise.all(pmis).then(resolve).catch(err => reject(err));
-        });
-    }());
-
-    Promise.all([questionPromise, answerPromise]).then(() => {
-        console.log('All questions and answers loaded');
+    cardLoaderPromise.then(() => {
         var port = process.env.PORT;
         app.listen(port);
         console.log('Listening to port ' + port);

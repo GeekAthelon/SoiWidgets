@@ -22,11 +22,9 @@
     "request": "latest"
   },
   "devDependencies": {
-    "source-map-support": "^0.3.2",
+    "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
-    "gulp-sourcemaps": "^1.5.2",
-    "del": "^2.0.2",
     "gulp-if": "^1.2.5",
     "gulp-istanbul": "^0.10.0",
     "gulp-jsbeautifier": "^1.0.1",
@@ -37,10 +35,13 @@
     "gulp-nodemon": "^2.0.4",
     "gulp-notify": "^2.2.0",
     "gulp-print": "^1.2.0",
+    "gulp-sourcemaps": "^1.5.2",
     "gulp-task-listing": "^1.0.1",
     "gulp-util": "^3.0.6",
     "jscs": "^2.1.1",
     "jshint-stylish": "^2.0.1",
+    "node-notifier": "^4.3.1",
+    "source-map-support": "^0.3.2",
     "yargs": "^3.25.0"
   }
 }
