@@ -79,7 +79,6 @@ class Player {
             }
         });
     }
-
 }
 
 class CardStackManager {
@@ -170,28 +169,23 @@ class CardStackManager {
         return data;
     }
 
+    _emptyStackTo(src, dest) {
+        while (true) {
+            let card = src._cards[0];
+            if (!card) {
+                break;
+            }
+
+            src.remove(card);
+            dest.add(card);
+        }
+    }
+
     removePlayer(name) {
         const player = this.players[name];
 
-        while (true) {
-            let card = player.table._cards[0];
-            if (!card) {
-                break;
-            }
-
-            player.table.remove(card);
-            this.answerDiscardStack.add(card);
-        }
-
-        while (true) {
-            let card = player.hand._cards[0];
-            if (!card) {
-                break;
-            }
-
-            player.hand.remove(card);
-            this.answerDiscardStack.add(card);
-        }
+        this._emptyStackTo(player.table, this.answerDiscardStack);
+        this._emptyStackTo(player.hand, this.answerDiscardStack);
 
         delete this.players[name];
     }
@@ -202,30 +196,14 @@ class CardStackManager {
         Object.keys(this.players).forEach((name) => {
             const player = this.players[name];
 
-            while (true) {
-                let card = player.table._cards[0];
-                if (!card) {
-                    break;
-                }
-
-                player.table.remove(card);
-                this.answerDiscardStack.add(card);
-            }
-
-            console.log(['Drop?', player.dropTime, now, now > player.dropTime]);
+            this._emptyStackTo(player.table, this.answerDiscardStack);
 
             if (now > player.dropTime) {
-                console.log(`Dropping player ${name}`);
                 this.removePlayer(name);
             }
         });
 
-        let qcard = this.questionTableStack._cards[0];
-        /* istanbul ignore else */
-        if (qcard) {
-            this.questionTableStack.remove(qcard);
-            this.questionDiscardStack.add(qcard);
-        }
+        this._emptyStackTo(this.questionTableStack, this.questionDiscardStack);
     }
 
     _setTestingMode() {
@@ -262,7 +240,6 @@ class CardStackManager {
             const card = new QuestionCard(this.questionCardIndex, `${str}`);
             this.questionCardIndex++;
             this.questionDiscardStack.add(card);
-
         });
     }
 

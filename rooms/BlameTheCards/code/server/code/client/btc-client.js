@@ -39,6 +39,12 @@ window.onload = function() {
         return hval >>> 0;
     }
 
+    function removeNodes(nodes) {
+        [].forEach.call(nodes, n => {
+            n.parentNode.removeChild(n);
+        });
+    }
+
     function setTimer(countDown) {
         clearTimeout(timerId);
         let endTime = Date.now() + countDown;
@@ -79,10 +85,7 @@ window.onload = function() {
     function drawVotes(voteData) {
         votedHash = {};
 
-        const oldVotes = document.querySelectorAll('.votee-list');
-        [].forEach.call(oldVotes, v => {
-            v.parentNode.removeChild(v);
-        });
+        removeNodes(document.querySelectorAll('.votee-list'));
 
         Object.keys(voteData).forEach(round => {
             const votes = voteData[round];
@@ -316,13 +319,6 @@ window.onload = function() {
     function addVoteButtons() {
         const posts = document.querySelectorAll('[data-btc-round]');
 
-        function removeOldbuttons() {
-            const buttons = document.querySelectorAll('.btc-vote');
-            [].forEach.call(buttons, button => {
-                button.parentNode.removeChild(button);
-            });
-        }
-
         function attachClick(but) {
             but.addEventListener('click', function(event) {
                 event.stopPropagation();
@@ -374,21 +370,8 @@ window.onload = function() {
             });
         }
 
-        function setHeight(el, parent) {
-            // Changing the height of the button can force the parent holding it
-            // to change size as things reflow.
-            // But, we can't just loop indefinately, as sometimes thigns just don't
-            // ever fit.
-            //
-            // This seems to offer a pretty good compromise that works in all but
-            // some extreme cases.
-            return;
-            //for (let i = 0; i < 10; i++) {
-            //    el.style.height = parent.offsetHeight;
-            //}
-        }
+        removeNodes(document.querySelectorAll('.btc-vote'));
 
-        removeOldbuttons();
         [].forEach.call(posts, post => {
             const span = post.querySelector('span');
             if (!span) {
@@ -406,7 +389,6 @@ window.onload = function() {
 
             attachClick(voteButton);
             post.insertBefore(voteButton, post.firstChild);
-            setHeight(voteButton, post);
         });
     }
 
