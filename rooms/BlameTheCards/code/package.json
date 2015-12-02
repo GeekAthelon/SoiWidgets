@@ -16,6 +16,7 @@
     "cors": "^2.7.1",
     "express": "latest",
     "jade": "^1.11.0",
+    "locallydb": "0.0.9",
     "mocha": "latest",
     "random-js": "^1.0.8",
     "request": "latest"

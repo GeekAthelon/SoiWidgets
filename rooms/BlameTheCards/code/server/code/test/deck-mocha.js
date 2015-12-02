@@ -1,38 +1,20 @@
 /* globals it: true, describe: true, before: true */
+'use strict';
 
-var expect = require('chai').expect;
-var QuestionCard = require('../app/lib/question-card');
-var AnswerCard = require('../app/lib/answer-card');
-var Card = require('../app/lib/card');
-
-var Deck = require('../app/lib/deck');
-var deck = new Deck();
+const expect = require('chai').expect;
+const QuestionCard = require('../app/lib/question-card');
+const AnswerCard = require('../app/lib/answer-card');
+const Card = require('../app/lib/card');
+const Deck = require('../app/lib/deck');
+const locallydb = require('locallydb');
+const db = new locallydb('./data/dbs/unit-test'); // jshint ignore:line
 
 describe('Testing Deck', function() {
-    'use strict';
 
     this.timeout(3000);
     this.slow(3000);
 
-    let createDbObj = require('./util-create-dbobject');
-
-    describe('Testing for life', function() {
-        it('init runs successfully', function(done) {
-            var db = createDbObj();
-            let deck = new Deck(db);
-
-            deck.init().then(function() {
-                    expect(true).to.equal(true);
-                    done();
-                })
-                .catch(function(reason) {
-                    console.log('init failed: ' + reason);
-                });
-        });
-    });
-
     describe('Testing ENUMS', function() {
-        var db = createDbObj();
         let deck = new Deck(db);
 
         it('Testing QUESTION enum', function() {
@@ -56,29 +38,23 @@ describe('Testing Deck', function() {
     });
 
     describe('Adding Question Card', function() {
-
-        let db;
-        let deck;
-
         let cards;
         let aCards;
         let card;
 
-        function addOneCard() {
-            var questionCard = new QuestionCard(1, ' What is the _');
-            return deck.addCard(questionCard);
+        function addOneCard(deck) {
+            const questionCard = new QuestionCard(1, ' What is the _');
+            return deck.addQuestionCard(questionCard);
         }
 
         before(function(done) {
-            db = createDbObj();
-            deck = new Deck(db);
+            const deck = new Deck(db);
 
-            deck.init().then(function() {
-                return addOneCard();
+            deck.empty().then(function() {
+                return addOneCard(deck);
             }).then(function() {
                 return Promise.all([deck.getQuestionCards(), deck.getAnswerCards()]);
             }).then(function(_cards) {
-
                 cards = _cards[0];
                 aCards = cards[1];
                 card = cards[0];
@@ -107,18 +83,6 @@ describe('Testing Deck', function() {
 });
 
 describe('Testing Question Cards', function() {
-    'use strict';
-
-    var questionCard = new QuestionCard(1, 'Huzzah');
-
-    it('Testing QuestionCard isntanceof Card', function() {
-        expect(questionCard instanceof Card).to.equal(true);
-    });
-});
-
-describe('Testing Question Cards', function() {
-    'use strict';
-
     var questionCard = new QuestionCard(1, 'Huzzah');
 
     it('Testing QuestionCard isntanceof Card', function() {
@@ -127,8 +91,6 @@ describe('Testing Question Cards', function() {
 });
 
 describe('Testing Answer Cards', function() {
-    'use strict';
-
     var answerCard = new AnswerCard(1, 'Huzzah');
 
     it('Testing answerCard isntanceof Card', function() {

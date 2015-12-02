@@ -5,75 +5,54 @@ class Deck {
         this.db = db;
     }
 
-    init() {
-        var db = this.db;
-        return new Promise(function(resolve, reject) {
+    empty() {
+        return new Promise((resolve, reject) => {
+            const qCollection = this.db.collection('questions');
+            const aCollection = this.db.collection('answers');
 
-            db.serialize(() => {
-                db.run(`CREATE TABLE if not exists deck (
-				text TEXT,
-				cardtype INT,
-				cardnumber INT)`);
+            function remove(collection, cid) {
+                collection.remove(cid);
+            }
 
-                db.run('--', [], () => {
-                    resolve();
-                });
+            Promise.all([this.getQuestionCards(), this.getAnswerCards()]).then((_cards) => {
+                _cards[0].forEach((card) => remove(qCollection, card.cid));
+                _cards[1].forEach((card) => remove(aCollection, card.cid));
+                resolve();
             });
+
         });
     }
 
-    addCard(card) {
-        var db = this.db;
-        return new Promise(function(resolve, reject) {
-            db.serialize(() => {
-                var stmt = db.prepare(
-                    `INSERT INTO deck
-				(text, cardtype, cardnumber)
-				VALUES (?,?,?)`);
-
-                stmt.run(card.text, card.type, card.num);
-                stmt.finalize();
-
-                db.run('--', [], () => {
-                    resolve();
-                });
-            });
+    addQuestionCard(card) {
+        return new Promise((resolve, reject) => {
+            const cardCollection = this.db.collection('questions');
+            cardCollection.insert(card);
+            resolve();
         });
     }
 
-    _getCards(type) {
-        let db = this.db;
-        return new Promise(function(resolve, reject) {
-            db.serialize(() => {
-
-                let cards = [];
-                db.each(`SELECT rowid AS id, text, cardtype, cardnumber
-				FROM deck
-				where cardtype = ` + type,
-                    function(err, row) {
-                        let card = {
-                            text: row.text,
-                            type: row.cardtype,
-                            num: row.cardnumber
-                        };
-
-                        Object.freeze(card);
-                        cards.push(card);
-                    });
-
-                db.run('--', [], () => {
-                    resolve(cards);
-                });
-            });
+    addAnswerCard(card) {
+        return new Promise((resolve, reject) => {
+            const cardCollection = this.db.collection('answers');
+            cardCollection.insert(card);
+            resolve();
         });
     }
 
     getAnswerCards() {
-        return this._getCards(Deck.cardType.ANSWER);
+        return new Promise((resolve, reject) => {
+            const cardCollection = this.db.collection('answers');
+            const cards = cardCollection.where(`@type === ${Deck.cardType.ANSWER}`);
+            resolve(cards.items);
+        });
     }
 
     getQuestionCards() {
-        return this._getCards(Deck.cardType.QUESTION);
+        return new Promise((resolve, reject) => {
+            const cardCollection = this.db.collection('questions');
+            const cards = cardCollection.where(`@type === ${Deck.cardType.QUESTION}`);
+            resolve(cards.items);
+        });
     }
 }
 
