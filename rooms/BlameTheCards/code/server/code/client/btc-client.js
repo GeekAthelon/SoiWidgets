@@ -97,8 +97,10 @@ window.onload = function() {
             Object.keys(list).forEach(votee => {
                 const adiv = document.querySelector(
                     `[data-btc-player="${votee}"]` + `[data-btc-round="${round}"`);
-                const voteeList = list[votee].join(', ');
-                addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
+                if (adiv) {
+                    const voteeList = list[votee].join(', ');
+                    addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
+                }
             });
         });
     }
