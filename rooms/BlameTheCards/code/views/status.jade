@@ -38,6 +38,7 @@ html
                 th Round
                 th Voter
                 th Votee
+                th &nbsp;
         tbody
             each data,round in votes
                 each v in data
@@ -45,6 +46,7 @@ html
                         td= round
                         td= v.voter
                         td= v.votee
+                        td!= v.html
 
     script.
         window.setTimeout(function() {

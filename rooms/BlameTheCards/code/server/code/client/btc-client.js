@@ -197,6 +197,24 @@ window.onload = function() {
         request.send();
     }
 
+    function postJSON(file, data, callback) {
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+
+            if (request.readyState === 4 && request.status === 200) {
+                callback(JSON.parse(request.responseText));
+            }
+        };
+
+        request.onerror = function(err) {
+            //window.alert('Error: ' + JSON.stringify(err.message));
+        };
+
+        request.open('POST', file, true);
+        request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        request.send(JSON.stringify(data));
+    }
+
     function getData() {
         getJSON(`${gameUrl}/getdata/${username}`, (data) => {
             clearSelectedAnswers();
@@ -359,8 +377,19 @@ window.onload = function() {
                     return;
                 }
 
-                getJSON(
-                    `${gameUrl}/vote/${soiUsername}/${votee}/${round}/${inplay}`, (voteData) => {
+                const html = parent.querySelector('span').innerHTML;
+                const url = `${gameUrl}/vote`;
+
+                const data = {
+                    voter: soiUsername,
+                    votee,
+                    round,
+                    inplay,
+                    html
+                };
+
+                postJSON(
+                    url, data, (voteData) => {
                         addVoteMessage(parent, 'Vote Registered');
                         game.gameHistory = voteData;
                         drawVotes(voteData);

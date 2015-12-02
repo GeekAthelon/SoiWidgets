@@ -89,25 +89,43 @@ describe('Testing History', function() {
         gameHistory._addRound(1);
         gameHistory._addRound(2);
 
-        /* beautify preserve:start */
-        gameHistory.registerVote({round: 1, voter: 'athelon', votee: 'athelondageek'});
-        gameHistory.registerVote({round: 1, voter: 'athelon2', votee: 'athelondageek'});
-        gameHistory.registerVote({round: 2, voter: 'tiny', votee: 'alice'});
-        /* beautify preserve:end */
+        gameHistory.registerVote({
+            round: 1,
+            voter: 'athelon',
+            votee: 'athelondageek',
+            html: 'line1'
+        });
+        gameHistory.registerVote({
+            round: 1,
+            voter: 'athelon2',
+            votee: 'athelondageek',
+            html: 'line2'
+        });
+        gameHistory.registerVote({
+            round: 2,
+            voter: 'tiny',
+            votee: 'alice',
+            html: 'line3'
+        });
 
         const allVotes = gameHistory.getAllVotes();
 
-        /* beautify preserve:start */
         expect(allVotes).to.deep.equal({
-            1: [
-                {voter: 'athelon', votee: 'athelondageek'},
-                {voter: 'athelon2', votee: 'athelondageek'}
-            ],
-            2: [
-                {voter: 'tiny', votee: 'alice'}
-            ]
+            1: [{
+                voter: 'athelon',
+                votee: 'athelondageek',
+                html: 'line1'
+            }, {
+                voter: 'athelon2',
+                votee: 'athelondageek',
+                html: 'line2'
+            }],
+            2: [{
+                voter: 'tiny',
+                votee: 'alice',
+                html: 'line3'
+            }]
         });
-        /* beautify preserve:end */
     });
 
 });

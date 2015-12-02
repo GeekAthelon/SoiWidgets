@@ -10,6 +10,7 @@
     const gameHistory = require('./lib/game-history');
     const cors = require('cors');
     const game = new CardStackManager();
+    const bodyParser = require('body-parser');
 
     // Views
     const getStatusViewData = require('./views/status.js');
@@ -77,6 +78,9 @@
         console.log('Promise.all', err);
     });
 
+    app.use(bodyParser.json({
+        inflate: true,
+    }));
     app.use(cors());
     app.set('views', './views');
     app.set('view engine', 'jade');
@@ -130,11 +134,13 @@
         });
     });
 
-    app.get('/vote/:voter/:votee/:round/:inplay', function(req, res) {
+    app.post('/vote', function(req, res) {
+        const data = req.body;
         gameHistory.registerVote({
-            round: req.params.round,
-            voter: req.params.voter,
-            votee: req.params.votee
+            round: data.round,
+            voter: data.voter,
+            votee: data.votee,
+            html: data.html,
         });
 
         const votes = gameHistory.getAllVotes();

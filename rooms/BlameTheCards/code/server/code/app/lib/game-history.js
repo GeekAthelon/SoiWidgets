@@ -42,7 +42,8 @@ class History {
             for (let vote of this.data[round].votes) {
                 roundvotes.push({
                     voter: vote.voter,
-                    votee: vote.votee
+                    votee: vote.votee,
+                    html: vote.html
                 });
                 allvotes[round] = roundvotes;
             }
