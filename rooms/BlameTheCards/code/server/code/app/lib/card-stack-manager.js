@@ -8,7 +8,7 @@ const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
-const gameHistory = require('./game-history');
+const gHistory = require('./game-history');
 const soi = require('./soi');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
@@ -95,7 +95,7 @@ class CardStackManager {
         this.countdown = -1;
         this.round = 0;
 
-        this.history = gameHistory;
+        this.gHistory = gHistory;
         this.lastRoundPlaced = -1;
     }
 
@@ -165,7 +165,7 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
-        data.gameHistory = gameHistory.getAllVotes();
+        data.gameHistory = gHistory.getAllVotes();
         return data;
     }
 
@@ -212,6 +212,32 @@ class CardStackManager {
     }
 
     startRound() {
+        const votes = gHistory.getNewVotes();
+        console.log('newvotes', votes);
+
+        if (votes.length) {
+            const votelist = {};
+
+            votes.forEach(v => {
+                const html = v.html;
+                votelist[v.html] = votelist[v.html] || {
+                    voters: []
+                };
+                votelist[v.html].html = v.html;
+                votelist[v.html].votee = v.votee;
+                votelist[v.html].voters.push(v.voter);
+            });
+
+            const out = ['Votes are in!'];
+            Object.keys(votelist).forEach(v => {
+                const l = votelist[v];
+                out.push(`<strong>${l.votee}</strong> ${l.html}`);
+                out.push(`Votes: ${l.voters.join(', ')}`);
+                out.push(``);
+            });
+            this.postToRoom(out.join('<br>'));
+        }
+
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -223,10 +249,6 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
-        //this.postToRoom(`Starting new round: <b>${this.round}</b>
-        //
-        //<b>${txt}</b>
-        //`);
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {

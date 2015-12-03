@@ -3,6 +3,7 @@
 class History {
     constructor() {
         this.clearAll();
+        this.newVotes = [];
     }
 
     clearAll() {
@@ -33,20 +34,33 @@ class History {
             return;
         }
         h.votes.push(voteData);
+        this.newVotes.push(voteData);
     }
 
-    getAllVotes() {
-        const allvotes = {};
-        for (let round of this.rounds) {
-            const roundvotes = [];
+    getNewVotes() {
+        const r = this.newVotes.slice(0);
+        this.newVotes.length = 0;
+        return r;
+    }
+
+    getVotesForRound(round) {
+        const roundvotes = [];
+        if (this.data[round]) {
             for (let vote of this.data[round].votes) {
                 roundvotes.push({
                     voter: vote.voter,
                     votee: vote.votee,
                     html: vote.html
                 });
-                allvotes[round] = roundvotes;
             }
+        }
+        return roundvotes;
+    }
+
+    getAllVotes() {
+        const allvotes = {};
+        for (let round of this.rounds) {
+            allvotes[round] = this.getVotesForRound(round);
         }
         return allvotes;
     }
