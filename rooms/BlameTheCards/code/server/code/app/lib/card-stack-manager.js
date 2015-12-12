@@ -9,7 +9,7 @@ const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
 const gHistory = require('./game-history');
-const soi = require('./soi');
+const btcBot = require('./btc-bot');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -97,10 +97,6 @@ class CardStackManager {
 
         this.gHistory = gHistory;
         this.lastRoundPlaced = -1;
-    }
-
-    postToRoom(text) {
-        soi.postToRoom(text);
     }
 
     drawQuestion() {
@@ -212,32 +208,7 @@ class CardStackManager {
     }
 
     startRound() {
-        const votes = gHistory.getNewVotes();
-        console.log('newvotes', votes);
-
-        if (votes.length) {
-            const votelist = {};
-
-            votes.forEach(v => {
-                const html = v.html;
-                votelist[v.html] = votelist[v.html] || {
-                    voters: []
-                };
-                votelist[v.html].html = v.html;
-                votelist[v.html].votee = v.votee;
-                votelist[v.html].voters.push(v.voter);
-            });
-
-            const out = ['Votes are in!'];
-            Object.keys(votelist).forEach(v => {
-                const l = votelist[v];
-                out.push(`<strong>${l.votee}</strong> ${l.html}`);
-                out.push(`Votes: ${l.voters.join(', ')}`);
-                out.push(``);
-            });
-            this.postToRoom(out.join('<br>'));
-        }
-
+        btcBot.queueNewVotes();
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -249,6 +220,8 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
+
+        btcBot.post();
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {
