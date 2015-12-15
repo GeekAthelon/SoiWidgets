@@ -24,7 +24,7 @@
     const cardLoaderPromise = cardLoader.load(game, cardSources);
 
     cardLoaderPromise.then(() => {
-        var port = process.env.PORT;
+        var port = btcConfig.env.port;
         app.listen(port);
         console.log('Listening to port ' + port);
 
@@ -131,7 +131,7 @@
                 if (err) {
                     return console.log(err);
                 }
-                clientAppSrc = `var gameUrl = "${process.env.URL}";${data}`;
+                clientAppSrc = `var gameUrl = "${btcConfig.env.url}";${data}`;
                 console.log('Serving freshly loaded client.js');
                 send();
             });

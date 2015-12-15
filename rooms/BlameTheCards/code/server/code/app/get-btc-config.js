@@ -10,7 +10,10 @@ function getBtcConfig() {
     );
 
     // Fill in the template.
-    configuration.getUrl = stringFormat(configuration.getUrl, configuration);
+    configuration.soi.getUrl = stringFormat(
+        configuration.soi.getUrl,
+        configuration.soi
+    );
 
     return configuration;
 }
