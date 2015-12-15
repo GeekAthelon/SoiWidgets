@@ -207,6 +207,7 @@ class CardStackManager {
 
     startRound() {
         btcBot.queueNewVotes();
+		
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -219,6 +220,7 @@ class CardStackManager {
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
 
+		btcBot.addMessage(`Starting round ${this.round}`);
         btcBot.post();
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;

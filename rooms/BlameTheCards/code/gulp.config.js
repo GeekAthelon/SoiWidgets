@@ -13,10 +13,6 @@ module.exports = function() {
 		url: "http://76.188.44.119:5000"
 	};
 	
-	config.dev = {
-		port: 4242,
-		url: "http://76.188.44.119:4242"
-	};
 
 	
 	return config;

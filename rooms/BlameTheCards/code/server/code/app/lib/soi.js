@@ -11,8 +11,12 @@ class Soi {
 
     getRoom() {
         return new Promise((resolve, reject) => {
-            request(btcConfig.getUrl, function(error, response, body) {
-                if (!error && response.statusCode === 200) {
+            request(btcConfig.soi.getUrl, function(error, response, body) {
+				if (error) {
+				console.error('getRoom');
+					reject(error);
+				}
+	           if (!error && response.statusCode === 200) {
                     resolve(body);
                 }
             });
@@ -38,11 +42,16 @@ class Soi {
     postSendRealData(data) {
         return new Promise((resolve, reject) => {
             request.post({
-                url: btcConfig.postUrl,
+                url: btcConfig.soi.postUrl,
                 form: data
             }, function(err, response, body) {
+			if (err) {
+				console.error('postSendRealData');
+			reject(err);
+			}
                 if (!err && response.statusCode === 200) {
                     resolve(body);
+					console.log(body);
                 }
             });
 
@@ -68,7 +77,9 @@ class Soi {
         ]).then(function(results) {
             console.log('Room updated');
             return; // something using both resultA and resultB
-        });
+        }).catch((err) => {
+			console.log('Soi.js: ', err);
+		});
     }
 }
 

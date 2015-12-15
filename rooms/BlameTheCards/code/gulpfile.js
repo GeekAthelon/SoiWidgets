@@ -8,7 +8,6 @@ var notify = require("gulp-notify");
 
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var port = process.env.PORT || gulpConfig.defaultPort;
 
 
 function tattle(msg) {
@@ -139,8 +138,6 @@ gulp.task('serve-dev', ['vet', 'build'], function() {
 		script: gulpConfig.nodeServer,
 		delayTime: 1,
 		env: {
-			PORT: gulpConfig.dev.port,
-			URL: gulpConfig.dev.url
 		},
 		tasks: ['vet', 'build'],
 		watch: [gulpConfig.srcDir]
