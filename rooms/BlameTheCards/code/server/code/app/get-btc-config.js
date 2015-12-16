@@ -32,7 +32,7 @@ function getBtcConfig() {
     }
 
     configuration.env.dbPath = path.resolve(configuration.env.dbPath);
-    console.log(configuration);
+    //console.log(configuration);
     return configuration;
 }
 

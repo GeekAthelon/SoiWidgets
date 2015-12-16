@@ -1,7 +1,37 @@
 'use strict';
 
+const locallydb = require('locallydb');
+const btcConfig = require('../get-btc-config.js')();
+const db = new locallydb(btcConfig.env.dbPath);
+
+const autoSaveMode = false;
+let voteCollection;
+let roundCollection;
+
+function initDb() {
+    voteCollection = db.collection('votes', db, autoSaveMode);
+    roundCollection = db.collection('round', db, autoSaveMode);
+
+    const rounds = roundCollection.where("@round > 0");
+    if (rounds.items.length === 0) {
+        console.log('Seeding round counter');
+        roundCollection.insert({
+            round: 0
+        });
+    }
+
+    voteCollection.save();
+    roundCollection.save();
+}
+
+function purgeCollections() {
+    db.removeCollection('votes');
+    db.removeCollection('round');
+}
+
 class History {
     constructor() {
+        initDb();
         this.clearAll();
         this.newVotes = [];
     }
