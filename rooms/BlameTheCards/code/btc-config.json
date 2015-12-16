@@ -10,7 +10,7 @@
     "env": {
       "port": 4242,
       "url": "http://76.188.44.119:4242",
-      "dbPath": "../../../../btc-db/real",
+      "dbPathReal": "../../../../btc-db/real",
       "dbPathTest": "../../../../btc-db/unit-test"
     }
   },
@@ -25,7 +25,7 @@
     "env": {
       "port": 5000,
       "url": "http://76.188.44.119:5000",
-      "dbPath": "../../../../btc-db/real",
+      "dbPathReal": "../../../../btc-db/real",
       "dbPathTest": "../../../../btc-db/unit-test"
     }
   }
