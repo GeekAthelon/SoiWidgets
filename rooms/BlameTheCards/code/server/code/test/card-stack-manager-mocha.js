@@ -103,7 +103,7 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Checking bot name', () => {
-            expect(btcConfig.nick).to.equal('btc-bot');
+            expect(btcConfig.soi.nick).to.equal('btc-bot');
         });
 
         it('Adding Bot to game', () => {

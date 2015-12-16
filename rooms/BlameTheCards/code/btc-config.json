@@ -1,20 +1,32 @@
 {
+  "dev": {
     "soi": {
-        "postUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php",
-        "getUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
-        "nick": "btc-bot",
-        "room": "BlameTheCards",
-        "roomsite": "soi"
-    },
-    "soi-real": {
-        "postUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe",
-        "getUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
-        "nick": "btc-bot",
-        "room": "btc",
-        "roomsite": "soi"
+      "postUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php",
+      "getUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
+      "nick": "btc-bot",
+      "room": "BlameTheCards",
+      "roomsite": "soi"
     },
     "env": {
-        "port": 4242,
-        "url": "http://76.188.44.119:4242"
+      "port": 4242,
+      "url": "http://76.188.44.119:4242",
+      "dbPath": "../../../../btc-db/real",
+      "dbPathTest": "../../../../btc-db/unit-test"
     }
+  },
+  "prod": {
+    "soi": {
+      "postUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe",
+      "getUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
+      "nick": "btc-bot",
+      "room": "btc",
+      "roomsite": "soi"
+    },
+    "env": {
+      "port": 5000,
+      "url": "http://76.188.44.119:5000",
+      "dbPath": "../../../../btc-db/real",
+      "dbPathTest": "../../../../btc-db/unit-test"
+    }
+  }
 }
