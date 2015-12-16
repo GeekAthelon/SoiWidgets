@@ -87,27 +87,19 @@ window.onload = function() {
 
         removeNodes(document.querySelectorAll('.votee-list'));
 
-        Object.keys(voteData).forEach(round => {
-            const votes = voteData[round];
-            const list = {};
+        voteData.forEach(v => {
+            votedHash[`${v.round}__${v.voter}`] = true;
 
-            votes.forEach(v => {
-                list[v.votee] = list[v.votee] || [];
-                list[v.votee].push(v.voter);
-                votedHash[`${round}__${v.voter}`] = true;
-            });
+            const adiv = document.querySelector(
+                `[data-btc-player="${v.votee}"]` +
+                `[data-btc-round="${v.round}"]`
+            );
+            if (adiv) {
+                addVoteMessage(adiv, `Voted on by: ${v.voter}`, 'votee-list');
+            }
 
-            Object.keys(list).forEach(votee => {
-                const adiv = document.querySelector(
-                    `[data-btc-player="${votee}"]` +
-                    `[data-btc-round="${round}"]`
-                );
-                if (adiv) {
-                    const voteeList = list[votee].join(', ');
-                    addVoteMessage(adiv, `Voted on by: ${voteeList}`, 'votee-list');
-                }
-            });
         });
+
     }
 
     function drawBoard(data) {

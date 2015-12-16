@@ -1,5 +1,8 @@
 (function() {
     'use strict';
+
+    GLOBAL.RECENT_VOTE_COUNT = 10;
+
     const express = require('express');
     const request = require('request');
     const cheerio = require('cheerio');
@@ -98,7 +101,7 @@
             html: data.html,
         });
 
-        const votes = gameHistory.getAllVotes();
+        const votes = gameHistory.getRecentVotes(game.round, GLOBAL.RECENT_VOTE_COUNT);
         res.json(votes);
     });
 

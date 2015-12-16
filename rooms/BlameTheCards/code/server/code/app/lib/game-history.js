@@ -1,8 +1,9 @@
 'use strict';
 
-const locallydb = require('locallydb');
+const Locallydb = require('locallydb');
 const btcConfig = require('../get-btc-config.js')();
-const db = new locallydb(btcConfig.env.dbPath);
+
+const db = new Locallydb(btcConfig.env.dbPath);
 
 const autoSaveMode = false;
 let voteCollection;
@@ -12,7 +13,7 @@ function initDb() {
     voteCollection = db.collection('votes', db, autoSaveMode);
     roundCollection = db.collection('round', db, autoSaveMode);
 
-    const rounds = roundCollection.where("@round > 0");
+    const rounds = roundCollection.where('@round > 0');
     if (rounds.items.length === 0) {
         console.log('Seeding round counter');
         roundCollection.insert({
@@ -27,73 +28,66 @@ function initDb() {
 function purgeCollections() {
     db.removeCollection('votes');
     db.removeCollection('round');
+    initDb();
 }
 
 class History {
     constructor() {
         initDb();
-        this.clearAll();
         this.newVotes = [];
     }
 
     clearAll() {
-        this.rounds = [];
-        this.data = {};
-    }
-
-    _addRound(round) {
-        if (this.rounds.indexOf(round) !== -1) {
-            return;
-        }
-        this.rounds.unshift(round);
-        this.data[round] = {
-            votes: []
-        };
-
-        if (this.rounds.length > 1000) {
-            const top = this.rounds.pop();
-            delete this.data[top];
-        }
+        purgeCollections();
+        this.newVotes.length = 0;
     }
 
     registerVote(voteData) {
-        const h = this.data[voteData.round];
-        if (!h) {
-            this._addRound(voteData.round);
-            this.registerVote(voteData);
-            return;
-        }
-        h.votes.push(voteData);
+        voteCollection.insert(voteData);
         this.newVotes.push(voteData);
+        voteCollection.save();
     }
 
-    getNewVotes() {
+    getUnpostedVotes() {
         const r = this.newVotes.slice(0);
         this.newVotes.length = 0;
         return r;
     }
 
     getVotesForRound(round) {
-        const roundvotes = [];
-        if (this.data[round]) {
-            for (let vote of this.data[round].votes) {
-                roundvotes.push({
-                    voter: vote.voter,
-                    votee: vote.votee,
-                    html: vote.html
-                });
-            }
-        }
-        return roundvotes;
+        const votes = voteCollection.where(`@round > ${round}`);
+        return votes.items;
     }
 
     getAllVotes() {
-        const allvotes = {};
-        for (let round of this.rounds) {
-            allvotes[round] = this.getVotesForRound(round);
-        }
-        return allvotes;
+        const votes = voteCollection.where(`@round > 0`);
+
+        const out = votes.items.map((item) => {
+            return {
+                round: item.round,
+                votee: item.votee,
+                voter: item.voter,
+                html: item.html
+            };
+        });
+
+        return out;
     }
+
+    getRecentVotes(round, range) {
+        const votes = voteCollection.where(`@round - ${round} < ${range}`);
+
+        const out = votes.items.map((item) => {
+            return {
+                round: item.round,
+                votee: item.votee,
+                voter: item.voter,
+            };
+        });
+
+        return out;
+    }
+
 }
 
 exports = module.exports = new History();

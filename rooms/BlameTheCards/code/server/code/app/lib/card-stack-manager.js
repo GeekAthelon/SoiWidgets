@@ -169,7 +169,7 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
-        data.gameHistory = gHistory.getAllVotes();
+        data.gameHistory = gHistory.getRecentVotes(this.round, GLOBAL.RECENT_VOTE_COUNT);
         return data;
     }
 
