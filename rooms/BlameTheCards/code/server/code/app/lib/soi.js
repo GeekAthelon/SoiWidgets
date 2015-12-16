@@ -12,11 +12,11 @@ class Soi {
     getRoom() {
         return new Promise((resolve, reject) => {
             request(btcConfig.soi.getUrl, function(error, response, body) {
-				if (error) {
-				console.error('getRoom');
-					reject(error);
-				}
-	           if (!error && response.statusCode === 200) {
+                if (error) {
+                    console.error('getRoom');
+                    reject(error);
+                }
+                if (!error && response.statusCode === 200) {
                     resolve(body);
                 }
             });
@@ -25,8 +25,6 @@ class Soi {
 
     extractForm(html) {
         return new Promise((resolve, reject) => {
-            console.log('HTML Length: ' + html.length);
-
             const $ = cheerio.load(html);
             const $entryForm = $('[name="vqxsp"]').closest('form');
             const formArray = $entryForm.serializeArray();
@@ -45,13 +43,12 @@ class Soi {
                 url: btcConfig.soi.postUrl,
                 form: data
             }, function(err, response, body) {
-			if (err) {
-				console.error('postSendRealData');
-			reject(err);
-			}
+                if (err) {
+                    console.error('postSendRealData');
+                    reject(err);
+                }
                 if (!err && response.statusCode === 200) {
                     resolve(body);
-					console.log(body);
                 }
             });
 
@@ -65,7 +62,7 @@ class Soi {
         });
 
         const promisePostPromise = promiseExtractForm.then((data) => {
-            console.log('Form data...', data);
+            //console.log('Form data...', data);
             data.vqxsp = text;
             return this.postSendRealData(data);
         });
@@ -75,11 +72,11 @@ class Soi {
             promiseExtractForm,
             promisePostPromise
         ]).then(function(results) {
-            console.log('Room updated');
+            //console.log('Room updated');
             return; // something using both resultA and resultB
         }).catch((err) => {
-			console.log('Soi.js: ', err);
-		});
+            console.error('Soi.js: ', err);
+        });
     }
 }
 

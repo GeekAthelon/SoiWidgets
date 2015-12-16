@@ -99,19 +99,18 @@ class CardStackManager {
     }
 
     drawQuestion() {
-        /* istanbul ignore next */
         if (this.questionDrawStack._cards.length === 0) {
+            btcBot.addMessage(`Shuffled Question Deck`);
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }
-
         return this.questionDrawStack.draw();
     }
 
     drawAnswer() {
         if (this.answerDrawStack._cards.length === 0) {
+            btcBot.addMessage(`Shuffled Answer Deck`);
             reshuffle(this.answerDiscardStack, this.answerDrawStack);
         }
-
         return this.answerDrawStack.draw();
     }
 
@@ -207,7 +206,7 @@ class CardStackManager {
 
     startRound() {
         btcBot.queueNewVotes();
-		
+
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -219,8 +218,6 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
-
-		btcBot.addMessage(`Starting round ${this.round}`);
         btcBot.post();
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
