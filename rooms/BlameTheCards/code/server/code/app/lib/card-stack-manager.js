@@ -101,6 +101,12 @@ class CardStackManager {
     drawQuestion() {
         if (this.questionDrawStack._cards.length === 0) {
             btcBot.addMessage(`Shuffled Question Deck`);
+            console.log(
+                'Shuffling question deck: ',
+                this.questionDrawStack._cards.length,
+                this.questionDiscardStack._cards.length
+            );
+
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }
         return this.questionDrawStack.draw();
@@ -109,6 +115,10 @@ class CardStackManager {
     drawAnswer() {
         if (this.answerDrawStack._cards.length === 0) {
             btcBot.addMessage(`Shuffled Answer Deck`);
+            console.log(
+                'Shuffling answer deck: ',
+                this.answerDrawStack._cards.length,
+                this.answerDiscardStack._cards.length);
             reshuffle(this.answerDiscardStack, this.answerDrawStack);
         }
         return this.answerDrawStack.draw();
