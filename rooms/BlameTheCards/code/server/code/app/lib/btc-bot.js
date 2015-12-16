@@ -17,7 +17,7 @@ class btcBot {
     }
 
     queueNewVotes() {
-        const votes = gHistory.getNewVotes();
+        const votes = gHistory.getUnpostedVotes();
 
         if (votes.length) {
             const votelist = {};
