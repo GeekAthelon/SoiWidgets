@@ -33,7 +33,7 @@ function getBtcConfig() {
 
     configuration.isDev = nodeEnv === 'dev';
     configuration.env.dbPath = path.resolve(configuration.env.dbPath);
-    //console.log(configuration);
+    console.log(configuration);
     return configuration;
 }
 

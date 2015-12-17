@@ -68,7 +68,7 @@ gulp.task('coverage-es5', ['babel'], function(done) {
 });
 
 gulp.task('coverage-dev', function(done) {
-  process.env.NODE_ENV = 'dev';
+  process.env.NODE_ENV = 'prod';
 
   runTest({
     src: ['server/code/app/**/*.js'],
