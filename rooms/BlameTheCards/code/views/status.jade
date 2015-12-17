@@ -17,9 +17,9 @@ html
             - var playerCode = playerData.name
 
             if idle > 0
-                li!= 'Player <code>' + playerCode + '</code> to be dropped in ' + idle + ' seconds.'
+                li!= 'Player to be dropped in ' + idle + ' seconds.'
              else
-                li!= 'Player <code>' + playerCode + '</code> to be dropped next round.'
+                li!= 'Player to be dropped next round.'
 
     table
         thead
@@ -40,13 +40,12 @@ html
                 th Votee
                 th &nbsp;
         tbody
-            each data,round in votes
-                each v in data
-                    tr
-                        td= round
-                        td= v.voter
-                        td= v.votee
-                        td!= v.html
+            each v in votes
+                tr
+                    td= v.round
+                    td= v.voter
+                    td= v.votee
+                    td!= v.html
 
     script.
         window.setTimeout(function() {
