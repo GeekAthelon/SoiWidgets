@@ -13,7 +13,7 @@
     const gameHistory = new History('main-room');
     const cors = require('cors');
     const BtcBot = require('./lib/btc-bot');
-    const btcBot = new BtcBot();
+    const btcBot = new BtcBot(gameHistory);
 
     const game = new CardStackManager({
         history: gameHistory,
@@ -128,7 +128,13 @@
 
         function send() {
             res.setHeader('Cache-Control', 'public, max-age=31557600'); // one year
+            res.setHeader('content-type', 'application/javascript');
+
             res.send(clientAppSrc);
+
+            if (btcConfig.isDev) {
+                clientAppSrc = null;
+            }
         }
 
         return (function() {
