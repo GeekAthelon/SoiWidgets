@@ -15,7 +15,6 @@ function initDb() {
 
     const rounds = roundCollection.where('@round > 0');
     if (rounds.items.length === 0) {
-        console.log('Seeding round counter');
         roundCollection.insert({
             round: 0
         });

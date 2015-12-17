@@ -13,7 +13,7 @@ function getBtcConfig() {
         fs.readFileSync(configurationFile)
     );
 
-    console.log(`getBtcConfig - Found NODE_ENV of ${nodeEnv}`);
+    //console.log(`getBtcConfig - Found NODE_ENV of ${nodeEnv}`);
     if (!nodeEnv) {
         throw new Error(`getBtcConfig - NODE_ENV not found. Cannot continue`);
     }
