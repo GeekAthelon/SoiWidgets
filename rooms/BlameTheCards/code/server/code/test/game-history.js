@@ -57,4 +57,14 @@ describe('Testing History', function() {
         );
     });
 
+    it('Testing getRecentVotes', () => {
+        const test1 = gameHistory.getRecentVotes(5, 1);
+        expect(test1.length).to.equal(1);
+
+        const test2 = gameHistory.getRecentVotes(6, 1);
+        expect(test2.length).to.equal(0);
+
+        const test3 = gameHistory.getRecentVotes(5, 5);
+        expect(test3.length).to.equal(2);
+    });
 });

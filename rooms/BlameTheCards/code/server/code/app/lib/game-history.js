@@ -75,7 +75,9 @@ class History {
     }
 
     getRecentVotes(round, range) {
-        const votes = voteCollection.where(`@round - ${round} < ${range}`);
+        const bot = round - range;
+
+        const votes = voteCollection.where(`(@round <= ${round}) && (@round > ${bot})`);
 
         const out = votes.items.map((item) => {
             return {
