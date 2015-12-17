@@ -5,6 +5,7 @@
     const request = require('request');
     const cheerio = require('cheerio');
     const app = express();
+    const readFile = require('fs-readfile-promise');
     const btcConfig = require('./get-btc-config.js')();
     const btcSettings = require('./get-btc-settings');
     const CardStackManager = require('./lib/card-stack-manager.js');
@@ -159,14 +160,19 @@
                 return;
             }
 
-            fs.readFile('build/client/btc-client.js', 'utf8', function(err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                clientAppSrc = `var gameUrl = "${btcConfig.env.url}";${data}`;
-                console.log('Serving freshly loaded client.js');
+            Promise.all([
+                readFile('build/client/btc-client.js'),
+                readFile('build/client/btc-common.js')
+            ]).then(function(value) {
+                clientAppSrc = `var gameUrl = "${btcConfig.env.url}"`;
+                clientAppSrc += value[0].toString();
+                clientAppSrc += value[1].toString();
                 send();
+            }).catch((err) => {
+                console.log('Error reading files');
+                console.log(err);
             });
+
         }());
     });
 

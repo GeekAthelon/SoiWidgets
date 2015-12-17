@@ -2,8 +2,6 @@ var gameUrl;
 (function() {
     'use strict';
 
-    window.alert('Enter Lounge');
-
     window.onload = function() {
         const soiUsername = document
             .getElementsByName('vqxha')[0]
