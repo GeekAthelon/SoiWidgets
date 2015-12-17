@@ -106,7 +106,7 @@ class CardStackManager {
         this.questionCardIndex = 0;
         this.answerCardIndex = 0;
         this.countdown = -1;
-        this.round = 0;
+        this.round = this.history.getLastRoundNumber();
 
         this.lastRoundPlaced = -1;
     }
@@ -232,6 +232,7 @@ class CardStackManager {
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
         this.btcBot.post();
+        this.history.saveRound(this.round);
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {

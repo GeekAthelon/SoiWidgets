@@ -9,14 +9,15 @@ const autoSaveMode = false;
 let voteCollection;
 let roundCollection;
 
-function initDb() {
+function initDb(lounge) {
     voteCollection = db.collection('votes', db, autoSaveMode);
     roundCollection = db.collection('round', db, autoSaveMode);
 
     const rounds = roundCollection.where('@round > 0');
     if (rounds.items.length === 0) {
         roundCollection.insert({
-            round: 0
+            round: 0,
+            lounge: lounge
         });
     }
 
@@ -24,20 +25,25 @@ function initDb() {
     roundCollection.save();
 }
 
-function purgeCollections() {
+function purgeCollections(lounge) {
     db.removeCollection('votes');
     db.removeCollection('round');
-    initDb();
+    initDb(lounge);
 }
 
 class History {
-    constructor() {
-        initDb();
+    constructor(loungeName) {
+        this.lounge = loungeName;
+        initDb(this.lounge);
+
+        if (!this.lounge) {
+            throw new Error(`History - Constuctor - loungeName not passed.`);
+        }
         this.newVotes = [];
     }
 
     clearAll() {
-        purgeCollections();
+        purgeCollections(this.lounge);
         this.newVotes.length = 0;
     }
 
@@ -45,6 +51,20 @@ class History {
         voteCollection.insert(voteData);
         this.newVotes.push(voteData);
         voteCollection.save();
+    }
+
+    saveRound(round) {
+        const rounds = roundCollection.where(`@lounge == '${this.lounge}'`);
+        const cid = rounds.items[0].cid;
+        roundCollection.update(cid, {
+            round: round
+        });
+        roundCollection.save();
+    }
+
+    getLastRoundNumber() {
+        const rounds = roundCollection.where(`@lounge == '${this.lounge}'`);
+        return rounds.items[0].round;
     }
 
     getUnpostedVotes() {

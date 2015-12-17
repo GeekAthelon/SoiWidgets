@@ -1,11 +1,11 @@
+'use strict';
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
 const expect = require('chai').expect;
 const History = require('../app/lib/game-history');
 const gameHistory = new History('main-room');
 
-describe('Testing History', function() {
-    'use strict';
+describe('Testing Vote History', function() {
 
     beforeEach(() => {
         gameHistory.clearAll();
@@ -68,4 +68,22 @@ describe('Testing History', function() {
         const test3 = gameHistory.getRecentVotes(5, 5);
         expect(test3.length).to.equal(2);
     });
+});
+
+describe('Testing Round # History', function() {
+    beforeEach(() => {
+        gameHistory.clearAll();
+    });
+
+    it('Testing initial last round number', () => {
+        const r = gameHistory.getLastRoundNumber();
+        expect(r).to.equal(0);
+    });
+
+    it('Testing updating round number', () => {
+        gameHistory.saveRound(99);
+        const r = gameHistory.getLastRoundNumber();
+        expect(r).to.equal(99);
+    });
+
 });
