@@ -51,6 +51,7 @@
     }));
     app.use(cors());
     app.use('/static', express.static('static'));
+    app.use('/client', express.static('build/client'));
 
     app.set('views', './views');
     app.set('view engine', 'jade');
