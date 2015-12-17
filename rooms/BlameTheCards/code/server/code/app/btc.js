@@ -9,9 +9,17 @@
     const app = express();
     const btcConfig = require('./get-btc-config.js')();
     const CardStackManager = require('./lib/card-stack-manager.js');
-    const gameHistory = require('./lib/game-history');
+    const History = require('./lib/game-history');
+    const gameHistory = new History('main-room');
     const cors = require('cors');
-    const game = new CardStackManager();
+    const BtcBot = require('./lib/btc-bot');
+    const btcBot = new BtcBot();
+
+    const game = new CardStackManager({
+        history: gameHistory,
+        btcBot: btcBot
+    });
+
     const bodyParser = require('body-parser');
     const cardLoader = require('./lib/card-loader');
     const fs = require('fs');

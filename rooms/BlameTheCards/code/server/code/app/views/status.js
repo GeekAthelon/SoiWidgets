@@ -1,5 +1,3 @@
-const gameHistory = require('../lib/game-history');
-
 (function() {
     'use strict';
 
@@ -11,7 +9,7 @@ const gameHistory = require('../lib/game-history');
             message: `BtC Status - round ${game.round}`,
             playerList: [],
             cardTotals: [],
-            votes: gameHistory.getAllVotes()
+            votes: game.history.getAllVotes()
         };
 
         const addTotal = ((desc, qty) => {

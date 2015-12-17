@@ -1,7 +1,8 @@
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
 const expect = require('chai').expect;
-const gameHistory = require('../app/lib/game-history');
+const History = require('../app/lib/game-history');
+const gameHistory = new History('main-room');
 
 describe('Testing History', function() {
     'use strict';

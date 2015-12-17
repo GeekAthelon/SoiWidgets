@@ -89,7 +89,6 @@ class History {
 
         return out;
     }
-
 }
 
-exports = module.exports = new History();
+exports = module.exports = History;

@@ -1,15 +1,15 @@
 'use strict';
 
-const gHistory = require('./game-history');
 const soi = require('./soi');
 const he = require('he');
 const encodeOptions = {
     'allowUnsafeSymbols': true
 };
 
-class btcBot {
-    constructor() {
+class BtcBot {
+    constructor(history) {
         this._messages = [];
+        this.history = history;
     }
 
     addMessage(s) {
@@ -17,7 +17,7 @@ class btcBot {
     }
 
     queueNewVotes() {
-        const votes = gHistory.getUnpostedVotes();
+        const votes = this.history.getUnpostedVotes();
 
         if (votes.length) {
             const votelist = {};
@@ -51,4 +51,4 @@ class btcBot {
     }
 }
 
-exports = module.exports = new btcBot();
+exports = module.exports = BtcBot;

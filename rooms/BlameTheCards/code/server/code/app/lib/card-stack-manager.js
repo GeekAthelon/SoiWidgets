@@ -8,8 +8,6 @@ const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
-const gHistory = require('./game-history');
-const btcBot = require('./btc-bot');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -81,7 +79,23 @@ class Player {
 }
 
 class CardStackManager {
-    constructor() {
+    constructor(cfg) {
+
+        if (!cfg) {
+            throw new Error('CardStackManager - cfg object not passed');
+        }
+
+        if (!cfg.history) {
+            throw new Error('CardStackManager - cfg.history not configured');
+        }
+
+        if (!cfg.btcBot) {
+            throw new Error('CardStackManager - cfg.btcBot not configured');
+        }
+
+        this.history = cfg.history;
+        this.btcBot = cfg.btcBot;
+
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
         this.questionDiscardStack = new CardStack('Question Discard Stack', Deck.cardType.QUESTION);
         this.answerDrawStack = new CardStack('Answer Draw Stack', Deck.cardType.ANSWER);
@@ -94,13 +108,12 @@ class CardStackManager {
         this.countdown = -1;
         this.round = 0;
 
-        this.gHistory = gHistory;
         this.lastRoundPlaced = -1;
     }
 
     drawQuestion() {
         if (this.questionDrawStack._cards.length === 0) {
-            btcBot.addMessage(`Shuffled Question Deck`);
+            this.btcBot.addMessage(`Shuffled Question Deck`);
             console.log(
                 'Shuffling question deck: ',
                 this.questionDrawStack._cards.length,
@@ -114,7 +127,7 @@ class CardStackManager {
 
     drawAnswer() {
         if (this.answerDrawStack._cards.length === 0) {
-            btcBot.addMessage(`Shuffled Answer Deck`);
+            this.btcBot.addMessage(`Shuffled Answer Deck`);
             console.log(
                 'Shuffling answer deck: ',
                 this.answerDrawStack._cards.length,
@@ -169,7 +182,7 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
-        data.gameHistory = gHistory.getRecentVotes(this.round, GLOBAL.RECENT_VOTE_COUNT);
+        data.gameHistory = this.history.getRecentVotes(this.round, GLOBAL.RECENT_VOTE_COUNT);
         return data;
     }
 
@@ -215,7 +228,7 @@ class CardStackManager {
     }
 
     startRound() {
-        btcBot.queueNewVotes();
+        this.btcBot.queueNewVotes();
 
         this.round++;
         let qCard = this.drawQuestion();
@@ -228,7 +241,7 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
-        btcBot.post();
+        this.btcBot.post();
 
         this.countdown = Date.now() + TIME_BETWEEN_HANDS;
         setTimeout(() => {

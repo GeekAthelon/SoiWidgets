@@ -7,8 +7,19 @@ const AnswerCard = require('../app/lib/answer-card');
 const CardStack = require('../app/lib/card-stack');
 const CardStackManager = require('../app/lib/card-stack-manager');
 const Card = require('../app/lib/card');
+const History = require('../app/lib/game-history');
+const BtcBot = require('../app/lib/btc-bot');
+const btcConfig = require('../app/get-btc-config')();
 
-var btcConfig = require('../app/get-btc-config')();
+const gameConfig = (function() {
+    const gameHistory = new History('main-room');
+    const btcBot = new BtcBot(gameHistory);
+
+    return {
+        history: gameHistory,
+        btcBot: btcBot
+    };
+}());
 
 function populateCards(game, maxQuestionCards, maxAnswerCards) {
     game.questionDiscardStack._cards.length = 0;
@@ -26,7 +37,7 @@ function populateCards(game, maxQuestionCards, maxAnswerCards) {
 }
 
 describe('Testing Card Stack Manager', function() {
-    const game = new CardStackManager();
+    const game = new CardStackManager(gameConfig);
 
     describe('Basic Existence', function() {
         before(function() {});
@@ -62,7 +73,7 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Dealing and overdealing', function() {
-        const game = new CardStackManager();
+        const game = new CardStackManager(gameConfig);
         const maxQuestionCards = 4;
         const maxAnswerCards = 4;
 
@@ -91,7 +102,7 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Testing NPC', function() {
-        const game = new CardStackManager();
+        const game = new CardStackManager(gameConfig);
 
         const maxQuestionCards = 40;
         const maxAnswerCards = 40;
@@ -185,7 +196,7 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Testing endRound', () => {
-        const game = new CardStackManager();
+        const game = new CardStackManager(gameConfig);
         const maxQuestionCards = 4;
         const maxAnswerCards = 10;
 
@@ -223,7 +234,7 @@ describe('Testing Card Stack Manager', function() {
     });
 
     describe('Testing removingPlayer', () => {
-        const game = new CardStackManager();
+        const game = new CardStackManager(gameConfig);
         const maxQuestionCards = 4;
         const maxAnswerCards = 40;
 
@@ -270,7 +281,7 @@ describe('Testing Card Stack Manager', function() {
         let game;
 
         before(() => {
-            game = new CardStackManager();
+            game = new CardStackManager(gameConfig);
             game.loadQuestionCards(
                 [
                     'Why did the _ cross the _?',
@@ -294,7 +305,7 @@ describe('Testing Card Stack Manager', function() {
         let game;
 
         before(() => {
-            game = new CardStackManager();
+            game = new CardStackManager(gameConfig);
             game.loadAnswerCards(
                 [
                     'Because!',
