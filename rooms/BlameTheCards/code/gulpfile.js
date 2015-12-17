@@ -67,16 +67,23 @@ gulp.task('coverage-es5', ['babel'], function(done) {
   }, done);
 });
 
-gulp.task('coverage-dev', function(done) {
-  process.env.NODE_ENV = 'prod';
-
+function runCoverage(done) {
   runTest({
     src: ['server/code/app/**/*.js'],
     tests: ['server/code/test/**/*.js'],
     coverageDir: './coverage'
   }, done);
+}
+
+gulp.task('coverage-dev', function(done) {
+  process.env.NODE_ENV = 'dev';
+  runCoverage(done);
 });
 
+gulp.task('coverage-prod', function(done) {
+  process.env.NODE_ENV = 'prod';
+  runCoverage(done);
+});
 
 // Style and Linting Tasks
 

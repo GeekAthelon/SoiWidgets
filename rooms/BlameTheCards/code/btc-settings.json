@@ -1,0 +1,6 @@
+{
+    "numberOfRoundsVotesReturnedToClient": 10,
+	"turnDuration":  60000,
+	"playerTimeOutDuration": 300000,
+	"handSize": 10
+}

@@ -1,9 +1,5 @@
 'use strict';
 
-const TIME_BETWEEN_HANDS = 1 * 1000 * 60;
-const PLAYER_TIME_OUT_DELAY = 5 * 1000 * 60;
-
-const HAND_SIZE = 10;
 const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
@@ -41,11 +37,11 @@ class Player {
         this.hand = new CardStack(`Player ${name} Hand`, Deck.cardType.ANSWER);
         this.table = new CardStack(`Player ${name} Table`, Deck.cardType.ANSWER);
         this.playedRound = false;
-        this.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
     }
 
     fillHand(cardStackManager) {
-        for (let i = this.hand._cards.length; i < HAND_SIZE; i++) {
+        const l = cardStackManager.settings.handSize;
+        for (let i = this.hand._cards.length; i < l; i++) {
             const aCard = cardStackManager.drawAnswer();
             this.hand.add(aCard);
         }
@@ -81,20 +77,29 @@ class Player {
 class CardStackManager {
     constructor(cfg) {
 
+        /* istanbul ignore if  */
         if (!cfg) {
             throw new Error('CardStackManager - cfg object not passed');
         }
 
+        /* istanbul ignore if  */
         if (!cfg.history) {
             throw new Error('CardStackManager - cfg.history not configured');
         }
 
+        /* istanbul ignore if  */
         if (!cfg.btcBot) {
             throw new Error('CardStackManager - cfg.btcBot not configured');
         }
 
+        /* istanbul ignore if  */
+        if (!cfg.settings) {
+            throw new Error('CardStackManager - cfg.settings not configured');
+        }
+
         this.history = cfg.history;
         this.btcBot = cfg.btcBot;
+        this.settings = cfg.settings;
 
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
         this.questionDiscardStack = new CardStack('Question Discard Stack', Deck.cardType.QUESTION);
@@ -127,12 +132,17 @@ class CardStackManager {
         return this.answerDrawStack.draw();
     }
 
+    resetPlayeDropCounter(player) {
+        player.dropTime = Date.now() + this.settings.playerTimeOutDuration;
+
+    }
     addPlayer(name) {
         if (this.players[name]) {
             return;
         }
 
         const player = new Player(name);
+        this.resetPlayeDropCounter(player);
         this.players[name] = player;
         player.fillHand(this);
     }
@@ -145,8 +155,9 @@ class CardStackManager {
         const player = this.players[name];
         player.playByCardsId(cards);
         player.playedRound = true;
-        player.dropTime = Date.now() + PLAYER_TIME_OUT_DELAY;
         player.lastRoundPlayed = this.round;
+        this.resetPlayeDropCounter(player);
+
     }
 
     getDataFor(name) {
@@ -172,7 +183,10 @@ class CardStackManager {
 
         data.inPlay = this.questionTableStack._cards;
         data.countdown = this.countdown - Date.now();
-        data.gameHistory = this.history.getRecentVotes(this.round, GLOBAL.RECENT_VOTE_COUNT);
+        data.gameHistory = this.history.getRecentVotes(
+            this.round,
+            this.settings.numberOfRoundsVotesReturnedToClient
+        );
         return data;
     }
 
@@ -234,11 +248,11 @@ class CardStackManager {
         this.btcBot.post();
         this.history.saveRound(this.round);
 
-        this.countdown = Date.now() + TIME_BETWEEN_HANDS;
+        this.countdown = Date.now() + this.settings.turnDuration;
         setTimeout(() => {
             this._endRound();
             this.startRound();
-        }, TIME_BETWEEN_HANDS);
+        }, this.settings.turnDuration);
     }
 
     loadQuestionCards(cards) {

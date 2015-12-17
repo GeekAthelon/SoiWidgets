@@ -10,6 +10,7 @@ const Card = require('../app/lib/card');
 const History = require('../app/lib/game-history');
 const BtcBot = require('../app/lib/btc-bot');
 const btcConfig = require('../app/get-btc-config')();
+const btcSettings = require('../app/get-btc-settings');
 
 const gameConfig = (function() {
     const gameHistory = new History('main-room');
@@ -17,7 +18,8 @@ const gameConfig = (function() {
 
     return {
         history: gameHistory,
-        btcBot: btcBot
+        btcBot: btcBot,
+        settings: btcSettings
     };
 }());
 
