@@ -7,7 +7,7 @@ function getBtcConfig() {
     const fs = require('fs');
     const path = require('path');
     const stringFormat = require('./lib/string-format');
-    const configurationFile = './btc-config.json';
+    const configurationFile = './server/code/config/btc-config.json';
 
     const fullConfiguration = JSON.parse(
         fs.readFileSync(configurationFile)

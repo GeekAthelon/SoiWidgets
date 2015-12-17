@@ -8,7 +8,9 @@
     const btcConfig = require('./get-btc-config.js')();
     const btcSettings = require('./get-btc-settings');
     const CardStackManager = require('./lib/card-stack-manager.js');
+    const btcLounges = require('./get-btc-lounges');
     const History = require('./lib/game-history');
+    const EnterLounge = require('./lib/enter-lounge');
     const gameHistory = new History('main-room');
     const cors = require('cors');
     const BtcBot = require('./lib/btc-bot');
@@ -48,6 +50,8 @@
         inflate: true,
     }));
     app.use(cors());
+    app.use('/static', express.static('static'));
+
     app.set('views', './views');
     app.set('view engine', 'jade');
     app.set('jsonp callback name', 'callback');
@@ -67,6 +71,13 @@
             message: 'Debugging info',
             json: json
         });
+    });
+
+    app.get('/enterlounge', function(req, res) {
+        var lounge = new EnterLounge(btcLounges);
+        var status = lounge.getEntranceDetails();
+
+        res.render('enterlounge', status);
     });
 
     app.get('/status', function(req, res) {

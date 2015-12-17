@@ -1,0 +1,30 @@
+- var reloadSeconds = 45
+
+doctype html
+html
+  head
+    title!= title
+
+    link(href='/static/css/normalize.css', rel='stylesheet')
+    link(href='/static/css/btc.css', rel='stylesheet')
+
+    each d,l in lounges
+        link(href='/static/css/lounge_' + l + '.css', rel='stylesheet')
+
+  body
+
+    h1!= title
+
+    p
+      i Blame the Cards
+      |, a based off Cards Against Humanity, is NSFW (NOT SAFE FOR WORK.)
+      |To describe some of the answer cards as rude or offensive would be
+      |an understatement.
+
+    p Only enter if you understand this.
+
+    each d,l in lounges
+        button(class='lounge_' + l + ' action')
+          div(class='logo')
+          div(class='util-text-align-center')= d.name
+        br

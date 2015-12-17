@@ -1,0 +1,13 @@
+.lounge_techno {
+	display: block;
+	background-color: black;
+	background-image: url(/static/images/techo-background.jpg);
+	color: white;
+}
+
+.lounge_techno .logo {
+	display: inline-block;
+	height: 150px;
+	width: 136px;
+	background-image: url(/static/images/techno-logo-small.png);
+}

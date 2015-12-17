@@ -307,19 +307,29 @@ var gameUrl;
             });
         }
 
-        function addStatusButton() {
+        function addExtraButtons() {
             const findButton = document.querySelector('input[value="Find"]');
-            const statusButton = document.createElement('input');
-            statusButton.value = 'Status';
-            statusButton.type = 'submit';
 
-            findButton.parentNode.insertBefore(statusButton, findButton.nextSibling);
+            function addButton(text, callback) {
+                const button = document.createElement('input');
+                button.value = text;
+                button.type = 'submit';
+                findButton.parentNode.insertBefore(button, findButton.nextSibling);
+                button.addEventListener('click', callback);
+            }
 
-            statusButton.addEventListener('click', function(event) {
+            addButton('Status', function(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 window.location = `${gameUrl}/status`;
             });
+
+            addButton('Enter the Lounge', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+                window.location = `${gameUrl}/enterlounge`;
+            });
+
         }
 
         function addVoteMessage(adiv, message, className) {
@@ -422,7 +432,7 @@ var gameUrl;
         });
 
         addVoteButtons();
-        addStatusButton();
+        addExtraButtons();
         captureAnswerClicks();
         captureClearAnswerClicks();
         capturePlayAnswerClicks();

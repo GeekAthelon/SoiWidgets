@@ -1,0 +1,26 @@
+body {
+	background-color: black;
+	background-image: url(/static/images/btc-background.jpg);
+	color: white;
+}
+
+button.action {
+  display: block;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  width: 90%;
+  background-color: transparent;
+}
+
+.util-text-align-center {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.logo {
+    float: left;
+}
