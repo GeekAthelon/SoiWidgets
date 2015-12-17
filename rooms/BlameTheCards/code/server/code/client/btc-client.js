@@ -5,7 +5,7 @@ var gameUrl;
 
     window.onload = function() {
         const soiUsername = document
-            .getElementsByName('vqxus')[0]
+            .getElementsByName('vqxha')[0]
             .value
             .toLowerCase()
             .replace(/[^a-z1234567890@]/g, '');
