@@ -21,10 +21,17 @@ html
 
     p Only enter if you understand this.
 
+    form
+        span Please enter your SOI nickname:
+        input(id='soiNick', type='text', name='soiNick', value=soiNick)
+
     each d,l in lounges
-        button(class='lounge_' + l + ' action')
+        button(class='lounge_' + l + ' enter-realm-button', 'data-lounge'=l)
           div(class='logo')
           div(class='util-text-align-center')= d.name
         br
+
+    script.
+        var gameUrl = '#{url}';
 
     script(src='/client/btc-enterlounge.js')

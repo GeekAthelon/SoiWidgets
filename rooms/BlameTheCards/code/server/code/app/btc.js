@@ -75,10 +75,18 @@
         });
     });
 
-    app.get('/enterlounge', function(req, res) {
-        var lounge = new EnterLounge(btcLounges);
-        var status = lounge.getEntranceDetails();
+    app.get('/enterlounge/:nick/:lounge', function(req, res) {
+        res.json({
+            status: 'OK',
+            text: 'Entered Lounge' + req.params.lounge
+        });
+    });
 
+    app.get('/enterlounge/:nick?', function(req, res) {
+        const lounge = new EnterLounge(btcLounges);
+        const status = lounge.getEntranceDetails();
+        status.url = btcConfig.env.url;
+        status.soiNick = req.params.nick;
         res.render('enterlounge', status);
     });
 
