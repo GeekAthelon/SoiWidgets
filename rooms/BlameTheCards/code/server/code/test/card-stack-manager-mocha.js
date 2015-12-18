@@ -39,6 +39,7 @@ function populateCards(game, maxQuestionCards, maxAnswerCards) {
 }
 
 describe('Testing Card Stack Manager', function() {
+    this.timeout(50 * 1000);
     const game = new CardStackManager(gameConfig);
 
     describe('Basic Existence', function() {
@@ -109,10 +110,10 @@ describe('Testing Card Stack Manager', function() {
         const maxQuestionCards = 40;
         const maxAnswerCards = 40;
 
-        before(() => {
+        before((done) => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound();
+            game.startRound(done);
         });
 
         it('Checking bot name', () => {
@@ -204,18 +205,20 @@ describe('Testing Card Stack Manager', function() {
 
         let player;
 
-        before(() => {
+        before((done) => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound();
+            game.startRound().then(() => {
 
-            player = game.players[btcConfig.nick];
-            const hand = player.getHand();
-            player.playByCardsId([hand[0].num, hand[1].num]);
+                player = game.players[btcConfig.nick];
+                const hand = player.getHand();
+                player.playByCardsId([hand[0].num, hand[1].num]);
 
-            //console.log(JSON.stringify(game, null, 2));
-            game._endRound();
-            //console.log(JSON.stringify(game, null, 2));
+                //console.log(JSON.stringify(game, null, 2));
+                game._endRound();
+                //console.log(JSON.stringify(game, null, 2));
+                done();
+            });
         });
 
         it('table.length should be 0', () => {
@@ -242,16 +245,18 @@ describe('Testing Card Stack Manager', function() {
 
         let player;
 
-        before(() => {
+        before((done) => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound();
+            game.startRound().then(() => {
 
-            player = game.players[btcConfig.nick];
-            const hand = player.getHand();
-            player.playByCardsId([hand[0].num, hand[1].num]);
+                player = game.players[btcConfig.nick];
+                const hand = player.getHand();
+                player.playByCardsId([hand[0].num, hand[1].num]);
 
-            game.removePlayer(btcConfig.nick);
+                game.removePlayer(btcConfig.nick);
+                done();
+            });
         });
 
         it('table.length should be 0', () => {

@@ -24,6 +24,11 @@ function getBtcConfig() {
         configuration.soi
     );
 
+    configuration.soiMail.getUrl = stringFormat(
+        configuration.soiMail.getUrl,
+        configuration.soiMail
+    );
+
     configuration.isTest = (isTest === 'true');
     if (configuration.isTest) {
         configuration.env.dbPath = configuration.env.dbPathTest;
@@ -33,7 +38,7 @@ function getBtcConfig() {
 
     configuration.isDev = nodeEnv === 'dev';
     configuration.env.dbPath = path.resolve(configuration.env.dbPath);
-    // console.log(configuration);
+    //console.log(configuration);
     return configuration;
 }
 

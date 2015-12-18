@@ -245,7 +245,7 @@ class CardStackManager {
         });
 
         let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
-        this.btcBot.post();
+        const postPromise = this.btcBot.post();
         this.history.saveRound(this.round);
 
         this.countdown = Date.now() + this.settings.turnDuration;
@@ -253,6 +253,8 @@ class CardStackManager {
             this._endRound();
             this.startRound();
         }, this.settings.turnDuration);
+
+        return postPromise;
     }
 
     loadQuestionCards(cards) {
