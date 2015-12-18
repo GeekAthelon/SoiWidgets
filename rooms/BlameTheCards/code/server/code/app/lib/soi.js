@@ -66,8 +66,7 @@ class Soi {
     _executePost(src, text, destUser) {
         return new Promise((resolve, reject) => {
             this._delay().then(() => {
-                console.log('The timeout happened');
-                reject();
+                reject(new Error('_executePost: Request timed Out'));
             });
 
             const promiseGetRoom = this._getSoi(src.getUrl);
@@ -78,7 +77,9 @@ class Soi {
             const promisePostPromise = promiseExtractForm.then((data) => {
                 //console.log('Form data...', data);
                 data.vqxsp = text;
-                //data.vqxto = 'athelon@soi';
+                if (destUser) {
+                    data.vqxto = destUser;
+                }
                 return this._soiPost(src.postUrl, data);
             });
 
@@ -98,8 +99,11 @@ class Soi {
     }
 
     postToRoom(text) {
-        console.log('Sending..', text);
         return this._executePost(btcConfig.soi, text);
+    }
+
+    postToMail(text, user) {
+        return this._executePost(btcConfig.soiMail, text, user);
     }
 }
 

@@ -15,21 +15,31 @@ html
 
     p
       i Blame the Cards
-      |, a based off Cards Against Humanity, is NSFW (NOT SAFE FOR WORK.)
+      |, a game based off Cards Against Humanity, is NSFW (NOT SAFE FOR WORK.)
       |To describe some of the answer cards as rude or offensive would be
       |an understatement.
 
     p Only enter if you understand this.
 
-    form
-        span Please enter your SOI nickname:
-        input(id='soiNick', type='text', name='soiNick', value=soiNick)
+    if !verified
+        form
+            p.
+              In order to verify your user-name, BtC will send you a MSG at SOI.
+              After hitting the <code>Verify</code>
+              span button, check your SOI mailbox for a link to continue.
 
-    each d,l in lounges
-        button(class='lounge_' + l + ' enter-realm-button', 'data-lounge'=l)
-          div(class='logo')
-          div(class='util-text-align-center')= d.name
-        br
+            span Please enter your SOI nickname:
+            input(id='soiNick', type='text', name='soiNick', value=soiNick)
+            | &nbsp;
+            input(id='submitVerify', type='submit', name='submitVerify', value='Verify SOI Username')
+
+
+    if verified
+        each d,l in lounges
+            button(class='lounge_' + l + ' enter-realm-button', 'data-lounge'=l)
+                div(class='logo')
+                div(class='util-text-align-center')= d.name
+            br
 
     script.
         var gameUrl = '#{url}';

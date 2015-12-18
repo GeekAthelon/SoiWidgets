@@ -110,10 +110,10 @@ describe('Testing Card Stack Manager', function() {
         const maxQuestionCards = 40;
         const maxAnswerCards = 40;
 
-        before((done) => {
+        before(() => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound(done);
+            return game.startRound();
         });
 
         it('Checking bot name', () => {
@@ -205,10 +205,10 @@ describe('Testing Card Stack Manager', function() {
 
         let player;
 
-        before((done) => {
+        before(() => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound().then(() => {
+            return game.startRound().then(() => {
 
                 player = game.players[btcConfig.nick];
                 const hand = player.getHand();
@@ -217,7 +217,6 @@ describe('Testing Card Stack Manager', function() {
                 //console.log(JSON.stringify(game, null, 2));
                 game._endRound();
                 //console.log(JSON.stringify(game, null, 2));
-                done();
             });
         });
 
@@ -245,17 +244,16 @@ describe('Testing Card Stack Manager', function() {
 
         let player;
 
-        before((done) => {
+        before(() => {
             populateCards(game, maxQuestionCards, maxAnswerCards);
             game.addPlayer(btcConfig.nick);
-            game.startRound().then(() => {
+            return game.startRound().then(() => {
 
                 player = game.players[btcConfig.nick];
                 const hand = player.getHand();
                 player.playByCardsId([hand[0].num, hand[1].num]);
 
                 game.removePlayer(btcConfig.nick);
-                done();
             });
         });
 

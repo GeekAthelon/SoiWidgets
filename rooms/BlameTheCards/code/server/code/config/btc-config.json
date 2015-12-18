@@ -7,14 +7,14 @@
       "room": "BlameTheCards",
       "roomsite": "soi"
     },
-    "soiMail": {
+    "soiMail2": {
       "postUrl": "http://smail1.hyperchat.com/cgi-bin/mail1.exe",
       "getUrl": "http://smail1.hyperchat.com/cgi-bin/mail1.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
       "nick": "btc-bot",
       "room": "m",
       "roomsite": "soi"
     },
-    "soiMail2": {
+    "soiMail": {
       "postUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php",
       "getUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
       "nick": "btc-bot",

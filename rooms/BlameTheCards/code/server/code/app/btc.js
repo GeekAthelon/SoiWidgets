@@ -75,10 +75,10 @@
         });
     });
 
-    app.get('/enterlounge/:nick/:lounge', function(req, res) {
+    app.get('/enterlounge/:nick/:key', function(req, res) {
         res.json({
             status: 'OK',
-            text: 'Entered Lounge' + req.params.lounge
+            text: `EnteredLounge: key = ${req.params.lounge}`
         });
     });
 
@@ -87,6 +87,7 @@
         const status = lounge.getEntranceDetails();
         status.url = btcConfig.env.url;
         status.soiNick = req.params.nick;
+        status.verified = false;
         res.render('enterlounge', status);
     });
 

@@ -21,6 +21,23 @@ var gameUrl;
             });
         }
 
+        function captureVerifyForm() {
+            const button = document.getElementById('submitVerify');
+            const form = button.form;
+            const soiNick = document.getElementById('soiNick').value;
+
+            form.addEventListener('submit', (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            });
+
+            button.addEventListener('click', (event) => {
+                window.alert(`Button clicked ${soiNick}`);
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        }
+
         function addExtraButtons() {
             const findButton = document.querySelector('input[value="Find"]');
 
@@ -50,6 +67,7 @@ var gameUrl;
             //addVoteButtons();
         });
 
+        captureVerifyForm();
         captureEnterClicks();
     };
 }());
