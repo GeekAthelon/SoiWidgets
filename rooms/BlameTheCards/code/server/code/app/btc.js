@@ -24,6 +24,7 @@
     });
 
     const bodyParser = require('body-parser');
+    const cookieParser = require('cookie-parser');
     const cardLoader = require('./lib/card-loader');
     const fs = require('fs');
 
@@ -47,6 +48,7 @@
         console.log('Promise.all', err);
     });
 
+    app.use(cookieParser());
     app.use(bodyParser.json({
         inflate: true,
     }));
