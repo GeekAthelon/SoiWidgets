@@ -4,7 +4,7 @@
 const expect = require('chai').expect;
 const RegisterUsers = require('../app/lib/register-users.js');
 
-describe.only('Testing RegistereUser', () => {
+describe('Testing RegistereUser', () => {
     let registerUsers;
 
     before(() => {
