@@ -107,15 +107,15 @@
                 const l = 1;
 
                 const msg = `Someone, most likely you, has requested access to the
-				#r-btc@soi(Blame the Cards) lounge.   If so, follow the link below.
-				<br>
-				This link will be valid until the game is reset or until you request a
-				new link.
-				<br>
-				If you didn't request acces to the game, ignore this message.
-				<br>
-				<a href='${newUrl}'>Blame the Cards - Lounge</a>
-				`;
+                   #r-btc@soi(Blame the Cards) lounge.   If so, follow the link below.
+                   <br>
+                   This link will be valid until the game is reset or until you request a
+                   new link.
+                   <br>
+                   If you didn't request acces to the game, ignore this message.
+                   <br>
+                   <a href='${newUrl}'>Blame the Cards - Lounge</a>
+                `;
 
                 const msg2 = msg.replace(/(\r\n|\n|\r)/gm, '');
                 return soi.postToMail(msg2, soiNick);
