@@ -102,7 +102,9 @@
         registerUsers.add(soiNick)
             .then(details => {
                 token = details.token;
-                const encodedNick = encodeURIComponent(soiNick);
+                const encodedNick = encodeURIComponent(soiNick);                
+                const encPassword = new Buffer(`${encodedNick}_${token}`).toString('hex');
+                                
                 let newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
                 newUrl = newUrl.replace('http', 'ht<b></b>tp');
                 const l = 1;
@@ -116,7 +118,15 @@
                    If you didn't request acces to the game, ignore this message.
                    <br>
                    ${newUrl}
+                   <br>
+                   If things worked, this link would redirect you.  It currently doesn't.
+                   #r-btc@soi(This will redirect you),${encPassword}
                 `;
+
+                console.log('encPassword', encPassword);
+
+                const rev = new Buffer( encPassword, 'hex').toString('utf8');
+                console.log('rev', rev);
 
                 const msg2 = msg.replace(/(\r\n|\n|\r)/gm, '');
                 return soi.postToMail(msg2, soiNick);
