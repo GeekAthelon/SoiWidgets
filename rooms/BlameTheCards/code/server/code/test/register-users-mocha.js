@@ -8,7 +8,6 @@ describe('Testing RegistereUser', () => {
     let registerUsers;
 
     before(() => {
-        console.log(RegisterUsers);
         registerUsers = new RegisterUsers();
         return registerUsers.clear();
     });
@@ -56,6 +55,21 @@ describe('Testing RegistereUser', () => {
                 expect(isVerified).to.be.false;
             });
         /*jshint +W030 */
+    });
+
+    it('Testing encodeAsSoiRoomPassword', () => {
+        return registerUsers.encodeAsSoiRoomPassword('BotBoy@soi', '12345689').then(details => {
+            expect(details).to.equal('06BotBoy03soi0812345689');
+        });
+    });
+
+    it('Testing encodeAsSoiRoomPassword', () => {
+        return registerUsers.decodeFromSoiRoomPassword('06BotBoy03soi0812345689').then(details => {
+            expect(details).to.deep.equal({
+                soiUsername: 'BotBoy@soi',
+                token: '12345689'
+            });
+        });
     });
 
 });
