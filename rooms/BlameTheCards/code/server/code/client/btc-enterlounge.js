@@ -24,6 +24,10 @@ var gameUrl;
 
         function captureVerifyForm() {
             const button = document.getElementById('submitVerify');
+            if (!button) {
+                return;
+            }
+
             const form = button.form;
 
             form.addEventListener('submit', (event) => {
@@ -44,8 +48,13 @@ var gameUrl;
 
                 postJSON(
                     url, data, (r) => {
-                        var el = document.getElementById('soi-mail-room');
-                        window.location = el.href;
+                        const span = document.getElementById('instructions');
+                        span.innerHTML = 'Return to the SOI Mail room to check';
+
+                        const el = document.getElementById('soi-mail-room');
+                        if (el) {
+                            window.location = el.href;
+                        }
                         //window.alert(JSON.stringify(r));
                     });
                 event.stopPropagation();

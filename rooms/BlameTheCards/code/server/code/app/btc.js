@@ -81,10 +81,18 @@
     });
 
     app.get('/enterlounge/:nick/:key', function(req, res) {
-        res.json({
-            status: 'OK',
-            text: `EnteredLounge: ${req.params.nick} ${req.params.key}`
-        });
+        const lounge = new EnterLounge(btcLounges);
+        const status = lounge.getEntranceDetails();
+        status.url = btcConfig.env.url;
+        status.soiNick = req.params.nick;
+        status.key = req.params.key;
+        status.link = null;
+
+        registerUsers.verify(req.params.nick, req.params.key)
+            .then((isVerified) => {
+                status.verified = isVerified;
+                res.render('enterlounge', status);
+            });
     });
 
     app.post('/enterlounge/send-registration/', function(req, res) {

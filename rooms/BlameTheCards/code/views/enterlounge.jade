@@ -32,7 +32,11 @@ html
             input(id='soiNick', type='text', name='soiNick', value=soiNick)
             | &nbsp;
             input(id='submitVerify', type='submit', name='submitVerify', value='Verify SOI Username')
-            <a id='soi-mail-room' href='#{link}'>Go to SOI Mail Room</a>	
+            <br>
+            if link
+                <a id='soi-mail-room' href='#{link}'>Go to SOI Mail Room</a>
+            <h1 id='instructions'></h1>
+
 
     if verified
         each d,l in lounges
