@@ -102,9 +102,10 @@
         registerUsers.add(soiNick)
             .then(details => {
                 token = details.token;
-                const encodedNick = encodeURIComponent(soiNick);                
-                const encPassword = new Buffer(`${encodedNick}_${token}`).toString('hex');
-                                
+                return registerUsers.encodeAsSoiRoomPassword(soiNick, token);
+            })
+            .then(soiRoomPassword => {
+                const encodedNick = encodeURIComponent(soiNick);
                 let newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
                 newUrl = newUrl.replace('http', 'ht<b></b>tp');
                 const l = 1;
@@ -119,14 +120,10 @@
                    <br>
                    ${newUrl}
                    <br>
-                   If things worked, this link would redirect you.  It currently doesn't.
-                   #r-btc@soi(This will redirect you),${encPassword}
+                   #r-btc@soi(This will in the future redirect you),${soiRoomPassword} unless your
+                   nickname is too long, in which case you'll have to cut-and-paste the
+                   link above.
                 `;
-
-                console.log('encPassword', encPassword);
-
-                const rev = new Buffer( encPassword, 'hex').toString('utf8');
-                console.log('rev', rev);
 
                 const msg2 = msg.replace(/(\r\n|\n|\r)/gm, '');
                 return soi.postToMail(msg2, soiNick);
