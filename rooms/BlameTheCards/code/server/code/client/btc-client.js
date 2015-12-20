@@ -1,7 +1,14 @@
-/* globals hashFnv32a:true, removeNodes:true, getJSON:true, postJSON:true, gameUrl:true */
+/* globals hashFnv32a:true, removeNodes:true, getJSON:true, postJSON:true, gameUrl:true, getQueryVariable:true */
 
 (function() {
     'use strict';
+
+    window.setTimeout(() => {
+        var soiRoomPassword = getQueryVariable('password');
+        if (soiRoomPassword) {
+            window.location = `${gameUrl}/roomLink/${soiRoomPassword}`;
+        }
+    }, 1);
 
     function convertUsername(soiFullName) {
         const soiUsername = soiFullName

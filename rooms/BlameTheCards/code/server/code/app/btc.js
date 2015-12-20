@@ -80,15 +80,20 @@
         });
     });
 
-    app.get('/enterlounge/:nick/:key', function(req, res) {
+    app.get('/enterlounge/roomLink/:soiRoomPassword', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
         const status = lounge.getEntranceDetails();
+        const soiRoomPassword = req.params.soiRoomPassword;
+
         status.url = btcConfig.env.url;
-        status.soiNick = req.params.nick;
-        status.key = req.params.key;
         status.link = null;
 
-        registerUsers.verify(req.params.nick, req.params.key)
+        return registerUsers.decodeFromSoiRoomPassword('06BotBoy03soi0812345689')
+            .then(details => {
+                status.soiNick = details.soiUsername;
+                status.token = details.token;
+                return registerUsers.verify(status.soiNick, status.token);
+            })
             .then((isVerified) => {
                 status.verified = isVerified;
                 res.render('enterlounge', status);
