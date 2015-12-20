@@ -179,7 +179,7 @@ gulp.task('serve-dev', [/*'vet',*/ 'build'], function() {
     return runMonitor(nodeOptions);
 });
 
-gulp.task('serve-prod', ['build'], function() {
+gulp.task('serve-prod', [/* 'build' */], function() {
     var nodeOptions = {
         script: gulpConfig.nodeServer,
         delayTime: 1,

@@ -103,7 +103,8 @@
             .then(details => {
                 token = details.token;
                 const encodedNick = encodeURIComponent(soiNick);
-                const newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
+                let newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
+                newUrl = newUrl.replace('http', 'ht<b></b>tp');
                 const l = 1;
 
                 const msg = `Someone, most likely you, has requested access to the
@@ -114,7 +115,7 @@
                    <br>
                    If you didn't request acces to the game, ignore this message.
                    <br>
-                   <a href='${newUrl}'>Blame the Cards - Lounge</a>
+                   ${newUrl}
                 `;
 
                 const msg2 = msg.replace(/(\r\n|\n|\r)/gm, '');

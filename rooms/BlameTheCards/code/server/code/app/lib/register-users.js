@@ -15,7 +15,7 @@
 
         add(userName) {
             return new Promise((resolve, reject) => {
-                require('crypto').randomBytes(48, function(ex, buf) {
+                require('crypto').randomBytes(8, function(ex, buf) {
                     const token = buf.toString('hex');
                     const details = {
                         token

@@ -19,7 +19,7 @@ describe('Testing RegistereUser', () => {
 
     it('Adding a user', () => {
         return registerUsers.add('BotBoy').then(details => {
-            expect(details.token.length).to.equal(96);
+            expect(details.token.length).to.equal(16);
         });
     });
 
