@@ -3,12 +3,27 @@
 (function() {
     'use strict';
 
-    window.onload = function() {
-        const soiUsername = document
-            .getElementsByName('vqxha')[0]
-            .value
+    function convertUsername(soiFullName) {
+        const soiUsername = soiFullName
             .toLowerCase()
             .replace(/[^a-z1234567890@]/g, '');
+        return soiUsername;
+    }
+
+    function getLinkByText(linkText) {
+        const links = document.links;
+        const l = links.length;
+
+        for (let i = 0; i < l; i++) {
+            const link = links[i];
+            if (link.innerHTML === linkText) {
+                return link;
+            }
+        }
+    }
+
+    window.onload = function() {
+        const soiUsername = convertUsername(document.getElementsByName('vqxha')[0].value);
 
         const username = hashFnv32a(soiUsername, true);
         const playerAnswers = [];
@@ -257,9 +272,18 @@
             });
 
             addButton('Enter the Lounge', function(event) {
+                let link = getLinkByText('Mail');
+                if (!link) {
+                    link = getLinkByText('[Reload This Page]');
+                }
+
+                link = encodeURIComponent(link);
+
+                const nick = document.getElementsByName('vqxus')[0].value;
+                const nick2 = convertUsername(nick);
                 event.stopPropagation();
                 event.preventDefault();
-                window.location = `${gameUrl}/enterlounge`;
+                window.location = `${gameUrl}/enterlounge/reg/${nick2}/${link}`;
             });
 
         }

@@ -165,7 +165,7 @@ function runMonitor(nodeOptions) {
         });
 }
 
-gulp.task('serve-dev', ['vet', 'build'], function() {
+gulp.task('serve-dev', [/*'vet',*/ 'build'], function() {
     var nodeOptions = {
         script: gulpConfig.nodeServer,
         delayTime: 1,

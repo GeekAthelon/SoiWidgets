@@ -32,7 +32,7 @@ html
             input(id='soiNick', type='text', name='soiNick', value=soiNick)
             | &nbsp;
             input(id='submitVerify', type='submit', name='submitVerify', value='Verify SOI Username')
-
+            <a id='soi-mail-room' href='#{link}'>Go to SOI Mail Room</a>	
 
     if verified
         each d,l in lounges
@@ -44,4 +44,5 @@ html
     script.
         var gameUrl = '#{url}';
 
+    script(src='/client/btc-common.js')
     script(src='/client/btc-enterlounge.js')

@@ -16,6 +16,9 @@
     const cors = require('cors');
     const BtcBot = require('./lib/btc-bot');
     const btcBot = new BtcBot(gameHistory);
+    const soi = require('./lib/soi');
+    const RegisterUsers = require('../app/lib/register-users.js');
+    const registerUsers = new RegisterUsers();
 
     const game = new CardStackManager({
         history: gameHistory,
@@ -80,16 +83,57 @@
     app.get('/enterlounge/:nick/:key', function(req, res) {
         res.json({
             status: 'OK',
-            text: `EnteredLounge: key = ${req.params.lounge}`
+            text: `EnteredLounge: ${req.params.nick} ${req.params.key}`
         });
     });
 
-    app.get('/enterlounge/:nick?', function(req, res) {
+    app.post('/enterlounge/send-registration/', function(req, res) {
+        const soiNick = req.body.soiNick;
+        let token;
+
+        registerUsers.add(soiNick)
+            .then(details => {
+                token = details.token;
+                const encodedNick = encodeURIComponent(soiNick);
+                const newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
+                const l = 1;
+
+                const msg = `Someone, most likely you, has requested access to the
+				#r-btc@soi(Blame the Cards) lounge.   If so, follow the link below.
+				<br>
+				This link will be valid until the game is reset or until you request a
+				new link.
+				<br>
+				If you didn't request acces to the game, ignore this message.
+				<br>
+				<a href='${newUrl}'>Blame the Cards - Lounge</a>
+				`;
+
+                const msg2 = msg.replace(/(\r\n|\n|\r)/gm, '');
+                return soi.postToMail(msg2, soiNick);
+            }).then(() => {
+                res.json({
+                    status: 'OK'
+                });
+            }).catch((err) => {
+                console.log('send-registration');
+                console.log(err);
+
+                res.json({
+                    status: 'ERROR',
+                    text: 'Error: ' + err
+                });
+            });
+
+    });
+
+    app.get('/enterlounge/reg/:nick/:link', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
         const status = lounge.getEntranceDetails();
         status.url = btcConfig.env.url;
         status.soiNick = req.params.nick;
         status.verified = false;
+        status.link = req.params.link;
         res.render('enterlounge', status);
     });
 

@@ -1,3 +1,4 @@
+/*global postJSON: true */
 var gameUrl;
 (function() {
     'use strict';
@@ -24,7 +25,6 @@ var gameUrl;
         function captureVerifyForm() {
             const button = document.getElementById('submitVerify');
             const form = button.form;
-            const soiNick = document.getElementById('soiNick').value;
 
             form.addEventListener('submit', (event) => {
                 event.stopPropagation();
@@ -32,7 +32,22 @@ var gameUrl;
             });
 
             button.addEventListener('click', (event) => {
-                window.alert(`Button clicked ${soiNick}`);
+                const soiNick = document.getElementById('soiNick').value;
+                if (!soiNick) {
+                    return;
+                }
+
+                const url = `/enterlounge/send-registration/`;
+                const data = {
+                    soiNick
+                };
+
+                postJSON(
+                    url, data, (r) => {
+                        var el = document.getElementById('soi-mail-room');
+                        window.location = el.href;
+                        //window.alert(JSON.stringify(r));
+                    });
                 event.stopPropagation();
                 event.preventDefault();
             });
