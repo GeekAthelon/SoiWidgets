@@ -80,7 +80,7 @@
         });
     });
 
-    app.get('/enterlounge/roomLink/:soiRoomPassword', function(req, res) {
+    app.get('/enterlounge/room-link/:soiRoomPassword', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
         const status = lounge.getEntranceDetails();
         const soiRoomPassword = req.params.soiRoomPassword;
@@ -88,7 +88,7 @@
         status.url = btcConfig.env.url;
         status.link = null;
 
-        return registerUsers.decodeFromSoiRoomPassword('06BotBoy03soi0812345689')
+        return registerUsers.decodeFromSoiRoomPassword(soiRoomPassword)
             .then(details => {
                 status.soiNick = details.soiUsername;
                 status.token = details.token;

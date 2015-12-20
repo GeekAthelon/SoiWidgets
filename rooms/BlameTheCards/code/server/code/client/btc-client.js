@@ -6,7 +6,7 @@
     window.setTimeout(() => {
         var soiRoomPassword = getQueryVariable('password');
         if (soiRoomPassword) {
-            window.location = `${gameUrl}/roomLink/${soiRoomPassword}`;
+            window.location = `${gameUrl}/enterlounge/room-link/${soiRoomPassword}`;
         }
     }, 1);
 
