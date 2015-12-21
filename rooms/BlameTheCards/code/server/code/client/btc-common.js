@@ -78,3 +78,104 @@
         });
     };
 }(window));
+
+var validate = (function() {
+
+    const rules = {};
+    const IS_VALID = true;
+    const IS_NOT_VALID = false;
+
+    rules.required = ((input) => {
+        const val = input.value;
+        if (val) {
+            return IS_VALID;
+        }
+        return IS_NOT_VALID;
+    });
+
+    function validateField(input) {
+        let fieldState = IS_VALID;
+        Object.keys(rules).forEach((rule) => {
+            const ruleMessage = input.getAttribute(`data-val-${rule}`);
+            if (!ruleMessage) {
+                return;
+            }
+
+            const state = rules[rule](input);
+            const messageContainer = document.querySelector(`[data-val-for=${input.id}`);
+            if (state === IS_VALID) {
+                messageContainer.innerHTML = '';
+            } else {
+                messageContainer.innerHTML = ruleMessage;
+                fieldState = state;
+            }
+        });
+        return fieldState;
+    }
+
+    function attachAll(form) {
+        const inputs = form.querySelectorAll('input');
+        for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            input.addEventListener('blur', function() {
+                validateField(this);
+            }, false);
+        }
+    }
+
+    function verifyForm(form) {
+        let formState = IS_VALID;
+        const inputs = form.querySelectorAll('input');
+        for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            const state = validateField(input);
+
+            console.log(input, state);
+
+            if (state === IS_NOT_VALID) {
+                formState = IS_NOT_VALID;
+            }
+        }
+        return formState;
+    }
+
+    return {
+        validateField,
+        attachAll,
+        verifyForm
+    };
+
+}());
+
+function serialize(form) {
+    // jshint maxdepth:10
+    // jshint maxcomplexity:20
+    var field, s = [];
+    if (typeof form === 'object' && form.nodeName === 'FORM') {
+        var len = form.elements.length;
+        for (let i = 0; i < len; i++) {
+            field = form.elements[i];
+            if (field.name &&
+                !field.disabled &&
+                field.type !== 'file' &&
+                field.type !== 'reset' &&
+                field.type !== 'submit' &&
+                field.type !== 'button') {
+                if (field.type === 'select-multiple') {
+                    for (let j = form.elements[i].options.length - 1; j >= 0; j--) {
+                        if (field.options[j].selected) {
+                            s[s.length] = encodeURIComponent(field.name) +
+                                '=' +
+                                encodeURIComponent(field.options[j].value);
+                        }
+                    }
+                } else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+                    s[s.length] = encodeURIComponent(field.name) +
+                        '=' +
+                        encodeURIComponent(field.value);
+                }
+            }
+        }
+    }
+    return s.join('&').replace(/%20/g, '+');
+}

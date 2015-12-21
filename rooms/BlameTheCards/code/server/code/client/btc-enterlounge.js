@@ -1,12 +1,30 @@
-/*global postJSON: true */
+/*global postJSON: true, validate:true, serialize:true */
 var gameUrl;
 (function() {
     'use strict';
 
     window.onload = function() {
 
-        function captureEnterClicks() {
-            document.body.addEventListener('click', function(event) {
+        function configureCreateRoom() {
+            var form = document.getElementById('createRoomForm');
+            if (!form) {
+                return;
+            }
+
+            validate.attachAll(form);
+
+            var submitButton = document.getElementById('createRoom');
+            submitButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                const isValid = validate.verifyForm(form);
+                console.log(isValid);
+                const data = serialize(form);
+                console.log(data);
+            });
+
+            document.body.addEventListener('zclick', function(event) {
                 let target = event.target;
 
                 while (target && target !== document) {
@@ -15,7 +33,7 @@ var gameUrl;
                         window.alert('lounge: ' + lounge);
                         event.stopPropagation();
                         event.preventDefault();
-                        window.location = `${gameUrl}/enterlounge/${lounge}`;
+                        //window.location = `${gameUrl}/enterlounge/${lounge}`;
                     }
                     target = target.parentNode;
                 }
@@ -92,6 +110,6 @@ var gameUrl;
         });
 
         captureVerifyForm();
-        captureEnterClicks();
+        configureCreateRoom();
     };
 }());

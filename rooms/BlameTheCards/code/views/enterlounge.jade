@@ -46,11 +46,24 @@ html
 
 
     if verified
-        each d,l in lounges
-            button(class='lounge_' + l + ' enter-realm-button', 'data-lounge'=l)
-                div(class='logo')
-                div(class='util-text-align-center')= d.name
-            br
+       form(id='createRoomForm')
+           div
+               fieldset
+                   legend Room Details
+                   label(for='roomName') Choose a room name:
+                   input(id='roomName', type='text', name='roomName', value='', data-val-required='Room Name is required')
+                   span(data-val-for='roomName') &nbsp;
+
+                fieldset
+                    legend Choose the room theme
+                    each key,i in Object.keys(lounges)
+                        - var l = key;
+                        - var checked = (i === 0);
+                        label.theme-select-label
+                            input(type='radio', name='theme-select-radio', value=l, checked=checked)
+                            img(class='lounge_' + l + ' select-theme', src='/static/images/#{l}-logo-small.png')
+
+                input(id='createRoom', type='button', name='createRoom', value='Create Room')
 
     script.
         var gameUrl = '#{url}';

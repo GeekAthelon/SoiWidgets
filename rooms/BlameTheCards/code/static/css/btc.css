@@ -6,13 +6,33 @@ body {
 
 input {
 	background-color: black;
-	color: white;
 }
-button.enter-realm-button {
+
+label.theme-select-label {
+	display: inline-block;
+	color: white;
+  width: 150px;
+  height: 150px;
+  margin-left: 2em;
+}
+label.theme-select-label > input {
+	visibility: hidden; /* Makes input not-clickable */
+	position: absolute; /* Remove input from document flow */
+	
+}
+
+label.theme-select-label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label.theme-select-label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+
+button.select-theme-button {
   display: block;
   padding-top: 1em;
   padding-bottom: 1em;
-  width: 90%;
   background-color: transparent;
 }
 
