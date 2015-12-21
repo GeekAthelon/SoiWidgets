@@ -1,4 +1,4 @@
-/*global postJSON: true, validate:true, serialize:true */
+/*global postJSON: true, validate:true, serialize:true, post:true */
 var gameUrl;
 (function() {
     'use strict';
@@ -13,15 +13,32 @@ var gameUrl;
 
             validate.attachAll(form);
 
-            var submitButton = document.getElementById('createRoom');
-            submitButton.addEventListener('click', (event) => {
+            form.addEventListener('submit', (event) => {
                 event.stopPropagation();
                 event.preventDefault();
 
                 const isValid = validate.verifyForm(form);
-                console.log(isValid);
-                const data = serialize(form);
-                console.log(data);
+                const validationMessageContainer =
+                    document.querySelector('[data-val-for="createRoom"]');
+
+                if (isValid) {
+                    validationMessageContainer.innerHTML = '';
+                    const formData = serialize(form);
+                    const url = `${gameUrl}/create-room`;
+
+                    postJSON(
+                        url, formData, (result) => {
+                            if (result.error) {
+                                validationMessageContainer.innerHTML = result.error;
+                            } else {
+                                const enterUrl = `${gameUrl}/enter-room`;
+                                post(enterUrl, formData, 'post');
+                            }
+                        });
+
+                } else {
+                    validationMessageContainer.innerHTML = 'Error in form.';
+                }
             });
 
             document.body.addEventListener('zclick', function(event) {

@@ -8,6 +8,12 @@ input {
 	background-color: black;
 }
 
+[data-val-for] {
+  color: yellow;
+  background-color: black;
+  margin-left: 2em;
+}
+
 label.theme-select-label {
 	display: inline-block;
 	color: white;
@@ -26,7 +32,8 @@ label.theme-select-label > input + img{ /* IMAGE STYLES */
   border:2px solid transparent;
 }
 label.theme-select-label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
-  border:2px solid #f00;
+  border:2px solid white;
+  border-bottom: 25px solid transparent;
 }
 
 button.select-theme-button {

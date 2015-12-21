@@ -40,6 +40,7 @@
     };
 
     const cardLoaderPromise = cardLoader.load(game, cardSources);
+    const gameRooms = {};
 
     cardLoaderPromise.then(() => {
         var port = btcConfig.env.port;
@@ -55,6 +56,9 @@
     app.use(bodyParser.json({
         inflate: true,
     }));
+    // Catch POST data too
+    app.use(bodyParser.urlencoded());
+
     app.use(cors());
     app.use('/static', express.static('static'));
     app.use('/client', express.static('build/client'));
@@ -114,6 +118,62 @@
                 status.verified = isVerified;
                 res.render('enterlounge', status);
             });
+    });
+
+    app.post('/enter-room/', function(req, res) {
+        const roomName = req.body.roomName;
+        const roomData = gameRooms[roomName];
+        if (!roomData) {
+            res.status(404).send(`${roomName} not found`);
+            return;
+        }
+
+        const viewData = {
+            soiNick: req.body.soiNick,
+            token: req.body.token,
+            title: `Blame the Cards Room: ${roomName}`
+        };
+
+        res.render('game-room', viewData);
+        return;
+    });
+
+    app.post('/create-room/', function(req, res) {
+        const roomName = req.body.roomName;
+        const doesRoomExist = !!gameRooms[roomName];
+        if (doesRoomExist) {
+            res.json({
+                error: `Room ${roomName} already exists`
+            });
+            return;
+        }
+
+        const gameHistory = new History(roomName);
+        const roomGame = new CardStackManager({
+            history: gameHistory,
+            btcBot: btcBot,
+            settings: btcSettings
+        });
+
+        gameRooms[roomName] = {
+            game: roomGame,
+            theme: req.body.theme,
+            owner: req.body.soiNick
+        };
+
+        const cardLoaderPromise = cardLoader.load(game, cardSources);
+
+        cardLoaderPromise.then(() => {
+            //game.startRound();
+            res.json({
+                message: `Room ${roomName} prepped`
+            });
+        }).catch((err) => {
+            res.json({
+                error: `Error making ${roomName}`,
+                details: err
+            });
+        });
     });
 
     app.post('/enterlounge/send-registration/', function(req, res) {

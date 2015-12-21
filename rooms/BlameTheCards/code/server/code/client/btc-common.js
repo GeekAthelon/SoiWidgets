@@ -107,7 +107,7 @@ var validate = (function() {
                 messageContainer.innerHTML = '';
             } else {
                 messageContainer.innerHTML = ruleMessage;
-                fieldState = state;
+                fieldState = IS_NOT_VALID;
             }
         });
         return fieldState;
@@ -130,8 +130,6 @@ var validate = (function() {
             const input = inputs[i];
             const state = validateField(input);
 
-            console.log(input, state);
-
             if (state === IS_NOT_VALID) {
                 formState = IS_NOT_VALID;
             }
@@ -147,10 +145,11 @@ var validate = (function() {
 
 }());
 
-function serialize(form) {
+function serialize(form, encode) {
     // jshint maxdepth:10
     // jshint maxcomplexity:20
     var field, s = [];
+    const postValues = {};
     if (typeof form === 'object' && form.nodeName === 'FORM') {
         var len = form.elements.length;
         for (let i = 0; i < len; i++) {
@@ -164,12 +163,14 @@ function serialize(form) {
                 if (field.type === 'select-multiple') {
                     for (let j = form.elements[i].options.length - 1; j >= 0; j--) {
                         if (field.options[j].selected) {
+                            postValues[field.name] = field.options[j].value;
                             s[s.length] = encodeURIComponent(field.name) +
                                 '=' +
                                 encodeURIComponent(field.options[j].value);
                         }
                     }
                 } else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+                    postValues[field.name] = field.value;
                     s[s.length] = encodeURIComponent(field.name) +
                         '=' +
                         encodeURIComponent(field.value);
@@ -177,5 +178,34 @@ function serialize(form) {
             }
         }
     }
-    return s.join('&').replace(/%20/g, '+');
+
+    if (encode) {
+        return s.join('&').replace(/%20/g, '+');
+    } else {
+        return postValues;
+    }
+}
+
+function post(path, params, method) {
+    method = method || 'post'; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement('form');
+    form.setAttribute('method', method);
+    form.setAttribute('action', path);
+
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement('input');
+            hiddenField.setAttribute('type', 'hidden');
+            hiddenField.setAttribute('name', key);
+            hiddenField.setAttribute('value', params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
 }

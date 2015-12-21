@@ -52,7 +52,9 @@ html
                    legend Room Details
                    label(for='roomName') Choose a room name:
                    input(id='roomName', type='text', name='roomName', value='', data-val-required='Room Name is required')
-                   span(data-val-for='roomName') &nbsp;
+                   span(data-val-for='roomName')
+                   input(type='hidden' name='soiNick' value=soiNick)
+                   input(type='hidden' name='token' value=token)
 
                 fieldset
                     legend Choose the room theme
@@ -60,10 +62,12 @@ html
                         - var l = key;
                         - var checked = (i === 0);
                         label.theme-select-label
-                            input(type='radio', name='theme-select-radio', value=l, checked=checked)
+                            input(type='radio', name='theme', value=l, checked=checked)
                             img(class='lounge_' + l + ' select-theme', src='/static/images/#{l}-logo-small.png')
 
-                input(id='createRoom', type='button', name='createRoom', value='Create Room')
+                div
+                    input(id='createRoom' type='submit' name='createRoom' value='Create Room')
+                    span(data-val-for='createRoom')
 
     script.
         var gameUrl = '#{url}';

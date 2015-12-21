@@ -64,7 +64,11 @@ class History {
 
     getLastRoundNumber() {
         const rounds = roundCollection.where(`@lounge == '${this.lounge}'`);
-        return rounds.items[0].round;
+        if (rounds.items.length === 0) {
+            return 0;
+        } else {
+            return rounds.items[0].round;
+        }
     }
 
     getUnpostedVotes() {
