@@ -80,6 +80,22 @@
         });
     });
 
+    app.get('/enterlounge/straight-link/:nick/:token', function(req, res) {
+        const lounge = new EnterLounge(btcLounges);
+        const status = lounge.getEntranceDetails();
+
+        status.url = btcConfig.env.url;
+        status.link = null;
+        status.soiNick = req.params.nick;
+        status.token = req.params.token;
+
+        return registerUsers.verify(status.soiNick, status.token)
+            .then((isVerified) => {
+                status.verified = isVerified;
+                res.render('enterlounge', status);
+            });
+    });
+
     app.get('/enterlounge/room-link/:soiRoomPassword', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
         const status = lounge.getEntranceDetails();
@@ -111,9 +127,13 @@
             })
             .then(soiRoomPassword => {
                 const encodedNick = encodeURIComponent(soiNick);
-                let newUrl = `${btcConfig.env.url}/enterlounge/${encodedNick}/${token}`;
-                newUrl = newUrl.replace('http', 'ht<b></b>tp');
-                const l = 1;
+                let newUrl = `${btcConfig.env.url}/enterlounge/straight-link/` +
+                    `${encodedNick}/${token}`;
+                if (btcConfig.isDev) {
+                    newUrl = `<a href='${newUrl}'>Go to the lounge</a>`;
+                } else {
+                    newUrl = newUrl.replace('http', 'ht<b></b>tp');
+                }
 
                 const msg = `Someone, most likely you, has requested access to the
                    #r-btc@soi(Blame the Cards) lounge.   If so, follow the link below.
