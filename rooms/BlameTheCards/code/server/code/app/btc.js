@@ -145,7 +145,7 @@
                    <br>
                    ${newUrl}
                    <br>
-                   #r-btc@soi(This will in the future redirect you),${soiRoomPassword} unless your
+                   #r-btc@soi(This will redirect you),${soiRoomPassword} unless your
                    nickname is too long, in which case you'll have to cut-and-paste the
                    link above.
                 `;
