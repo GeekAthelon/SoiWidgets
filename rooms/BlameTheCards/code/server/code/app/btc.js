@@ -121,21 +121,29 @@
     });
 
     app.post('/enter-room/', function(req, res) {
-        const roomName = req.body.roomName;
-        const roomData = gameRooms[roomName];
-        if (!roomData) {
-            res.status(404).send(`${roomName} not found`);
-            return;
-        }
+        return registerUsers.verify(req.body.soiNick, req.body.token)
+            .then((isVerified) => {
+                if (!isVerified) {
+                    res.status(404).send(`Invalid credentials`);
+                    return;
+                }
 
-        const viewData = {
-            soiNick: req.body.soiNick,
-            token: req.body.token,
-            title: `Blame the Cards Room: ${roomName}`
-        };
+                const roomName = req.body.roomName;
+                const roomData = gameRooms[roomName];
+                if (!roomData) {
+                    res.status(404).send(`${roomName} not found`);
+                    return;
+                }
 
-        res.render('game-room', viewData);
-        return;
+                const viewData = {
+                    soiNick: req.body.soiNick,
+                    token: req.body.token,
+                    title: `Blame the Cards Room: ${roomName}`
+                };
+
+                res.render('game-room', viewData);
+                return;
+            });
     });
 
     app.post('/create-room/', function(req, res) {
