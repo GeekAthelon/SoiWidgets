@@ -24,14 +24,14 @@ var gameUrl;
                 if (isValid) {
                     validationMessageContainer.innerHTML = '';
                     const formData = serialize(form);
-                    const url = `${gameUrl}/create-room`;
+                    const url = `${gameUrl}/enterlounge/create-room`;
 
                     postJSON(
                         url, formData, (result) => {
                             if (result.error) {
                                 validationMessageContainer.innerHTML = result.error;
                             } else {
-                                const enterUrl = `${gameUrl}/enter-room`;
+                                const enterUrl = `${gameUrl}/enterlounge/enter-room`;
                                 post(enterUrl, formData, 'post');
                             }
                         });

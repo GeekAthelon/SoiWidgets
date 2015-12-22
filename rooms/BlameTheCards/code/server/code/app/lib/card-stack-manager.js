@@ -92,8 +92,14 @@ class CardStackManager {
             throw new Error('CardStackManager - cfg.settings not configured');
         }
 
+        /* istanbul ignore if  */
+        if (!cfg.name) {
+            throw new Error('CardStackManager - cfg.name not configured');
+        }
+
         this.history = cfg.history;
         this.settings = cfg.settings;
+        this.name = cfg.name;
 
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
         this.questionDiscardStack = new CardStack('Question Discard Stack', Deck.cardType.QUESTION);
@@ -110,9 +116,15 @@ class CardStackManager {
         this.lastRoundPlaced = -1;
     }
 
+    _pub(n, obj) {
+        const s = `${this.name}.${n}`;
+        console.log(s);
+        psevents.publish(s, obj);
+    }
+
     drawQuestion() {
         if (this.questionDrawStack._cards.length === 0) {
-            psevents.publish('main-room.info', `Shuffled Question Deck`);
+            this._pub('game.info', `Shuffled Question Deck`);
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }
         return this.questionDrawStack.draw();
@@ -120,7 +132,7 @@ class CardStackManager {
 
     drawAnswer() {
         if (this.answerDrawStack._cards.length === 0) {
-            psevents.publish('main-room.info', `Shuffled Answer Deck`);
+            this._pub('game.info', `Shuffled Answer Deck`);
             reshuffle(this.answerDiscardStack, this.answerDrawStack);
         }
         return this.answerDrawStack.draw();
@@ -226,7 +238,7 @@ class CardStackManager {
     }
 
     startRound() {
-        psevents.publish('main-room.start-round.begin');
+        this._pub('game.start-round.begin');
 
         this.round++;
         let qCard = this.drawQuestion();
@@ -242,7 +254,7 @@ class CardStackManager {
 
         this.countdown = Date.now() + this.settings.turnDuration;
 
-        psevents.publish('main-room.start-round.end');
+        this._pub('game.start-round.end');
     }
 
     loadQuestionCards(cards) {

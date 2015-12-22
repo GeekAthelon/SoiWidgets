@@ -14,7 +14,8 @@ const psevents = require('../lib/pub-sub');
 function init(app, cardSources) {
     const game = new CardStackManager({
         history: gameHistory,
-        settings: btcSettings
+        settings: btcSettings,
+        name: 'main-room',
     });
 
     app.get('/', function(req, res) {
@@ -81,16 +82,16 @@ function init(app, cardSources) {
         });
     });
 
-    psevents.subscribe('main-room.info', (message) => {
+    psevents.subscribe('main-room.game.info', (message) => {
         btcBot.addMessage(message);
         console.log(message);
     });
 
-    psevents.subscribe('main-room.start-round.begin', () => {
+    psevents.subscribe('main-room.game.start-round.begin', () => {
         btcBot.queueNewVotes();
     });
 
-    psevents.subscribe('main-room.start-round.end', () => {
+    psevents.subscribe('main-room.game.start-round.end', () => {
         var postPromise = btcBot.post();
         postPromise.then(() => {
             console.log('SOI post complete');
@@ -106,7 +107,7 @@ function init(app, cardSources) {
     cardLoaderPromise.then(() => {
         game.startRound();
     }).catch((err) => {
-        console.log('main-room.init - ', err);
+        console.log('game.init - ', err);
     });
 }
 
