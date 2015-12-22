@@ -71,9 +71,13 @@ function init(app, cardSources) {
                 }
 
                 const viewData = {
+					url: btcConfig.env.url,
+				    roomName: roomName,
+					theme:roomData.theme,
                     soiNick: req.body.soiNick,
                     token: req.body.token,
-                    title: `Blame the Cards Room: ${roomName}`
+                    title: `Blame the Cards Room: ${roomName}`,
+					lounges: btcLounges,
                 };
 
                 res.render('game-room', viewData);

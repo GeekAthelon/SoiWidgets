@@ -1,6 +1,22 @@
 doctype html
 html
   head
+    link(href='/static/css/normalize.css', rel='stylesheet')
+    link(href='/static/css/btc.css', rel='stylesheet')
+
+    each d,l in lounges
+        link(href='/static/css/lounge_' + l + '.css', rel='stylesheet')
+
     title!= title
-  body
-    h1!= title
+  body(class='lounge_' + theme)
+    h1 Blame the Cards - Room #{roomName}
+
+    script.
+        var gameUrl = '#{url}';
+        var soiNick = '#{soiNick}';
+        var token = '#{token}';
+        var roomName = '#{roomName}';
+
+    script(src='/client/btc-common.js')
+    script(src='/client/btc-enterlounge.js')
+    script(src='/static/js/sockjs.min.js')
