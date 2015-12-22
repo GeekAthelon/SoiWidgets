@@ -36,11 +36,21 @@ label.theme-select-label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES 
   border-bottom: 25px solid transparent;
 }
 
-button.select-theme-button {
+button.select-theme-button{
   display: block;
   padding-top: 1em;
   padding-bottom: 1em;
   background-color: transparent;
+}
+
+button.room-list-item {
+  display: block;
+  background-color: transparent;
+}
+
+.room-list-item-container {
+	display: inline-block;
+	padding-right: 2em;
 }
 
 .util-text-align-center {

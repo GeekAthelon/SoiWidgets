@@ -46,19 +46,27 @@ html
 
 
     if verified
-       form(id='createRoomForm')
-           div
-               fieldset
-                   legend Room Details
+        fieldset
+            legend Join an existing room
+            div#room-list-container
+
+        br
+        br
+        br
+        br
+
+        form(id='createRoomForm')
+            div
+                fieldset
+                   legend Create a new room
                    label(for='roomName') Choose a room name:
                    input(id='roomName', type='text', name='roomName', value='', data-val-required='Room Name is required')
                    span(data-val-for='roomName')
                    input(type='hidden' name='soiNick' value=soiNick)
                    input(type='hidden' name='token' value=token)
 
-                fieldset
-                    legend Choose the room theme
-                    each key,i in Object.keys(lounges)
+                   legend Choose the room theme
+                   each key,i in Object.keys(lounges)
                         - var l = key;
                         - var checked = (i === 0);
                         label.theme-select-label
@@ -69,8 +77,17 @@ html
                     input(id='createRoom' type='submit' name='createRoom' value='Create Room')
                     span(data-val-for='createRoom')
 
+    script#join-room-template(type='text/html')
+       button.room-list-item
+           img
+           br
+           span.room-list-name
+           br
+           span.room-list-owner
+
     script.
         var gameUrl = '#{url}';
 
     script(src='/client/btc-common.js')
     script(src='/client/btc-enterlounge.js')
+    script(src='/static/js/sockjs.min.js')

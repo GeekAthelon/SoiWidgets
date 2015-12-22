@@ -19,7 +19,6 @@ const soi = require('../lib/soi');
 const gameRooms = {};
 
 function init(app, cardSources) {
-
     app.get('/enterlounge/straight-link/:nick/:token', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
         const status = lounge.getEntranceDetails();
@@ -96,7 +95,8 @@ function init(app, cardSources) {
         const roomGame = new CardStackManager({
             history: gameHistory,
             btcBot: btcBot,
-            settings: btcSettings
+            settings: btcSettings,
+            name: roomName
         });
 
         gameRooms[roomName] = {
@@ -109,6 +109,8 @@ function init(app, cardSources) {
 
         cardLoaderPromise.then(() => {
             //game.startRound();
+            psevents.publish(`game.roomlist.changed`, gameRooms);
+
             res.json({
                 message: `Room ${roomName} prepped`
             });
@@ -186,7 +188,7 @@ function init(app, cardSources) {
     });
 
     psevents.subscribe('game.start-round.begin', () => {
-        btcBot.queueNewVotes();
+        //btcBot.queueNewVotes();
     });
 
     psevents.subscribe('game.start-round.end', () => {

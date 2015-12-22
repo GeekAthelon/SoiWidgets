@@ -22,7 +22,8 @@
     "locallydb": "0.0.9",
     "mocha": "latest",
     "random-js": "^1.0.8",
-    "request": "latest"
+    "request": "latest",
+    "sockjs": "^0.3.15"
   },
   "devDependencies": {
     "del": "^2.0.2",
