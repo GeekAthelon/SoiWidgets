@@ -1,6 +1,7 @@
 /* exported post */
 /* exported validate */
 /* exported serialize */
+/* exported secureSend */
 (function(window) {
     'use strict';
 
@@ -217,4 +218,10 @@ function post(path, params, method) {
 
     document.body.appendChild(form);
     form.submit();
+}
+
+function secureSend(sock, data) {
+    data.soiNick = window.soiNick;
+    data.token = window.token;
+    sock.send(JSON.stringify(data));
 }

@@ -2,6 +2,8 @@
 
 const sockjs = require('sockjs');
 const psevents = require('../lib/pub-sub');
+const RegisterUsers = require('../lib/register-users.js');
+const registerUsers = new RegisterUsers();
 
 function sendRoomList(connections, gameRooms) {
     const list = Object.keys(gameRooms).map((roomName) => {
@@ -22,7 +24,6 @@ function sendRoomList(connections, gameRooms) {
     for (var ii = 0; ii < connections.length; ii++) {
         connections[ii].write(json);
     }
-
 }
 
 var webSocket = function(app, server) {
@@ -44,16 +45,19 @@ var webSocket = function(app, server) {
                 o = {};
             }
 
-            console.log(o);
+            registerUsers.verify(o.soiNick, o.token).then(isVerified => {
+                if (!isVerified) {
+                    conn.write('User validation failed');
+                    return;
+                }
 
-            if (o.type === 'request-room-list') {
-                console.log('*****');
-                sendRoomList(connections, saveGameRooms);
-                return;
-            }
-            for (var ii = 0; ii < connections.length; ii++) {
-                connections[ii].write('User ' + number + ' says: ' + message);
-            }
+                if (o.type === 'request-room-list') {
+                    console.log('*****');
+                    sendRoomList(connections, saveGameRooms);
+                    return;
+                }
+            });
+
         });
         conn.on('close', function() {
             for (var ii = 0; ii < connections.length; ii++) {
@@ -70,7 +74,6 @@ var webSocket = function(app, server) {
         sendRoomList(connections, gameRooms);
         saveGameRooms = gameRooms;
     });
-
 };
 
 exports = module.exports = webSocket;

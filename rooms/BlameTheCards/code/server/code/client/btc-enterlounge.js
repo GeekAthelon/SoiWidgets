@@ -1,4 +1,4 @@
-/*global postJSON: true, validate:true, serialize:true, post:true, SockJS */
+/*global postJSON: true, validate:true, serialize:true, post:true, SockJS, secureSend */
 var gameUrl;
 (function() {
     'use strict';
@@ -159,9 +159,9 @@ var gameUrl;
 
         sock.onopen = function() {
             console.log('Websocket open');
-            sock.send(JSON.stringify({
+            secureSend(sock, {
                 type: 'request-room-list'
-            }));
+            });
         };
 
         captureVerifyForm();
