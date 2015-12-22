@@ -109,7 +109,7 @@ var validate = (function() {
             }
 
             const state = rules[rule](input);
-            const messageContainer = document.querySelector(`[data-val-for=${input.id}`);
+            const messageContainer = document.querySelector(`[data-val-for=${input.id}]`);
             if (state === IS_VALID) {
                 messageContainer.innerHTML = '';
             } else {

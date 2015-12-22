@@ -1,9 +1,54 @@
-/*global postJSON: true, validate:true, serialize:true, post:true */
+/*global postJSON: true, validate:true, serialize:true, post:true, SockJS */
 var gameUrl;
 (function() {
     'use strict';
 
     window.onload = function() {
+        const sock = new SockJS(`${gameUrl}/chat`);
+
+		function enterRoom(roomName) {
+          const enterUrl = `${gameUrl}/enterlounge/enter-room`;
+	      const form = document.getElementById('createRoomForm');
+          const formData = serialize(form);
+		  formData.roomName = roomName;
+		  
+		  debugger;
+		  
+          post(enterUrl, formData, 'post');
+		}
+		
+        function createRoomList(list, defaultMessage) {
+            const container = document.getElementById('room-list-container');
+            const template = document.getElementById('join-room-template').innerHTML;
+
+            if (!container) {
+                return;
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = defaultMessage;
+                return;
+            }
+
+            container.innerHTML = '';
+            list.forEach(room => {
+                const inp = document.createElement('div');
+                inp.innerHTML = template;
+				inp.className = 'room-list-item-container';
+                const img = inp.querySelector('img');
+                img.src = `/static/images/${room.theme}-logo-small.png`;
+                img.className = `lounge_${room.theme}`;
+
+                inp.querySelector('.room-list-name').innerHTML = room.roomName;
+                inp.querySelector('.room-list-owner').innerHTML = room.owner;
+                container.appendChild(inp);
+				
+				const button = inp.querySelector('button');
+				button.addEventListener('click', () => {
+					enterRoom(room.roomName);
+				});
+            });
+        }
 
         function configureCreateRoom() {
             var form = document.getElementById('createRoomForm');
@@ -31,8 +76,7 @@ var gameUrl;
                             if (result.error) {
                                 validationMessageContainer.innerHTML = result.error;
                             } else {
-                                const enterUrl = `${gameUrl}/enterlounge/enter-room`;
-                                post(enterUrl, formData, 'post');
+								enterRoom(formData.roomName);
                             }
                         });
 
@@ -103,7 +147,28 @@ var gameUrl;
             //addVoteButtons();
         });
 
+        sock.onmessage = function(json) {
+            console.log('websocket data received', json);
+            let data = {};
+
+            try {
+                data = JSON.parse(json.data);
+            } catch (err) {}
+
+            if (data.type === 'room-list') {
+                createRoomList(data.list, 'No Rooms Created yet');
+            }
+        };
+
+        sock.onopen = function() {
+            console.log('Websocket open');
+            sock.send(JSON.stringify({
+                type: 'request-room-list'
+            }));
+        };
+
         captureVerifyForm();
         configureCreateRoom();
+        createRoomList([], 'Loading...');
     };
 }());

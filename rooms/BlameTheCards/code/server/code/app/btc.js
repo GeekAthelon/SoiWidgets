@@ -9,7 +9,8 @@
     const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
     const fs = require('fs');
-
+    const http = require('http');
+    const initWebSockets = require('./app-init/websockets');
     const initMainRoom = require('./app-init/main-room');
     const initLounges = require('./app-init/lounges');
 
@@ -21,8 +22,12 @@
     };
 
     var port = btcConfig.env.port;
-    app.listen(port);
-    console.log('Listening to port ' + port);
+    //app.listen(port);
+    //console.log('Listening to port ' + port);
+
+    var server = http.createServer(app).listen(port, function() {
+        console.log('Express server listening on port ' + port);
+    });
 
     app.use(cookieParser());
     app.use(bodyParser.json({
@@ -87,6 +92,7 @@
 
     initMainRoom(app, cardSources);
     initLounges(app, cardSources);
+    initWebSockets(app, server);
 
     exports = module.exports = app;
 }());
