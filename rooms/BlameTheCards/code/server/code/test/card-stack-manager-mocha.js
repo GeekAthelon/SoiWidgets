@@ -18,7 +18,8 @@ const gameConfig = (function() {
     return {
         history: gameHistory,
         btcBot: btcBot,
-        settings: btcSettings
+        settings: btcSettings,
+        name: 'main-room'
     };
 }());
 

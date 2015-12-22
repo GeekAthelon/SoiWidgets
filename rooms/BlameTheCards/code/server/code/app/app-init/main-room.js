@@ -99,13 +99,13 @@ function init(app, cardSources) {
 
         setTimeout(() => {
             game._endRound();
-            game.startRound();
+            game.startRound().then(() => {});
         }, btcSettings.turnDuration);
     });
 
     const cardLoaderPromise = cardLoader.load(game, cardSources);
     cardLoaderPromise.then(() => {
-        game.startRound();
+            game.startRound().then(() => {});
     }).catch((err) => {
         console.log('game.init - ', err);
     });

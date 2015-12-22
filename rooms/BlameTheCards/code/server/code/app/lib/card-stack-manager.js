@@ -255,6 +255,10 @@ class CardStackManager {
         this.countdown = Date.now() + this.settings.turnDuration;
 
         this._pub('game.start-round.end');
+		return new Promise((resolve, reject) => {
+			resolve();
+			void(reject);
+		});
     }
 
     loadQuestionCards(cards) {
