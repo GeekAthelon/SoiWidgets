@@ -8,6 +8,7 @@ const psevents = require('../app/lib/pub-sub');
 describe('psevents Tests', function() {
 
     before(function() {});
+    beforeEach(function() {});
 
     it('psevents is alive', function() {
         expect(psevents instanceof Object).to.equal(true);
@@ -24,6 +25,7 @@ describe('psevents Tests', function() {
         psevents.publish('test1a', {
             prop: true
         });
+        void(subscription);
     });
 
     it('psevents - testing doesn\'t call the wrong subscriber', function(done) {
@@ -44,6 +46,8 @@ describe('psevents Tests', function() {
         psevents.publish('test2a', {
             prop: true
         });
+        void(subscription1);
+        void(subscription2);
     });
 
     it('psevents - testing calls multiple subscribers', function(done) {
@@ -73,11 +77,11 @@ describe('psevents Tests', function() {
         psevents.publish('test3a', {
             prop: true
         });
+        void(subscription1);
+        void(subscription2);
     });
 
     it('psevents - Testing un-subscribe', function(done) {
-        let count = 0;
-
         function inc() {
             done();
         }
@@ -96,6 +100,8 @@ describe('psevents Tests', function() {
         psevents.publish('test4a', {
             prop: true
         });
+        void(subscription1);
+        void(subscription2);
     });
 
 });

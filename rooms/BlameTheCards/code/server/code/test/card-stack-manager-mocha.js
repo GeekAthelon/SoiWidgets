@@ -6,7 +6,6 @@ const QuestionCard = require('../app/lib/question-card');
 const AnswerCard = require('../app/lib/answer-card');
 const CardStack = require('../app/lib/card-stack');
 const CardStackManager = require('../app/lib/card-stack-manager');
-const Card = require('../app/lib/card');
 const History = require('../app/lib/game-history');
 const BtcBot = require('../app/lib/btc-bot');
 const btcConfig = require('../app/get-btc-config')();

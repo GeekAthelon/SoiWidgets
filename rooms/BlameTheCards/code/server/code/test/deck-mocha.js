@@ -5,11 +5,9 @@ const expect = require('chai').expect;
 const QuestionCard = require('../app/lib/question-card');
 const AnswerCard = require('../app/lib/answer-card');
 const Card = require('../app/lib/card');
-const Deck = require('../app/lib/deck');
-const locallydb = require('locallydb');
-//const db = new locallydb('./data/dbs/unit-test'); // jshint ignore:line
 
 describe('Testing Deck', function() {
+    before(() => {});
 
     // this.timeout(3000);
     // this.slow(3000);

@@ -23,7 +23,6 @@ class BtcBot {
             const votelist = {};
 
             votes.forEach(v => {
-                const html = v.html;
                 votelist[v.html] = votelist[v.html] || {
                     voters: []
                 };

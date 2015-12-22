@@ -25,7 +25,6 @@ function shuffleArray(array) {
 
 function reshuffle(fromStack, toStack) {
     const fromCards = fromStack._cards;
-    const toCards = toStack._cards;
 
     shuffleArray(fromCards);
     toStack._cards = fromCards;
@@ -244,7 +243,6 @@ class CardStackManager {
             player.playedRound = false;
         });
 
-        let txt = this.questionTableStack._cards[0].text.replace(/_/g, '_______');
         const postPromise = this.btcBot.post();
         this.history.saveRound(this.round);
 

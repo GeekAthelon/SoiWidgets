@@ -1,7 +1,5 @@
 'use strict';
-/* globals it: true, describe: true, before: true, beforeEach: true*/
 
-const expect = require('chai').expect;
 const btcConfig = require('../get-btc-config.js')();
 const request = require('request');
 const cheerio = require('cheerio');
@@ -25,6 +23,7 @@ class Soi {
 
     _extractForm(html) {
         return new Promise((resolve, reject) => {
+            void(reject);
             const $ = cheerio.load(html);
             const $entryForm = $('[name="vqxsp"]').closest('form');
             const formArray = $entryForm.serializeArray();
@@ -39,6 +38,7 @@ class Soi {
 
     _delay() {
         return new Promise((resolve, reject) => {
+            void(reject);
             setTimeout(function() {
                 resolve();
             }, 10 * 1000);
@@ -88,6 +88,7 @@ class Soi {
                 promiseExtractForm,
                 promisePostPromise,
             ]).then(function(results) {
+                void(results);
                 //console.log('Room updated');
                 resolve();
                 //return; // something using both resultA and resultB

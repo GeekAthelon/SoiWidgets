@@ -124,8 +124,6 @@
             }
 
             function drawAnswerCards() {
-                const ahome = document.createElement('div');
-
                 data.hand.forEach((card) => {
                     const acard = document.createElement('div');
                     const playPosition = playerAnswers.indexOf(card.num);
@@ -175,7 +173,7 @@
         }
 
         function joinGame() {
-            getJSON(`${gameUrl}/addplayer/${username}`, (data) => {
+            getJSON(`${gameUrl}/addplayer/${username}`, () => {
                 getData();
             });
         }
@@ -234,7 +232,7 @@
                 return;
             }
 
-            getJSON(`${gameUrl}/play/${username}/${cards}`, (data) => {
+            getJSON(`${gameUrl}/play/${username}/${cards}`, () => {
                 const inPlay = game.inPlay[0];
                 const txtBox = document.getElementsByName('vqxsp')[0];
                 const txt = fillInQuestionCard(inPlay.text);
@@ -391,6 +389,7 @@
         }
 
         window.addEventListener('resize', function(event) {
+            void(event);
             addVoteButtons();
         });
 

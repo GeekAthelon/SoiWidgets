@@ -38,7 +38,6 @@ describe('Testing RegistereUser', () => {
         /*jshint -W030 */
         return registerUsers.add('BotBoy')
             .then(details => {
-                const token = details.token;
                 return registerUsers.verify('BotBoy', details.token);
             }).then(isVerified => {
                 expect(isVerified).to.be.true;

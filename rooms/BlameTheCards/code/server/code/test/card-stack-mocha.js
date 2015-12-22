@@ -6,10 +6,7 @@ const expect = require('chai').expect;
 const QuestionCard = require('../app/lib/question-card');
 const AnswerCard = require('../app/lib/answer-card');
 const CardStack = require('../app/lib/card-stack');
-const Card = require('../app/lib/card');
-
 const Deck = require('../app/lib/deck');
-const deck = new Deck();
 
 describe('Testing Card Stack - basics', function() {
     let questionCardStack;
@@ -66,7 +63,7 @@ describe('Testing Card Stack - basics', function() {
         it('Can add and draw QuestionCard', function() {
             testStack.add(qCard);
             const card2 = testStack.draw();
-
+            void(card2);
             expect(testStack._cards.length).to.equal(0);
         });
 

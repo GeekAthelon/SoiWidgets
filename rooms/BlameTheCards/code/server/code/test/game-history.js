@@ -6,6 +6,7 @@ const History = require('../app/lib/game-history');
 const gameHistory = new History('main-room');
 
 describe('Testing Vote History', function() {
+    before(() => {});
 
     beforeEach(() => {
         gameHistory.clearAll();

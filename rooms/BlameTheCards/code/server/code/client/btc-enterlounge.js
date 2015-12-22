@@ -82,7 +82,8 @@ var gameUrl;
                 };
 
                 postJSON(
-                    url, data, (r) => {
+                    url, data, (reponse) => {
+                        void(reponse);
                         const span = document.getElementById('instructions');
                         span.innerHTML = 'Return to the SOI Mail room to check';
 
@@ -97,32 +98,8 @@ var gameUrl;
             });
         }
 
-        function addExtraButtons() {
-            const findButton = document.querySelector('input[value="Find"]');
-
-            function addButton(text, callback) {
-                const button = document.createElement('input');
-                button.value = text;
-                button.type = 'submit';
-                findButton.parentNode.insertBefore(button, findButton.nextSibling);
-                button.addEventListener('click', callback);
-            }
-
-            addButton('Status', function(event) {
-                event.stopPropagation();
-                event.preventDefault();
-                window.location = `${gameUrl}/status`;
-            });
-
-            addButton('Enter the Lounge', function(event) {
-                event.stopPropagation();
-                event.preventDefault();
-                window.location = `${gameUrl}/enterlounge`;
-            });
-
-        }
-
         window.addEventListener('resize', function(event) {
+            void(event);
             //addVoteButtons();
         });
 

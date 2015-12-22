@@ -1,4 +1,9 @@
+/* exported post */
+/* exported validate */
+/* exported serialize */
 (function(window) {
+    'use strict';
+
     window.getJSON = function(file, callback) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -9,6 +14,7 @@
         };
 
         request.onerror = function(err) {
+            void(err);
             //window.alert('Error: ' + JSON.stringify(err.message));
         };
 
@@ -26,6 +32,7 @@
         };
 
         request.onerror = function(err) {
+            void(err);
             //window.alert('Error: ' + JSON.stringify(err.message));
         };
 
@@ -146,6 +153,7 @@ var validate = (function() {
 }());
 
 function serialize(form, encode) {
+    'use strict';
     // jshint maxdepth:10
     // jshint maxcomplexity:20
     var field, s = [];
@@ -187,6 +195,7 @@ function serialize(form, encode) {
 }
 
 function post(path, params, method) {
+    'use strict';
     method = method || 'post'; // Set method to post by default if not specified.
 
     // The rest of this code assumes you are not using a library.

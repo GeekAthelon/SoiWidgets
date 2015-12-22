@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 const btcBot = require('../app/lib/btc-bot');
 
 describe('BtcBot Tests', function() {
-
+    beforeEach(function() {});
     before(function() {});
 
     it('btcBot is alive', function() {

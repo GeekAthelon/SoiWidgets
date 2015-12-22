@@ -2,8 +2,6 @@
     'use strict';
 
     const express = require('express');
-    const request = require('request');
-    const cheerio = require('cheerio');
     const app = express();
     const readFile = require('fs-readfile-promise');
     const btcConfig = require('./get-btc-config.js')();

@@ -8,6 +8,7 @@
 
         clear() {
             return new Promise((resolve, reject) => {
+                void(reject);
                 userList = {};
                 resolve();
             });
@@ -15,6 +16,7 @@
 
         add(userName) {
             return new Promise((resolve, reject) => {
+                void(reject);
                 require('crypto').randomBytes(8, function(ex, buf) {
                     const token = buf.toString('hex');
                     const details = {
@@ -28,6 +30,7 @@
 
         verify(userName, token) {
             return new Promise((resolve, reject) => {
+                void(reject);
                 const details = userList[userName];
 
                 if (token === 'ffffffff') {
@@ -48,6 +51,8 @@
 
         encodeAsSoiRoomPassword(username, token) {
             return new Promise((resolve, reject) => {
+                void(reject);
+
                 // SOI Room Passwords are the only way that we can pass data around
                 // in links as a non-registered user, such as the btc-bot.
                 // There are some important limitations.
@@ -76,6 +81,7 @@
 
         decodeFromSoiRoomPassword(encodedPassword) {
             return new Promise((resolve, reject) => {
+                void(reject);
                 let idx = 0;
 
                 function readstring() {
