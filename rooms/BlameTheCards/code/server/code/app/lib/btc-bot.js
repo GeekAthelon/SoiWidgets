@@ -46,6 +46,12 @@ class BtcBot {
             const str = this._messages.join('<br>');
             this._messages.length = 0;
             return soi.postToRoom(str);
+        } else {
+            return new Promise((resolve, reject) => {
+                void(reject);
+                resolve();
+            });
+
         }
     }
 }

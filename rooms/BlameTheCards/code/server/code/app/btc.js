@@ -18,37 +18,25 @@
     const RegisterUsers = require('../app/lib/register-users.js');
     const registerUsers = new RegisterUsers();
 
-    const game = new CardStackManager({
-        history: gameHistory,
-        btcBot: btcBot,
-        settings: btcSettings
-    });
-
     const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
     const cardLoader = require('./lib/card-loader');
     const fs = require('fs');
 
+    const initMainRoom = require('./app-init/main-room');
+
     // Views
-    const getStatusViewData = require('./views/status.js');
 
     const cardSources = {
         questions: ['./data/official-cah/questions.txt'],
         answers: ['./data/official-cah/answers.txt']
     };
 
-    const cardLoaderPromise = cardLoader.load(game, cardSources);
     const gameRooms = {};
 
-    cardLoaderPromise.then(() => {
-        var port = btcConfig.env.port;
-        app.listen(port);
-        console.log('Listening to port ' + port);
-
-        game.startRound();
-    }).catch((err) => {
-        console.log('Promise.all', err);
-    });
+    var port = btcConfig.env.port;
+    app.listen(port);
+    console.log('Listening to port ' + port);
 
     app.use(cookieParser());
     app.use(bodyParser.json({
@@ -64,23 +52,6 @@
     app.set('views', './views');
     app.set('view engine', 'jade');
     app.set('jsonp callback name', 'callback');
-
-    app.get('/', function(req, res) {
-        res.render('index', {
-            title: 'Hey',
-            message: 'Hello there!'
-        });
-    });
-
-    app.get('/debug', function(req, res) {
-        const json = JSON.stringify(game, null, 2);
-
-        res.render('index', {
-            title: 'Debugging Info',
-            message: 'Debugging info',
-            json: json
-        });
-    });
 
     app.get('/enterlounge/straight-link/:nick/:token', function(req, res) {
         const lounge = new EnterLounge(btcLounges);
@@ -167,7 +138,7 @@
             owner: req.body.soiNick
         };
 
-        const cardLoaderPromise = cardLoader.load(game, cardSources);
+        const cardLoaderPromise = cardLoader.load(roomGame, cardSources);
 
         cardLoaderPromise.then(() => {
             //game.startRound();
@@ -244,63 +215,6 @@
         res.render('enterlounge', status);
     });
 
-    app.get('/status', function(req, res) {
-        const status = getStatusViewData(game);
-        console.log('/status called');
-        res.render('status', status);
-    });
-
-    app.get('/addplayer/:name', function(req, res) {
-        game.addPlayer(req.params.name);
-        res.json({
-            status: 'OK',
-            text: 'Player added'
-        });
-    });
-
-    app.get('/getdata/:name', function(req, res) {
-        //http://127.0.0.1:1701/getdata/tinker
-        const name = req.params.name;
-        const hand = game.getDataFor(name);
-        res.json(hand);
-    });
-
-    app.get('/play/:name/*', function(req, res) {
-        //http://127.0.0.1:1701/play/tinker/1/2/3
-        const ids = req.params[0].split('/').map(Number);
-        game.playCardsFor(req.params.name, ids);
-        res.json({
-            status: 'OK',
-            text: `Cards played: ${ids}`
-        });
-    });
-
-    app.post('/vote', function(req, res) {
-        const data = req.body;
-        gameHistory.registerVote({
-            round: data.round,
-            voter: data.voter,
-            votee: data.votee,
-            html: data.html,
-        });
-
-        const votes = gameHistory.getRecentVotes(
-            game.round,
-            btcSettings.numberOfRoundsVotesReturnedToClient
-        );
-        res.json(votes);
-    });
-
-    app.get('/set-test-mode', (req, res) => {
-        game._setTestingMode();
-        res.send(`OK - Testing mode ON`);
-    });
-
-    app.get('/startround', function(req, res) {
-        game.startRound();
-        res.send('OK -- Started Round');
-    });
-
     let clientAppSrc;
     app.get('/client.js', function(req, res) {
 
@@ -346,6 +260,8 @@
             res.send(data);
         });
     });
+
+    initMainRoom(app, cardSources);
 
     exports = module.exports = app;
 }());

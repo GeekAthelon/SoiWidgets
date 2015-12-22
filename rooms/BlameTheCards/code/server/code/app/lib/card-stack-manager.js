@@ -4,6 +4,7 @@ const CardStack = require('./card-stack');
 const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
+const psevents = require('./pub-sub');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -87,17 +88,11 @@ class CardStackManager {
         }
 
         /* istanbul ignore if  */
-        if (!cfg.btcBot) {
-            throw new Error('CardStackManager - cfg.btcBot not configured');
-        }
-
-        /* istanbul ignore if  */
         if (!cfg.settings) {
             throw new Error('CardStackManager - cfg.settings not configured');
         }
 
         this.history = cfg.history;
-        this.btcBot = cfg.btcBot;
         this.settings = cfg.settings;
 
         this.questionDrawStack = new CardStack('Question Draw Stack', Deck.cardType.QUESTION);
@@ -117,7 +112,7 @@ class CardStackManager {
 
     drawQuestion() {
         if (this.questionDrawStack._cards.length === 0) {
-            this.btcBot.addMessage(`Shuffled Question Deck`);
+            psevents.publish('main-room.info', `Shuffled Question Deck`);
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
         }
         return this.questionDrawStack.draw();
@@ -125,7 +120,7 @@ class CardStackManager {
 
     drawAnswer() {
         if (this.answerDrawStack._cards.length === 0) {
-            this.btcBot.addMessage(`Shuffled Answer Deck`);
+            psevents.publish('main-room.info', `Shuffled Answer Deck`);
             reshuffle(this.answerDiscardStack, this.answerDrawStack);
         }
         return this.answerDrawStack.draw();
@@ -231,7 +226,7 @@ class CardStackManager {
     }
 
     startRound() {
-        this.btcBot.queueNewVotes();
+        psevents.publish('main-room.start-round.begin');
 
         this.round++;
         let qCard = this.drawQuestion();
@@ -243,16 +238,11 @@ class CardStackManager {
             player.playedRound = false;
         });
 
-        const postPromise = this.btcBot.post();
         this.history.saveRound(this.round);
 
         this.countdown = Date.now() + this.settings.turnDuration;
-        setTimeout(() => {
-            this._endRound();
-            this.startRound();
-        }, this.settings.turnDuration);
 
-        return postPromise;
+        psevents.publish('main-room.start-round.end');
     }
 
     loadQuestionCards(cards) {
