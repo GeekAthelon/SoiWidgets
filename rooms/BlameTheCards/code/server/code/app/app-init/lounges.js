@@ -71,13 +71,13 @@ function init(app, cardSources) {
                 }
 
                 const viewData = {
-					url: btcConfig.env.url,
-				    roomName: roomName,
-					theme:roomData.theme,
+                    url: btcConfig.env.url,
+                    roomName: roomName,
+                    theme: roomData.theme,
                     soiNick: req.body.soiNick,
                     token: req.body.token,
                     title: `Blame the Cards Room: ${roomName}`,
-					lounges: btcLounges,
+                    lounges: btcLounges,
                 };
 
                 res.render('game-room', viewData);
@@ -123,6 +123,8 @@ function init(app, cardSources) {
                 error: `Error making ${roomName}`,
                 details: err
             });
+            console.log(`Error making ${roomName}`);
+            console.log(err);
         });
     });
 

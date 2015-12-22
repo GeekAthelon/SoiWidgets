@@ -4,6 +4,7 @@ const sockjs = require('sockjs');
 const psevents = require('../lib/pub-sub');
 const RegisterUsers = require('../lib/register-users.js');
 const registerUsers = new RegisterUsers();
+const Map = require('es6-map');
 
 function sendRoomList(connections, gameRooms) {
     const list = Object.keys(gameRooms).map((roomName) => {
@@ -21,20 +22,22 @@ function sendRoomList(connections, gameRooms) {
         list: list
     });
 
-    for (var ii = 0; ii < connections.length; ii++) {
-        connections[ii].write(json);
-    }
+    connections.forEach(function(value, key) {
+        key.write(json);
+    });
 }
 
 var webSocket = function(app, server) {
-    const connections = [];
-    let saveGameRooms = [];
+    const connDetails = new Map();
+    let saveGameRooms = {};
 
     const chat = sockjs.createServer();
     chat.on('connection', function(conn) {
-        connections.push(conn);
-        var number = connections.length;
-        conn.write('Welcome, User ' + number);
+        const details = {
+            conn,
+            soiNick: '-waiting'
+        };
+        connDetails.set(conn, details);
 
         conn.on('data', function(message) {
             let o;
@@ -51,19 +54,22 @@ var webSocket = function(app, server) {
                     return;
                 }
 
+                const details = connDetails.get(conn);
+
+                if (details.soiNick !== o.soiNick) {
+                    details.soiNick = o.soiNick;
+                    details.roomName = o.roomName;
+                    console.log('Should publish users here');
+                }
+
                 if (o.type === 'request-room-list') {
-                    console.log('*****');
-                    sendRoomList(connections, saveGameRooms);
+                    sendRoomList(connDetails, saveGameRooms);
                     return;
                 }
             });
 
         });
-        conn.on('close', function() {
-            for (var ii = 0; ii < connections.length; ii++) {
-                connections[ii].write('User ' + number + ' has disconnected');
-            }
-        });
+        conn.on('close', function() {});
     });
 
     chat.installHandlers(server, {
@@ -71,7 +77,7 @@ var webSocket = function(app, server) {
     });
 
     psevents.subscribe(`game.roomlist.changed`, (gameRooms) => {
-        sendRoomList(connections, gameRooms);
+        sendRoomList(connDetails, gameRooms);
         saveGameRooms = gameRooms;
     });
 };
