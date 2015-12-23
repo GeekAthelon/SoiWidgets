@@ -18,7 +18,9 @@
             return new Promise((resolve, reject) => {
                 void(reject);
                 require('crypto').randomBytes(8, function(ex, buf) {
-                    const token = buf.toString('hex');
+                    let token = buf.toString('hex');
+                    void(token);
+                    token = 'ffffffff';
                     const details = {
                         token
                     };

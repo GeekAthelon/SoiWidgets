@@ -105,7 +105,7 @@ function init(app, cardSources) {
 
     const cardLoaderPromise = cardLoader.load(game, cardSources);
     cardLoaderPromise.then(() => {
-            game.startRound().then(() => {});
+        game.startRound().then(() => {});
     }).catch((err) => {
         console.log('game.init - ', err);
     });

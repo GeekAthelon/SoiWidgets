@@ -221,8 +221,8 @@ function post(path, params, method) {
 }
 
 function secureSend(sock, data) {
-    data.soiNick = window.soiNick;
-    data.token = window.token;
-    data.roomName = window.roomName;
+    data.soiNick = window.cred.soiNick;
+    data.token = window.cred.token;
+    data.roomName = window.cred.roomName;
     sock.send(JSON.stringify(data));
 }

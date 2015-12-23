@@ -1,22 +1,45 @@
 doctype html
 html
-  head
-    link(href='/static/css/normalize.css', rel='stylesheet')
-    link(href='/static/css/btc.css', rel='stylesheet')
+    head
+        link(href='/static/css/normalize.css', rel='stylesheet')
+        link(href='/static/css/btc.css', rel='stylesheet')
 
-    each d,l in lounges
-        link(href='/static/css/lounge_' + l + '.css', rel='stylesheet')
+        each d,l in lounges
+            link(href='/static/css/lounge_' + l + '.css', rel='stylesheet')
 
-    title!= title
-  body(class='lounge_' + theme)
-    h1 Blame the Cards - Room #{roomName}
+        title!= title
+    body(class='lounge_' + theme)
+        h1 Blame the Cards - Room #{roomName}
 
-    script.
-        var gameUrl = '#{url}';
-        var soiNick = '#{soiNick}';
-        var token = '#{token}';
-        var roomName = '#{roomName}';
+        div#header
+            div#player-list-container
+                div.section-header People here
 
-    script(src='/client/btc-common.js')
-    script(src='/client/btc-enterlounge.js')
-    script(src='/static/js/sockjs.min.js')
+        div#message-list-container
+            span.section-header Messages
+
+        form#reload-game-room(method='POST')
+            div
+                input(type='hidden' name='roomName' value=roomName)
+                input(type='hidden' name='theme' value=theme)
+                input(type='hidden' name='soiNick' value=soiNick)
+                input(type='hidden' name='token' value=token)
+                input(type='submit' value='Reload page')
+
+            - var href = [url, 'enterlounge', 'straight-link', soiNick, token].join('/');
+            button(type='button' onclick='location.href="#{href}"') Return to Room List
+
+        script.
+            var cred = {
+                gameUrl: '#{url}',
+                soiNick: '#{soiNick}',
+                token: '#{token}',
+                roomName: '#{roomName}'
+            };
+
+        script(type='text/html' id='player-list-template')
+            div.soiNick
+
+        script(src='/client/btc-common.js')
+        script(src='/client/btc-game-room.js')
+        script(src='/static/js/sockjs.min.js')

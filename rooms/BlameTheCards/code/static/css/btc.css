@@ -6,6 +6,11 @@ body {
 
 input {
 	background-color: black;
+	color: white;
+}
+
+button[type='button'], input[type='submit'] {
+	background-color: transparent;
 }
 
 [data-val-for] {
@@ -64,4 +69,31 @@ button.room-list-item {
 
 .logo {
     float: left;
+}
+
+#header {
+	border: 5px solid black;
+	overflow: auto;
+}
+
+#header #player-list-container {
+	float: left;
+	border: 2px solid black;
+}
+
+
+.section-header {
+	/* color: yellow; */
+background-color: #000000;
+opacity: 0.3;
+}
+
+button[type='button'], input[type='submit'] {
+	background-color: transparent;
+}
+
+#reload-game-room,
+#reload-game-room div {
+	display: inline;
+	margin-right: .5em;
 }

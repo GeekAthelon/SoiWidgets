@@ -10,3 +10,15 @@
 	width: 150px;
 	background-image: url(/static/images/western-logo-small.png);
 }
+
+.lounge_western .section-header {
+background-color: #000000;
+opacity: 0.7;
+color: silver;
+}
+
+.lounge_western button[type='button'],
+.lounge_western input[type='submit'] {
+	background-color: transparent;
+	color: white;
+}

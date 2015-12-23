@@ -86,9 +86,12 @@ html
            span.room-list-owner
 
     script.
-        var gameUrl = '#{url}';
-        var soiNick = '#{soiNick}';
-        var token = '#{token}';
+        var cred = {
+            gameUrl: '#{url}',
+            soiNick: '#{soiNick}',
+            token: '#{token}',
+            roomName: null
+        };
 
     script(src='/client/btc-common.js')
     script(src='/client/btc-enterlounge.js')

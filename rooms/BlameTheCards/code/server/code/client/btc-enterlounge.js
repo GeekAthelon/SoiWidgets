@@ -1,13 +1,13 @@
 /*global postJSON: true, validate:true, serialize:true, post:true, SockJS, secureSend */
-var gameUrl;
+
 (function() {
     'use strict';
 
     window.onload = function() {
-        const sock = new SockJS(`${gameUrl}/chat`);
+        const sock = new SockJS(`${window.cred.gameUrl}/chat`);
 
         function enterRoom(roomName) {
-            const enterUrl = `${gameUrl}/enterlounge/enter-room`;
+            const enterUrl = `${window.cred.gameUrl}/enterlounge/enter-room`;
             const form = document.getElementById('createRoomForm');
             const formData = serialize(form);
             formData.roomName = roomName;
@@ -66,7 +66,7 @@ var gameUrl;
                 if (isValid) {
                     validationMessageContainer.innerHTML = '';
                     const formData = serialize(form);
-                    const url = `${gameUrl}/enterlounge/create-room`;
+                    const url = `${window.cred.gameUrl}/enterlounge/create-room`;
 
                     postJSON(
                         url, formData, (result) => {
