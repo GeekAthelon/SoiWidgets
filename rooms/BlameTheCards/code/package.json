@@ -21,12 +21,12 @@
     "he": "^0.5.0",
     "jade": "^1.11.0",
     "locallydb": "0.0.9",
-    "mocha": "latest",
     "random-js": "^1.0.8",
     "request": "latest",
     "sockjs": "^0.3.15"
   },
   "devDependencies": {
+    "mocha": "latest",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
