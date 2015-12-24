@@ -87,10 +87,18 @@ gulp.task('coverage-prod', function(done) {
 
 // Style and Linting Tasks
 
-gulp.task('vet', function() {
+gulp.task('vet', ['jshint', 'jscs'], function() {
+});
+
+gulp.task('jscs', function() {
     return gulp.src(gulpConfig.src)
         .pipe($.if(args.verbose, $.print()))
-        .pipe($.jscs())
+        .pipe($.jscs());
+});
+
+gulp.task('jshint', function() {
+    return gulp.src(gulpConfig.src)
+        .pipe($.if(args.verbose, $.print()))
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish', {
             verbose: false
