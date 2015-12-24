@@ -107,9 +107,13 @@ button[type='button'], input[type='submit'] {
 
 .message-column {
 	display: table-cell;
-	border: 1px solid black;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
+.message-row:nth-child(odd) {
+   background-color: #ccc;
+}
 #chat[name='chat-message'] {
 	width: 90%;
 }
