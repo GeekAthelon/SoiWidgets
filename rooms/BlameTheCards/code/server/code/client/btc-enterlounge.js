@@ -167,5 +167,28 @@
         captureVerifyForm();
         configureCreateRoom();
         createRoomList([], 'Loading...');
+
+        (function() {
+            // This is me, tired of fighting IE...
+            // Giving and giving up to a JS fallback.
+            function fixIt(img, radio) {
+                img.addEventListener('click', () => {
+                    radio.checked = true;
+                });
+            }
+
+            var imgs = document.querySelectorAll('img.select-theme');
+            for (let i = 0; i < imgs.length; i++) {
+                const img = imgs[i];
+                let label = img;
+                while (label.tagName.toLowerCase() !== 'label') {
+                    label = label.parentNode;
+                }
+
+                const radio = label.querySelector('input');
+                fixIt(img, radio);
+            }
+        }());
+
     };
 }());

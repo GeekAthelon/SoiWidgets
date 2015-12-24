@@ -69,8 +69,8 @@ html
                    each key,i in Object.keys(lounges)
                         - var l = key;
                         - var checked = (i === 0);
-                        label.theme-select-label
-                            input(type='radio', name='theme', value=l, checked=checked)
+                        label.theme-select-label(for='theme_id_' + i)
+                            input(type='radio', name='theme', value=l, checked=checked, id='theme_id_' + i)
                             img(class='lounge_' + l + ' select-theme', src='/static/images/#{l}-logo-small.png')
 
                 div

@@ -27,9 +27,8 @@ label.theme-select-label {
   margin-left: 2em;
 }
 label.theme-select-label > input {
-	visibility: hidden; /* Makes input not-clickable */
 	position: absolute; /* Remove input from document flow */
-	
+	left:-9999px;
 }
 
 label.theme-select-label > input + img{ /* IMAGE STYLES */
