@@ -264,9 +264,9 @@
 
             function addButton(text, callback) {
                 const button = document.createElement('input');
-                button.value = text;
-                button.type = 'submit';
                 findButton.parentNode.insertBefore(button, findButton.nextSibling);
+                button.type = 'submit';
+                button.value = text;
                 button.addEventListener('click', callback);
             }
 
@@ -375,8 +375,8 @@
                 }
 
                 const voteButton = document.createElement('input');
-                voteButton.value = 'Vote';
                 voteButton.type = 'submit';
+                voteButton.value = 'Vote';
                 voteButton.style.cssFloat = 'left';
                 voteButton.style.display = 'block';
                 voteButton.style.position = 'relative';
