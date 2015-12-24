@@ -4,10 +4,40 @@ const sockjs = require('sockjs');
 const psevents = require('../lib/pub-sub');
 const RegisterUsers = require('../lib/register-users.js');
 const registerUsers = new RegisterUsers();
+const gRooms = require('../lib/game-room');
 
 /* jshint -W079 */
 const Map = require('es6-map'); // Ignore redefinition.
 /* jshint +W079 */
+
+function sendOneMessage(details) {
+    const d = {
+        from: details.soiNick,
+        room: details.roomName,
+        to: details.to,
+        message: details.message
+    };
+
+    if (d.to === '') {
+        d.to = null;
+    }
+    psevents.publish('room.message', JSON.stringify(d));
+}
+
+function sendAllMessages(conn, details) {
+    const messages = gRooms.getMessages(details.roomName, details.soiNick);
+    if (messages.length === 0) {
+        return;
+    }
+
+    const json = JSON.stringify({
+        type: 'all-messages',
+        roomName: details.roomName,
+        list: messages
+    });
+
+    conn.write(json);
+}
 
 function sendPlayerList(connections, roomName) {
     const playerList = [];
@@ -90,11 +120,27 @@ var webSocket = function(app, server) {
                         details.soiNick = o.soiNick;
                         details.roomName = o.roomName;
                         sendPlayerList(connDetails, o.roomName);
+
+                        const d = {
+                            from: null,
+                            room: o.roomName,
+                            to: null,
+                            message: `User ${o.soiNick} has entered the room`
+                        };
+
+                        psevents.publish('room.message', JSON.stringify(d));
+                        setTimeout(() => {
+                            sendAllMessages(conn, details);
+                        }, 100);
                     }
 
-                    if (o.type === 'request-room-list') {
-                        sendRoomList(connDetails, saveGameRooms);
-                        return;
+                    switch (o.type) {
+                        case 'request-room-list':
+                            sendRoomList(connDetails, saveGameRooms);
+                            break;
+                        case 'send-room-message':
+                            sendOneMessage(o);
+                            break;
                     }
                 } catch (err) {
                     console.trace(err, 'An error happened in `ondata`');

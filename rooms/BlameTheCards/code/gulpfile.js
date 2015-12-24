@@ -160,6 +160,12 @@ function runMonitor(nodeOptions) {
             log('*** nodemon crash: script crashed for some reason');
             tattle('Build error under Babel');
         })
+        .on('uncaughtException', function(err) {
+            console.log('UNCAUGHT EXCEPTION');
+            console.log(err);
+            server.kill();
+            process.kill();
+         })
         .on('exit', function() {
             log('*** nodemon crash: script exited cleanly');
         });
@@ -168,7 +174,7 @@ function runMonitor(nodeOptions) {
 gulp.task('serve-dev', [/*'vet',*/ 'build'], function() {
     var nodeOptions = {
         script: gulpConfig.nodeServer,
-        delayTime: 1,
+        delayTime: 10,
         env: {
             NODE_ENV: 'dev',
         },

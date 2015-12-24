@@ -17,6 +17,12 @@ html
 
         div#message-list-container
             span.section-header Messages
+            div.message-container
+
+        form#chat(method='POST')
+            select(name='chat-to' id='chat-to')
+            input(type='text' name='chat-message' id='chat-message' value='')
+            input(type='submit' value='Talk')
 
         form#reload-game-room(method='POST')
             div
@@ -39,6 +45,13 @@ html
 
         script(type='text/html' id='player-list-template')
             div.soiNick
+
+        script(type='text/html' id='message-template')
+            div.message-row
+                div.message-column(data-bind='date')
+                div.message-column(data-bind='from')
+                div.message-column(data-bind='to')
+                div.message-column(data-bind='message')
 
         script(src='/client/btc-common.js')
         script(src='/client/btc-game-room.js')

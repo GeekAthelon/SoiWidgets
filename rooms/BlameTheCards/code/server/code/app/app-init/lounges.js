@@ -15,8 +15,7 @@ const btcConfig = require('../get-btc-config.js')();
 const RegisterUsers = require('../lib/register-users.js');
 const registerUsers = new RegisterUsers();
 const soi = require('../lib/soi');
-
-const gameRooms = {};
+const gRooms = require('../lib/game-room');
 
 function init(app, cardSources) {
     app.get('/enterlounge/straight-link/:nick/:token', function(req, res) {
@@ -64,7 +63,7 @@ function init(app, cardSources) {
                 }
 
                 const roomName = req.body.roomName;
-                const roomData = gameRooms[roomName];
+                const roomData = gRooms.get(roomName);
                 if (!roomData) {
                     res.status(404).send(`${roomName} not found`);
                     return;
@@ -87,7 +86,7 @@ function init(app, cardSources) {
 
     app.post('/enterlounge/create-room/', function(req, res) {
         const roomName = req.body.roomName;
-        const doesRoomExist = !!gameRooms[roomName];
+        const doesRoomExist = !!gRooms.get(roomName);
         if (doesRoomExist) {
             res.json({
                 error: `Room ${roomName} already exists`
@@ -103,17 +102,17 @@ function init(app, cardSources) {
             name: roomName
         });
 
-        gameRooms[roomName] = {
+        gRooms.add(roomName, {
             game: roomGame,
             theme: req.body.theme,
             owner: req.body.soiNick
-        };
+        });
 
         const cardLoaderPromise = cardLoader.load(roomGame, cardSources);
 
         cardLoaderPromise.then(() => {
             //game.startRound();
-            psevents.publish(`game.roomlist.changed`, gameRooms);
+            psevents.publish(`game.roomlist.changed`, gRooms.all());
 
             res.json({
                 message: `Room ${roomName} prepped`
@@ -190,7 +189,8 @@ function init(app, cardSources) {
     });
 
     psevents.subscribe('game.info', (message) => {
-        console.log(message);
+        void(message);
+        //console.log(message);
     });
 
     psevents.subscribe('game.start-round.begin', () => {

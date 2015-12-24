@@ -4,12 +4,12 @@ body {
 	color: white;
 }
 
-input {
+input, select {
 	background-color: black;
 	color: white;
 }
 
-button[type='button'], input[type='submit'] {
+button[type='button'], input[type='submit'], option {
 	background-color: transparent;
 }
 
@@ -96,4 +96,28 @@ button[type='button'], input[type='submit'] {
 #reload-game-room div {
 	display: inline;
 	margin-right: .5em;
+}
+
+.message-container {
+	display: table;
+}
+
+.message-row {
+	display: table-row;
+}
+
+.message-column {
+	display: table-cell;
+	border: 1px solid black;
+}
+
+#chat[name='chat-message'] {
+	width: 90%;
+}
+#chat input[name='chat-message'] {
+	width: 90%;
+}
+
+#chat input[type='submit'] {
+	width: 9%;
 }

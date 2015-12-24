@@ -224,5 +224,7 @@ function secureSend(sock, data) {
     data.soiNick = window.cred.soiNick;
     data.token = window.cred.token;
     data.roomName = window.cred.roomName;
+
+    console.log('secureSend', data);
     sock.send(JSON.stringify(data));
 }
