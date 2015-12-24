@@ -20,7 +20,7 @@
                 require('crypto').randomBytes(8, function(ex, buf) {
                     let token = buf.toString('hex');
                     void(token);
-                    token = 'ffffffff';
+                    //token = 'ffffffff';
                     const details = {
                         token
                     };
@@ -35,9 +35,9 @@
                 void(reject);
                 const details = userList[userName];
 
-                if (token === 'ffffffff') {
-                    resolve(true);
-                }
+                //if (token === 'ffffffff') {
+                //    resolve(true);
+                //}
 
                 if (!details) {
                     resolve(false);
