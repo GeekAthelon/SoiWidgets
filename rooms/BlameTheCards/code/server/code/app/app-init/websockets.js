@@ -10,18 +10,35 @@ const gRooms = require('../lib/game-room');
 const Map = require('es6-map'); // Ignore redefinition.
 /* jshint +W079 */
 
-function sendOneMessage(details) {
+function addOneMessageToList(details) {
     const d = {
         from: details.soiNick,
         room: details.roomName,
         to: details.to,
-        message: details.message
+        message: details.message,
+        timeStamp: new Date().toISOString()
     };
 
     if (d.to === '') {
         d.to = null;
     }
     psevents.publish('room.message', JSON.stringify(d));
+}
+
+function sendOneMessageToRoom(connections, details) {
+	const room = details.room;
+
+    const json = JSON.stringify({
+        type: 'one-message',
+        roomName: details.room,
+        details: details,
+    });
+
+    connections.forEach(function(detail, key) {
+        if (detail.roomName === room) {
+            key.write(json);
+        }
+    });
 }
 
 function sendAllMessages(conn, details) {
@@ -90,12 +107,18 @@ var webSocket = function(app, server) {
     const connDetails = new Map();
     let saveGameRooms = {};
 
+    psevents.subscribe('room.message', (json) => {
+        const details = JSON.parse(json);
+        sendOneMessageToRoom(connDetails, details)
+    });
+
     const chat = sockjs.createServer();
     chat.on('connection', function(conn) {
         const details = {
             conn,
             soiNick: '-waiting'
         };
+
         connDetails.set(conn, details);
 
         conn.on('data', function(message) {
@@ -125,7 +148,8 @@ var webSocket = function(app, server) {
                             from: null,
                             room: o.roomName,
                             to: null,
-                            message: `User ${o.soiNick} has entered the room`
+                            message: `User ${o.soiNick} has entered the room`,
+                            timeStamp: new Date().toISOString()
                         };
 
                         psevents.publish('room.message', JSON.stringify(d));
@@ -139,7 +163,7 @@ var webSocket = function(app, server) {
                             sendRoomList(connDetails, saveGameRooms);
                             break;
                         case 'send-room-message':
-                            sendOneMessage(o);
+                            addOneMessageToList(o);
                             break;
                     }
                 } catch (err) {

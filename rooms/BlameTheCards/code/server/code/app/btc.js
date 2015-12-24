@@ -25,9 +25,14 @@
     //app.listen(port);
     //console.log('Listening to port ' + port);
 
-    var server = http.createServer(app).listen(port, function() {
-        console.log('Express server listening on port ' + port);
-    });
+    setTimeout(function() {
+        var server = http.createServer(app).listen(port, function() {
+            console.log('Express server listening on port ' + port);
+            initMainRoom(app, cardSources);
+            initLounges(app, cardSources);
+            initWebSockets(app, server);
+        });
+    }, 1000);
 
     app.use(cookieParser());
     app.use(bodyParser.json({
@@ -89,10 +94,6 @@
             res.send(data);
         });
     });
-
-    initMainRoom(app, cardSources);
-    initLounges(app, cardSources);
-    initWebSockets(app, server);
 
     exports = module.exports = app;
 }());

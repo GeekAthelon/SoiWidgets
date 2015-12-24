@@ -66,13 +66,15 @@
     }
 
     function handleTalkClick(sock) {
-        var data = serialize(document.getElementById('chat'));
+        var form = document.getElementById('chat');
+        var data = serialize(form);
 
         secureSend(sock, {
             type: 'send-room-message',
             to: data['chat-to'],
             message: data['chat-message']
         });
+        form.reset();
     }
 
     window.onload = function() {
@@ -106,6 +108,9 @@
                 showAllMessages(data.list);
             }
 
+            if (data.type === 'one-message') {
+                showOneMessage(data.details);
+            }
         };
 
         sock.onopen = function() {
