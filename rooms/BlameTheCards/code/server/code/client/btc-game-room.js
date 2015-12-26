@@ -23,15 +23,15 @@
         m.innerHTML = template;
         const cols = m.querySelectorAll('.message-column');
 
-        msg.from = msg.from || '&lt;system&gt;';
-        msg.to = msg.to || '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        msg.from = msg.from || '<system>';
+        msg.to = msg.to || ' ';
 
         var time = new Date(msg.timeStamp);
 
-        cols[0].innerHTML = formatTime(time);
-        cols[1].innerHTML = msg.from;
-        cols[2].innerHTML = msg.to;
-        cols[3].innerHTML = msg.message;
+        cols[0].appendChild(document.createTextNode(formatTime(time)));
+        cols[1].appendChild(document.createTextNode(msg.from));
+        cols[2].appendChild(document.createTextNode(msg.to));
+        cols[3].appendChild(document.createTextNode(msg.message));
 
         const r = m.querySelector('.message-row');
         container.appendChild(r);
@@ -57,7 +57,7 @@
         players.forEach((player) => {
             const div = document.createElement('div');
             div.innerHTML = template;
-            div.querySelector('.soiNick').innerHTML = player;
+            div.querySelector('.soiNick').appendChild(document.createTextNode(player));
             container.appendChild(div);
 
             const option = new Option(player, player);
