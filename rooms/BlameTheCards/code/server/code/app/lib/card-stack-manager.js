@@ -263,7 +263,7 @@ class CardStackManager {
 
     loadQuestionCards(cards) {
         cards.forEach(str => {
-            const card = new QuestionCard(this.questionCardIndex, `${str}`);
+            const card = new QuestionCard(this.questionCardIndex, str);
             this.questionCardIndex++;
             this.questionDiscardStack.add(card);
         });
@@ -271,7 +271,7 @@ class CardStackManager {
 
     loadAnswerCards(cards) {
         cards.forEach(str => {
-            const card = new AnswerCard(this.answerCardIndex, `${str}`);
+            const card = new AnswerCard(this.answerCardIndex, str);
             this.answerCardIndex++;
             this.answerDiscardStack.add(card);
         });

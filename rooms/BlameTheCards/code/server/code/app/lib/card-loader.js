@@ -1,5 +1,9 @@
 'use strict';
 const fs = require('fs');
+const he = require('he');
+const encodeOptions = {
+    'allowUnsafeSymbols': false
+};
 
 class CardLoader {
     CardLoader() {
@@ -23,7 +27,8 @@ class CardLoader {
                     }
                     const lines = data.split(/\r\n|\r|\n/);
                     console.log(`Read file: ${fname}.  ${lines.length} lines.`);
-                    cb.call(game, lines);
+                    const htmlLines = lines.map(line => he.encode(line, encodeOptions));
+                    cb.call(game, htmlLines);
                     resolve();
                 });
             });
