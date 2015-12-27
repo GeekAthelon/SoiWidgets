@@ -26,7 +26,7 @@ function addOneMessageToList(details) {
 }
 
 function sendOneMessageToRoom(connections, details) {
-	const room = details.room;
+    const room = details.room;
 
     const json = JSON.stringify({
         type: 'one-message',
@@ -109,7 +109,7 @@ var webSocket = function(app, server) {
 
     psevents.subscribe('room.message', (json) => {
         const details = JSON.parse(json);
-        sendOneMessageToRoom(connDetails, details)
+        sendOneMessageToRoom(connDetails, details);
     });
 
     const chat = sockjs.createServer();

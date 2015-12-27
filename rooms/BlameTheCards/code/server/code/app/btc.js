@@ -18,13 +18,13 @@
 
     const cardSources = {
         questions: [
-		'./data/official-cah/questions.txt',
-		'./data/cards-against-gallifrey/questions.txt'
-		],
+            './data/official-cah/questions.txt',
+            './data/cards-against-gallifrey/questions.txt'
+        ],
         answers: [
-		'./data/official-cah/answers.txt',
-		'./data/cards-against-gallifrey/answers.txt'
-		]
+            './data/official-cah/answers.txt',
+            './data/cards-against-gallifrey/answers.txt'
+        ]
     };
 
     var port = btcConfig.env.port;
