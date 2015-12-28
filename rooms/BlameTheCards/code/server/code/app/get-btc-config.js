@@ -1,9 +1,8 @@
 function getBtcConfig() {
     'use strict';
 
-    const nodeEnv = process.env.NODE_ENV;
     const isTest = process.env.NODE_TEST;
-
+    const os = require('os');
     const fs = require('fs');
     const path = require('path');
     const stringFormat = require('./lib/string-format');
@@ -13,11 +12,14 @@ function getBtcConfig() {
         fs.readFileSync(configurationFile)
     );
 
-    //console.log(`getBtcConfig - Found NODE_ENV of ${nodeEnv}`);
-    if (!nodeEnv) {
-        throw new Error(`getBtcConfig - NODE_ENV not found. Cannot continue`);
+    let hostname = os.hostname();
+    //console.log(`hostname ${hostname}`);
+    const configuration = fullConfiguration[hostname];
+
+    if (!configuration) {
+        throw new Error(`Not configuration found for ${hostname}. Bailing`);
     }
-    const configuration = fullConfiguration[nodeEnv];
+
     // Fill in the template.
     configuration.soi.getUrl = stringFormat(
         configuration.soi.getUrl,
@@ -36,7 +38,7 @@ function getBtcConfig() {
         configuration.env.dbPath = configuration.env.dbPathReal;
     }
 
-    configuration.isDev = nodeEnv === 'dev';
+    configuration.isDev = configuration.env.isDev;
     configuration.env.dbPath = path.resolve(configuration.env.dbPath);
     //console.log(configuration);
     return configuration;

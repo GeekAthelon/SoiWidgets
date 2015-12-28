@@ -23,7 +23,6 @@ function tattle(msg) {
     });
 }
 
-
 // Informational
 gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
@@ -58,7 +57,6 @@ function runTest(testConfig, done) {
         });
 }
 
-
 gulp.task('coverage-es5', ['babel'], function(done) {
     runTest({
         src: ['build/app/**/*.js', '!build/app/btc.js'],
@@ -75,13 +73,7 @@ function runCoverage(done) {
     }, done);
 }
 
-gulp.task('coverage-dev', function(done) {
-    process.env.NODE_ENV = 'dev';
-    runCoverage(done);
-});
-
-gulp.task('coverage-prod', function(done) {
-    process.env.NODE_ENV = 'prod';
+gulp.task('coverage', function(done) {
     runCoverage(done);
 });
 
@@ -107,8 +99,6 @@ gulp.task('jshint', function() {
 });
 
 // File Converstion Tasks
-
-gulp.task('build-src', ['babel'], function() {});
 
 function runBabble() {
     log('Converting files to ES5');
@@ -140,7 +130,7 @@ gulp.task('babel', /*['clean-build'], */ function() {
 
 // Full Build
 
-gulp.task('build', ['build-src'], function() {});
+gulp.task('build', ['babel'], function() {});
 
 // Reformatting Tasks
 
@@ -179,27 +169,11 @@ function runMonitor(nodeOptions) {
         });
 }
 
-gulp.task('serve-dev', [/*'vet',*/ 'build'], function() {
-    var nodeOptions = {
-        script: gulpConfig.nodeServer,
-        delayTime: 10,
-        env: {
-            NODE_ENV: 'dev',
-        },
-        ztasks: ['build'],
-        watch: [gulpConfig.srcDir]
-    };
-
-    return runMonitor(nodeOptions);
-});
-
-gulp.task('serve-prod', [/* 'build' */], function() {
+gulp.task('serve', [/* 'build' */], function() {
     var nodeOptions = {
         script: gulpConfig.nodeServer,
         delayTime: 1,
-        env: {
-            NODE_ENV: 'prod',
-        },
+        env: {},
         watch: [gulpConfig.src]
     };
 
