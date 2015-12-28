@@ -40,17 +40,25 @@ class History {
             throw new Error(`History - Constuctor - loungeName not passed.`);
         }
         this.newVotes = [];
+        this.resetCache();
+    }
+
+    resetCache() {
+        this.recentVoteCache = {};
+        this.allVotesCache = null;
     }
 
     clearAll() {
         purgeCollections(this.lounge);
         this.newVotes.length = 0;
+        this.resetCache();
     }
 
     registerVote(voteData) {
         voteCollection.insert(voteData);
         this.newVotes.push(voteData);
         voteCollection.save();
+        this.resetCache();
     }
 
     saveRound(round) {
@@ -77,14 +85,12 @@ class History {
         return r;
     }
 
-    getVotesForRound(round) {
-        const votes = voteCollection.where(`@round > ${round}`);
-        return votes.items;
-    }
-
     getAllVotes() {
-        const votes = voteCollection.where(`@round > 0`);
+        if (this.allVotesCache) {
+            return this.allVotesCache;
+        }
 
+        const votes = voteCollection.where(`@round > 0`);
         const out = votes.items.map((item) => {
             return {
                 round: item.round,
@@ -93,13 +99,17 @@ class History {
                 html: item.html
             };
         });
-
+        this.allVotesCache = out;
         return out;
     }
 
     getRecentVotes(round, range) {
-        const bot = round - range;
+        const key = `${round}_${range}`;
+        if (this.recentVoteCache[key]) {
+            return this.recentVoteCache[key];
+        }
 
+        const bot = round - range;
         const votes = voteCollection.where(`(@round <= ${round}) && (@round > ${bot})`);
 
         const out = votes.items.map((item) => {
@@ -109,7 +119,7 @@ class History {
                 voter: item.voter,
             };
         });
-
+        this.recentVoteCache[key] = out;
         return out;
     }
 }
