@@ -14,6 +14,7 @@ function initDb(lounge) {
     roundCollection = db.collection('round', db, autoSaveMode);
 
     const rounds = roundCollection.where('@round > 0');
+    /* istanbul ignore else */
     if (rounds.items.length === 0) {
         roundCollection.insert({
             round: 0,

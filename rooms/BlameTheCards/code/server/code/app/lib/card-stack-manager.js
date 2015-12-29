@@ -154,7 +154,7 @@ class CardStackManager {
         player.fillHand(this);
     }
 
-    playCardsFor(name, cards) {
+    playCardsFor /* istanbul ignore next */ (name, cards) {
         if (!this.players[name]) {
             throw new Error(`Player ${name} is not in the game.`);
         }
@@ -233,10 +233,8 @@ class CardStackManager {
         this._emptyStackTo(this.questionTableStack, this.questionDiscardStack);
     }
 
-    _setTestingMode() {
-        /* istanbul ignore next */
+    _setTestingMode /* istanbul ignore next */ () {
         console.info('Test Mode Activated');
-        /* istanbul ignore next */
         random = new Random(Random.engines.mt19937().seed(1701));
     }
 
