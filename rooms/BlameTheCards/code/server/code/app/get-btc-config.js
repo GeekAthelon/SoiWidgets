@@ -16,6 +16,7 @@ function getBtcConfig() {
     //console.log(`hostname ${hostname}`);
     const configuration = fullConfiguration[hostname];
 
+    /* istanbul ignore if */
     if (!configuration) {
         throw new Error(`Not configuration found for ${hostname}. Bailing`);
     }
@@ -32,6 +33,7 @@ function getBtcConfig() {
     );
 
     configuration.isTest = (isTest === 'true');
+    /* istanbul ignore else  */
     if (configuration.isTest) {
         configuration.env.dbPath = configuration.env.dbPathTest;
     } else {

@@ -87,4 +87,9 @@ describe('Testing Round # History', function() {
         expect(r).to.equal(99);
     });
 
+    it('Testing getUnpostedVotes', () => {
+        var v = gameHistory.getUnpostedVotes();
+        expect(v.length).to.equal(0);
+    });
+
 });

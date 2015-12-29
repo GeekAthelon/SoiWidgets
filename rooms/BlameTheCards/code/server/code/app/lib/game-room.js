@@ -44,6 +44,7 @@ class GameRoom {
             return;
         }
         const list = this.messages[room];
+        /* istanbul ignore if */
         if (!list) {
             throw new Error(`game-room addMessage.  room '${room}' is invalid.`);
         }
@@ -75,7 +76,8 @@ class GameRoom {
 
         const r = [];
         list.forEach(message => {
-            if (message.to === player || message.to === null) {
+            /* istanbul ignore else */
+            if ([player, null].indexOf(message.to) !== -1) {
                 r.push(message);
             }
         });

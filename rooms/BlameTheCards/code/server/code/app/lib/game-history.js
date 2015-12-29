@@ -36,6 +36,7 @@ class History {
         this.lounge = loungeName;
         initDb(this.lounge);
 
+        /* istanbul ignore if */
         if (!this.lounge) {
             throw new Error(`History - Constuctor - loungeName not passed.`);
         }
@@ -72,6 +73,7 @@ class History {
 
     getLastRoundNumber() {
         const rounds = roundCollection.where(`@lounge == '${this.lounge}'`);
+        /* istanbul ignore if */
         if (rounds.items.length === 0) {
             return 0;
         } else {
@@ -86,6 +88,7 @@ class History {
     }
 
     getAllVotes() {
+        /* istanbul ignore if */
         if (this.allVotesCache) {
             return this.allVotesCache;
         }

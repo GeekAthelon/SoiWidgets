@@ -39,6 +39,7 @@
                 //    resolve(true);
                 //}
 
+                /* istanbul ignore if */
                 if (!details) {
                     resolve(false);
                 }
@@ -66,7 +67,7 @@
                 // WE can assume the username has already been stripped down to
                 // [A-Za-z0-9@]
 
-                const padToTwo = number => number <= 99 ? ('0' + number).slice(-2) : number;
+                const padToTwo = number => number <= 99 ? ('0' + number).slice(-2) : /* istanbul ignore next */ number;
 
                 const tmp = username.split('@');
                 const nick = tmp[0];

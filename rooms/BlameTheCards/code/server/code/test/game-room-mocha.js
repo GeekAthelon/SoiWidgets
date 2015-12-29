@@ -4,6 +4,7 @@
 const expect = require('chai').expect;
 const gameRoom = require('../app/lib/game-room');
 const gameRoom2 = require('../app/lib/game-room');
+const psevents = require('../app/lib/pub-sub');
 
 const messageTextLength = 7;
 
@@ -18,6 +19,14 @@ describe('Testing Game Room', function() {
 
     it('gameRoom to exist', () => {
         expect(gameRoom).to.not.equal(undefined);
+    });
+
+    it('maxMessages correct value', () => {
+        expect(gameRoom.maxMessages).to.equal(messageTextLength);
+    });
+
+    it('testing getting all game rooms', () => {
+        expect(Object.keys(gameRoom.all())).to.deep.equal(['unit-test-room']);
     });
 
     it('gameRoom needs to be  a singleton', () => {
@@ -46,6 +55,31 @@ describe('Testing Game Room', function() {
     it('testing adding messages', () => {
         for (let i = 0; i < messageTextLength * 2; i++) {
             gameRoom.addMessage('unit-test-room', 'bot', null, `Message #${i}`);
+        }
+        const messages = gameRoom.getMessages('unit-test-room', null);
+        expect(messages.length).to.equal(messageTextLength);
+        expect(messages[0].message).to.equal(`Message #${messageTextLength}`);
+    });
+
+    it('testing adding for `null` room', () => {
+        for (let i = 0; i < messageTextLength * 2; i++) {
+            gameRoom.addMessage(null, 'bot', null, `Message #${i}`);
+        }
+        const messages = gameRoom.getMessages(null, null);
+        expect(messages.length).to.equal(0);
+    });
+
+    it('testing adding messages vis publishing', () => {
+        for (let i = 0; i < messageTextLength * 2; i++) {
+            const d = {
+                from: 'bot',
+                room: 'unit-test-room',
+                to: null,
+                message: `Message #${i}`,
+
+            };
+
+            psevents.publish('room.message', JSON.stringify(d));
         }
         const messages = gameRoom.getMessages('unit-test-room', null);
         expect(messages.length).to.equal(messageTextLength);

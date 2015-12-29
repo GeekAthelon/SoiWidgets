@@ -123,6 +123,7 @@ class CardStackManager {
     }
 
     drawQuestion() {
+        /* istanbul ignore else  */
         if (this.questionDrawStack._cards.length === 0) {
             this._pub('game.info', `Shuffled Question Deck`);
             reshuffle(this.questionDiscardStack, this.questionDrawStack);
@@ -163,7 +164,6 @@ class CardStackManager {
         player.playedRound = true;
         player.lastRoundPlayed = this.round;
         this.resetPlayeDropCounter(player);
-
     }
 
     getDataFor(name) {
@@ -224,6 +224,7 @@ class CardStackManager {
 
             this._emptyStackTo(player.table, this.answerDiscardStack);
 
+            /* istanbul ignore if */
             if (now > player.dropTime) {
                 this.removePlayer(name);
             }
@@ -233,7 +234,9 @@ class CardStackManager {
     }
 
     _setTestingMode() {
+        /* istanbul ignore next */
         console.info('Test Mode Activated');
+        /* istanbul ignore next */
         random = new Random(Random.engines.mt19937().seed(1701));
     }
 
