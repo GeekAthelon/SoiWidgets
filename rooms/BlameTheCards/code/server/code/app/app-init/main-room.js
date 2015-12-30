@@ -100,7 +100,7 @@ function init(app, cardSources) {
         setTimeout(() => {
             game._endRound();
             game.startRound().then(() => {});
-        }, btcSettings.turnDuration);
+        }, game.roundDuration);
     });
 
     const cardLoaderPromise = cardLoader.load(game, cardSources);

@@ -5,6 +5,7 @@ const QuestionCard = require('./question-card');
 const AnswerCard = require('./answer-card');
 const Random = require('random-js');
 const psevents = require('./pub-sub');
+const btcSettings = require('../get-btc-settings');
 
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -143,6 +144,7 @@ class CardStackManager {
         player.dropTime = Date.now() + this.settings.playerTimeOutDuration;
 
     }
+
     addPlayer(name) {
         if (this.players[name]) {
             return;
@@ -152,6 +154,21 @@ class CardStackManager {
         this.resetPlayeDropCounter(player);
         this.players[name] = player;
         player.fillHand(this);
+    }
+
+    getPlayers() {
+        return Object.keys(this.players);
+    }
+
+    _calcRoundDuration() {
+        let extraPlayers = 0;
+        const playerCount = this.getPlayers().length;
+        if (playerCount > 4) {
+            extraPlayers = playerCount - 4;
+        }
+
+        const extraTime = (15 * 1000 * extraPlayers);
+        this.roundDuration = btcSettings.turnDuration + extraTime;
     }
 
     playCardsFor /* istanbul ignore next */ (name, cards) {
@@ -241,6 +258,7 @@ class CardStackManager {
     startRound() {
         this._pub('game.start-round.begin');
 
+        this._calcRoundDuration();
         this.round++;
         let qCard = this.drawQuestion();
         this.questionTableStack.add(qCard);
@@ -253,7 +271,7 @@ class CardStackManager {
 
         this.history.saveRound(this.round);
 
-        this.countdown = Date.now() + this.settings.turnDuration;
+        this.countdown = Date.now() + this.roundDuration;
 
         this._pub('game.start-round.end');
         return new Promise((resolve, reject) => {

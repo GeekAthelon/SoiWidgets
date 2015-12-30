@@ -72,9 +72,41 @@ describe('Testing Card Stack Manager', function() {
         it('game.players exists', function() {
             expect(game.players).to.deep.equal({});
         });
-
     });
 
+    describe('Testing add players and timings', function() {
+        const game = new CardStackManager(gameConfig);
+        const maxQuestionCards = 50;
+        const maxAnswerCards = 50;
+
+        beforeEach(() => {
+            populateCards(game, maxQuestionCards, maxAnswerCards);
+        });
+
+        it('add player should work', function() {
+            game.addPlayer('player1');
+            game.addPlayer('player2');
+            const players = game.getPlayers();
+            expect(players).to.deep.equal(['player1', 'player2']);
+        });
+
+        it('Testing extra time for players', function() {
+            game.addPlayer('player1');
+            game.addPlayer('player2');
+            game._calcRoundDuration();
+            const duraction1 = game.roundDuration;
+
+            game.addPlayer('player3');
+            game.addPlayer('player4');
+            game.addPlayer('player5');
+            game._calcRoundDuration();
+            const duraction2 = game.roundDuration;
+
+            expect(duraction1).to.deep.equal(60000);
+            expect(duraction2).to.deep.equal(60000 + (15 * 1 * 1000));
+        });
+
+    });
     describe('Dealing and overdealing', function() {
         const game = new CardStackManager(gameConfig);
         const maxQuestionCards = 4;
