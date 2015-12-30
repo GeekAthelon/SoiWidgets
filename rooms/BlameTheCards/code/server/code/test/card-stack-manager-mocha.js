@@ -7,17 +7,14 @@ const AnswerCard = require('../app/lib/answer-card');
 const CardStack = require('../app/lib/card-stack');
 const CardStackManager = require('../app/lib/card-stack-manager');
 const History = require('../app/lib/game-history');
-const BtcBot = require('../app/lib/btc-bot');
 const btcConfig = require('../app/get-btc-config')();
 const btcSettings = require('../app/get-btc-settings');
 
 const gameConfig = (function() {
     const gameHistory = new History('main-room');
-    const btcBot = new BtcBot(gameHistory);
 
     return {
         history: gameHistory,
-        btcBot: btcBot,
         settings: btcSettings,
         name: 'main-room'
     };

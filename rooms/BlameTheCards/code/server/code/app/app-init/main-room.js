@@ -7,7 +7,6 @@ const History = require('../lib/game-history');
 const gameHistory = new History('main-room');
 const BtcBot = require('../lib/btc-bot');
 const btcBot = new BtcBot(gameHistory);
-//const soi = require('../lib/soi');
 const getStatusViewData = require('../views/status.js');
 const psevents = require('../lib/pub-sub');
 
