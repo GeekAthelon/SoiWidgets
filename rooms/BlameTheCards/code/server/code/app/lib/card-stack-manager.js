@@ -119,7 +119,6 @@ class CardStackManager {
 
     _pub(n, obj) {
         const s = `${this.name}.${n}`;
-        console.log(s);
         psevents.publish(s, obj);
     }
 
