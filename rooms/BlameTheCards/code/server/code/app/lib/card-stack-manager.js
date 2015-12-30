@@ -166,7 +166,8 @@ class CardStackManager {
             extraPlayers = playerCount - 4;
         }
 
-        const extraTime = (15 * 1000 * extraPlayers);
+        const extraMillsPerPlayer = 15 * 1000;
+        const extraTime = extraMillsPerPlayer * extraPlayers;
         this.roundDuration = btcSettings.turnDuration + extraTime;
     }
 

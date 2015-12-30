@@ -4,7 +4,6 @@ const cardLoader = require('../lib/card-loader');
 const btcSettings = require('../get-btc-settings');
 const CardStackManager = require('../lib/card-stack-manager.js');
 const History = require('../lib/game-history');
-const gameHistory = new History('main-room');
 const psevents = require('../lib/pub-sub');
 const EnterLounge = require('../lib/enter-lounge');
 const btcLounges = require('../get-btc-lounges');
@@ -94,7 +93,6 @@ function init(app, cardSources) {
         const gameHistory = new History(roomName);
         const roomGame = new CardStackManager({
             history: gameHistory,
-            btcBot: btcBot,
             settings: btcSettings,
             name: roomName
         });
