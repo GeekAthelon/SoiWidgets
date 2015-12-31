@@ -26,7 +26,6 @@
     "sockjs": "^0.3.15"
   },
   "devDependencies": {
-    "mocha": "latest",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
@@ -45,7 +44,9 @@
     "gulp-util": "^3.0.6",
     "jscs": "^2.1.1",
     "jshint-stylish": "^2.0.1",
+    "mocha": "latest",
     "node-notifier": "^4.3.1",
+    "sinon": "^1.17.2",
     "source-map-support": "^0.3.2",
     "yargs": "^3.25.0"
   }

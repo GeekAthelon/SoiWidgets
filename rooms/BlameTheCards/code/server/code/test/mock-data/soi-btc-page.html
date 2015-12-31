@@ -1,0 +1,208 @@
+<HTML>
+  <head>
+    <title>Blame the Cards - a CaH inspired game</title>
+  </head>
+  <body background="http://soi.hyperchat.com/state/frgback.jpg">
+    <a name="newtalk"></a><a name="top"></a><script>
+      if (window.location.href.indexOf('password=') >= 0) {
+        document.write('<h1>Redirecting you in just a moment...</h1>');
+      }
+    </script>
+    <style>
+      .question-card {
+      /* height: 20em; */
+      width: 90%;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+      padding: 20px;
+      overflow: hidden;
+      border: none;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      font: normal 16px/1 "Lucida Console", Monaco, monospace;
+      line-height: 1.5em;
+      color: rgba(255,255,255,1);
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      background: #050505;
+      -webkit-box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+      -webkit-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      -moz-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      -o-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      }
+      .danswer-card {
+      text-align: left;
+      width: 90%;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+      /* width: 160px; */
+      padding: 20px;
+      overflow: hidden;
+      border: none;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      font: normal 16px/1 "Lucida Console", Monaco, monospace;
+      line-height: 1.5em;
+      color: black;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      background: #FFFFFF;
+      -webkit-box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+      }
+      .answer-card {  
+      float: left;
+      height: 10em;
+      width: 100%;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+      width: 160px;
+      padding: 20px;
+      overflow: hidden;
+      border: none;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      font: normal 16px/1 "Lucida Console", Monaco, monospace;
+      line-height: 1.5em;
+      color: rgba(05,05,05,1);
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      background: #FFFFFF;
+      -webkit-box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      box-shadow: 7px 7px 9px 5px rgba(0,0,0,0.3) ;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+      -webkit-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      -moz-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      -o-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+      }
+      .answer-card-marker-home {
+      float: left;
+      width: 1.5em;
+      background-color: #A0A0A0;
+      color: #050505;
+      text-align: center; 
+      -moz-border-radius: 15px;
+      border-radius: 15px;
+      margin-right: 0.5em;
+      }
+      .answer-card-text {
+      float: left;
+      width: 95%;
+      }
+    </style>
+    <div id='game-div'>
+      <div class="question-card">
+        Blame the Cards
+        <hr>
+        <p>Waiting to see if <b><font color="navy">-=[<font color="silver"><I><font color="white">A</font>thelon</i></font>]=-</font>'s</b> computer is alive.</p>
+        <p>
+          If this takes more than a few seconds, there is
+          either a network issue or <b><font color="navy">-=[<font color="silver"><I><font color="white">A</font>thelon</i></font>]=-</font>'s</b> computer isn't
+          running.  Either way, nothing you can do about
+          it.
+        </p>
+        <p>
+          If it seems like it really has been a while and <b><font color="navy">-=[<font color="silver"><I><font color="white">A</font>thelon</i></font>]=-</font></b> might not
+          know the system is broken, you can email him at
+          <a href="mailto:GeekAthelon@gmail.com">GeekAthelon@gmail.com</a>
+          and get his attention.
+        </p>
+      </div>
+    </div>
+    <script type='text/html' id='answer-template'>
+      <button class="danswer-card">
+         <div class="answer-card-marker-home">
+        <div class="answer-card-marker-span"> </div>
+      </div>
+      <div class="answer-card-text"></div>
+      </button>
+    </script>
+    <script type='text/html' id='question-template'>
+      <div class="question-card">
+      	 <div class="question-card-text"></div>
+      	 <button class="question-card-clear-answers">Clear answers</button>
+      	  
+      	 <button class="question-card-play-answers">Play this hand</button>
+      	  
+      	 <span>
+      	    Next question in 
+      		<strong class="question-card-time-left">XXX</strong>
+      		seconds.
+      	 </span>
+      </div>
+    </script>
+    <div style='clear:both'></div>
+    <a name="chatmark"></a><a href="http://ssomf.hyperchat.com/cgi-bin/somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9gDwkm%22ru%7Cle9fpg)fkp&vqvaa=roompage&vqvbf=btc&vqvab=btc&vqxti=1451577004#newtalk"><font size=2><i><b>Blame the Cards - a CaH inspired game...(btc)</b></i></font></a>
+    <table border=3>
+      <tr>
+        <td>
+          <center>
+            <form action="somf.exe#newtalk" method="POST">
+              <input type="hidden" name="vqvcook" value="1" />
+              <input type="hidden" name="vqxsq" value="xg43144j7hg56854eacg5685412e">
+              <input type="hidden" name="uniquepostguid" value="51804e1d-6ecc-6b9c-3141620568d16e8e-btcbot">
+              <input type="hidden" name="vqxus" value="btc-bot">
+              <input type="hidden" name="vqxha" value="btc-bot">
+              <input type="hidden" name="roomsite" value="soi">
+              <input type="text" name="vqxfi" size=8>
+              <input type="hidden" name="vqxti" value="1451577004">
+              <BR> <input type="submit" name="vqvak" value="Find"> <br>Blame the Cards runs off <a href=http://soiroom.hyperchat.com/btc/rpi.jpg>a Raspberry Pi</a>.<br><b>CHAT IS NOW<br>POSSIBLE IN THE LOUNGE</b></br>Game play isn't there yet<br>but its coming soon.<br><font color='red'>Added<br><i>Cards Against Gallifrey</i></font><br>expansion<br><a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9glepthqwDwkm%22ru%7Cle9fpg)fkp&vqxti=1451577004#newtalk">ROUND LENGTH CHANGE</a><br>
+            </form>
+            [08:50]
+          </center>
+        </td>
+        <td>
+          <center>
+          <form action="somf.exe#chatmark" method="POST">
+            <input type="hidden" name="vqvcook" value="1" />
+            <input type="hidden" name="vqxsq" value="cudg43144j7hg56854eacg5685412e">
+            <input type="hidden" name="uniquepostguid" value="51804e1d-6ecc-6b9c-3141620568d16e8e-btcbot">
+            <input type="hidden" name="vqxus" value="btc-bot">
+            <input type="hidden" name="vqxro" value="btc@soi">
+            <input type="hidden" name="vqvba" value="1451576034">
+            [<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9iDwkm%22ru%7Cle9fpg)fkp&vqvab=btc@soi&vqxti=1451577004#newtalk">Mail</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9gDwkm%22ru%7Cle9fpg)fkp&vqvab=btc@soi&vqxti=1451577004#newtalk">Controls</a>||<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9feffhaDwkm%22ru%7Cle9fpg)fkp&vqvab=btc@soi&vqxti=1451577004#newtalk">SeeAll</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9g/Gkjpvkh/GajpvaDwkm%22ru%7Cle9fpg)fkp&vqvab=btc@soi&vqvaa=hotlist&vqxti=1451577004#newtalk">Hot</a>|<a href="http://soi.hyperchat.com/chat/perm/help.htm">Help</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvcn=0&vqxti=1451577004#newtalk">Old</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9gDwkm%22ru%7Cle9fpg)fkp&vqvab=btc@soi&vqvaa=travel&vqxti=1451577004#newtalk">Travel</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvbk=*&vqxti=1451577004#newtalk">Local_Controls</a>]<br>
+            From:<input type="text" name="vqxha" size=11 value="btc-bot">
+            To:<input type="text" name="vqxto" size=11 value="">
+            <select name=vqvdy>
+              <option>&LT;==</option>
+              <option>**The Room**</option>
+            </select>
+            Show:<input type="text" name="vqxby" size=3 value="1">
+            <br>
+            <textarea spellcheck name="vqxsp" ROWS=4 COLS=55 WRAP="VIRTUAL"></textarea>
+            <br><INPUT TYPE="submit" name="vqvaj" Value="Talk/Listen">  . .  <input type="checkbox" name="vqvcg" >
+            . . <a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqxcc=1&vqxti=1451577004#newtalk">[Undo]</a>[<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvay=20&vqxti=1451577004#newtalk">Auto</a>|<a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvcn=0&vqxti=1451577004#newtalk">Old</a>] . . . . . . <INPUT TYPE="reset" VALUE="Reset">
+        </td>
+      </tr>
+    </table>
+    <input type="hidden" name="vqvas" value="q67q798bb9e4fez4ddddwthy">
+    <input type="hidden" name="vqxti" value="1451577004">
+    </form>
+    <hr size=10>
+    <i>Thu Dec 31 08:33:54</i>  <a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvbk=qvkjulian56854ae2&vqvcw=01216B45&vqxti=1451577004#newtalk">~</a> <br><b><i><font color="#80FF00">j</font><font color="#5ACB08">u</font><font color="#359811">l</font><font color="#0F6419">i</font><font color="#4C4939">a</font><font color="#474747">n</font><font color="#3F3F3F">n</font><font color="#373737">a</font></i> <i>said</i>:</b>
+    <blockquote> <I>Ughhh 
+      </i></i></font></font></font></font></font></font></font></font></i></b></i></font></font></font></font></font></font></font></font></i></a>
+    </blockquote>
+    <hr>
+    <center><a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqvel=1451576034&vqxby=1&vqxti=1451577004#newtalk">[Previous 1 thoughts starting with Thu Dec 31 08:33:54 2015
+      ]</a>
+    </center>
+    <hr>
+    <script src="http://76.188.44.119:5000/client.js?bust=22"></script><a name="bottom"></a>
+    <center><a href="somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9fpgDwkm%22ru%7Cle9fpg)fkp&vqxti=1451577004#newtalk">[Reload This Page]</a><br><a href="http://ssomf.hyperchat.com/cgi-bin/somf.exe?EParms=ru%7Ckqw29tfpg)fkp%22ru%7Cvk9gDwkm%22ru%7Cle9fpg)fkp&vqvaa=roompage&vqvbf=btc&vqvab=btc&vqxti=1451577004#newtalk"><font size=2><i><b>Blame the Cards - a CaH inspired game...(btc)</b></i></font></a><a href="#top">[Top]</a><a href="http://soi.hyperchat.com/">[Entrance]</a></center>
+    <br clear=left>
+    <center><font size=2>(Your Browser is: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36)</font><br>
+      <font size=2>(Performance Fetch Count = 118)(Reference=970,Count=1)</font><br><font size=2>(Login Server: Status Unknown)(Compression: On)</font><br><font size=2>(Mail Server: Status Unknown)</font><br><font size=1>S(0)R(1)N(CHIO)H(ssomf.hyperchat.com)</font><br>
+      <font size=1><a href="http://www.cyberhelp.net/">Copyright &#169; 1995-2015 Cyber Help, Inc., all rights reserved</a></font><br><a href="http://soi.hyperchat.com/chat/perm/rules.htm">[Rules/Conditions of Use]</a><br><font size=1>'HyperChat Software' and 'State of Insanity' are registered in the U.S. Pat. Off. </font><br>
+    </center>
+  </body>
+  <!-- compression used: gzip>
+</html>

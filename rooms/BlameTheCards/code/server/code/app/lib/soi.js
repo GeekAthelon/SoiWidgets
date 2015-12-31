@@ -1,4 +1,3 @@
-/* istanbul ignore next */
 (function() {
     'use strict';
     const btcConfig = require('../get-btc-config.js')();
@@ -6,18 +5,25 @@
     const cheerio = require('cheerio');
 
     class Soi {
-        Soi() {}
+        constructor() {
+            this.timeoutDelay = 10 * 1000;
+        }
 
         _getSoi(url) {
             return new Promise((resolve, reject) => {
                 request(url, function(error, response, body) {
+                    /* istanbul ignore if */
                     if (error) {
                         console.error('getRoom');
                         reject(error);
+                        return;
                     }
                     if (!error && response.statusCode === 200) {
                         resolve(body);
+                        return;
                     }
+
+                    reject(new Error(`_getSoi unknown error: ${response.statusCode}`));
                 });
             });
         }
@@ -40,9 +46,9 @@
         _delay() {
             return new Promise((resolve, reject) => {
                 void(reject);
-                setTimeout(function() {
+                setTimeout(() => {
                     resolve();
-                }, 10 * 1000);
+                }, this.timeoutDelay);
             });
         }
 
@@ -52,6 +58,7 @@
                     url: url,
                     form: data
                 }, function(err, response, body) {
+                    /* istanbul ignore if */
                     if (err) {
                         console.error('postSendRealData');
                         reject(err);
@@ -59,6 +66,8 @@
                     if (!err && response.statusCode === 200) {
                         resolve(body);
                     }
+
+                    reject(new Error(`_getPost unknown error: ${response.statusCode}`));
                 });
 
             });
@@ -94,7 +103,7 @@
                     resolve();
                     //return; // something using both resultA and resultB
                 }).catch((err) => {
-                    console.error('Soi.js: ', err);
+                    //console.error('Soi.js: ', err);
                     reject(err);
                 });
             });
