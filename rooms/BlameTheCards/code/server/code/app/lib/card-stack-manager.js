@@ -160,11 +160,8 @@ class CardStackManager {
     }
 
     _calcRoundDuration() {
-        let extraPlayers = 0;
         const playerCount = this.getPlayers().length;
-        if (playerCount > 4) {
-            extraPlayers = playerCount - 4;
-        }
+        const extraPlayers = Math.max(0, playerCount - 4);
 
         const extraMillsPerPlayer = 15 * 1000;
         const extraTime = extraMillsPerPlayer * extraPlayers;
