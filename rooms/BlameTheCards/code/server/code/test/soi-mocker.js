@@ -76,7 +76,7 @@ const mockPostToSoi = function() {
         .post(query)
         .once()
         .query(true)
-        .reply(200);
+        .reply(200, 'Data');
 
     return scope;
 };

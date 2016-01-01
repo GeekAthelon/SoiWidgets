@@ -18,6 +18,7 @@
                         reject(error);
                         return;
                     }
+
                     if (!error && response.statusCode === 200) {
                         resolve(body);
                         return;
@@ -60,9 +61,10 @@
                 }, function(err, response, body) {
                     /* istanbul ignore if */
                     if (err) {
-                        console.error('postSendRealData');
                         reject(err);
+                        return;
                     }
+
                     if (!err && response.statusCode === 200) {
                         resolve(body);
                     }
