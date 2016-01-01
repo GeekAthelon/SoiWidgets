@@ -1,7 +1,7 @@
 function getBtcConfig() {
     'use strict';
 
-    const isTest = process.env.NODE_TEST;
+    const isTest = process.env.NODE_TEST === 'true';
     const os = require('os');
     const fs = require('fs');
     const path = require('path');
@@ -21,6 +21,12 @@ function getBtcConfig() {
         throw new Error(`Not configuration found for ${hostname}. Bailing`);
     }
 
+    if (isTest) {
+        const testConfig = fullConfiguration.Speedy;
+        configuration.soi = testConfig.soi;
+        configuration.soiMail = testConfig.soiMail;
+    }
+
     // Fill in the template.
     configuration.soi.getUrl = stringFormat(
         configuration.soi.getUrl,
@@ -32,7 +38,7 @@ function getBtcConfig() {
         configuration.soiMail
     );
 
-    configuration.isTest = (isTest === 'true');
+    configuration.isTest = isTest;
     /* istanbul ignore else  */
     if (configuration.isTest) {
         configuration.env.dbPath = configuration.env.dbPathTest;
