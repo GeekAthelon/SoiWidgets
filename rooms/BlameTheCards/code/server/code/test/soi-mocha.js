@@ -7,7 +7,8 @@ const soi = require('../app/lib/soi');
 const soiMocker = require('./soi-mocker');
 const saveDelay = soi.timeoutDelay;
 
-describe('SOI Communication Tests', () => {
+describe('SOI Communication Tests', function() {
+    this.timeout(10000);
     beforeEach(function() {});
 
     afterEach(function() {
@@ -17,7 +18,7 @@ describe('SOI Communication Tests', () => {
 
     before(function() {});
 
-    it('SOI communications module is alive', function() {
+    it('SOI communications module is alive', () => {
         expect(soi instanceof Object).to.equal(true);
     });
 
