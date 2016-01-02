@@ -128,6 +128,20 @@ gulp.task('babel', /*['clean-build'], */ function() {
     return runBabble();
 });
 
+gulp.task('sass', function () {
+	var sass = $.sass
+	var src = gulpConfig.srcDir + '/sass/**/*.scss';
+	var dest = gulpConfig.dest + '/css';
+	console.log(src);
+	console.log(dest);
+	
+  return gulp.src(src)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(gulp.dest(dest));
+});
+
 // Full Build
 
 gulp.task('build', ['babel'], function() {});
