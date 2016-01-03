@@ -1,0 +1,19 @@
+
+body {
+	background-image: $corp-background-image;
+	background-color: $corp-color;
+	color: $base-font-color;
+	font-size: $base-font-size;
+	font-family: $base-font-family;
+}
+
+input, select {
+	background-color: $corp-color;
+	color: $base-font-color;
+}
+
+button[type='button'], input[type='submit'], option {
+	background-color: transparent;
+	color: $base-font-color;
+}
+

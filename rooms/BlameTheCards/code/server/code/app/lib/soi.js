@@ -12,6 +12,8 @@
         _getSoi(url) {
             return new Promise((resolve, reject) => {
                 request(url, function(error, response, body) {
+					console.log('_getSOI');
+					console.log(url);
                     /* istanbul ignore if */
                     if (error) {
                         console.error('getRoom');
@@ -59,6 +61,7 @@
                     url: url,
                     form: data
                 }, function(err, response, body) {
+					console.log('_soiPOST');
                     /* istanbul ignore if */
                     if (err) {
                         reject(err);
@@ -67,6 +70,7 @@
 
                     if (!err && response.statusCode === 200) {
                         resolve(body);
+                        return;
                     }
 
                     reject(new Error(`_getPost unknown error: ${response.statusCode}`));
@@ -105,7 +109,7 @@
                     resolve();
                     //return; // something using both resultA and resultB
                 }).catch((err) => {
-                    //console.error('Soi.js: ', err);
+                    console.error('Soi.js: ', err);
                     reject(err);
                 });
             });

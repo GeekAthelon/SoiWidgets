@@ -50,6 +50,7 @@
     app.use(cors());
     app.use('/static', express.static('static'));
     app.use('/client', express.static('build/client'));
+    app.use('/css', express.static('build/css'));
 
     app.set('views', './views');
     app.set('view engine', 'jade');

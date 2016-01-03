@@ -131,14 +131,16 @@ gulp.task('babel', /*['clean-build'], */ function() {
 gulp.task('sass', function () {
 	var sass = $.sass
 	var src = gulpConfig.srcDir + '/sass/**/*.scss';
+	var exclude = '!' + gulpConfig.srcDir + '/sass/**/_*'
 	var dest = gulpConfig.dest + '/css';
 	console.log(src);
+	console.log(exclude);
 	console.log(dest);
 	
-  return gulp.src(src)
+  return gulp.src([src, exclude])
     .pipe(sass().on('error', sass.logError))
-    .pipe(sass({outputStyle: 'compressed'}))
-    .pipe(sass({outputStyle: 'compressed'}))
+//    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(sass({outputStyle: 'nested'}))
     .pipe(gulp.dest(dest));
 });
 

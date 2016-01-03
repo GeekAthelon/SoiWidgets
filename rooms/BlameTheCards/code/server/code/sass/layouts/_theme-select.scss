@@ -1,0 +1,23 @@
+label.theme-select-label {
+	display: inline-block;
+	color: white;
+	width: 150px;
+	height: 150px;
+	margin-left: 2em;
+
+	> input {
+		position: absolute; /* Remove input from document flow */
+		left:-9999px;
+	}
+
+	> input + img{ /* IMAGE STYLES */
+		cursor:pointer;
+		border:2px solid transparent;
+	}
+
+	> input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+		border:2px solid white;
+		border-bottom: 25px solid transparent;
+	}
+}
+

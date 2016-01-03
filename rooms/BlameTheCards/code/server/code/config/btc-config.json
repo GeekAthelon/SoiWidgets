@@ -1,29 +1,22 @@
 {
   "Speedy": {
     "soi": {
-      "postUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php",
-      "getUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
+      "postUrl": "http://127.0.0.1:4241/SoiWidgets/fakesoi.php",
+      "getUrl": "http://127.0.0.1:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
       "nick": "btc-bot",
       "room": "BlameTheCards",
       "roomsite": "soi"
     },
-    "soiMail2": {
-      "postUrl": "http://smail1.hyperchat.com/cgi-bin/mail1.exe",
-      "getUrl": "http://smail1.hyperchat.com/cgi-bin/mail1.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
-      "nick": "btc-bot",
-      "room": "m",
-      "roomsite": "soi"
-    },
     "soiMail": {
-      "postUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php",
-      "getUrl": "http://76.188.44.119:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
+      "postUrl": "http://127.0.0.1:4241/SoiWidgets/fakesoi.php",
+      "getUrl": "http://127.0.0.1:4241/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
       "nick": "btc-bot",
       "room": "BlameTheCards",
       "roomsite": "soi"
     },
     "env": {
       "port": 4242,
-      "url": "http://76.188.44.119:4242",
+      "url": "http://127.0.0.1:4242",
       "dbPathReal": "../../../../btc-db/real",
       "dbPathTest": "../../../../btc-db/unit-test",
       "isDev": true
@@ -46,7 +39,7 @@
     },
     "env": {
       "port": 5000,
-      "url": "http://76.188.44.119:5000",
+      "url": "http://127.0.0.1:5000",
       "dbPathReal": "/home/athelon/btc-db/real",
       "dbPathTest": "/home/athelon/btc-db/unit-test",
       "isDev": false

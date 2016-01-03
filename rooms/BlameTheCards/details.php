@@ -155,7 +155,8 @@ EOF;
 
 
 $bot = <<<EOF
-<script src="http://76.188.44.119:4242/client.js?bust=5&zbust={$rnd}"></script>
+<zscript src="http://76.188.44.119:4242/client.js?bust=5&zbust={$rnd}"></zscript>
+<script src="http://127.0.0.1:4242/client.js?bust=5&zbust={$rnd}"></script>
 EOF;
 
 $roomDetails = array (
