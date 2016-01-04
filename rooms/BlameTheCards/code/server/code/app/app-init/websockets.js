@@ -103,7 +103,7 @@ function sendRoomList(connections, gameRooms) {
     });
 }
 
-var webSocket = function(app, server) {
+const webSocket = function(app, server) {
     const connDetails = new Map();
     let saveGameRooms = {};
 

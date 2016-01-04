@@ -6,7 +6,7 @@
     'use strict';
 
     window.getJSON = function(file, callback) {
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
 
             if (request.readyState === 4 && request.status === 200) {
@@ -24,7 +24,7 @@
     };
 
     window.postJSON = function(file, data, callback) {
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
 
             if (request.readyState === 4 && request.status === 200) {
@@ -55,7 +55,7 @@
      */
     window.hashFnv32a = function(str, asString, seed) {
         /*jshint bitwise:false */
-        var i, l,
+        let i, l,
             hval = (seed === undefined) ? 0x811c9dc5 : seed;
 
         for (i = 0, l = str.length; i < l; i++) {
@@ -70,10 +70,10 @@
     };
 
     window.getQueryVariable = function(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split('&');
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split('=');
+        const query = window.location.search.substring(1);
+        const vars = query.split('&');
+        for (let i = 0; i < vars.length; i++) {
+            const pair = vars[i].split('=');
             if (decodeURIComponent(pair[0]) === variable) {
                 return decodeURIComponent(pair[1]);
             }
@@ -87,7 +87,7 @@
     };
 }(window));
 
-var validate = (function() {
+const validate = (function() {
 
     const rules = {};
     const IS_VALID = true;
@@ -157,10 +157,10 @@ function serialize(form, encode) {
     'use strict';
     // jshint maxdepth:10
     // jshint maxcomplexity:20
-    var field, s = [];
+    let field, s = [];
     const postValues = {};
     if (typeof form === 'object' && form.nodeName === 'FORM') {
-        var len = form.elements.length;
+        let len = form.elements.length;
         for (let i = 0; i < len; i++) {
             field = form.elements[i];
             if (field.name &&
@@ -201,13 +201,13 @@ function post(path, params, method) {
 
     // The rest of this code assumes you are not using a library.
     // It can be made less wordy if you use one.
-    var form = document.createElement('form');
+    const form = document.createElement('form');
     form.setAttribute('method', method);
     form.setAttribute('action', path);
 
-    for (var key in params) {
+    for (let key in params) {
         if (params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement('input');
+            const hiddenField = document.createElement('input');
             hiddenField.setAttribute('type', 'hidden');
             hiddenField.setAttribute('name', key);
             hiddenField.setAttribute('value', params[key]);

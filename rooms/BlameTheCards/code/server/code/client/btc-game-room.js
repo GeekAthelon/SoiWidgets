@@ -26,7 +26,7 @@
         msg.from = msg.from || '<system>';
         msg.to = msg.to || ' ';
 
-        var time = new Date(msg.timeStamp);
+        const time = new Date(msg.timeStamp);
 
         cols[0].appendChild(document.createTextNode(formatTime(time)));
         cols[1].appendChild(document.createTextNode(msg.from));
@@ -66,8 +66,8 @@
     }
 
     function handleTalkClick(sock) {
-        var form = document.getElementById('chat');
-        var data = serialize(form);
+        const form = document.getElementById('chat');
+        const data = serialize(form);
 
         secureSend(sock, {
             type: 'send-room-message',

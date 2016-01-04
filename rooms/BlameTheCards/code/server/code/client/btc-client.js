@@ -4,7 +4,7 @@
     'use strict';
 
     window.setTimeout(() => {
-        var soiRoomPassword = getQueryVariable('password');
+        const soiRoomPassword = getQueryVariable('password');
         if (soiRoomPassword) {
             window.location = `${gameUrl}/enterlounge/room-link/${soiRoomPassword}`;
         }
@@ -43,7 +43,7 @@
             let endTime = Date.now() + countDown;
 
             function showTime() {
-                var leftHome = document.getElementsByClassName('question-card-time-left')[0];
+                const leftHome = document.getElementsByClassName('question-card-time-left')[0];
                 timerId = setTimeout(() => {
                     const now = Date.now();
                     const left = endTime - now;
@@ -62,7 +62,7 @@
         }
 
         function answerCardsNeeded(data) {
-            var temp = data.inPlay[0].text;
+            const temp = data.inPlay[0].text;
             return temp.split('_').length - 1;
         }
 
@@ -95,7 +95,7 @@
 
         function drawBoard(data) {
             drawVotes(data.gameHistory);
-            var gameDiv = document.getElementById('game-div');
+            const gameDiv = document.getElementById('game-div');
             const atemplate = document.getElementById('answer-template').innerHTML;
             const qtemplate = document.getElementById('question-template').innerHTML;
 
@@ -183,7 +183,7 @@
                 return;
             }
 
-            var maxAnswers = answerCardsNeeded(game);
+            const maxAnswers = answerCardsNeeded(game);
 
             if (playerAnswers.length < maxAnswers) {
                 playerAnswers.push(cardNum);
@@ -197,10 +197,10 @@
 
         function captureAnswerClicks() {
             document.body.addEventListener('click', function(event) {
-                var target = event.target;
+                let target = event.target;
 
                 while (target !== document) {
-                    var num = target.getAttribute('data-card-num');
+                    const num = target.getAttribute('data-card-num');
                     if (num) {
                         handleCardClick(+num);
                         break;
@@ -212,7 +212,7 @@
 
         function captureClearAnswerClicks() {
             document.body.addEventListener('click', function(event) {
-                var target = event.target;
+                let target = event.target;
 
                 while (target && target !== document) {
                     if (target.className === 'question-card-clear-answers') {
@@ -225,7 +225,7 @@
         }
 
         function playAnswers() {
-            var cards = playerAnswers.join('/');
+            const cards = playerAnswers.join('/');
 
             if (playerAnswers.length !== answerCardsNeeded(game)) {
                 //alert('Not enough answers');
@@ -248,7 +248,7 @@
 
         function capturePlayAnswerClicks() {
             document.body.addEventListener('click', function(event) {
-                var target = event.target;
+                let target = event.target;
 
                 while (target && target !== document) {
                     if (target.className === 'question-card-play-answers') {

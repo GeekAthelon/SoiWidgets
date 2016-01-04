@@ -1,7 +1,7 @@
 'use strict';
 
-var Card = require('./card');
-var Deck = require('./deck');
+const Card = require('./card');
+const Deck = require('./deck');
 
 class AnswerCard extends Card {
     constructor(num, text) {

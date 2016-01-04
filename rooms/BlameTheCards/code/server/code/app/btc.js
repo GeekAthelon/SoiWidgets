@@ -27,12 +27,12 @@
         ]
     };
 
-    var port = btcConfig.env.port;
+    const port = btcConfig.env.port;
     //app.listen(port);
     //console.log('Listening to port ' + port);
 
     setTimeout(function() {
-        var server = http.createServer(app).listen(port, function() {
+        const server = http.createServer(app).listen(port, function() {
             console.log('Express server listening on port ' + port);
             initMainRoom(app, cardSources);
             initLounges(app, cardSources);

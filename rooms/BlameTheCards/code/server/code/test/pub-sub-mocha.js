@@ -15,7 +15,7 @@ describe('psevents Tests', function() {
     });
 
     it('psevents - testing public and subscriptions', function(done) {
-        var subscription = psevents.subscribe('test1a', function(obj) {
+        const subscription = psevents.subscribe('test1a', function(obj) {
             expect(obj).deep.equal({
                 prop: true
             });
@@ -29,14 +29,14 @@ describe('psevents Tests', function() {
     });
 
     it('psevents - testing doesn\'t call the wrong subscriber', function(done) {
-        var subscription1 = psevents.subscribe('test2a', function(obj) {
+        const subscription1 = psevents.subscribe('test2a', function(obj) {
             expect(obj).deep.equal({
                 prop: true
             });
             done();
         });
 
-        var subscription2 = psevents.subscribe('test2b', function(obj) {
+        const subscription2 = psevents.subscribe('test2b', function(obj) {
             expect(obj).deep.equal({
                 prop: true
             });
@@ -60,14 +60,14 @@ describe('psevents Tests', function() {
             }
         }
 
-        var subscription1 = psevents.subscribe('test3a', function(obj) {
+        const subscription1 = psevents.subscribe('test3a', function(obj) {
             expect(obj).deep.equal({
                 prop: true
             });
             inc();
         });
 
-        var subscription2 = psevents.subscribe('test3a', function(obj) {
+        const subscription2 = psevents.subscribe('test3a', function(obj) {
             expect(obj).deep.equal({
                 prop: true
             });
@@ -94,8 +94,8 @@ describe('psevents Tests', function() {
             inc();
         }
 
-        var subscription1 = psevents.subscribe('test4a', t1);
-        var subscription2 = psevents.subscribe('test4a', t2);
+        const subscription1 = psevents.subscribe('test4a', t1);
+        const subscription2 = psevents.subscribe('test4a', t2);
         subscription2.remove();
         psevents.publish('test4a', {
             prop: true

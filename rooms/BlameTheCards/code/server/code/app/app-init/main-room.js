@@ -91,7 +91,7 @@ function init(app, cardSources) {
     });
 
     psevents.subscribe('main-room.game.start-round.end', () => {
-        var postPromise = btcBot.post();
+        const postPromise = btcBot.post();
         postPromise.then(() => {
             console.log('SOI post complete');
         });

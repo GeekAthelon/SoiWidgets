@@ -175,14 +175,14 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('getDataFor the Bot', () => {
-            var data = game.getDataFor(btcConfig.nick);
+            const data = game.getDataFor(btcConfig.nick);
             expect(data.hand.length).to.equal(10);
             expect(data.table.length).to.equal(0);
             expect(data.inPlay.length).to.equal(1);
         });
 
         it('getDataFor the an invalid player', () => {
-            var data = game.getDataFor('**NOBODY**');
+            const data = game.getDataFor('**NOBODY**');
             expect(data.hand.length).to.equal(0);
             expect(data.table.length).to.equal(0);
             expect(data.inPlay.length).to.equal(1);
@@ -305,7 +305,7 @@ describe('Testing Card Stack Manager', function() {
         });
 
         it('Should not be in game', () => {
-            var data = game.getDataFor(btcConfig.nick);
+            const data = game.getDataFor(btcConfig.nick);
             expect(data.inGame).to.equal(false);
         });
 

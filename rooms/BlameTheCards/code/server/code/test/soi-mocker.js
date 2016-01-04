@@ -5,9 +5,9 @@ const urlLib = require('url');
 const btcConfig = require('../app/get-btc-config.js')();
 
 function convertQueryStringToObject(s) {
-    var pairs = s.split('&');
+    const pairs = s.split('&');
 
-    var result = {};
+    const result = {};
     pairs.forEach(function(pair) {
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
@@ -17,7 +17,7 @@ function convertQueryStringToObject(s) {
 }
 
 const mockGetBtcRoom = function() {
-    var d = urlLib.parse(btcConfig.soi.getUrl);
+    const d = urlLib.parse(btcConfig.soi.getUrl);
 
     const url = `${d.protocol}//${d.host}`;
     const query = `${d.pathname}`;
@@ -50,7 +50,7 @@ const mockGetBtcRoomError = function() {
 };
 
 const mockGetSoiMailRoom = function() {
-    var d = urlLib.parse(btcConfig.soiMail.getUrl);
+    const d = urlLib.parse(btcConfig.soiMail.getUrl);
 
     const url = `${d.protocol}//${d.host}`;
     const query = `${d.pathname}`;
@@ -67,7 +67,7 @@ const mockGetSoiMailRoom = function() {
 };
 
 const mockPostToSoi = function() {
-    var d = urlLib.parse(btcConfig.soi.postUrl);
+    const d = urlLib.parse(btcConfig.soi.postUrl);
 
     const url = `${d.protocol}//${d.host}`;
     const query = `${d.pathname}`;
@@ -82,7 +82,7 @@ const mockPostToSoi = function() {
 };
 
 const mockPostToSoiError = function() {
-    var d = urlLib.parse(btcConfig.soi.postUrl);
+    const d = urlLib.parse(btcConfig.soi.postUrl);
 
     const url = `${d.protocol}//${d.host}`;
     const query = `${d.pathname}`;

@@ -5,8 +5,8 @@ https://davidwalsh.name/pubsub-javascript
 */
 
 const events = (function() {
-    var topics = {};
-    var hOP = topics.hasOwnProperty;
+    let topics = {};
+    let hOP = topics.hasOwnProperty;
 
     return {
         subscribe: function(topic, listener) {
@@ -16,7 +16,7 @@ const events = (function() {
             }
 
             // Add the listener to queue
-            var index = topics[topic].push(listener) - 1;
+            let index = topics[topic].push(listener) - 1;
 
             // Provide handle back for removal of topic
             return {

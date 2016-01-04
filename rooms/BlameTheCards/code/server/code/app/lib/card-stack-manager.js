@@ -7,7 +7,7 @@ const Random = require('random-js');
 const psevents = require('./pub-sub');
 const btcSettings = require('../get-btc-settings');
 
-var random = new Random(Random.engines.mt19937().autoSeed());
+let random = new Random(Random.engines.mt19937().autoSeed());
 
 const Deck = require('./deck');
 
@@ -16,9 +16,9 @@ const Deck = require('./deck');
  * Using Durstenfeld shuffle algorithm.
  */
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(random.real(0, 1, false) * (i + 1));
-        var temp = array[i];
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(random.real(0, 1, false) * (i + 1));
+        const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }

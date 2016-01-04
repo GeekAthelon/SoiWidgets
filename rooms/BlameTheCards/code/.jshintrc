@@ -54,6 +54,8 @@
     "browser": true,
     "node": true,
 
+    "varstmt": true,
+
     "globals": {
         "angular": false
     }

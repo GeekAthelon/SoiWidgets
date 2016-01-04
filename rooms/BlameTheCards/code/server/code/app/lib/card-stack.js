@@ -28,13 +28,13 @@ class CardStack {
 
     remove(card) {
 
-        var idx = this._cards.indexOf(card);
+        const idx = this._cards.indexOf(card);
 
         if (idx === -1) {
             throw new Error(`CardStack: Cannot remove. Card not found`);
         }
 
-        var removedCard = this._cards.splice(idx, 1);
+        const removedCard = this._cards.splice(idx, 1);
 
         /* istanbul ignore next */
         if (card !== removedCard[0]) {

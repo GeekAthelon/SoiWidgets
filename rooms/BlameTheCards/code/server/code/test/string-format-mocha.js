@@ -1,7 +1,7 @@
 /* globals it: true, describe: true */
 
-var expect = require('chai').expect;
-var stringFormat = require('../app/lib/string-format');
+const expect = require('chai').expect;
+const stringFormat = require('../app/lib/string-format');
 
 describe('stringFormat Gizmo', function() {
     'use strict';

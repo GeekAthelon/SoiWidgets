@@ -81,7 +81,7 @@ describe('Testing Deck', function() {
 });
 
 describe('Testing Question Cards', function() {
-    var questionCard = new QuestionCard(1, 'Huzzah');
+    const questionCard = new QuestionCard(1, 'Huzzah');
 
     it('Testing QuestionCard isntanceof Card', function() {
         expect(questionCard instanceof Card).to.equal(true);
@@ -89,7 +89,7 @@ describe('Testing Question Cards', function() {
 });
 
 describe('Testing Answer Cards', function() {
-    var answerCard = new AnswerCard(1, 'Huzzah');
+    const answerCard = new AnswerCard(1, 'Huzzah');
 
     it('Testing answerCard isntanceof Card', function() {
         expect(answerCard instanceof Card).to.equal(true);

@@ -48,7 +48,7 @@
         }
 
         function configureCreateRoom() {
-            var form = document.getElementById('createRoomForm');
+            const form = document.getElementById('createRoomForm');
             if (!form) {
                 return;
             }
@@ -177,7 +177,7 @@
                 });
             }
 
-            var imgs = document.querySelectorAll('img.select-theme');
+            const imgs = document.querySelectorAll('img.select-theme');
             for (let i = 0; i < imgs.length; i++) {
                 const img = imgs[i];
                 let label = img;
