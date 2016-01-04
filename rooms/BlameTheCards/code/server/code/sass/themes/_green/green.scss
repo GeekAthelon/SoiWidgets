@@ -1,24 +1,17 @@
-.lounge_green {
-	background-color: white;
-	background-image: url(/static/images/green-background.jpg);
-	color: black;
-}
+$corp-color: green;
+$corp-color-dark: darken($corp-color, 15%);
+$corp-color-second: red;
+$corp-color-second-dark: darken($corp-color-second, 15%);
+$corp-background-image: url(/static/images/green-background.jpg);
+$corp-logo-image: url(/static/images/green-logo-small.png);
 
-.lounge_green .logo {
-	display: inline-block;
-	height: 150px;
-	width: 150px;
-	background-image: url(/static/images/green-logo-small.png);
-}
+$zebra-strip-even: lighten($corp-color, 15%);
+$zebra-strip-odd: $corp-color;
 
-.lounge_green .section-header {
-background-color: #FFFFFF;
-opacity: 0.7;
-color: green;
-}
+// Font
+$base-font-size: 1.8;
+$base-font-family: Helvetica, Arial, Sans-Serif;
+$base-font-color: black;
 
-.lounge_green  button[type='button'], 
-.lounge_green  input[type='submit'] {
-	background-color: transparent;
-	color: black;
-}
+@import '../../btc-lounge';
+
