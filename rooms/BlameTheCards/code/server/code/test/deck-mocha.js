@@ -1,5 +1,5 @@
-/* globals it: true, describe: true, before: true */
 'use strict';
+/* globals it: true, describe: true */
 
 const expect = require('chai').expect;
 const QuestionCard = require('../app/lib/question-card');

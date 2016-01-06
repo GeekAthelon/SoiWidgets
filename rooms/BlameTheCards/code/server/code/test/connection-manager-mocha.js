@@ -1,0 +1,109 @@
+'use strict';
+/* globals it: true, describe: true, beforeEach: true, before: true */
+
+const expect = require('chai').expect;
+const ConnectionManager = require('../app/lib/connection-manager');
+const ConnectionManagerDetail = ConnectionManager.ConnectionDetail;
+
+describe.only('Ensuring ConnectionManagerDetail', () => {
+    let connectionManagerDetail;
+
+    before(() => {
+        connectionManagerDetail = new ConnectionManagerDetail();
+    });
+
+    it('Testing ConnectionManagerDetail is alive', () => {
+        expect(ConnectionManagerDetail).to.not.equal(undefined);
+    });
+
+    it('Testing ConnectionManagerDetail sealed', () => {
+        expect(Object.isSealed(connectionManagerDetail)).to.equal(true);
+    });
+
+    it('Testing lastSceen is set', () => {
+        expect(connectionManagerDetail.lastSeen instanceof Date).to.equal(true);
+    });
+});
+
+describe.only('Ensuring ConnectionManager', () => {
+    let connectionManager;
+
+    beforeEach(() => {
+        connectionManager = new ConnectionManager();
+    });
+
+    it('Testing ConnectionManager freezes', () => {
+        expect(Object.isFrozen(connectionManager)).to.equal(true);
+    });
+
+    it('Testing connectionManager.connections.size exists', () => {
+        expect(connectionManager.connections.size).to.equal(0);
+    });
+
+    it('Testing connectionManager.addConnection', () => {
+        const key = 'Test1Key1';
+        connectionManager.addConnection(key);
+        expect(connectionManager.connections.size).to.equal(1);
+    });
+
+    it('Testing connectionManager.addConnection twice with same key should fail', () => {
+        const key = 'TestTwiceKey1';
+        let hasError = false;
+        try {
+            connectionManager.addConnection(key);
+            connectionManager.addConnection(key);
+        } catch (err) {
+            hasError = true;
+        }
+        expect(hasError).to.equal(true);
+    });
+
+    it('Testing connectionManager.addConnection twice with different keys should work', () => {
+        connectionManager.addConnection('Key1');
+        connectionManager.addConnection('Key2');
+        expect(connectionManager.connections.size).to.equal(2);
+    });
+
+    it('Testing connectionManager.addConnection/removeConnection', () => {
+        const connection = 'key1';
+        connectionManager.addConnection(connection);
+        const detailAfterAdd = connectionManager.connections.get(connection);
+        expect(detailAfterAdd.isConnected).to.equal(true);
+
+        connectionManager.handleDroppedConnection(connection);
+        const detailAfterDelete = connectionManager.connections.get(connection);
+        expect(detailAfterAdd.isConnected).to.equal(false);
+    });
+
+    it('Testing connectionManager.removeConnection on unknown connection', () => {
+        const connection = 'key1';
+        let isError = false;
+        try {
+            connectionManager.handleDroppedConnection(connection);
+        } catch (err) {
+            isError = true;
+        }
+        expect(isError).to.equal(true);
+    });
+
+    it('Testing connectionManager.updateDetails', () => {
+        const connection = 'testConnectionUpdate1';
+        connectionManager.addConnection(connection);
+        connectionManager.updateDetails(connection, '-room-', '-nick-');
+        const detail = connectionManager.connections.get(connection);
+
+        expect(detail.soiNick).to.equal('-nick-');
+        expect(detail.roomName).to.equal('-room-');
+    });
+
+    it('Testing connectionManager.updateDetails - bad connection name', () => {
+        const connection = 'testConnectionBad';
+        let isError = false;
+        try {
+            connectionManager.updateDetails(connection, '-room-', '-nick-');
+        } catch (err) {
+            isError = true;
+        }
+        expect(isError).to.equal(true);
+    });
+});

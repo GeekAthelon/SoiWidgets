@@ -5,10 +5,7 @@ const psevents = require('../lib/pub-sub');
 const RegisterUsers = require('../lib/register-users.js');
 const registerUsers = new RegisterUsers();
 const gRooms = require('../lib/game-room');
-
-/* jshint -W079 */
-const Map = require('es6-map'); // Ignore redefinition.
-/* jshint +W079 */
+const ConnectionManager = require('../lib/connection-manager');
 
 function addOneMessageToList(details) {
     const d = {
@@ -104,8 +101,8 @@ function sendRoomList(connections, gameRooms) {
 }
 
 const webSocket = function(app, server) {
-    const connDetails = new Map();
     let saveGameRooms = {};
+    const connectionManager = new ConnectionManager();
 
     psevents.subscribe('room.message', (json) => {
         const details = JSON.parse(json);
