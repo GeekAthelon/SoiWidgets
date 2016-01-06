@@ -37,8 +37,6 @@ function sendOneMessageToRoom(connectionManager, details) {
 }
 
 function sendAllMessages(conn, details) {
-    console.log('**SENDALLMESSAGES**');
-    return;
     const messages = gRooms.getMessages(details.roomName, details.soiNick);
     if (messages.length === 0) {
         return;
@@ -55,17 +53,17 @@ function sendAllMessages(conn, details) {
 
 function sendPlayerList(connectionManager, roomName) {
     const playerList = connectionManager.buildPlayerListForRoom(roomName);
-	
+
     const json = JSON.stringify({
         type: 'player-list',
         roomName: roomName,
         list: playerList
     });
 
-   const connections = connectionManager.buildConnectionsForRoom(roomName);
+    const connections = connectionManager.buildConnectionsForRoom(roomName);
 
     connections.forEach(function(conn) {
-            conn.write(json);
+        conn.write(json);
     });
 }
 

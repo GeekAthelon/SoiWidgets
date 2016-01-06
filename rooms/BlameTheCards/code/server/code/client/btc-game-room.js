@@ -38,6 +38,11 @@
     }
 
     function showAllMessages(list) {
+        list = list.sort((i1, i2) => {
+            const d1 = Date.parse(i1.timeStamp);
+            const d2 = Date.parse(i2.timeStamp);
+            return d1 < d2;
+        });
         list.forEach(msg => showOneMessage(msg));
     }
 

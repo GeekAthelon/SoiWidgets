@@ -128,8 +128,7 @@ describe('Ensuring ConnectionManager', () => {
         expect(list).to.deep.equal({
             '-bobby': {
                 isConnected: true,
-                isPlaying: false,
-                connections: ['test1', 'test3']
+                isPlaying: false
             }
         });
 
@@ -140,9 +139,7 @@ describe('Ensuring ConnectionManager', () => {
         expect(list1).to.deep.equal({
             '-sue': {
                 isConnected: true,
-                isPlaying: false,
-                connections: ['test10', 'test11']
-
+                isPlaying: false
             }
         });
     });

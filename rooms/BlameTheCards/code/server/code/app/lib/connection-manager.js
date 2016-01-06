@@ -76,7 +76,7 @@ class ConnectionManager {
 
     buildPlayerListForRoom(roomName) {
         const players = {};
-        this.connections.forEach((detail, connection) => {
+        this.connections.forEach((detail) => {
             if (detail.roomName !== roomName) {
                 return;
             }
@@ -84,13 +84,11 @@ class ConnectionManager {
             const d = {
                 isConnected: false,
                 isPlaying: false,
-                connections: []
             };
 
             const player = players[detail.soiNick] || d;
             if (detail.isConnected) {
                 player.isConnected = true;
-                //player.connections.push(connection);
             }
 
             player.isPlaying = detail.isPlaying;
