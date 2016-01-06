@@ -72,7 +72,7 @@ describe.only('Ensuring ConnectionManager', () => {
 
         connectionManager.handleDroppedConnection(connection);
         const detailAfterDelete = connectionManager.connections.get(connection);
-        expect(detailAfterAdd.isConnected).to.equal(false);
+        expect(detailAfterDelete.isConnected).to.equal(false);
     });
 
     it('Testing connectionManager.removeConnection on unknown connection', () => {
@@ -105,5 +105,40 @@ describe.only('Ensuring ConnectionManager', () => {
             isError = true;
         }
         expect(isError).to.equal(true);
+    });
+
+    it('Testing connectionManager.buildPlayerListForRoom', () => {
+        function buildConnection(connection, room, name) {
+            connectionManager.addConnection(connection);
+            connectionManager.updateDetails(connection, room, name);
+        }
+
+        buildConnection('test1', '-room', '-bobby');
+        buildConnection('test2', '-room', '-bobby');
+        buildConnection('test3', '-room', '-bobby');
+
+        connectionManager.handleDroppedConnection('test2');
+
+        const list = connectionManager.buildPlayerListForRoom('-room');
+        expect(list).to.deep.equal({
+            '-bobby': {
+                isConnected: true,
+                isPlaying: false,
+                connections: ['test1', 'test3']
+            }
+        });
+
+        buildConnection('test10', '-zroom', '-sue');
+        buildConnection('test11', '-zroom', '-sue');
+
+        const list1 = connectionManager.buildPlayerListForRoom('-zroom');
+        expect(list1).to.deep.equal({
+            '-sue': {
+                isConnected: true,
+                isPlaying: false,
+                connections: ['test10', 'test11']
+
+            }
+        });
     });
 });

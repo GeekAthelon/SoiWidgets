@@ -10,6 +10,7 @@ class ConnectionDetail {
         this.soiNick = null;
         this.lastSeen = new Date();
         this.isConnected = false;
+        this.isPlaying = false;
         Object.seal(this);
     }
 }
@@ -54,6 +55,31 @@ class ConnectionManager {
         detail.roomName = roomName;
         detail.soiNick = soiNick;
         detail.lastSeen = new Date();
+    }
+
+    buildPlayerListForRoom(roomName) {
+        const players = {};
+        this.connections.forEach((detail, connection) => {
+            if (detail.roomName !== roomName) {
+                return;
+            }
+
+            const d = {
+                isConnected: false,
+                isPlaying: false,
+                connections: []
+            };
+
+            const player = players[detail.soiNick] || d;
+            if (detail.isConnected) {
+                player.isConnected = true;
+                player.connections.push(connection);
+            }
+
+            player.isPlaying = detail.isPlaying;
+            players[detail.soiNick] = player;
+        });
+        return players;
     }
 }
 
