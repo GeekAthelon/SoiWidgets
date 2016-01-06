@@ -39,7 +39,7 @@
     },
     "env": {
       "port": 5000,
-      "url": "http://127.0.0.1:5000",
+      "url": "http://76.188.44.119:5000",
       "dbPathReal": "/home/athelon/btc-db/real",
       "dbPathTest": "/home/athelon/btc-db/unit-test",
       "isDev": false
