@@ -54,7 +54,7 @@
         let option = new Option('<room>', '');
         selectContainer.options.add(option);
 
-        players.forEach((player) => {
+        Object.keys(players).forEach((player) => {
             const div = document.createElement('div');
             div.innerHTML = template;
             div.querySelector('.soiNick').appendChild(document.createTextNode(player));

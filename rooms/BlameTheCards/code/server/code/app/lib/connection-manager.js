@@ -11,6 +11,7 @@ class ConnectionDetail {
         this.lastSeen = new Date();
         this.isConnected = false;
         this.isPlaying = false;
+        this.valueSet = false;
         Object.seal(this);
     }
 }
@@ -47,14 +48,30 @@ class ConnectionManager {
         //this.connections.delete(connection);
     }
 
-    updateDetails(connection, roomName, soiNick) {
+    updateDetails(connection, soiNick, roomName) {
         const detail = this.connections.get(connection);
         if (!detail) {
             throw new Error('ConnectionManager: updateDetails: passed connection not found');
         }
+        let r = detail.valueSet === false;
+        detail.valueSet = true;
         detail.roomName = roomName;
         detail.soiNick = soiNick;
         detail.lastSeen = new Date();
+        return r;
+    }
+
+    buildConnectionsForRoom(roomName) {
+        const connections = [];
+        this.connections.forEach((detail, connection) => {
+            if (detail.roomName === roomName) {
+                if (detail.isConnected) {
+                    connections.push(connection);
+                }
+            }
+
+        });
+        return connections;
     }
 
     buildPlayerListForRoom(roomName) {
@@ -73,7 +90,7 @@ class ConnectionManager {
             const player = players[detail.soiNick] || d;
             if (detail.isConnected) {
                 player.isConnected = true;
-                player.connections.push(connection);
+                //player.connections.push(connection);
             }
 
             player.isPlaying = detail.isPlaying;

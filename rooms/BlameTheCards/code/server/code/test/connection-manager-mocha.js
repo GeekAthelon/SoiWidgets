@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const ConnectionManager = require('../app/lib/connection-manager');
 const ConnectionManagerDetail = ConnectionManager.ConnectionDetail;
 
-describe.only('Ensuring ConnectionManagerDetail', () => {
+describe('Ensuring ConnectionManagerDetail', () => {
     let connectionManagerDetail;
 
     before(() => {
@@ -25,7 +25,7 @@ describe.only('Ensuring ConnectionManagerDetail', () => {
     });
 });
 
-describe.only('Ensuring ConnectionManager', () => {
+describe('Ensuring ConnectionManager', () => {
     let connectionManager;
 
     beforeEach(() => {
@@ -89,18 +89,23 @@ describe.only('Ensuring ConnectionManager', () => {
     it('Testing connectionManager.updateDetails', () => {
         const connection = 'testConnectionUpdate1';
         connectionManager.addConnection(connection);
-        connectionManager.updateDetails(connection, '-room-', '-nick-');
+        const isFirstUpdate = connectionManager.updateDetails(connection, '-nick-', '-room-');
+
         const detail = connectionManager.connections.get(connection);
 
+        expect(isFirstUpdate).to.equal(true);
         expect(detail.soiNick).to.equal('-nick-');
         expect(detail.roomName).to.equal('-room-');
+
+        const isSecondUpdate = !connectionManager.updateDetails(connection, '-nick-', '-room-');
+        expect(isSecondUpdate).to.equal(true);
     });
 
     it('Testing connectionManager.updateDetails - bad connection name', () => {
         const connection = 'testConnectionBad';
         let isError = false;
         try {
-            connectionManager.updateDetails(connection, '-room-', '-nick-');
+            connectionManager.updateDetails(connection, '-nick-', '-room-');
         } catch (err) {
             isError = true;
         }
@@ -110,7 +115,7 @@ describe.only('Ensuring ConnectionManager', () => {
     it('Testing connectionManager.buildPlayerListForRoom', () => {
         function buildConnection(connection, room, name) {
             connectionManager.addConnection(connection);
-            connectionManager.updateDetails(connection, room, name);
+            connectionManager.updateDetails(connection, name, room);
         }
 
         buildConnection('test1', '-room', '-bobby');
@@ -140,5 +145,22 @@ describe.only('Ensuring ConnectionManager', () => {
 
             }
         });
+    });
+
+    it('Testing connectionManager.buildConnectionsForRoom', () => {
+        function buildConnection(connection, room, name) {
+            connectionManager.addConnection(connection);
+            connectionManager.updateDetails(connection, name, room);
+        }
+
+        buildConnection('test1', '-room', '-bobby');
+        buildConnection('test2', '-room', '-bobby');
+        buildConnection('test3', '-room', '-bobby');
+        buildConnection('test10', '-zroom', '-sue');
+        buildConnection('test11', '-zroom', '-sue');
+        connectionManager.handleDroppedConnection('test2');
+
+        const list = connectionManager.buildConnectionsForRoom('-room');
+        expect(list).to.deep.equal(['test1', 'test3']);
     });
 });

@@ -22,23 +22,23 @@ function addOneMessageToList(details) {
     psevents.publish('room.message', JSON.stringify(d));
 }
 
-function sendOneMessageToRoom(connections, details) {
-    const room = details.room;
-
+function sendOneMessageToRoom(connectionManager, details) {
     const json = JSON.stringify({
         type: 'one-message',
         roomName: details.room,
         details: details,
     });
 
-    connections.forEach(function(detail, key) {
-        if (detail.roomName === room) {
-            key.write(json);
-        }
+    const sendOneMessageToRoomConnections = connectionManager.buildConnectionsForRoom(details.room);
+
+    sendOneMessageToRoomConnections.forEach(function(key) {
+        key.write(json);
     });
 }
 
 function sendAllMessages(conn, details) {
+    console.log('**SENDALLMESSAGES**');
+    return;
     const messages = gRooms.getMessages(details.roomName, details.soiNick);
     if (messages.length === 0) {
         return;
@@ -53,29 +53,23 @@ function sendAllMessages(conn, details) {
     conn.write(json);
 }
 
-function sendPlayerList(connections, roomName) {
-    const playerList = [];
-
-    connections.forEach(function(detail) {
-        if (detail.roomName === roomName) {
-            playerList.push(detail.soiNick);
-        }
-    });
-
+function sendPlayerList(connectionManager, roomName) {
+    const playerList = connectionManager.buildPlayerListForRoom(roomName);
+	
     const json = JSON.stringify({
         type: 'player-list',
         roomName: roomName,
         list: playerList
     });
 
-    connections.forEach(function(detail, key) {
-        if (detail.roomName === roomName) {
-            key.write(json);
-        }
+   const connections = connectionManager.buildConnectionsForRoom(roomName);
+
+    connections.forEach(function(conn) {
+            conn.write(json);
     });
 }
 
-function sendRoomList(connections, gameRooms) {
+function sendRoomList(sendRoomConnectionManager, gameRooms) {
     const roomName = null;
     const list = Object.keys(gameRooms).map((roomName) => {
         const r = gameRooms[roomName];
@@ -93,10 +87,9 @@ function sendRoomList(connections, gameRooms) {
         list: list
     });
 
-    connections.forEach(function(detail, key) {
-        if (detail.roomName === roomName) {
-            key.write(json);
-        }
+    const connections = sendRoomConnectionManager.buildConnectionsForRoom(null);
+    connections.forEach(function(conn) {
+        conn.write(json);
     });
 }
 
@@ -106,17 +99,13 @@ const webSocket = function(app, server) {
 
     psevents.subscribe('room.message', (json) => {
         const details = JSON.parse(json);
-        sendOneMessageToRoom(connDetails, details);
+        sendOneMessageToRoom(connectionManager, details);
     });
 
     const chat = sockjs.createServer();
     chat.on('connection', function(conn) {
-        const details = {
-            conn,
-            soiNick: '-waiting'
-        };
 
-        connDetails.set(conn, details);
+        connectionManager.addConnection(conn);
 
         conn.on('data', function(message) {
             let o;
@@ -134,12 +123,13 @@ const webSocket = function(app, server) {
                 }
 
                 try {
-                    const details = connDetails.get(conn);
+                    const isFirstUpdate = connectionManager
+                        .updateDetails(conn, o.soiNick, o.roomName);
 
-                    if (details.soiNick !== o.soiNick) {
-                        details.soiNick = o.soiNick;
-                        details.roomName = o.roomName;
-                        sendPlayerList(connDetails, o.roomName);
+                    const details = connectionManager.connections.get(conn);
+
+                    if (isFirstUpdate) {
+                        sendPlayerList(connectionManager, o.roomName);
 
                         const d = {
                             from: null,
@@ -157,7 +147,7 @@ const webSocket = function(app, server) {
 
                     switch (o.type) {
                         case 'request-room-list':
-                            sendRoomList(connDetails, saveGameRooms);
+                            sendRoomList(connectionManager, saveGameRooms);
                             break;
                         case 'send-room-message':
                             addOneMessageToList(o);
@@ -169,9 +159,8 @@ const webSocket = function(app, server) {
             });
         });
         conn.on('close', function() {
-            const details = connDetails.get(conn);
-            connDetails.delete(conn);
-            sendPlayerList(connDetails, details.roomName);
+            connectionManager.handleDroppedConnection(conn);
+            //sendPlayerList(connectionManager, details.roomName);
         });
     });
 
@@ -180,7 +169,7 @@ const webSocket = function(app, server) {
     });
 
     psevents.subscribe(`game.roomlist.changed`, (gameRooms) => {
-        sendRoomList(connDetails, gameRooms);
+        sendRoomList(connectionManager, gameRooms);
         saveGameRooms = gameRooms;
     });
 };
