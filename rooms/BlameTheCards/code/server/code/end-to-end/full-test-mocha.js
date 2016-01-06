@@ -24,9 +24,6 @@ function waitForGameRunning(driver) {
 
 }
 
-
-
-
 test.describe('BtC Main Room', function() {
     this.timeout(30 * 1000);
     let driver;
@@ -50,13 +47,13 @@ test.describe('BtC Main Room', function() {
         driver.get(url);
 
         driver.wait(function() {
-            return waitForGameRunning(driver).then((data) => {
-				return true;
-			});
+            return waitForGameRunning(driver).then(() => {
+                return true;
+            });
         });
 
-		const card = driver.findElement(webdriver.By.className('answer-card-text'));
-		assert.notEqual(card, undefined);
+        const card = driver.findElement(webdriver.By.className('answer-card-text'));
+        assert.notEqual(card, undefined);
 
         //driver.wait(driver.until.elementLocated(By.name('username')), 10 * 1000).then(function(elm) {
         //	elm.sendKeys(username);
