@@ -12,8 +12,8 @@
         _getSoi(url) {
             return new Promise((resolve, reject) => {
                 request(url, function(error, response, body) {
-                    console.log('_getSOI');
-                    console.log(url);
+                    //console.log('_getSOI');
+                    //console.log(url);
                     /* istanbul ignore if */
                     if (error) {
                         console.error('getRoom');
@@ -61,7 +61,7 @@
                     url: url,
                     form: data
                 }, function(err, response, body) {
-                    console.log('_soiPOST');
+                    //console.log('_soiPOST');
                     /* istanbul ignore if */
                     if (err) {
                         reject(err);
