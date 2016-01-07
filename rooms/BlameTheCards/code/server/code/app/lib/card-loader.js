@@ -28,7 +28,8 @@ class CardLoader {
                     const lines = data.split(/\r\n|\r|\n/);
                     console.log(`Read file: ${fname}.  ${lines.length} lines.`);
                     const htmlLines = lines.map(line => he.encode(line, encodeOptions));
-                    cb.call(game, htmlLines);
+                    const filteredLines = htmlLines.filter(line => line.trim() !== '');
+                    cb.call(game, filteredLines);
                     resolve();
                 });
             });
