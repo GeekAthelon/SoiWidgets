@@ -6,10 +6,6 @@ const encodeOptions = {
 };
 
 class CardLoader {
-    CardLoader() {
-
-    }
-
     load(game, sources) {
         return Promise.all([
             this.questionPromise(game, sources.questions),
