@@ -25,7 +25,8 @@ describe.only('Grammer Tool Tests', function() {
     });
 
     it('Testing tokenize', () => {
-        let t1 = grammar.tokenize('Now "hear" this!  The quick  doggy --ran-- down the hall.');
+        const t1 = grammar.tokenize('Now "hear" this!  The quick  doggy --ran-- down the hall.');
+        const pureArrayStrippedOfDecorations = t1.map(l => l);
 
         let expected = [{
             str: 'Now',
@@ -89,6 +90,22 @@ describe.only('Grammer Tool Tests', function() {
             type: grammar.TOKEN_OTHER
         }];
 
-        expect(t1).to.deep.equal(expected);
+        expect(pureArrayStrippedOfDecorations).to.deep.equal(expected);
     });
+
+   it('Testing rule: toString', () => {
+        const t1 = grammar.tokenize('little miss muffet!');
+        expect(t1.toString()).to.deep.equal('little miss muffet!');
+    });
+
+    it('Testing rule: capFirstWord', () => {
+        const t1 = grammar.tokenize('little miss muffet');
+        t1.capFirstWord();
+        expect(t1.toString()).to.deep.equal('Little miss muffet');
+
+        const t2 = grammar.tokenize('"beyond the stars"');
+        t2.capFirstWord();
+        expect(t2.toString()).to.deep.equal('"Beyond the stars"');
+    });
+
 });

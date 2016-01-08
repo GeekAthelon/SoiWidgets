@@ -18,6 +18,27 @@
             return r;
         }
 
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        const rules = {
+            capFirstWord: function() {
+                const l = this.length;
+                for (let i = 0; i < l; i++) {
+                    const token = this[i];
+                    if (token.type === TOKEN_WORD) {
+                        token.str = capitalizeFirstLetter(token.str);
+                        break;
+                    }
+                }
+            },
+            toString: function() {
+                const txt = this.map(l => l.str);
+                return txt.join('');
+            }
+        };
+
         function tokenize(str) {
             const l = str.length;
             const tokens = [];
@@ -71,6 +92,12 @@
                     str: s,
                     type: type
                 });
+            }
+
+            for (let ruleName in rules) {
+                if (rules.hasOwnProperty(ruleName)) {
+                    tokens[ruleName] = rules[ruleName];
+                }
             }
 
             return tokens;
