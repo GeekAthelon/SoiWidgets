@@ -148,9 +148,10 @@
             module.exports = factory();
         } else {
             // Browser globals (root is window)
-            root.grammerTool = factory();
+            root.grammar = factory();
         }
     }(this, function() {
         return gtool;
     }));
+
 }());
