@@ -118,6 +118,7 @@
             }
 
             for (let ruleName in rules) {
+                /* istanbul ignore else */
                 if (rules.hasOwnProperty(ruleName)) {
                     tokens[ruleName] = rules[ruleName];
                 }
@@ -137,6 +138,7 @@
         };
     }());
 
+    /* istanbul ignore next */
     (function(root, factory) {
         if (typeof define === 'function' && define.amd) {
             // AMD
@@ -151,5 +153,4 @@
     }(this, function() {
         return gtool;
     }));
-
 }());

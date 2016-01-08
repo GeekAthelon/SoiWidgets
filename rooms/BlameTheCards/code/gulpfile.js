@@ -67,7 +67,7 @@ gulp.task('coverage-es5', ['babel'], function(done) {
 
 function runCoverage(done) {
     runTest({
-        src: ['server/code/app/**/*.js'],
+        src: ['server/code/app/**/*.js', 'server/code/client/lib/**/*.js'],
         tests: ['server/code/test/**/*.js'],
         coverageDir: './coverage'
     }, done);
