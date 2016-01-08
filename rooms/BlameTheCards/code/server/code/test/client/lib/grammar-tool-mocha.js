@@ -5,7 +5,7 @@
 const expect = require('chai').expect;
 const grammar = require('../../../client/lib/grammar-tool');
 
-describe.only('Grammer Tool Tests', function() {
+describe('Grammer Tool Tests', function() {
     before(function() {});
     beforeEach(function() {});
     afterEach(function() {});
@@ -93,6 +93,33 @@ describe.only('Grammer Tool Tests', function() {
         expect(pureArrayStrippedOfDecorations).to.deep.equal(expected);
     });
 
+    it('Testing rule: tokenizing ’\' symbols', () => {
+        const t1 = grammar.tokenize('Now ain’t goin’.');
+        const pureArrayStrippedOfDecorations = t1.map(l => l);
+
+        let expected = [{
+            'str': 'Now',
+            'type': grammar.TOKEN_WORD
+        }, {
+            'str': ' ',
+            'type': grammar.TOKEN_OTHER
+        }, {
+            'str': 'ain’t',
+            'type': grammar.TOKEN_WORD
+        }, {
+            'str': ' ',
+            'type': grammar.TOKEN_OTHER
+        }, {
+            'str': 'goin',
+            'type': grammar.TOKEN_WORD
+        }, {
+            'str': '’.',
+            'type': grammar.TOKEN_OTHER
+        }];
+
+        expect(pureArrayStrippedOfDecorations).to.deep.equal(expected);
+    });
+
     it('Testing rule: toString', () => {
         const t1 = grammar.tokenize('little miss muffet!');
         expect(t1.toString()).to.deep.equal('little miss muffet!');
@@ -112,6 +139,10 @@ describe.only('Grammer Tool Tests', function() {
         const t1 = grammar.tokenize('little miss muffet -- spider slayer');
         t1.capName();
         expect(t1.toString()).to.deep.equal('Little Miss Muffet -- Spider Slayer');
+
+        const t2 = grammar.tokenize('love ain\'t nothing.');
+        t2.capName();
+        expect(t2.toString()).to.deep.equal('Love Ain\'t Nothing.');
     });
 
     it('Testing rule: capTitle', () => {

@@ -10,6 +10,8 @@
         const TOKEN_WORD = 1000;
         const TOKEN_OTHER = 2000;
 
+        const inWordCharacters = '’\''.split('');
+
         const minorWords = 'a an the at by for in of on to up and as but or nor'.split(' ');
 
         const letters = 'ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜäëïöüçÇßØøÅåÆæÞþÐð' +
@@ -80,10 +82,21 @@
                 let s = '';
                 while (i < l) {
                     s += str.charAt(i);
+                    const nextChar = str.charAt(i + 1);
+                    const isInWordChar = inWordCharacters.indexOf(nextChar) !== -1;
 
-                    if (isLetter(str.charAt(i + 1))) {
+                    if (isLetter(nextChar)) {
                         i++;
                         continue;
+                    } else if (isInWordChar) {
+                        const nextNextChar = str.charAt(i + 2);
+
+                        if (isLetter(nextNextChar)) {
+                            s += nextChar;
+                            i += 2;
+                        } else {
+                            break;
+                        }
                     } else {
                         break;
                     }
