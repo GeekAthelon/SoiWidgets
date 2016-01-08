@@ -10,6 +10,8 @@
         const TOKEN_WORD = 1000;
         const TOKEN_OTHER = 2000;
 
+        const minorWords = 'a an the at by for in of on to up and as but or nor'.split(' ');
+
         const letters = 'ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜäëïöüçÇßØøÅåÆæÞþÐð' +
             'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -30,6 +32,27 @@
                     if (token.type === TOKEN_WORD) {
                         token.str = capitalizeFirstLetter(token.str);
                         break;
+                    }
+                }
+            },
+            capName: function() {
+                const l = this.length;
+                for (let i = 0; i < l; i++) {
+                    const token = this[i];
+                    if (token.type === TOKEN_WORD) {
+                        token.str = capitalizeFirstLetter(token.str);
+                    }
+                }
+            },
+            capTitle: function() {
+                const l = this.length;
+                for (let i = 0; i < l; i++) {
+                    const token = this[i];
+                    if (token.type === TOKEN_WORD) {
+                        const isMinor = minorWords.indexOf(token.str) !== -1;
+                        if (!isMinor) {
+                            token.str = capitalizeFirstLetter(token.str);
+                        }
                     }
                 }
             },

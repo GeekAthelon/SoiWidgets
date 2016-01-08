@@ -93,7 +93,7 @@ describe.only('Grammer Tool Tests', function() {
         expect(pureArrayStrippedOfDecorations).to.deep.equal(expected);
     });
 
-   it('Testing rule: toString', () => {
+    it('Testing rule: toString', () => {
         const t1 = grammar.tokenize('little miss muffet!');
         expect(t1.toString()).to.deep.equal('little miss muffet!');
     });
@@ -106,6 +106,18 @@ describe.only('Grammer Tool Tests', function() {
         const t2 = grammar.tokenize('"beyond the stars"');
         t2.capFirstWord();
         expect(t2.toString()).to.deep.equal('"Beyond the stars"');
+    });
+
+    it('Testing rule: capName', () => {
+        const t1 = grammar.tokenize('little miss muffet -- spider slayer');
+        t1.capName();
+        expect(t1.toString()).to.deep.equal('Little Miss Muffet -- Spider Slayer');
+    });
+
+    it('Testing rule: capTitle', () => {
+        const t1 = grammar.tokenize('willy wonka and the chocolate factory');
+        t1.capTitle();
+        expect(t1.toString()).to.deep.equal('Willy Wonka and the Chocolate Factory');
     });
 
 });
