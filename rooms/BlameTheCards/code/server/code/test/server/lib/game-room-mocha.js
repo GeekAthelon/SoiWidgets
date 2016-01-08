@@ -2,9 +2,9 @@
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
 const expect = require('chai').expect;
-const gameRoom = require('../app/lib/game-room');
-const gameRoom2 = require('../app/lib/game-room');
-const psevents = require('../app/lib/pub-sub');
+const gameRoom = require('../../../app/lib/game-room');
+const gameRoom2 = require('../../../app/lib/game-room');
+const psevents = require('../../../app/lib/pub-sub');
 
 const messageTextLength = 7;
 

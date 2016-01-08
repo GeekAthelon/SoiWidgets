@@ -2,13 +2,13 @@
 /* globals it: true, describe: true, before: true, beforeEach: true*/
 
 const expect = require('chai').expect;
-const QuestionCard = require('../app/lib/question-card');
-const AnswerCard = require('../app/lib/answer-card');
-const CardStack = require('../app/lib/card-stack');
-const CardStackManager = require('../app/lib/card-stack-manager');
-const History = require('../app/lib/game-history');
-const btcConfig = require('../app/get-btc-config')();
-const btcSettings = require('../app/get-btc-settings');
+const QuestionCard = require('../../../app/lib/question-card');
+const AnswerCard = require('../../../app/lib/answer-card');
+const CardStack = require('../../../app/lib/card-stack');
+const CardStackManager = require('../../../app/lib/card-stack-manager');
+const History = require('../../../app/lib/game-history');
+const btcConfig = require('../../../app/get-btc-config')();
+const btcSettings = require('../../../app/get-btc-settings');
 
 const gameConfig = (function() {
     const gameHistory = new History('main-room');

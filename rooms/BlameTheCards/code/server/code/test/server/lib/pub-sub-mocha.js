@@ -3,7 +3,7 @@
 /* globals it: true, describe: true, before: true, beforeEach: true */
 
 const expect = require('chai').expect;
-const psevents = require('../app/lib/pub-sub');
+const psevents = require('../../../app/lib/pub-sub');
 
 describe('psevents Tests', function() {
 

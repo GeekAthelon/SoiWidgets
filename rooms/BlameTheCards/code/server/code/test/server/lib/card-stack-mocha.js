@@ -3,10 +3,10 @@
 /* globals it: true, describe: true, before: true, beforeEach: true */
 
 const expect = require('chai').expect;
-const QuestionCard = require('../app/lib/question-card');
-const AnswerCard = require('../app/lib/answer-card');
-const CardStack = require('../app/lib/card-stack');
-const Deck = require('../app/lib/deck');
+const QuestionCard = require('../../../app/lib/question-card');
+const AnswerCard = require('../../../app/lib/answer-card');
+const CardStack = require('../../../app/lib/card-stack');
+const Deck = require('../../../app/lib/deck');
 
 describe('Testing Card Stack - basics', function() {
     let questionCardStack;

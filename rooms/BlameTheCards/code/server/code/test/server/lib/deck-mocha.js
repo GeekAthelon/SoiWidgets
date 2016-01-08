@@ -2,9 +2,9 @@
 /* globals it: true, describe: true */
 
 const expect = require('chai').expect;
-const QuestionCard = require('../app/lib/question-card');
-const AnswerCard = require('../app/lib/answer-card');
-const Card = require('../app/lib/card');
+const QuestionCard = require('../../../app/lib/question-card');
+const AnswerCard = require('../../../app/lib/answer-card');
+const Card = require('../../../app/lib/card');
 
 describe('Testing Question Cards', function() {
     const questionCard = new QuestionCard(1, 'Huzzah');

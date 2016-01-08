@@ -2,7 +2,7 @@
 
 const nock = require('nock');
 const urlLib = require('url');
-const btcConfig = require('../app/get-btc-config.js')();
+const btcConfig = require('../../../app/get-btc-config.js')();
 
 function convertQueryStringToObject(s) {
     const pairs = s.split('&');

@@ -2,7 +2,7 @@
 /* globals it: true, describe: true, beforeEach: true, before: true */
 
 const expect = require('chai').expect;
-const ConnectionManager = require('../app/lib/connection-manager');
+const ConnectionManager = require('../../../app/lib/connection-manager');
 const ConnectionManagerDetail = ConnectionManager.ConnectionDetail;
 
 describe('Ensuring ConnectionManagerDetail', () => {

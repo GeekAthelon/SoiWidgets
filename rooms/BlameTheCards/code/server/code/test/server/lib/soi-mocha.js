@@ -3,7 +3,7 @@
 /* globals it: true, describe: true, before: true, beforeEach: true, afterEach: true*/
 
 const expect = require('chai').expect;
-const soi = require('../app/lib/soi');
+const soi = require('../../../app/lib/soi');
 const soiMocker = require('./soi-mocker');
 const saveDelay = soi.timeoutDelay;
 

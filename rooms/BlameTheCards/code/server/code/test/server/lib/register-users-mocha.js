@@ -2,7 +2,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const RegisterUsers = require('../app/lib/register-users.js');
+const RegisterUsers = require('../../../app/lib/register-users.js');
 
 describe('Testing RegistereUser', () => {
     let registerUsers;
