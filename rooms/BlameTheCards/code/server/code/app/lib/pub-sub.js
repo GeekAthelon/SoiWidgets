@@ -6,12 +6,12 @@ https://davidwalsh.name/pubsub-javascript
 
 const events = (function() {
     let topics = {};
-    let hOP = topics.hasOwnProperty;
+    let hOP = topics.hasOwnProperty.bind(topics);
 
     return {
         subscribe: function(topic, listener) {
             // Create the topic's object if not yet created
-            if (!hOP.call(topics, topic)) {
+            if (!hOP(topic)) {
                 topics[topic] = [];
             }
 
@@ -28,7 +28,7 @@ const events = (function() {
         publish: function(topic, info) {
             // If the topic doesn't exist, or there's no listeners in queue, just leave
             /* istanbul ignore if */
-            if (!hOP.call(topics, topic)) {
+            if (!hOP(topic)) {
                 return;
             }
 
