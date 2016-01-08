@@ -56,6 +56,15 @@
                     }
                 }
             },
+            dashify: function() {
+                const l = this.length;
+                for (let i = 0; i < l; i++) {
+                    const token = this[i];
+                    if (token.type === TOKEN_OTHER) {
+                        token.str = token.str.replace(/ /g, '-');
+                    }
+                }
+            },
             toString: function() {
                 const txt = this.map(l => l.str);
                 return txt.join('');

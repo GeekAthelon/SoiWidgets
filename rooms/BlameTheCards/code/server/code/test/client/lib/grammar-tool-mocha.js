@@ -120,4 +120,9 @@ describe.only('Grammer Tool Tests', function() {
         expect(t1.toString()).to.deep.equal('Willy Wonka and the Chocolate Factory');
     });
 
+    it('Testing rule: dashify', () => {
+        const t1 = grammar.tokenize('over the top');
+        t1.dashify();
+        expect(t1.toString()).to.deep.equal('over-the-top');
+    });
 });
