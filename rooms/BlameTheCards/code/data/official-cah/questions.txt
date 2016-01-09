@@ -1,15 +1,15 @@
-﻿_: kid-tested mother-approved.
-_: good to the last drop.
-_? There’s an app for that.
-_. Betcha can’t have just one.
-_. High five bro.
-_. It’s a trap!
-_. That’s how I want to die.
-_ + _ = _
+﻿[capFirstWord]: kid-tested mother-approved.
+[capFirstWord]: good to the last drop.
+[capFirstWord]? There’s an app for that.
+[capFirstWord]. Betcha can’t have just one.
+[capFirstWord]. High five bro.
+[capFirstWord]. It’s a trap!
+[capFirstWord]. That’s how I want to die.
+[capFirstWord] + _ = [capFirstWord]
 I went from _ to _, all thanks to _.
-Make a haiku. _ / _ / _
-_ would be woefully incomplete without _.
-_ is a slippery slope that leads to _.
+Make a haiku. [capFirstWord] / [capFirstWord] / [capFirstWord]
+[capFirstWord] would be woefully incomplete without _.
+[capFirstWord] is a slippery slope that leads to _.
 An international tribunal has found _ guilty of _.
 An the Academy Award for _ goes to _.
 Before _, all we had was _.
@@ -24,9 +24,9 @@ In M. Night Shamalan’s new movie, Bruce Willis discovers that _ had really bee
 Lifetime presents _, the story of _.
 Michael Bay’s new three-hour action epic pits _ against _.
 Rumor has it that Vladimir Putin’s favorite dish is _ stuffed with _.
-Step 1: _ Step 2: _ Step 3: Profit.
-That’s right I killed _. How you ask? _.
-What’s the next superhero/sidekick duo? _ and _
+Step 1: [capFirstWord] Step 2: [capFirstWord] Step 3: Profit.
+That’s right I killed _. How you ask? [capFirstWord].
+What’s the next superhero/sidekick duo? _ and [capFirstWord]
 When I was tripping on acid _ turned into _.
 You haven’t truly lived until you’ve experienced _ and _ at the same time.
 A romantic candlelit dinner would be incomplete without _.
@@ -48,7 +48,7 @@ During sex, I like to think about _.
 Every Christmas my uncle gets drunk and tells the story about _.
 Everyone down on the ground! We don’t want to hurt anyone. We’re just here for _.
 He who controls _ controls the world.
-How am I maintaining my relationship status. _
+How am I maintaining my relationship status. [capFirstWord]
 I do not know with what weapons World War III will be fought, but World War IV will be fought with _.
 I drink to forget _.
 I got 99 problems but _ ain’t one.
@@ -75,9 +75,9 @@ Members of New York’s social elite are paying thousands of dollars just to exp
 MTV’s new reality show features eight washed-up celebrities living with _.
 My country, ’tis of thee, sweet land of _.
 My mom freaked out when she looked at my browser history and found _.com/_.
-My new favorite porn star is Joey “_” McGee.
-Next from J.K. Rowling: Harry Potter and the Chamber of _.
-Next on ESPN2: The World Series of _.
+My new favorite porn star is Joey “[CapName]” McGee.
+Next from J.K. Rowling: Harry Potter and the Chamber of [capTitle].
+Next on ESPN2: The World Series of [capTitle].
 Next time on Dr. Phil: How to talk to your child about _.
 On the third day of Christmas, my true love gave to me: three French hens, two turtle doves, and _.
 Only two things in life are certain: death and _.
@@ -97,65 +97,65 @@ This season on Man vs. Wild, Bear Grylls must survive in the depths of the Amazo
 Tonight on 20/20: What you don’t know about _ could kill you.
 TSA guidelines now prohibit _ on airplanes.
 Wake up, America. Christmas is under attack by secular liberals and their _.
-War! What is it good for? _
-What am I giving up for Lent? _
-What are my parents hiding from me? _
-What brought the orgy to a grinding halt? _
-What did I bring back from Mexico? _
-What did the US airdrop to the children of Afghanistan? _
-What did Vin Diesel eat for dinner? _
-What do old people smell like? _
-What does Dick Cheney prefer? _
-What don’t you want to find in your Chinese food? _
-What ended my last relationship? _
-What gets better with age? _
-What gives me uncontrollable gas? _
-What has been making life difficult at the nudist colony? _
-What helps Obama unwind? _
-What is Batman’s guilty pleasure? _
-What keeps me warm during the cold, cold winter? _
-What never fails to liven up the party? _
+War! What is it good for? [capFirstWord]
+What am I giving up for Lent? [capFirstWord]
+What are my parents hiding from me? [capFirstWord]
+What brought the orgy to a grinding halt? [capFirstWord]
+What did I bring back from Mexico? [capFirstWord]
+What did the US airdrop to the children of Afghanistan? [capFirstWord]
+What did Vin Diesel eat for dinner? [capFirstWord]
+What do old people smell like? [capFirstWord]
+What does Dick Cheney prefer? [capFirstWord]
+What don’t you want to find in your Chinese food? [capFirstWord]
+What ended my last relationship? [capFirstWord]
+What gets better with age? [capFirstWord]
+What gives me uncontrollable gas? [capFirstWord]
+What has been making life difficult at the nudist colony? [capFirstWord]
+What helps Obama unwind? [capFirstWord]
+What is Batman’s guilty pleasure? [capFirstWord]
+What keeps me warm during the cold, cold winter? [capFirstWord]
+What never fails to liven up the party? [capFirstWord]
 What people like _.
-What will always get you laid? _
-What will I bring back in time to convince people that I am a powerful wizard? _
-What would grandma find disturbing, yet oddly charming? _
-What’s a girl’s best friend? _
-What’s my anti-drug? _
-What’s my secret power? _
-What’s Teach for America using to inspire inner city students to succeed? _
-What’s that smell? _
-What’s that sound? _
-What’s the crustiest? _
-What’s the gift that keeps on giving? _
-What’s the most emo? _
-What’s the new fad diet? _
-What’s the next Happy Meal toy? _
-What’s there a ton of in heaven? _
+What will always get you laid? [capFirstWord]
+What will I bring back in time to convince people that I am a powerful wizard? [capFirstWord]
+What would grandma find disturbing, yet oddly charming? [capFirstWord]
+What’s a girl’s best friend? [capFirstWord]
+What’s my anti-drug? [capFirstWord]
+What’s my secret power? [capFirstWord]
+What’s Teach for America using to inspire inner city students to succeed? [capFirstWord]
+What’s that smell? [capFirstWord]
+What’s that sound? [capFirstWord]
+What’s the crustiest? [capFirstWord]
+What’s the gift that keeps on giving? [capFirstWord]
+What’s the most emo? [capFirstWord]
+What’s the new fad diet? [capFirstWord]
+What’s the next Happy Meal toy? [capFirstWord]
+What’s there a ton of in heaven? [capFirstWord]
 When all else fails, I can always masturbate to _.
 When I am a billionaire, I shall erect a 50-foot statue to commemorate _.
 When I am President of the United States, I will create the Department of _.
-When I pooped, what came out of my butt? _
-When Pharaoh remained unmoved, Moses called down a Plague of _.
+When I pooped, what came out of my butt? [capFirstWord]
+When Pharaoh remained unmoved, Moses called down a Plague of [capTitle].
 When the United States raced the Soviet Union to the moon, the Mexican government funneled millions of pesos into research on _.
-Why am I sticky? _
-Why can’t I sleep at night? _
-Why do I hurt all over? _
+Why am I sticky? [capFirstWord]
+Why can’t I sleep at night? [capFirstWord]
+Why do I hurt all over? [capFirstWord]
 In the seventh circle of Hell, sinners must endure _ for all eternity.
 A successful job interview begins with a firm handshake and ends with _.
 Lovin’ you is easy ’cause you’re _.
 My life is ruled by a vicious cycle of _ and _.
 The blind date was going horribly until we discovered our shared interest in _.
-_. Awesome in theory, kind of a mess in practice.
+[capFirstWord]. Awesome in theory, kind of a mess in practice.
 I’m not like the rest of you. I’m too rich and busy for _.
-_: Hours of fun. Easy to use. Perfect for _!
-What left this stain on my couch? _
+[capFirstWord]: Hours of fun. Easy to use. Perfect for _!
+What left this stain on my couch? [capFirstWord]
 Call the law offices of Goldstein & Goldstein, because no one should have to tolerate _ in the workplace.
 When you get right down to it, _ is just _.
 Turns out that _ Man was neither the hero we needed nor wanted.
 As part of his daily regimen, Anderson Cooper sets aside 15 minutes for _.
 Money can’t buy me love, but it can buy me _.
 With enough time and pressure, _ will turn into _.
-And what did you bring for show and tell? _
+And what did you bring for show and tell? [capFirstWord]
 During high school I never really fit in until I found _ club.
 Hey baby, come back to my place and I’ll show you _.
 After months of practice with _, I think I’m finally ready for _.

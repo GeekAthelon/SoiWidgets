@@ -1,23 +1,23 @@
 ﻿Wibbly-wobbly, timey-wimey _.
-What’s going to be The Doctor’s new catch phrase? _
+What’s going to be The Doctor’s new catch phrase? [capFirstWord]
 Bowties are _.
 The voice chip of one of the Cybermen has malfunctioned, instead of saying “DELETE!”, it now says “_”.
-Old and busted: “EXTERMINATE!”  New hotness: _
+Old and busted: “EXTERMINATE!”  New hotness: [capFirstWord]
 There’s a new dance on Gallifrey, it’s called the _.
 They announced a LEGO Doctor Who game!  Rumor has it that _ is an unlockable character.
 FUN FACT: The Daleks were originally shaped to look like _.
 At this new Doctor Who themed resturant, you can get a free _ if you can eat a plate of bangers and mash in under 3 minutes.
 They found some more lost episodes!  They were found in _.
 The Doctor did it! He saved the world again! This time using _.
-_ was sent to save _.
+[capFirstWord] was sent to save _.
 I’d give up _ to travel with the Doctor.
 The next Doctor Who spin-off is going to be called _.
-Who should be the 13th Doctor? _
+Who should be the 13th Doctor? [capFirstWord]
 The Chameleon circuit is working again … somewhat.  Instead of a Police Box, the TARDIS is now a _.
 Originally, the 50th anniveersary special was going to have _ appear, but the BBC decided against it in the end.
-After we watch an episode, I’ve got some _-flavored Jelly Babies to hand out.
+After we watch an episode, I’ve got some [dashify]-flavored Jelly Babies to hand out.
 According to the Daleks, _ is better at _.
-Who is going to be the next Doctor Who companion? _
+Who is going to be the next Doctor Who companion? [capFirstWord]
 I think the BBC is losing it.  They just released a Doctor Who-themed _.
 It’s a little-known fact that if you send a _ to the BBC, they will send you a picture of the Doctor.
 I was OK with all the BAD WOLF graffiti, until someone wrote it on _.
