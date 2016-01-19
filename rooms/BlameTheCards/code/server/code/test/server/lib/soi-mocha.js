@@ -7,7 +7,7 @@ const soi = require('../../../app/lib/soi');
 const soiMocker = require('./soi-mocker');
 const saveDelay = soi.timeoutDelay;
 
-describe('SOI Communication Tests', function() {
+describe.skip('SOI Communication Tests', function() {
     this.timeout(10000);
     beforeEach(function() {});
 

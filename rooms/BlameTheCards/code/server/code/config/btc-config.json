@@ -22,6 +22,29 @@
       "isDev": true
     }
   },
+  "Jeremy_Lap": {
+    "soi": {
+      "postUrl": "http://127.0.0.1:5000/SoiWidgets/fakesoi.php",
+      "getUrl": "http://127.0.0.1:5000/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
+      "nick": "btc-bot",
+      "room": "BlameTheCards",
+      "roomsite": "soi"
+    },
+    "soiMail": {
+      "postUrl": "http://127.0.0.1:5000/SoiWidgets/fakesoi.php",
+      "getUrl": "http://127.0.0.1:5000/SoiWidgets/fakesoi.php?roomsite={roomsite}&vqxsq=Unused&vqxha={nick}&vqxti=14502090&vqxus={nick}%40{roomsite}&vqxro={room}&on_auto=off",
+      "nick": "btc-bot",
+      "room": "BlameTheCards",
+      "roomsite": "soi"
+    },
+    "env": {
+      "port": 4242,
+      "url": "http://127.0.0.1:4242",
+      "dbPathReal": "../../../../btc-db/real",
+      "dbPathTest": "../../../../btc-db/unit-test",
+      "isDev": true
+    }
+  },  
   "node-server": {
     "soi": {
       "postUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe",
