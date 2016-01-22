@@ -27,6 +27,13 @@
         }
 
         const rules = {
+            toUpperCase: function() {
+                const l = this.length;
+                for (let i = 0; i < l; i++) {
+                    const token = this[i];
+                    token.str = token.str.toUpperCase();
+                }
+            },
             capFirstWord: function() {
                 const l = this.length;
                 for (let i = 0; i < l; i++) {
