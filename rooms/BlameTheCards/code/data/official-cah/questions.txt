@@ -75,7 +75,7 @@ Members of New York’s social elite are paying thousands of dollars just to exp
 MTV’s new reality show features eight washed-up celebrities living with _.
 My country, ’tis of thee, sweet land of _.
 My mom freaked out when she looked at my browser history and found _.com/_.
-My new favorite porn star is Joey “[CapName]” McGee.
+My new favorite porn star is Joey “[capName]” McGee.
 Next from J.K. Rowling: Harry Potter and the Chamber of [capTitle].
 Next on ESPN2: The World Series of [capTitle].
 Next time on Dr. Phil: How to talk to your child about _.
