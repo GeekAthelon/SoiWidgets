@@ -157,6 +157,12 @@ describe('Grammer Tool Tests', function() {
         expect(t1.toString()).to.deep.equal('THIS SHOULD BE IN -- UPPERCASE!');
     });
 
+    it('Testing rule: asIs', () => {
+        const t1 = grammar.tokenize('This should be in -- mixEdCase As Given!');
+        t1.asIs();
+        expect(t1.toString()).to.deep.equal('This should be in -- mixEdCase As Given!');
+    });
+
     it('Testing rule: dashify', () => {
         const t1 = grammar.tokenize('over the top');
         t1.dashify();

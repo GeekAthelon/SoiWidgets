@@ -5,98 +5,98 @@
 [capFirstWord]. High five bro.
 [capFirstWord]. It’s a trap!
 [capFirstWord]. That’s how I want to die.
-[capFirstWord] + _ = [capFirstWord]
-I went from _ to _, all thanks to _.
+[capFirstWord] + [asIs] = [capFirstWord]
+I went from [asIs] to [asIs], all thanks to [asIs].
 Make a haiku. [capFirstWord] / [capFirstWord] / [capFirstWord]
-[capFirstWord] would be woefully incomplete without _.
-[capFirstWord] is a slippery slope that leads to _.
-An international tribunal has found _ guilty of _.
-An the Academy Award for _ goes to _.
-Before _, all we had was _.
-Dear Sir or Madam, We regret to inform you that the office of _ has denied your request for _.
-For my next trick, I will pull _ out of _.
-I never truly understood _ until I encountered _.
-I spent my whole life working toward _, only to have it ruined by _.
-If God didn’t want us to enjoy _, He wouldn’t have given us _.
-In a pinch, _ can be a suitable substitute for _.
-In a world ravaged by _, our only solace is _.
-In M. Night Shamalan’s new movie, Bruce Willis discovers that _ had really been _ all along.
-Lifetime presents _, the story of _.
-Michael Bay’s new three-hour action epic pits _ against _.
-Rumor has it that Vladimir Putin’s favorite dish is _ stuffed with _.
+[capFirstWord] would be woefully incomplete without [asIs].
+[capFirstWord] is a slippery slope that leads to [asIs].
+An international tribunal has found [asIs] guilty of [asIs].
+An the Academy Award for [asIs] goes to [asIs].
+Before [asIs], all we had was [asIs].
+Dear Sir or Madam, We regret to inform you that the office of [asIs] has denied your request for [asIs].
+For my next trick, I will pull [asIs] out of [asIs].
+I never truly understood [asIs] until I encountered [asIs].
+I spent my whole life working toward [asIs], only to have it ruined by [asIs].
+If God didn’t want us to enjoy [asIs], He wouldn’t have given us [asIs].
+In a pinch, [asIs] can be a suitable substitute for [asIs].
+In a world ravaged by [asIs], our only solace is [asIs].
+In M. Night Shamalan’s new movie, Bruce Willis discovers that [asIs] had really been [asIs] all along.
+Lifetime presents [asIs], the story of [asIs].
+Michael Bay’s new three-hour action epic pits [asIs] against [asIs].
+Rumor has it that Vladimir Putin’s favorite dish is [asIs] stuffed with [asIs].
 Step 1: [capFirstWord] Step 2: [capFirstWord] Step 3: Profit.
-That’s right I killed _. How you ask? [capFirstWord].
-What’s the next superhero/sidekick duo? _ and [capFirstWord]
-When I was tripping on acid _ turned into _.
-You haven’t truly lived until you’ve experienced _ and _ at the same time.
-A romantic candlelit dinner would be incomplete without _.
-After blacking out during New Year’s Eve, I was awoken by _.
-After months of debate, the Occupy Wall Street General Assembly could only agree on “More _!”
-After the earthquake, Sean Penn brought _ to the people of Haiti.
-Alternative medicine is now embracing the curative powers of _.
-And I would have gotten away with it, too, if it hadn’t been for _.
-Anthropologists have recently discovered a primitive tribe that worships _.
-Before I run for president, I must destroy all evidence of my involvement with _.
-BILLY MAYS HERE FOR _.
-But before I kill you, Mr. Bond, I must show you _.
-Charades was ruined for me forever when my mom had to act out _.
-Coming to Broadway this season, _: The Musical.
-Dear Abby, I’m having some trouble with _ and would like your advice.
-During his midlife crisis, my dad got really into _.
-During Picasso’s often-overlooked Brown Period, he produced hundreds of paintings of _.
-During sex, I like to think about _.
-Every Christmas my uncle gets drunk and tells the story about _.
-Everyone down on the ground! We don’t want to hurt anyone. We’re just here for _.
-He who controls _ controls the world.
+That’s right I killed [asIs]. How you ask? [capFirstWord].
+What’s the next superhero/sidekick duo? [asIs] and [capFirstWord]
+When I was tripping on acid [asIs] turned into [asIs].
+You haven’t truly lived until you’ve experienced [asIs] and [asIs] at the same time.
+A romantic candlelit dinner would be incomplete without [asIs].
+After blacking out during New Year’s Eve, I was awoken by [asIs].
+After months of debate, the Occupy Wall Street General Assembly could only agree on “More [asIs]!”
+After the earthquake, Sean Penn brought [asIs] to the people of Haiti.
+Alternative medicine is now embracing the curative powers of [asIs].
+And I would have gotten away with it, too, if it hadn’t been for [asIs].
+Anthropologists have recently discovered a primitive tribe that worships [asIs].
+Before I run for president, I must destroy all evidence of my involvement with [asIs].
+BILLY MAYS HERE FOR [asIs].
+But before I kill you, Mr. Bond, I must show you [asIs].
+Charades was ruined for me forever when my mom had to act out [asIs].
+Coming to Broadway this season, [asIs]: The Musical.
+Dear Abby, I’m having some trouble with [asIs] and would like your advice.
+During his midlife crisis, my dad got really into [asIs].
+During Picasso’s often-overlooked Brown Period, he produced hundreds of paintings of [asIs].
+During sex, I like to think about [asIs].
+Every Christmas my uncle gets drunk and tells the story about [asIs].
+Everyone down on the ground! We don’t want to hurt anyone. We’re just here for [asIs].
+He who controls [asIs] controls the world.
 How am I maintaining my relationship status. [capFirstWord]
-I do not know with what weapons World War III will be fought, but World War IV will be fought with _.
-I drink to forget _.
-I got 99 problems but _ ain’t one.
-I learned the hard way that you can’t cheer up a grieving friend with _.
-I’m sorry professor, but I couldn’t complete my homework because of _.
-In 1,000 years when paper money is but a distant memory, _ will be our currency.
-In an attempt to reach a wider audience, the Smithsonian Museum of Natural History has opened an interactive exhibit on _.
-In his new self-produced album, Kanye West raps over the sounds of _.
-In his newest and most difficult stunt, David Blaine must escape from _.
-In its new tourism campaign, Detroit proclaims that it has finally eliminated _.
-In L.A. county Jail, word is you can trade 200 cigarettes for _.
-In Michael Jackson’s final moments, he thought about _.
-In Rome, there are whisperings that the Vatican has a secret room devoted to _.
-In the distant future, historians will agree that _ marked the beginning of America’s decline.
-In the new Disney Channel Original Movie, Hannah Montana struggles with _ for the first time.
-Instead of coal, Santa now gives the bad children _.
-It’s a pity that kids these days are all getting involved with _.
-Jesus is _.
-Life for American Indians was forever changed when the White Man introduced them to _.
-Little Miss Muffet, Sat on a tuffet, Eating her curds and _.
-Major League Baseball has banned _ for giving players an unfair advantage.
-Maybe she’s born with it. Maybe it’s _.
-Members of New York’s social elite are paying thousands of dollars just to experience _.
-MTV’s new reality show features eight washed-up celebrities living with _.
-My country, ’tis of thee, sweet land of _.
-My mom freaked out when she looked at my browser history and found _.com/_.
+I do not know with what weapons World War III will be fought, but World War IV will be fought with [asIs].
+I drink to forget [asIs].
+I got 99 problems but [asIs] ain’t one.
+I learned the hard way that you can’t cheer up a grieving friend with [asIs].
+I’m sorry professor, but I couldn’t complete my homework because of [asIs].
+In 1,000 years when paper money is but a distant memory, [asIs] will be our currency.
+In an attempt to reach a wider audience, the Smithsonian Museum of Natural History has opened an interactive exhibit on [asIs].
+In his new self-produced album, Kanye West raps over the sounds of [asIs].
+In his newest and most difficult stunt, David Blaine must escape from [asIs].
+In its new tourism campaign, Detroit proclaims that it has finally eliminated [asIs].
+In L.A. county Jail, word is you can trade 200 cigarettes for [asIs].
+In Michael Jackson’s final moments, he thought about [asIs].
+In Rome, there are whisperings that the Vatican has a secret room devoted to [asIs].
+In the distant future, historians will agree that [asIs] marked the beginning of America’s decline.
+In the new Disney Channel Original Movie, Hannah Montana struggles with [asIs] for the first time.
+Instead of coal, Santa now gives the bad children [asIs].
+It’s a pity that kids these days are all getting involved with [asIs].
+Jesus is [asIs].
+Life for American Indians was forever changed when the White Man introduced them to [asIs].
+Little Miss Muffet, Sat on a tuffet, Eating her curds and [asIs].
+Major League Baseball has banned [asIs] for giving players an unfair advantage.
+Maybe she’s born with it. Maybe it’s [asIs].
+Members of New York’s social elite are paying thousands of dollars just to experience [asIs].
+MTV’s new reality show features eight washed-up celebrities living with [asIs].
+My country, ’tis of thee, sweet land of [asIs].
+My mom freaked out when she looked at my browser history and found [asIs].com/[asIs].
 My new favorite porn star is Joey “[capName]” McGee.
 Next from J.K. Rowling: Harry Potter and the Chamber of [capTitle].
 Next on ESPN2: The World Series of [capTitle].
-Next time on Dr. Phil: How to talk to your child about _.
-On the third day of Christmas, my true love gave to me: three French hens, two turtle doves, and _.
-Only two things in life are certain: death and _.
-Science will never explain the origin of _.
-Studies show that lab rats navigate mazes 50% faster after being exposed to _.
-The CIA now interrogates enemy agents by repeatedly subjecting them to _.
-The class field trip was completely ruined by _.
-The Five Stages of Grief: denial, anger, bargaining, _, acceptance.
-The healing process began when I joined a support group for victims of _.
-The socialist governments of Scandanavia have declared that access to _ is a basic human right.
-The votes are in, and the new high school mascot is _.
-This holiday season, Tim Allen must overcome his fear of _ to save Christmas.
-This is the way the world ends Not with a bang but with _.
-This is your captain speaking. Fasten your seatbelts and prepare for _.
-This month’s Cosmo: “Spice up your sex life by bringing _ into the bedroom.”
-This season on Man vs. Wild, Bear Grylls must survive in the depths of the Amazon with only _ and his wits.
-Tonight on 20/20: What you don’t know about _ could kill you.
-TSA guidelines now prohibit _ on airplanes.
-Wake up, America. Christmas is under attack by secular liberals and their _.
+Next time on Dr. Phil: How to talk to your child about [asIs].
+On the third day of Christmas, my true love gave to me: three French hens, two turtle doves, and [asIs].
+Only two things in life are certain: death and [asIs].
+Science will never explain the origin of [asIs].
+Studies show that lab rats navigate mazes 50% faster after being exposed to [asIs].
+The CIA now interrogates enemy agents by repeatedly subjecting them to [asIs].
+The class field trip was completely ruined by [asIs].
+The Five Stages of Grief: denial, anger, bargaining, [asIs], acceptance.
+The healing process began when I joined a support group for victims of [asIs].
+The socialist governments of Scandanavia have declared that access to [asIs] is a basic human right.
+The votes are in, and the new high school mascot is [asIs].
+This holiday season, Tim Allen must overcome his fear of [asIs] to save Christmas.
+This is the way the world ends Not with a bang but with [asIs].
+This is your captain speaking. Fasten your seatbelts and prepare for [asIs].
+This month’s Cosmo: “Spice up your sex life by bringing [asIs] into the bedroom.”
+This season on Man vs. Wild, Bear Grylls must survive in the depths of the Amazon with only [asIs] and his wits.
+Tonight on 20/20: What you don’t know about [asIs] could kill you.
+TSA guidelines now prohibit [asIs] on airplanes.
+Wake up, America. Christmas is under attack by secular liberals and their [asIs].
 War! What is it good for? [capFirstWord]
 What am I giving up for Lent? [capFirstWord]
 What are my parents hiding from me? [capFirstWord]
@@ -115,7 +115,7 @@ What helps Obama unwind? [capFirstWord]
 What is Batman’s guilty pleasure? [capFirstWord]
 What keeps me warm during the cold, cold winter? [capFirstWord]
 What never fails to liven up the party? [capFirstWord]
-What people like _.
+What people like [asIs].
 What will always get you laid? [capFirstWord]
 What will I bring back in time to convince people that I am a powerful wizard? [capFirstWord]
 What would grandma find disturbing, yet oddly charming? [capFirstWord]
@@ -131,37 +131,37 @@ What’s the most emo? [capFirstWord]
 What’s the new fad diet? [capFirstWord]
 What’s the next Happy Meal toy? [capFirstWord]
 What’s there a ton of in heaven? [capFirstWord]
-When all else fails, I can always masturbate to _.
-When I am a billionaire, I shall erect a 50-foot statue to commemorate _.
-When I am President of the United States, I will create the Department of _.
+When all else fails, I can always masturbate to [asIs].
+When I am a billionaire, I shall erect a 50-foot statue to commemorate [asIs].
+When I am President of the United States, I will create the Department of [asIs].
 When I pooped, what came out of my butt? [capFirstWord]
 When Pharaoh remained unmoved, Moses called down a Plague of [capTitle].
-When the United States raced the Soviet Union to the moon, the Mexican government funneled millions of pesos into research on _.
+When the United States raced the Soviet Union to the moon, the Mexican government funneled millions of pesos into research on [asIs].
 Why am I sticky? [capFirstWord]
 Why can’t I sleep at night? [capFirstWord]
 Why do I hurt all over? [capFirstWord]
-In the seventh circle of Hell, sinners must endure _ for all eternity.
-A successful job interview begins with a firm handshake and ends with _.
-Lovin’ you is easy ’cause you’re _.
-My life is ruled by a vicious cycle of _ and _.
-The blind date was going horribly until we discovered our shared interest in _.
+In the seventh circle of Hell, sinners must endure [asIs] for all eternity.
+A successful job interview begins with a firm handshake and ends with [asIs].
+Lovin’ you is easy ’cause you’re [asIs].
+My life is ruled by a vicious cycle of [asIs] and [asIs].
+The blind date was going horribly until we discovered our shared interest in [asIs].
 [capFirstWord]. Awesome in theory, kind of a mess in practice.
-I’m not like the rest of you. I’m too rich and busy for _.
-[capFirstWord]: Hours of fun. Easy to use. Perfect for _!
+I’m not like the rest of you. I’m too rich and busy for [asIs].
+[capFirstWord]: Hours of fun. Easy to use. Perfect for [asIs]!
 What left this stain on my couch? [capFirstWord]
-Call the law offices of Goldstein & Goldstein, because no one should have to tolerate _ in the workplace.
-When you get right down to it, _ is just _.
-Turns out that _ Man was neither the hero we needed nor wanted.
-As part of his daily regimen, Anderson Cooper sets aside 15 minutes for _.
-Money can’t buy me love, but it can buy me _.
-With enough time and pressure, _ will turn into _.
+Call the law offices of Goldstein & Goldstein, because no one should have to tolerate [asIs] in the workplace.
+When you get right down to it, [asIs] is just [asIs].
+Turns out that [asIs] Man was neither the hero we needed nor wanted.
+As part of his daily regimen, Anderson Cooper sets aside 15 minutes for [asIs].
+Money can’t buy me love, but it can buy me [asIs].
+With enough time and pressure, [asIs] will turn into [asIs].
 And what did you bring for show and tell? [capFirstWord]
-During high school I never really fit in until I found _ club.
-Hey baby, come back to my place and I’ll show you _.
-After months of practice with _, I think I’m finally ready for _.
-To prepare for his upcoming role, Daniel Day-Lewis immersed himself in the world of _.
-Finally! A service that delivers _ right to your door.
-My gym teacher got fired for adding _ to the obstacle course.
-Having problems with _? Try _!
-As part of his contract, Prince won’t perform without _ in his dressing room.
-Listen, son. If you want to get involved with _, I won’t stop you. Just steer clear of _.
+During high school I never really fit in until I found [asIs] club.
+Hey baby, come back to my place and I’ll show you [asIs].
+After months of practice with [asIs], I think I’m finally ready for [asIs].
+To prepare for his upcoming role, Daniel Day-Lewis immersed himself in the world of [asIs].
+Finally! A service that delivers [asIs] right to your door.
+My gym teacher got fired for adding [asIs] to the obstacle course.
+Having problems with [asIs]? Try [asIs]!
+As part of his contract, Prince won’t perform without [asIs] in his dressing room.
+Listen, son. If you want to get involved with [asIs], I won’t stop you. Just steer clear of [asIs].

@@ -17,14 +17,20 @@ class QuestionCard extends Card {
             const t = text.substring(start, end + 1);
             const ruleText = t.replace('[', '').replace(']', '');
 
-            if (ruleNameList.indexOf(ruleText) === -1) {
-                throw new Error(
-                    `Question Card - constructor - unknown rule of "${ruleText}" ` +
-                    `in question "${text}"`);
-            }
-
             text = text.replace(t, '_');
-            this.rules = (ruleText.split(' '));
+
+            const currentRules = [];
+
+            ruleText.split(',').forEach((r) => {
+                if (ruleNameList.indexOf(r) === -1) {
+                    throw new Error(
+                        `Question Card - constructor - unknown rule of "${r}" ` +
+                        `in question "${text}"`);
+                }
+                currentRules.push(r);
+            });
+
+            this.rules.push(currentRules);
         }
 
         this.num = num;

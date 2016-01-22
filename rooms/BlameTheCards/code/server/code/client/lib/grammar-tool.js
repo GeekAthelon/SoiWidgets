@@ -27,6 +27,10 @@
         }
 
         const rules = {
+            asIs: function() {
+                // Do nothing, pass the text through, just as is.
+                void(0);
+            },
             toUpperCase: function() {
                 const l = this.length;
                 for (let i = 0; i < l; i++) {

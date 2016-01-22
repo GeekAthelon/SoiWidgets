@@ -16,7 +16,18 @@ describe('Testing Question Card', function() {
     it('Testing Question Card with one rule', function() {
         const qCard = new QuestionCard(10, `What is the question [capName]?`);
         expect(qCard.text).to.equal(`What is the question _?`);
-        expect(qCard.rules).to.deep.equal(['capName']);
+        expect(qCard.rules).to.deep.equal([
+            ['capName']
+        ]);
+    });
+
+    it('Testing Question Card with two slots rule', function() {
+        const qCard = new QuestionCard(10, `What is the question [capName]? [capTitle,dashify]`);
+        expect(qCard.text).to.equal(`What is the question _? _`);
+        expect(qCard.rules).to.deep.equal([
+            ['capName'],
+            ['capTitle', 'dashify']
+        ]);
     });
 
     it('Testing Question Card with unknown rule', function() {
