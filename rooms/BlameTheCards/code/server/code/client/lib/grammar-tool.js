@@ -149,10 +149,15 @@
             return tokens;
         }
 
+        function getRuleNames() {
+            return Object.keys(rules);
+        }
+
         return {
             isAlive: function() {
                 return true;
             },
+            getRuleNames,
             isLetter,
             tokenize,
             TOKEN_WORD,

@@ -2,6 +2,8 @@
 
 const Card = require('./card');
 const Deck = require('./deck');
+const grammar = require('../../client/lib/grammar-tool');
+const ruleNameList = grammar.getRuleNames();
 
 class QuestionCard extends Card {
     constructor(num, fullText) {
@@ -14,6 +16,12 @@ class QuestionCard extends Card {
             const end = text.indexOf(']');
             const t = text.substring(start, end + 1);
             const ruleText = t.replace('[', '').replace(']', '');
+
+            if (ruleNameList.indexOf(ruleText) === -1) {
+                throw new Error(
+                    `Question Card - constructor - unknown rule of "${ruleText}" ` +
+                    `in question "${text}"`);
+            }
 
             text = text.replace(t, '_');
             this.rules = (ruleText.split(' '));
