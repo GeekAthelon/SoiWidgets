@@ -66,11 +66,20 @@
             return temp.split('_').length - 1;
         }
 
-        function fillInQuestionCard(txt) {
-            playerAnswers.forEach((cardNum) => {
+        function fillInQuestionCard(inPlay) {
+            let txt = inPlay.text;
+            playerAnswers.forEach((cardNum, idx) => {
                 const cardList = game.hand.filter((c) => c.num === cardNum);
                 const card = cardList[0];
-                txt = txt.replace(/_/, `<i>${card.text}</i>`);
+
+                let tokens = window.grammar.tokenize(card.text);
+                const rules = inPlay.rules[idx];
+                rules.forEach(rule => {
+                    tokens[rule]();
+                });
+
+                const cardText = tokens.toString();
+                txt = txt.replace(/_/, `<i>${cardText}</i>`);
             });
             return txt;
         }
@@ -107,7 +116,7 @@
                     const qcard = document.createElement('div');
                     qcard.innerHTML = '' + qtemplate;
 
-                    let txt = fillInQuestionCard(inPlay.text);
+                    let txt = fillInQuestionCard(inPlay);
                     txt = txt.replace(/_/g, '__________');
                     qcard.getElementsByClassName('question-card-text')[0]
                         .innerHTML = txt;
@@ -235,7 +244,7 @@
             getJSON(`${gameUrl}/play/${username}/${cards}`, () => {
                 const inPlay = game.inPlay[0];
                 const txtBox = document.getElementsByName('vqxsp')[0];
-                const txt = fillInQuestionCard(inPlay.text);
+                const txt = fillInQuestionCard(inPlay);
 
                 txtBox.value = `<p class='question-card' ` +
                     ` data-btc-player='${soiUsername}' ` +

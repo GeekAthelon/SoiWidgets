@@ -79,11 +79,13 @@
 
             Promise.all([
                 readFile('build/client/btc-client.js'),
-                readFile('build/client/btc-common.js')
+                readFile('build/client/btc-common.js'),
+                readFile('build/client/lib/grammar-tool.js')
             ]).then(function(value) {
                 clientAppSrc = `var gameUrl = "${btcConfig.env.url}"`;
                 clientAppSrc += value[0].toString();
                 clientAppSrc += value[1].toString();
+                clientAppSrc += value[2].toString();
                 send();
             }).catch((err) => {
                 console.log('Error reading files');

@@ -1,8 +1,7 @@
 /* global define: true */
 (function() {
-    'use strict';
-
     const gtool = (function() {
+        'use strict';
         // This code is mostly English-centric. That's OK, since I'm only dealing in English.
         // I don't mind checking for letters in the extended set.
         // THIS CODE WILL BREAK WITH surrogate pairs
@@ -191,5 +190,4 @@
     }(this, function() {
         return gtool;
     }));
-
 }());
