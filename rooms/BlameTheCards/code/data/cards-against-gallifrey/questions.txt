@@ -2,7 +2,7 @@
 What’s going to be The Doctor’s new catch phrase? [capFirstWord]
 Bowties are [asIs].
 The voice chip of one of the Cybermen has malfunctioned, instead of saying “DELETE!”, it now says “[toUpperCase]”.
-Old and busted: “EXTERMINATE!”  New hotness: [capFirstWord]
+Old and busted: “EXTERMINATE!”  New hotness: [toUpperCase]
 There’s a new dance on Gallifrey, it’s called the [capTitle].
 They announced a LEGO Doctor Who game!  Rumor has it that [asIs] is an unlockable character.
 FUN FACT: The Daleks were originally shaped to look like [asIs].
@@ -14,7 +14,7 @@ I’d give up [asIs] to travel with the Doctor.
 The next Doctor Who spin-off is going to be called [capTitle].
 Who should be the 13th Doctor? [capFirstWord]
 The Chameleon circuit is working again … somewhat.  Instead of a Police Box, the TARDIS is now a [asIs].
-Originally, the 50th anniveersary special was going to have [asIs] appear, but the BBC decided against it in the end.
+Originally, the 50th anniversary special was going to have [asIs] appear, but the BBC decided against it in the end.
 After we watch an episode, I’ve got some [dashify]-flavored Jelly Babies to hand out.
 According to the Daleks, [asIs] is better at [asIs].
 Who is going to be the next Doctor Who companion? [capFirstWord]
