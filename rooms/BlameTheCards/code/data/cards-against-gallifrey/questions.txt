@@ -1,7 +1,7 @@
 ﻿Wibbly-wobbly, timey-wimey _.
 What’s going to be The Doctor’s new catch phrase? [capFirstWord]
 Bowties are _.
-The voice chip of one of the Cybermen has malfunctioned, instead of saying “DELETE!”, it now says “_”.
+The voice chip of one of the Cybermen has malfunctioned, instead of saying “DELETE!”, it now says “[toUpperCase]”.
 Old and busted: “EXTERMINATE!”  New hotness: [capFirstWord]
 There’s a new dance on Gallifrey, it’s called the _.
 They announced a LEGO Doctor Who game!  Rumor has it that _ is an unlockable character.
