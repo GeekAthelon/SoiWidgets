@@ -15,6 +15,34 @@ const babelOptions = {
 	presets: ['es2015']
 };
 
+var babelTasks = [];
+var jsHintTasks = [];
+var jscsTasks = [];
+
+(function() {
+	function btask(key){
+		var name = 'babelfy-' + key
+		createBabelTask(name, key);
+		babelTasks.push(name);
+	}
+	function jshinttask(key) {
+		var name = 'jshint-' + key
+		createJsHintTask(name, key);
+		jsHintTasks.push(name);
+	}
+	function jscstask(key) {
+		var name = 'jscs-' + key
+		createJscsTask(name, key);
+		jscsTasks.push(name);
+	}
+	
+	for (var key in projects) {
+		btask(key);
+		jshinttask(key);
+		jscstask(key);
+	}
+}());	
+
 
 function tattle(msg) {
     const nn = require('node-notifier');
@@ -86,26 +114,31 @@ gulp.task('coverage', function(done) {
 
 // Style and Linting Tasks
 
-gulp.task('vet', ['jshint', 'jscs'], function() {
-});
+function createJscsTask(name, key) {
+    log('Creating task: ' + name);
+    var proj = projects[key];
 
-gulp.task('jscs', function() {
-    return gulp.src(gulpConfig.src)
-        .pipe($.if(args.verbose, $.print()))
-        .pipe($.jscs());
-});
+	gulp.task(name, function() {
+		return gulp.src(proj.srcFiles)
+			.pipe($.if(args.verbose, $.print()))
+			.pipe($.jscs());
+	});
+}
 
-gulp.task('jshint', function() {
-    return gulp.src(gulpConfig.src)
-        .pipe($.if(args.verbose, $.print()))
-        .pipe($.jshint())
-        .pipe($.jshint.reporter('jshint-stylish', {
-            verbose: false
-        }))
-        .pipe($.jshint.reporter('fail'));
-});
+function createJsHintTask(name, key) {
+    log('Creating task: ' + name);
+    var proj = projects[key];
 
-// File Converstion Tasks
+	gulp.task(name, function() {
+		return gulp.src(proj.srcFiles)
+			.pipe($.if(args.verbose, $.print()))
+			.pipe($.jshint())
+			.pipe($.jshint.reporter('jshint-stylish', {
+				verbose: false
+			}))
+			.pipe($.jshint.reporter('fail'));
+	});
+}
 
 function createBabelTask(name, key) {
     log('Creating task: ' + name);
@@ -126,16 +159,18 @@ function createBabelTask(name, key) {
 	});
 }
 
-var babelTasks = [];
-for (var key in projects) {
-  var name = 'babelfy-' + key;
-  createBabelTask(name, key);
-  babelTasks.push(name);
-}	
-
 gulp.task('babel', babelTasks, function() {
-    //return runBabble();
 });
+
+gulp.task('jshint', jsHintTasks, function() {
+});
+
+gulp.task('jscs', jscsTasks, function() {
+});
+
+gulp.task('vet', ['jshint', 'jscs'], function() {
+});
+
 
 gulp.task('sass', function () {
 	const sass = $.sass
