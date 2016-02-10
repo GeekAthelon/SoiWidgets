@@ -8,7 +8,8 @@ function stringFormat(str, col) {
     /// </param>
     /// <returns type="String">The formatted string</returns>
 
-    let col1 = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
+    let col1 = typeof col === 'object' ? col : Array.prototype.slice.call(
+        arguments, 1);
 
     return str.replace(/\{\{|\}\}|\{(\w+)\}/g, function(m, n) {
         if (m === '{{') {

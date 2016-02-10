@@ -2,7 +2,8 @@
 
 const gulp = require('gulp');
 const path = require('path');
-const args = require('yargs').argv;
+const args = require('yargs')
+    .argv;
 const projects = require('./gulp.config')();
 var del = require('del');
 
@@ -12,36 +13,58 @@ const $ = require('gulp-load-plugins')({
 });
 
 const babelOptions = {
-	presets: ['es2015']
+    presets: ['es2015']
 };
 
 var babelTasks = [];
 var jsHintTasks = [];
 var jscsTasks = [];
+var formatJsTasks = [];
 
 (function() {
-	function btask(key){
-		var name = 'babelfy-' + key
-		createBabelTask(name, key);
-		babelTasks.push(name);
-	}
-	function jshinttask(key) {
-		var name = 'jshint-' + key
-		createJsHintTask(name, key);
-		jsHintTasks.push(name);
-	}
-	function jscstask(key) {
-		var name = 'jscs-' + key
-		createJscsTask(name, key);
-		jscsTasks.push(name);
-	}
-	
-	for (var key in projects) {
-		btask(key);
-		jshinttask(key);
-		jscstask(key);
-	}
-}());	
+    function btask(key) {
+        var name = 'babelfy-' + key
+        createBabelTask(name, key);
+        babelTasks.push(name);
+    }
+
+    function jshinttask(key) {
+        var name = 'jshint-' + key
+        createJsHintTask(name, key);
+        jsHintTasks.push(name);
+    }
+
+    function jscstask(key) {
+        var name = 'jscs-' + key
+        createJscsTask(name, key);
+        jscsTasks.push(name);
+    }
+
+    function formatjstask(key) {
+        var name = 'formatjs-' + key
+        createFormatJsTask(name, key);
+        formatJsTasks.push(name);
+    }
+
+    for (var key in projects) {
+        var proj = projects[key];
+        if (proj.tasks.babelfy) {
+            btask(key);
+        }
+
+        if (proj.tasks.jshint) {
+            jshinttask(key);
+        }
+
+        if (proj.tasks.jscs) {
+            jscstask(key);
+        }
+
+        if (proj.tasks.formatjs) {
+            formatjstask(key);
+        }
+    }
+}());
 
 
 function tattle(msg) {
@@ -78,7 +101,9 @@ function runTest(testConfig, done) {
                 .pipe($.mocha())
                 .pipe($.istanbul.writeReports({
                     dir: testConfig.coverageDir,
-                    reporters: ['html', 'lcov', 'json', 'text', 'text-summary'],
+                    reporters: ['html', 'lcov', 'json', 'text',
+                        'text-summary'
+                    ],
                     reportOpts: {
                         dir: './coverage'
                     },
@@ -102,7 +127,9 @@ gulp.task('coverage-es5', ['babel'], function(done) {
 
 function runCoverage(done) {
     runTest({
-        src: ['server/code/app/**/*.js', 'server/code/client/lib/**/*.js'],
+        src: ['server/code/app/**/*.js',
+            'server/code/client/lib/**/*.js'
+        ],
         tests: ['server/code/test/**/*.js'],
         coverageDir: './coverage'
     }, done);
@@ -118,74 +145,73 @@ function createJscsTask(name, key) {
     log('Creating task: ' + name);
     var proj = projects[key];
 
-	gulp.task(name, function() {
-		return gulp.src(proj.srcFiles)
-			.pipe($.if(args.verbose, $.print()))
-			.pipe($.jscs());
-	});
+    gulp.task(name, function() {
+        return gulp.src(proj.srcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            .pipe($.jscs());
+    });
 }
 
 function createJsHintTask(name, key) {
     log('Creating task: ' + name);
     var proj = projects[key];
 
-	gulp.task(name, function() {
-		return gulp.src(proj.srcFiles)
-			.pipe($.if(args.verbose, $.print()))
-			.pipe($.jshint())
-			.pipe($.jshint.reporter('jshint-stylish', {
-				verbose: false
-			}))
-			.pipe($.jshint.reporter('fail'));
-	});
+    gulp.task(name, function() {
+        return gulp.src(proj.srcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            .pipe($.jshint())
+            .pipe($.jshint.reporter('jshint-stylish', {
+                verbose: false
+            }))
+            .pipe($.jshint.reporter('fail'));
+    });
 }
 
 function createBabelTask(name, key) {
     log('Creating task: ' + name);
     var proj = projects[key];
-	gulp.task(name, function() {	
-		return gulp.src(proj.srcFiles)
-			.pipe($.if(args.verbose, $.print()))
-			.pipe($.sourcemaps.init())
-			.pipe($.babel(babelOptions))
-			.on('error', (err) => {
-				tattle('Build error under Babel');
-				log(err);
-			})
-			.pipe($.sourcemaps.write('.', {
-				sourceRoot: proj.src
-			}))
-			.pipe(gulp.dest(proj.dest));
-	});
+    gulp.task(name, function() {
+        return gulp.src(proj.srcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            .pipe($.sourcemaps.init())
+            .pipe($.babel(babelOptions))
+            .on('error', (err) => {
+                tattle('Build error under Babel');
+                log(err);
+            })
+            .pipe($.sourcemaps.write('.', {
+                sourceRoot: proj.src
+            }))
+            .pipe(gulp.dest(proj.dest));
+    });
 }
 
-gulp.task('babel', babelTasks, function() {
-});
+gulp.task('babel', babelTasks, function() {});
 
-gulp.task('jshint', jsHintTasks, function() {
-});
+gulp.task('jshint', jsHintTasks, function() {});
 
-gulp.task('jscs', jscsTasks, function() {
-});
+gulp.task('jscs', jscsTasks, function() {});
 
-gulp.task('vet', ['jshint', 'jscs'], function() {
-});
+gulp.task('vet', ['jshint', 'jscs'], function() {});
 
 
-gulp.task('sass', function () {
-	const sass = $.sass
-	const src = gulpConfig.srcDir + '/sass/**/*.scss';
-	const exclude = '!' + gulpConfig.srcDir + '/sass/**/_*'
-	const dest = gulpConfig.dest + '/css';
-	console.log(src);
-	console.log(exclude);
-	console.log(dest);
-	
-  return gulp.src([src, exclude])
-    .pipe(sass().on('error', sass.logError))
-//    .pipe(sass({outputStyle: 'compressed'}))
-    .pipe(sass({outputStyle: 'nested'}))
-    .pipe(gulp.dest(dest));
+gulp.task('sass', function() {
+    const sass = $.sass
+    const src = gulpConfig.srcDir + '/sass/**/*.scss';
+    const exclude = '!' + gulpConfig.srcDir + '/sass/**/_*'
+    const dest = gulpConfig.dest + '/css';
+    console.log(src);
+    console.log(exclude);
+    console.log(dest);
+
+    return gulp.src([src, exclude])
+        .pipe(sass()
+            .on('error', sass.logError))
+        //    .pipe(sass({outputStyle: 'compressed'}))
+        .pipe(sass({
+            outputStyle: 'nested'
+        }))
+        .pipe(gulp.dest(dest));
 });
 
 // Full Build
@@ -194,14 +220,22 @@ gulp.task('build', ['babel'], function() {});
 
 // Reformatting Tasks
 
-gulp.task('format-js', function() {
-    return gulp.src(gulpConfig.src)
-        .pipe($.jsbeautifier({
-            config: '.jsbeautifyrc',
-            mode: 'VERIFY_AND_WRITE'
-        }))
-        .pipe(gulp.dest(gulpConfig.srcDir))
-});
+function createFormatJsTask(name, key) {
+    log('Creating task: ' + name);
+    var proj = projects[key];
+    var dest = path.join(proj.srcDir, '..');
+
+    gulp.task(name, function() {
+        return gulp.src(proj.srcFiles)
+            .pipe($.jsbeautifier({
+                config: '.jsbeautifyrc',
+                mode: 'VERIFY_AND_WRITE'
+            }))
+            .pipe(gulp.dest(dest));
+    });
+}
+
+gulp.task('formatjs', formatJsTasks, function() {});
 
 function runMonitor(nodeOptions) {
     return $.nodemon(nodeOptions)
@@ -223,13 +257,13 @@ function runMonitor(nodeOptions) {
             console.log(err);
             server.kill();
             process.kill();
-         })
+        })
         .on('exit', function() {
             log('*** nodemon crash: script exited cleanly');
         });
 }
 
-gulp.task('serve', [/* 'build' */], function() {
+gulp.task('serve', [ /* 'build' */ ], function() {
     const nodeOptions = {
         script: gulpConfig.nodeServer,
         delayTime: 1,

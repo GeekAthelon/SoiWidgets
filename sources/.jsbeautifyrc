@@ -15,7 +15,7 @@
     },
     "js": {
         "braceStyle": "collapse",
-        "breakChainedMethods": false,
+        "breakChainedMethods": true,
         "e4x": false,
         "evalCode": false,
         "indentChar": " ",
@@ -30,6 +30,6 @@
         "spaceBeforeConditional": true,
         "spaceInParen": false,
         "unescapeStrings": false,
-        "wrapLineLength": 0
+        "wrapLineLength": 75
     }
 }

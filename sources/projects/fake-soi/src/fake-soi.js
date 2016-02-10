@@ -8,16 +8,19 @@
     const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
     const http = require('http');
-	const soiConfig = require('./fake-soi-get-config')();
+    const soiConfig = require('./fake-soi-get-config')();
 
     const port = soiConfig.env.port;
     //app.listen(port);
     //console.log('Listening to port ' + port);
 
     setTimeout(function() {
-        const server = http.createServer(app).listen(port, function() {
-            console.log('Express server listening on port ' + port);
-        });
+        const server = http.createServer(app)
+            .listen(port, function() {
+                console.log(
+                    'Express server listening on port ' +
+                    port);
+            });
     }, 1000);
 
     app.use(cookieParser());
@@ -39,6 +42,6 @@
     app.get('/', function(req, res) {
         res.render('index', status);
     });
-	
+
     exports = module.exports = app;
 }());
