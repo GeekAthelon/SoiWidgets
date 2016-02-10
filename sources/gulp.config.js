@@ -3,22 +3,23 @@
 const projects = {};
 
 projects.fakeSoi = {
-	srcFiles: ['./fake-soi/src/**/*.js'],
-	srcDir: './fake-soi/src',
-	server: './fake-soi/src/fake-soi.js'
+	srcFiles: ['./projects/fake-soi/**/*.js'],
+	srcDir: './projects/fake-soi/src',
+	dest: './build/fake-soi',
+	server: './projects/fake-soi/src/fake-soi.js'
+};
+
+projects.common = {
+	srcFiles: ['./projects/common/**/*.js'],
+	dest: './build/common',
+	srcDir: './projects/common/src'
 };
 
 
 module.exports = function() {
-  var config = {
-    src: [],
-    dest: './build',
-  };
+    Object.keys(projects).forEach(key => {
+        const proj = projects[key];
+    });
   
-  Object.keys(projects).forEach(key => {
-	  const proj = projects[key];
-	  config.src.push(proj.srcFiles);
-  });
-  
-  return config;
+  return projects;
 }

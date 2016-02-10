@@ -3,13 +3,18 @@
 const gulp = require('gulp');
 const path = require('path');
 const args = require('yargs').argv;
-const gulpConfig = require('./gulp.config')();
+const projects = require('./gulp.config')();
 var del = require('del');
 
 const notify = require("gulp-notify");
 const $ = require('gulp-load-plugins')({
     lazy: true
 });
+
+const babelOptions = {
+	presets: ['es2015']
+};
+
 
 function tattle(msg) {
     const nn = require('node-notifier');
@@ -102,32 +107,34 @@ gulp.task('jshint', function() {
 
 // File Converstion Tasks
 
-function runBabble() {
-    log('Converting files to ES5');
-
-    var config = {
-        src: gulpConfig.src,
-        dest: gulpConfig.dest,
-        // Must be absolute or relative to source map
-        sourceRoot: path.join(__dirname, gulpConfig.dest)
-    };
-
-    return gulp.src(config.src)
-        .pipe($.if(args.verbose, $.print()))
-        .pipe($.sourcemaps.init())
-        .pipe($.babel())
-        .on('error', (err) => {
-            tattle('Build error under Babel');
-            log(err);
-        })
-        .pipe($.sourcemaps.write('.', {
-            sourceRoot: config.src
-        }))
-        .pipe(gulp.dest(config.dest));
+function createBabelTask(name, key) {
+    log('Creating task: ' + name);
+    var proj = projects[key];
+	gulp.task(name, function() {	
+		return gulp.src(proj.srcFiles)
+			.pipe($.if(args.verbose, $.print()))
+			.pipe($.sourcemaps.init())
+			.pipe($.babel(babelOptions))
+			.on('error', (err) => {
+				tattle('Build error under Babel');
+				log(err);
+			})
+			.pipe($.sourcemaps.write('.', {
+				sourceRoot: proj.src
+			}))
+			.pipe(gulp.dest(proj.dest));
+	});
 }
 
-gulp.task('babel', /*['clean-build'], */ function() {
-    return runBabble();
+var babelTasks = [];
+for (var key in projects) {
+  var name = 'babelfy-' + key;
+  createBabelTask(name, key);
+  babelTasks.push(name);
+}	
+
+gulp.task('babel', babelTasks, function() {
+    //return runBabble();
 });
 
 gulp.task('sass', function () {
