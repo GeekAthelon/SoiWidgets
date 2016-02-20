@@ -17,11 +17,18 @@ const babelOptions = {
 };
 
 var babelTasks = [];
+var copyFilesTasks = [];
 var jsHintTasks = [];
 var jscsTasks = [];
 var formatJsTasks = [];
 
 (function() {
+    function copyfilestask(key) {
+        var name = 'copyFiles-' + key
+        createCopyFilesTask(name, key);
+        copyFilesTasks.push(name);
+    }
+
     function btask(key) {
         var name = 'babelfy-' + key
         createBabelTask(name, key);
@@ -63,6 +70,11 @@ var formatJsTasks = [];
         if (proj.tasks.formatjs) {
             formatjstask(key);
         }
+		
+        if (proj.tasks.copy) {
+            copyfilestask(key);
+        }
+
     }
 }());
 
@@ -167,6 +179,20 @@ function createJsHintTask(name, key) {
     });
 }
 
+function createCopyFilesTask(name, key) {
+    log('Creating task: ' + name);
+	
+	var copyOptions = {
+		prefix: 2
+	};
+	
+    var proj = projects[key];
+    gulp.task(name, function() {        
+		return gulp.src(proj.copyFiles)
+		.pipe($.copy(proj.dest, copyOptions));
+	});
+}
+
 function createBabelTask(name, key) {
     log('Creating task: ' + name);
     var proj = projects[key];
@@ -185,6 +211,7 @@ function createBabelTask(name, key) {
             .pipe(gulp.dest(proj.dest));
     });
 }
+gulp.task('copy', copyFilesTasks, function() {});
 
 gulp.task('babel', babelTasks, function() {});
 
@@ -216,7 +243,7 @@ gulp.task('sass', function() {
 
 // Full Build
 
-gulp.task('build', ['babel'], function() {});
+gulp.task('build', ['babel', 'copy'], function() {});
 
 // Reformatting Tasks
 

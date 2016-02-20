@@ -1,15 +1,16 @@
 'use strict';
 
-const validTasks = 'babelfy jshint jscs formatjs'.split(' ');
+const validTasks = 'babelfy jshint jscs formatjs copy'.split(' ');
 
 const projects = {};
 
 projects.fakeSoi = {
     srcFiles: ['./projects/fake-soi/**/*.js'],
+	copyFiles: ['./projects/fake-soi/config/**/*.json'],
     srcDir: './projects/fake-soi/src',
     dest: './build/fake-soi',
     server: './projects/fake-soi/src/fake-soi.js',
-    tasks: 'babelfy jshint jscs formatjs'
+    tasks: 'babelfy jshint jscs formatjs copy'
 };
 
 projects.common = {
