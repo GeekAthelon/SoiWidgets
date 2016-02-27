@@ -5,9 +5,8 @@ const path = require('path');
 const args = require('yargs')
     .argv;
 const projects = require('./gulp.config')();
-var del = require('del');
+const del = require('del');
 
-const notify = require("gulp-notify");
 const $ = require('gulp-load-plugins')({
     lazy: true
 });
@@ -16,66 +15,70 @@ const babelOptions = {
     presets: ['es2015']
 };
 
-var babelTasks = [];
-var copyFilesTasks = [];
-var jsHintTasks = [];
-var jscsTasks = [];
-var formatJsTasks = [];
+const babelTasks = [];
+const copyFilesTasks = [];
+const jsHintTasks = [];
+const jscsTasks = [];
+const formatJsTasks = [];
+
+
+const gulpConfig = {};
 
 (function() {
     function copyfilestask(key) {
-        var name = 'copyFiles-' + key
+        const name = 'copyFiles-' + key;
         createCopyFilesTask(name, key);
         copyFilesTasks.push(name);
     }
 
     function btask(key) {
-        var name = 'babelfy-' + key
+        const name = 'babelfy-' + key;
         createBabelTask(name, key);
         babelTasks.push(name);
     }
 
     function jshinttask(key) {
-        var name = 'jshint-' + key
+        const name = 'jshint-' + key;
         createJsHintTask(name, key);
         jsHintTasks.push(name);
     }
 
     function jscstask(key) {
-        var name = 'jscs-' + key
+        const name = 'jscs-' + key;
         createJscsTask(name, key);
         jscsTasks.push(name);
     }
 
     function formatjstask(key) {
-        var name = 'formatjs-' + key
+        const name = 'formatjs-' + key;
         createFormatJsTask(name, key);
         formatJsTasks.push(name);
     }
 
-    for (var key in projects) {
-        var proj = projects[key];
-        if (proj.tasks.babelfy) {
-            btask(key);
-        }
+    Object.keys(projects)
+        .forEach((key) => {
+            const proj = projects[key];
+            if (proj.tasks.babelfy) {
+                btask(key);
+            }
 
-        if (proj.tasks.jshint) {
-            jshinttask(key);
-        }
+            if (proj.tasks.jshint) {
+                jshinttask(key);
+            }
 
-        if (proj.tasks.jscs) {
-            jscstask(key);
-        }
+            if (proj.tasks.jscs) {
+                jscstask(key);
+            }
 
-        if (proj.tasks.formatjs) {
-            formatjstask(key);
-        }
-		
-        if (proj.tasks.copy) {
-            copyfilestask(key);
-        }
+            if (proj.tasks.formatjs) {
+                formatjstask(key);
+            }
 
-    }
+            if (proj.tasks.copy) {
+                copyfilestask(key);
+            }
+
+        });
 }());
 
 
@@ -88,7 +91,7 @@ function tattle(msg) {
         //icon: path.join(__dirname, 'coulson.jpg'), // absolute path (not balloons)
         sound: true, // Only Notification Center or Windows Toasters
         wait: true // wait with callback until user action is taken on notification
-    }, function(err, response) {
+    }, function( /*err, response*/ ) {
         // response is response from notification
     });
 }
@@ -155,7 +158,7 @@ gulp.task('coverage', function(done) {
 
 function createJscsTask(name, key) {
     log('Creating task: ' + name);
-    var proj = projects[key];
+    const proj = projects[key];
 
     gulp.task(name, function() {
         return gulp.src(proj.srcFiles)
@@ -166,7 +169,7 @@ function createJscsTask(name, key) {
 
 function createJsHintTask(name, key) {
     log('Creating task: ' + name);
-    var proj = projects[key];
+    const proj = projects[key];
 
     gulp.task(name, function() {
         return gulp.src(proj.srcFiles)
@@ -181,21 +184,21 @@ function createJsHintTask(name, key) {
 
 function createCopyFilesTask(name, key) {
     log('Creating task: ' + name);
-	
-	var copyOptions = {
-		prefix: 2
-	};
-	
-    var proj = projects[key];
-    gulp.task(name, function() {        
-		return gulp.src(proj.copyFiles)
-		.pipe($.copy(proj.dest, copyOptions));
-	});
+
+    const copyOptions = {
+        prefix: 2
+    };
+
+    const proj = projects[key];
+    gulp.task(name, function() {
+        return gulp.src(proj.copyFiles)
+            .pipe($.copy(proj.dest, copyOptions));
+    });
 }
 
 function createBabelTask(name, key) {
     log('Creating task: ' + name);
-    var proj = projects[key];
+    const proj = projects[key];
     gulp.task(name, function() {
         return gulp.src(proj.srcFiles)
             .pipe($.if(args.verbose, $.print()))
@@ -223,9 +226,9 @@ gulp.task('vet', ['jshint', 'jscs'], function() {});
 
 
 gulp.task('sass', function() {
-    const sass = $.sass
+    const sass = $.sass;
     const src = gulpConfig.srcDir + '/sass/**/*.scss';
-    const exclude = '!' + gulpConfig.srcDir + '/sass/**/_*'
+    const exclude = '!' + gulpConfig.srcDir + '/sass/**/_*';
     const dest = gulpConfig.dest + '/css';
     console.log(src);
     console.log(exclude);
@@ -249,8 +252,8 @@ gulp.task('build', ['babel', 'copy'], function() {});
 
 function createFormatJsTask(name, key) {
     log('Creating task: ' + name);
-    var proj = projects[key];
-    var dest = path.join(proj.srcDir, '..');
+    const proj = projects[key];
+    const dest = path.join(proj.srcDir, '..');
 
     gulp.task(name, function() {
         return gulp.src(proj.srcFiles)
@@ -269,20 +272,20 @@ function runMonitor(nodeOptions) {
         .on('restart', function(ev) {
             log('*** nodemon restarted ***');
             log('Files changed on restart: \n' + ev);
-            runBabble();
+            //runBabble();
             log('Babble Finished:');
         })
         .on('start', function() {
             log('*** nodemon started ***');
         })
-        .on('crash', function(ev) {
+        .on('crash', function( /*ev */ ) {
             log('*** nodemon crash: script crashed for some reason');
             tattle('Build error under Babel');
         })
         .on('uncaughtException', function(err) {
             console.log('UNCAUGHT EXCEPTION');
             console.log(err);
-            server.kill();
+            // server.kill();
             process.kill();
         })
         .on('exit', function() {
@@ -290,24 +293,17 @@ function runMonitor(nodeOptions) {
         });
 }
 
-gulp.task('serve', [ /* 'build' */ ], function() {
+gulp.task('serve', ['build'], function() {
     const nodeOptions = {
-        script: gulpConfig.nodeServer,
+        script: 'build/fake-soi/src/fake-soi.js',
         delayTime: 1,
         env: {},
-        watch: [gulpConfig.src]
+        watch: ['']
     };
 
     return runMonitor(nodeOptions);
 });
 
-gulp.task('git-pre-js', function() {
-    gulp.src('./src/foo.js', './src/bar.json')
-        .pipe(prettify({
-            config: '.jsbeautifyrc',
-            mode: 'VERIFY_ONLY'
-        }))
-});
 
 gulp.task('clean-build', function() {
     log('Cleaning ' + gulpConfig.dest);
@@ -318,9 +314,11 @@ gulp.task('watch', function() {
     gulp.watch(gulpConfig.src, ['build']);
 });
 
+
+
 function log(msg) {
     if (typeof(msg) === 'object') {
-        for (var item in msg) {
+        for (let item in msg) {
             if (msg.hasOwnProperty(item)) {
                 $.util.log($.util.colors.blue(msg[item]));
             }

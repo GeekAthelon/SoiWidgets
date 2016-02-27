@@ -4,5 +4,11 @@
       "port": 9732,
       "isDev": true
     }
+  },
+  "speedy": {
+    "env": {
+      "port": 9732,
+      "isDev": true
+    }
   }
 }

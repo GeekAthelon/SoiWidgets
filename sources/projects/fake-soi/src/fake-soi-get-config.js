@@ -5,13 +5,17 @@ function getConfig() {
     const os = require('os');
     const fs = require('fs');
     const path = require('path');
-    const stringFormat = require('./lib/string-format');
+    //const stringFormat = require('../../common/src/string-format');
     const configurationFile = path.resolve(__dirname,
-        '../fake-soi-config.json')
+        '../config/fake-soi-config.json');
+
 
     const fullConfiguration = JSON.parse(
         fs.readFileSync(configurationFile)
     );
+
+    console.log('Found configuration: ');
+    console.log(fullConfiguration);
 
     let hostname = os.hostname();
     //console.log(`hostname ${hostname}`);
@@ -28,27 +32,18 @@ function getConfig() {
         configuration.soiMail = testConfig.soiMail;
     }
 
-    // Fill in the template.
-    configuration.soi.getUrl = stringFormat(
-        configuration.soi.getUrl,
-        configuration.soi
-    );
-
-    configuration.soiMail.getUrl = stringFormat(
-        configuration.soiMail.getUrl,
-        configuration.soiMail
-    );
-
     configuration.isTest = isTest;
     /* istanbul ignore else  */
     if (configuration.isTest) {
-        configuration.env.dbPath = configuration.env.dbPathTest;
+        void(0);
+        //configuration.env.dbPath = configuration.env.dbPathTest;
     } else {
-        configuration.env.dbPath = configuration.env.dbPathReal;
+        void(0);
+        //configuration.env.dbPath = configuration.env.dbPathReal;
     }
 
     configuration.isDev = configuration.env.isDev;
-    configuration.env.dbPath = path.resolve(configuration.env.dbPath);
+    //configuration.env.dbPath = path.resolve(configuration.env.dbPath);
     //console.log(configuration);
     return configuration;
 }

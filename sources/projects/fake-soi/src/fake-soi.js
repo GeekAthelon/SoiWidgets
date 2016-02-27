@@ -3,7 +3,7 @@
 
     const express = require('express');
     const app = express();
-    const readFile = require('fs-readfile-promise');
+    //const readFile = require('fs-readfile-promise');
     const cors = require('cors');
     const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
@@ -21,6 +21,8 @@
                     'Express server listening on port ' +
                     port);
             });
+
+        void(server);
     }, 1000);
 
     app.use(cookieParser());

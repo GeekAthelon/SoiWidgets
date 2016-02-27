@@ -6,7 +6,7 @@ const projects = {};
 
 projects.fakeSoi = {
     srcFiles: ['./projects/fake-soi/**/*.js'],
-	copyFiles: ['./projects/fake-soi/config/**/*.json'],
+    copyFiles: ['./projects/fake-soi/config/**/*.json'],
     srcDir: './projects/fake-soi/src',
     dest: './build/fake-soi',
     server: './projects/fake-soi/src/fake-soi.js',
@@ -48,8 +48,8 @@ module.exports = function() {
 
                 tasks[taskName] = true;
             });
-            proj.tasks = tasks
+            proj.tasks = tasks;
         });
 
     return projects;
-}
+};
