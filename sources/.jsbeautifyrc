@@ -15,7 +15,7 @@
     },
     "js": {
         "braceStyle": "collapse",
-        "breakChainedMethods": true,
+        "breakChainedMethods": false,
         "e4x": false,
         "evalCode": false,
         "indentChar": " ",
