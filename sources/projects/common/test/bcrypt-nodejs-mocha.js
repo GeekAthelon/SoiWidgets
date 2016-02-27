@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 describe('test bcrypt', function() {
     'use strict';
+    this.timeout(200000);
 
     const thePassword = 'bacon';
 
@@ -13,7 +14,7 @@ describe('test bcrypt', function() {
     let theSalt;
 
     beforeEach(done => {
-        theSalt = bcrypt.genSalt(10, (error, salt) => {
+        theSalt = bcrypt.genSalt(1, (error, salt) => {
             theSalt = salt;
             done();
         });
