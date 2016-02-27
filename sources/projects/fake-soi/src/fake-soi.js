@@ -3,6 +3,8 @@
 
     const express = require('express');
     const app = express();
+    const path = require('path');
+
     //const readFile = require('fs-readfile-promise');
     const cors = require('cors');
     const bodyParser = require('body-parser');
@@ -37,12 +39,18 @@
     app.use('/client', express.static('build/client'));
     app.use('/css', express.static('build/css'));
 
-    app.set('views', './views');
+    const viewPath = path.resolve(__dirname, '../views');
+
+    app.set('views', viewPath);
     app.set('view engine', 'jade');
+    app.locals.pretty = true;
+    
     app.set('jsonp callback name', 'callback');
 
     app.get('/', function(req, res) {
-        res.render('index', status);
+        const props = {
+        };
+        res.render('login', props);
     });
 
     exports = module.exports = app;
