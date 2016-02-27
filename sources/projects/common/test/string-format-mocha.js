@@ -2,7 +2,7 @@
 
 const expect = require('chai')
     .expect;
-const stringFormat = require('../../../app/lib/string-format');
+const stringFormat = require('../src/string-format');
 
 describe('stringFormat Gizmo', function() {
     'use strict';

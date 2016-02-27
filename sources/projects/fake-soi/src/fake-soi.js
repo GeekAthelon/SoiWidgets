@@ -11,6 +11,8 @@
     const cookieParser = require('cookie-parser');
     const http = require('http');
     const soiConfig = require('./fake-soi-get-config')();
+    const getRoomConfig = require('./lib/get-room-config');
+
 
     const port = soiConfig.env.port;
     //app.listen(port);
@@ -44,12 +46,11 @@
     app.set('views', viewPath);
     app.set('view engine', 'jade');
     app.locals.pretty = true;
-    
+
     app.set('jsonp callback name', 'callback');
 
     app.get('/', function(req, res) {
-        const props = {
-        };
+        const props = getRoomConfig('_controls');
         res.render('login', props);
     });
 

@@ -20,11 +20,21 @@ const copyFilesTasks = [];
 const jsHintTasks = [];
 const jscsTasks = [];
 const formatJsTasks = [];
+const testTasks = [];
+
+const test_src = [];
+const test_test = [];
 
 
 const gulpConfig = {};
 
 (function() {
+    function testtask(key) {
+        const name = 'test-' + key;
+        createTestTask(name, key);
+        testTasks.push(name);
+    }
+
     function copyfilestask(key) {
         const name = 'copyFiles-' + key;
         createCopyFilesTask(name, key);
@@ -78,6 +88,10 @@ const gulpConfig = {};
                 copyfilestask(key);
             }
 
+            if (proj.tasks.test) {
+                testtask(key);
+            }
+
         });
 }());
 
@@ -105,6 +119,9 @@ gulp.task('default', ['help']);
 function runTest(testConfig, done) {
 
     process.env.NODE_TEST = true;
+
+
+
 
     gulp.src(testConfig.src)
         .pipe($.if(args.verbose, $.print()))
@@ -142,10 +159,8 @@ gulp.task('coverage-es5', ['babel'], function(done) {
 
 function runCoverage(done) {
     runTest({
-        src: ['server/code/app/**/*.js',
-            'server/code/client/lib/**/*.js'
-        ],
-        tests: ['server/code/test/**/*.js'],
+        src: test_src,
+        tests: test_test,
         coverageDir: './coverage'
     }, done);
 }
@@ -155,6 +170,11 @@ gulp.task('coverage', function(done) {
 });
 
 // Style and Linting Tasks
+function createTestTask(name, key) {
+    const proj = projects[key];
+    test_src.push(proj.srcDir + '/**/*.js');
+    test_test.push(proj.srcDir + '/../test/**/*.js');
+}
 
 function createJscsTask(name, key) {
     log('Creating task: ' + name);
@@ -221,6 +241,8 @@ gulp.task('babel', babelTasks, function() {});
 gulp.task('jshint', jsHintTasks, function() {});
 
 gulp.task('jscs', jscsTasks, function() {});
+
+gulp.task('test', testTasks, function() {});
 
 gulp.task('vet', ['jshint', 'jscs'], function() {});
 
