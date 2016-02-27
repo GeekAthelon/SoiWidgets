@@ -22,8 +22,8 @@ const jscsTasks = [];
 const formatJsTasks = [];
 const testTasks = [];
 
-const test_src = [];
-const test_test = [];
+const testSources = [];
+const testTests = [];
 
 
 const gulpConfig = {};
@@ -159,8 +159,8 @@ gulp.task('coverage-es5', ['babel'], function(done) {
 
 function runCoverage(done) {
     runTest({
-        src: test_src,
-        tests: test_test,
+        src: testSources,
+        tests: testTests,
         coverageDir: './coverage'
     }, done);
 }
@@ -172,8 +172,8 @@ gulp.task('coverage', function(done) {
 // Style and Linting Tasks
 function createTestTask(name, key) {
     const proj = projects[key];
-    test_src.push(proj.srcDir + '/**/*.js');
-    test_test.push(proj.srcDir + '/../test/**/*.js');
+    testSources.push(proj.srcDir + '/**/*.js');
+    testTests.push(proj.srcDir + '/../test/**/*.js');
 }
 
 function createJscsTask(name, key) {

@@ -13,7 +13,7 @@ describe('Get Room Config', function() {
     });
 
     it('getRoomConfig should return a value', function() {
-        var roomData = getRoomConfig('_controls');
+        const roomData = getRoomConfig('_controls');
         expect(roomData).to.not.equal(undefined);
         expect(roomData).to.not.equal(null);
     });
