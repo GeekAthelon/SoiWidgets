@@ -9,6 +9,11 @@ class BaseDatabase {
         this.collection = db.collection(collection);
     }
 
+    _mapAll(list) {
+        const ret = list.map(this._createEntity);
+        return ret;
+    }
+
     verifyType(o) {
         if (o['$$hiddentype$$'] !== this.hiddenType) {
             throw new Error(`Passed object is of the wrong type. ` +
@@ -38,7 +43,12 @@ class BaseDatabase {
     }
 
     getAll() {
-        return this.collection.items;
+        const that = this;
+        return new Promise((resolve, reject) => {
+            void(reject);
+            const ret = that._mapAll(that.collection.items);
+            resolve(ret);
+        });
     }
 
     update(cid, data) {

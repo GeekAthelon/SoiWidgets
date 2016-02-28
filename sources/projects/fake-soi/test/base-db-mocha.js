@@ -80,4 +80,28 @@ describe('Testing base database functions', function() {
             done();
         });
     });
+
+    it('Testing getAll', (done) => {
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
+
+        collection.getAll().then(res => {
+            if (res.length !== 0) {
+                done(new Error('Collection size should have been 0'));
+            }
+            return collection.insert(o1);
+        }).then(() => {
+            return collection.getAll();
+        }).then(res => {
+            if (res.length !== 1) {
+                done(new Error('Collection size should have been 1'));
+            } else {
+                done();
+            }
+        });
+    });
+
 });

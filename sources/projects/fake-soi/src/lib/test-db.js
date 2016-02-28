@@ -7,6 +7,7 @@ class TestDatabase extends BaseDatabase {
     constructor() {
         super('test');
         this.hiddenType = hiddenType;
+        this._createEntity = createTestEntity;
     }
 }
 
