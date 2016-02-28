@@ -30,8 +30,6 @@
         void(server);
     }, 1000);
 
-    roomConfig.setApp(app, express);
-
     app.use(cookieParser());
     app.use(bodyParser.json({
         inflate: true,

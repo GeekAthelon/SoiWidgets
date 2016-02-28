@@ -2,8 +2,6 @@
 
 let allRooms = ['_controls'];
 
-let app = null;
-let express = null;
 let rooms = {};
 
 function getRoomPath(roomName) {
@@ -14,11 +12,6 @@ function translateUrl(s, roomName) {
     const url = getRoomPath(roomName) + '/';
     const regex = new RegExp('~/', 'g');
     return s.replace(regex, url);
-}
-
-function setApp(_app, _express) {
-    app = _app;
-    express = _express;
 }
 
 function getRoomList() {
@@ -46,7 +39,6 @@ function loadAllRooms() {
 
 const roomConfig = {
     get: get,
-    setApp: setApp,
     loadAllRooms: loadAllRooms,
     getRoomList: getRoomList,
     getRoomPath: getRoomPath
