@@ -1,4 +1,4 @@
-/* globals it: true, describe: true, beforeEach: true */
+/* globals it: true, describe: true */
 
 const expect = require('chai').expect;
 
@@ -9,34 +9,37 @@ describe('test bcrypt', function() {
     this.timeout(200000);
 
     const thePassword = 'bacon';
-
-
     let theSalt;
+    let theHash;
 
-    beforeEach(done => {
-        theSalt = bcrypt.genSalt(1, (error, salt) => {
+
+    it('Testing genSalt', function(done) {
+        theSalt = bcrypt.genSalt(1, (err, salt) => {
             theSalt = salt;
+
+            expect(err).to.equal(null);
+            done();
+        });
+    });
+
+    it('Testing hash generation', function(done) {
+        bcrypt.hash(thePassword, theSalt, null, (err, hash) => {
+            theHash = hash;
+            expect(err).to.equal(null);
             done();
         });
     });
 
 
-    it('Testing hash', function(done) {
-
-
-
-        bcrypt.hash(thePassword, theSalt, null, (err, hash) => {
-
-            expect(hash).to.not.equal(null);
-
-            bcrypt.compare(thePassword, hash, (err,
-                res) => {
-                expect(res).to.equal(true);
-            });
+    it('Testing hash compare', function(done) {
+        bcrypt.compare(thePassword, theHash, (err, res) => {
+            expect(err).to.equal(null);
+            expect(res).to.equal(true);
 
             done();
 
         });
+
 
     });
 
