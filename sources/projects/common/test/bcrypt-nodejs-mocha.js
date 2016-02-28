@@ -3,14 +3,13 @@
 const expect = require('chai').expect;
 const bcrypt = require('bcrypt-nodejs');
 
-describe('test bcrypt', function() {
+describe('Testing bcrypt-nodejs (callback based)', function() {
     'use strict';
     this.timeout(200000);
 
     const thePassword = 'bacon';
     let theSalt;
     let theHash;
-
 
     it('Testing genSalt', function(done) {
         theSalt = bcrypt.genSalt(10, (err, salt) => {
