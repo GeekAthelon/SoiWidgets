@@ -15,7 +15,6 @@ describe('test bcrypt', function() {
     it('Testing genSalt', function(done) {
         theSalt = bcrypt.genSalt(10, (err, salt) => {
             theSalt = salt;
-
             expect(err).to.equal(null);
             done();
         });
@@ -34,9 +33,7 @@ describe('test bcrypt', function() {
         bcrypt.compare(thePassword, theHash, (err, res) => {
             expect(err).to.equal(null);
             expect(res).to.equal(true);
-
             done();
-
         });
     });
 });
