@@ -1,7 +1,6 @@
 /* globals it: true, describe: true */
 
 const expect = require('chai').expect;
-
 const bcrypt = require('bcrypt-nodejs');
 
 describe('test bcrypt', function() {
@@ -14,7 +13,7 @@ describe('test bcrypt', function() {
 
 
     it('Testing genSalt', function(done) {
-        theSalt = bcrypt.genSalt(1, (err, salt) => {
+        theSalt = bcrypt.genSalt(10, (err, salt) => {
             theSalt = salt;
 
             expect(err).to.equal(null);
@@ -39,11 +38,5 @@ describe('test bcrypt', function() {
             done();
 
         });
-
-
     });
-
-
-
-
 });
