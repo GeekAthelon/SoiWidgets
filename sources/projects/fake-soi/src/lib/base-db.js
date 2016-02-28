@@ -9,7 +9,15 @@ class BaseDatabase {
         this.collection = db.collection(collection);
     }
 
+    verifyType(o) {
+        if (o['$$hiddentype$$'] !== this.hiddenType) {
+            throw new Error(`Passed object is of the wrong type. ` +
+                `Expected "${this.hiddenType}" and found "${o['$$hiddentype$$']}"`);
+        }
+    }
+
     insert(data) {
+        this.verifyType(data);
         return new Promise((resolve, reject) => {
             void(reject);
             const ret = this.collection.insert(data);
