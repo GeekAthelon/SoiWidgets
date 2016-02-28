@@ -2,8 +2,7 @@
 
 const gulp = require('gulp');
 const path = require('path');
-const args = require('yargs')
-    .argv;
+const args = require('yargs').argv;
 const projects = require('./gulp.config')();
 const del = require('del');
 
@@ -63,34 +62,33 @@ const gulpConfig = {};
         formatJsTasks.push(name);
     }
 
-    Object.keys(projects)
-        .forEach((key) => {
-            const proj = projects[key];
-            if (proj.tasks.babelfy) {
-                btask(key);
-            }
+    Object.keys(projects).forEach((key) => {
+        const proj = projects[key];
+        if (proj.tasks.babelfy) {
+            btask(key);
+        }
 
-            if (proj.tasks.jshint) {
-                jshinttask(key);
-            }
+        if (proj.tasks.jshint) {
+            jshinttask(key);
+        }
 
-            if (proj.tasks.jscs) {
-                jscstask(key);
-            }
+        if (proj.tasks.jscs) {
+            jscstask(key);
+        }
 
-            if (proj.tasks.formatjs) {
-                formatjstask(key);
-            }
+        if (proj.tasks.formatjs) {
+            formatjstask(key);
+        }
 
-            if (proj.tasks.copy) {
-                copyfilestask(key);
-            }
+        if (proj.tasks.copy) {
+            copyfilestask(key);
+        }
 
-            if (proj.tasks.test) {
-                testtask(key);
-            }
+        if (proj.tasks.test) {
+            testtask(key);
+        }
 
-        });
+    });
 }());
 
 function tattle(msg) {
@@ -129,9 +127,7 @@ function runTest(testConfig, done) {
                 .pipe($.mocha())
                 .pipe($.istanbul.writeReports({
                     dir: testConfig.coverageDir,
-                    reporters: ['html', 'lcov', 'json', 'text',
-                        'text-summary'
-                    ],
+                    reporters: ['html', 'lcov', 'json', 'text', 'text-summary'],
                     reportOpts: {
                         dir: './coverage'
                     },
