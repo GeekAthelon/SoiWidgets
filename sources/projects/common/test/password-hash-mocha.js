@@ -1,11 +1,14 @@
 /* globals it: true, describe: true */
 
 const expect = require('chai').expect;
-const passwordHash = require('../src/password-hash');
 
+
+//const passwordHash = require('../src/password-hash-bcrypt');
+const passwordHash = require('../src/password-hash-fast');
 
 describe('Testing password-hash (promise based)', function() {
     'use strict';
+
     this.timeout(200000);
 
     const thePassword = 'bacon';

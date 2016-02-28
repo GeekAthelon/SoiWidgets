@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 const bcrypt = require('bcrypt-nodejs');
 
-describe('Testing bcrypt-nodejs (callback based)', function() {
+describe.skip('Testing bcrypt-nodejs (callback based)', function() {
     'use strict';
     this.timeout(200000);
 

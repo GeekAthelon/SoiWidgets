@@ -26,7 +26,6 @@ function hash(salt, password) {
             resolve(hash);
         });
     });
-
 }
 
 
