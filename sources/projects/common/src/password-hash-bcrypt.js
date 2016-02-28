@@ -2,7 +2,6 @@
 
 const bcrypt = require('bcrypt-nodejs');
 
-
 function genSalt() {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(-1, (err, salt) => {
@@ -27,7 +26,6 @@ function hash(salt, password) {
     });
 }
 
-
 function compare(salt, password, hash) {
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, hash, (err, res) => {
@@ -41,12 +39,10 @@ function compare(salt, password, hash) {
     });
 }
 
-
 const passwordHash = {
     genSalt: genSalt,
     hash: hash,
     compare: compare
 };
-
 
 exports = module.exports = passwordHash;

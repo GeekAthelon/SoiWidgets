@@ -23,7 +23,6 @@ projects.common = {
     tasks: 'babelfy jshint jscs formatjs test'
 };
 
-
 projects.buildfiles = {
     // The paths here are a lie...
     // but formatjs is off-by-one directory when it

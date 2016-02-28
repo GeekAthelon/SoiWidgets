@@ -5,10 +5,7 @@ function getConfig() {
     const os = require('os');
     const fs = require('fs');
     const path = require('path');
-    //const stringFormat = require('../../common/src/string-format');
-    const configurationFile = path.resolve(__dirname,
-        '../config/fake-soi-config.json');
-
+    const configurationFile = path.resolve(__dirname, '../config/fake-soi-config.json');
 
     const fullConfiguration = JSON.parse(
         fs.readFileSync(configurationFile)

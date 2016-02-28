@@ -13,7 +13,6 @@
     const soiConfig = require('./fake-soi-get-config')();
     const getRoomConfig = require('./lib/get-room-config');
 
-
     const port = soiConfig.env.port;
     //app.listen(port);
     //console.log('Listening to port ' + port);

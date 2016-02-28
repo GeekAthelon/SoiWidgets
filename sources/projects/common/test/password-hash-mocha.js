@@ -38,11 +38,11 @@ describe('Testing password-hash (promise based) (these tests have LONG timeout)'
 
     it('Testing hash compare (failure bad hash)', (done) => {
         passwordHash.compare(theSalt, thePassword, theHash + theHash).then(res => {
-                // catches fast crypt
+            // catches fast crypt
             expect(res).to.equal(false);
             done();
         }).catch(err => {
-        // catches BCrypt
+            // catches BCrypt
             expect(err).to.equal('Not a valid BCrypt hash.');
             done();
         });
@@ -52,14 +52,13 @@ describe('Testing password-hash (promise based) (these tests have LONG timeout)'
         let badHash;
 
         passwordHash.hash(theSalt, thePassword + 'A').then(hash => {
-                expect(theHash).to.not.equal(hash);
-                badHash = hash;
-            })
-            .then(() => {
-                return passwordHash.compare(theSalt, thePassword, badHash).then(res => {
-                    expect(res).to.equal(false);
-                    done();
-                });
-            })
+            expect(theHash).to.not.equal(hash);
+            badHash = hash;
+        }).then(() => {
+            return passwordHash.compare(theSalt, thePassword, badHash).then(res => {
+                expect(res).to.equal(false);
+                done();
+            });
+        });
     });
 });

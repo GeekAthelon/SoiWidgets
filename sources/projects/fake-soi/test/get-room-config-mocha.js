@@ -7,7 +7,6 @@ const getRoomConfig = require('../src/lib/get-room-config');
 describe('Get Room Config', function() {
     'use strict';
 
-
     it('Basic is alive', function() {
         expect(true).to.equal(true);
     });
@@ -17,5 +16,4 @@ describe('Get Room Config', function() {
         expect(roomData).to.not.equal(undefined);
         expect(roomData).to.not.equal(null);
     });
-
 });

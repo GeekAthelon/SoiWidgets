@@ -24,8 +24,6 @@ const testTasks = [];
 
 const testSources = [];
 const testTests = [];
-
-
 const gulpConfig = {};
 
 (function() {
@@ -95,7 +93,6 @@ const gulpConfig = {};
         });
 }());
 
-
 function tattle(msg) {
     const nn = require('node-notifier');
 
@@ -105,7 +102,9 @@ function tattle(msg) {
         //icon: path.join(__dirname, 'coulson.jpg'), // absolute path (not balloons)
         sound: true, // Only Notification Center or Windows Toasters
         wait: true // wait with callback until user action is taken on notification
-    }, function( /*err, response*/ ) {
+    }, function(err, response) {
+        void(err);
+        void(response);
         // response is response from notification
     });
 }
@@ -119,9 +118,6 @@ gulp.task('default', ['help']);
 function runTest(testConfig, done) {
 
     process.env.NODE_TEST = true;
-
-
-
 
     gulp.src(testConfig.src)
         .pipe($.if(args.verbose, $.print()))
@@ -183,7 +179,8 @@ function createJscsTask(name, key) {
     gulp.task(name, function() {
         return gulp.src(proj.srcFiles)
             .pipe($.if(args.verbose, $.print()))
-            .pipe($.jscs());
+            .pipe($.jscs())
+            .pipe($.jscs.reporter());
     });
 }
 
@@ -246,7 +243,6 @@ gulp.task('test', testTasks, function() {});
 
 gulp.task('vet', ['jshint', 'jscs'], function() {});
 
-
 gulp.task('sass', function() {
     const sass = $.sass;
     const src = gulpConfig.srcDir + '/sass/**/*.scss';
@@ -300,7 +296,8 @@ function runMonitor(nodeOptions) {
         .on('start', function() {
             log('*** nodemon started ***');
         })
-        .on('crash', function( /*ev */ ) {
+        .on('crash', function(ev) {
+            void(ev);
             log('*** nodemon crash: script crashed for some reason');
             tattle('Build error under Babel');
         })
@@ -326,7 +323,6 @@ gulp.task('serve', ['build'], function() {
     return runMonitor(nodeOptions);
 });
 
-
 gulp.task('clean-build', function() {
     log('Cleaning ' + gulpConfig.dest);
     return del([gulpConfig.dest]);
@@ -335,8 +331,6 @@ gulp.task('clean-build', function() {
 gulp.task('watch', function() {
     gulp.watch(gulpConfig.src, ['build']);
 });
-
-
 
 function log(msg) {
     if (typeof(msg) === 'object') {
