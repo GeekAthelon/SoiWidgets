@@ -15,6 +15,16 @@
       "test": "/home/jjs/git/fake-soi-db/test",
       "current": null
     }
-
+  },
+  "node-server": {
+    "env": {
+      "port": 9732,
+      "isDev": true
+    },
+    "db": {
+      "real": "/home/athelon/fake-soi-db/real",
+      "test": "/home/athelon/fake-soi-db/test",
+      "current": null
+    }
   }
 }
