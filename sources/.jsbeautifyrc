@@ -30,6 +30,6 @@
         "spaceBeforeConditional": true,
         "spaceInParen": false,
         "unescapeStrings": false,
-        "wrapLineLength": 75
+        "wrapLineLength": 150
     }
 }

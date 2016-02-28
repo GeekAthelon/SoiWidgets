@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 //const passwordHash = require('../src/password-hash-bcrypt');
 const passwordHash = require('../src/password-hash-fast');
 
-describe('Testing password-hash (promise based)', function() {
+describe('Testing password-hash (promise based) (these tests have LONG timeout)', function() {
     'use strict';
 
     this.timeout(200000);
@@ -23,12 +23,11 @@ describe('Testing password-hash (promise based)', function() {
     });
 
     it('Testing hash generation', () => {
-        return passwordHash.hash(theSalt, thePassword).then(
-            hash => {
-                theHash = hash;
-                expect(theHash.length).to.equal(60);
+        return passwordHash.hash(theSalt, thePassword).then(hash => {
+            theHash = hash;
+            expect(theHash.length).to.equal(60);
 
-            });
+        });
     });
 
     it('Testing hash compare (success)', () => {
@@ -38,17 +37,32 @@ describe('Testing password-hash (promise based)', function() {
         });
     });
 
-    it('Testing hash compare (failure)', (done) => {
-        return passwordHash.
-        compare(theSalt, thePassword, theHash + theHash).then(
-            res => {
-                expect(res).to.equal(false);
-                done();
-            }).catch(err => {
-            expect(err).to.equal(
-                'Not a valid BCrypt hash.');
+    it('Testing hash compare (failure bad hash)', (done) => {
+        return passwordHash.compare(theSalt, thePassword, theHash + theHash).then(res => {
+                // catches fast crypt
+            expect(res).to.equal(false);
+            done();
+        }).catch(err => {
+        // catches BCrypt
+            expect(err).to.equal('Not a valid BCrypt hash.');
             done();
         });
+    });
+
+
+    it('Testing hash compare (failure incorrect hash)', (done) => {
+        let badHash;
+
+        return passwordHash.hash(theSalt, thePassword + 'A').then(hash => {
+                expect(theHash).to.not.equal(hash);
+                badHash = hash;
+            })
+            .then(() => {
+                return passwordHash.compare(theSalt, thePassword, badHash).then(res => {
+                    expect(res).to.equal(false);
+                    done();
+                });
+            })
     });
 
 });
