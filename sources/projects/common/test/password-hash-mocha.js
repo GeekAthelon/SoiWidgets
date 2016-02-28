@@ -2,7 +2,6 @@
 
 const expect = require('chai').expect;
 
-
 //const passwordHash = require('../src/password-hash-bcrypt');
 const passwordHash = require('../src/password-hash-fast');
 
@@ -38,7 +37,7 @@ describe('Testing password-hash (promise based) (these tests have LONG timeout)'
     });
 
     it('Testing hash compare (failure bad hash)', (done) => {
-        return passwordHash.compare(theSalt, thePassword, theHash + theHash).then(res => {
+        passwordHash.compare(theSalt, thePassword, theHash + theHash).then(res => {
                 // catches fast crypt
             expect(res).to.equal(false);
             done();
@@ -49,11 +48,10 @@ describe('Testing password-hash (promise based) (these tests have LONG timeout)'
         });
     });
 
-
     it('Testing hash compare (failure incorrect hash)', (done) => {
         let badHash;
 
-        return passwordHash.hash(theSalt, thePassword + 'A').then(hash => {
+        passwordHash.hash(theSalt, thePassword + 'A').then(hash => {
                 expect(theHash).to.not.equal(hash);
                 badHash = hash;
             })
@@ -64,5 +62,4 @@ describe('Testing password-hash (promise based) (these tests have LONG timeout)'
                 });
             })
     });
-
 });
