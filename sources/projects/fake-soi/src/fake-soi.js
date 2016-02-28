@@ -8,10 +8,12 @@
     //const readFile = require('fs-readfile-promise');
     const cors = require('cors');
     const bodyParser = require('body-parser');
+    const serveIndex = require('serve-index');
     const cookieParser = require('cookie-parser');
     const http = require('http');
     const soiConfig = require('./fake-soi-get-config')();
-    const getRoomConfig = require('./lib/get-room-config');
+    const roomConfig = require('./lib/room-config');
+    roomConfig.loadAllRooms();
 
     const port = soiConfig.env.port;
     //app.listen(port);
@@ -28,6 +30,8 @@
         void(server);
     }, 1000);
 
+    roomConfig.setApp(app, express);
+
     app.use(cookieParser());
     app.use(bodyParser.json({
         inflate: true,
@@ -36,9 +40,20 @@
     app.use(bodyParser.urlencoded());
 
     app.use(cors());
-    app.use('/static', express.static('static'));
-    app.use('/client', express.static('build/client'));
-    app.use('/css', express.static('build/css'));
+
+    (function() {
+        const roomList = roomConfig.getRoomList();
+        roomList.forEach(roomName => {
+            const roomPath = roomConfig.getRoomPath(roomName);
+            const staticPath = path.resolve(__dirname, `../rooms/${roomName}/static`);
+
+            console.log(roomPath, staticPath);
+
+            app.use(roomPath, express.static(staticPath));
+            app.use(roomPath, serveIndex(staticPath));
+
+        });
+    }());
 
     const viewPath = path.resolve(__dirname, '../views');
 
@@ -49,7 +64,7 @@
     app.set('jsonp callback name', 'callback');
 
     app.get('/', function(req, res) {
-        const props = getRoomConfig('_controls');
+        const props = roomConfig.get('_controls');
         res.render('login', props);
     });
 

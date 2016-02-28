@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 
-const getRoomConfig = require('../src/lib/get-room-config');
+const roomConfig = require('../src/lib/room-config');
 
 describe('Get Room Config', function() {
     'use strict';
@@ -12,7 +12,7 @@ describe('Get Room Config', function() {
     });
 
     it('getRoomConfig should return a value', function() {
-        const roomData = getRoomConfig('_controls');
+        const roomData = roomConfig.getcd('_controls');
         expect(roomData).to.not.equal(undefined);
         expect(roomData).to.not.equal(null);
     });

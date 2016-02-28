@@ -13,8 +13,8 @@
         allowAvatars: false,
         roomLanguage: 1, // English
         iconFile: null,
-        backgroundImage: null,
         body: {
+            background: '~/503.gif',
             bgcolor: 'black',
             text: 'deb887',
             link: 'deb887',
