@@ -33,10 +33,11 @@ describe('Testing base database functions', function() {
     }
 
     it('Testing insert one object (match)', () => {
-        const o1 = databaseO.createEntity();
-        o1.propBool = true;
-        o1.propString = 'Hello';
-        o1.propNumber = 10;
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
 
         return testInsertAndGet(o1, o1);
     });
@@ -47,9 +48,6 @@ describe('Testing base database functions', function() {
             void(reject);
 
             const o1 = {};
-            o1.propBool = true;
-            o1.propString = 'Hello';
-            o1.propNumber = 10;
 
             return testInsertAndGet(o1, o1).then(() => {
                 done(new Error('Failed to error on wrong object type'));
@@ -64,10 +62,11 @@ describe('Testing base database functions', function() {
     });
 
     it('Testing insert one object (failure)', (done) => {
-        const o1 = databaseO.createEntity();
-        o1.propBool = true;
-        o1.propString = 'Hello';
-        o1.propNumber = 10;
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
 
         const o2 = databaseO.createEntity();
         o2.propBool = false;

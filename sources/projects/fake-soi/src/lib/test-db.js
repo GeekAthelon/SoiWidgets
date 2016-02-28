@@ -21,9 +21,15 @@ function TestEntity() {
     this['$updated'] = null;
 }
 
-function createTestEntity() {
+function createTestEntity(o1) {
     const o = new TestEntity();
     Object.seal(o);
+
+    if (o1) {
+        Object.keys(o1).forEach(key => {
+            o[key] = o1[key];
+        });
+    }
     return o;
 }
 
