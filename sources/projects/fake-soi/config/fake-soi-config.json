@@ -9,6 +9,12 @@
     "env": {
       "port": 9732,
       "isDev": true
+    },
+    "db": {
+      "real": "/home/jjs/git/fake-soi-db/real",
+      "test": "/home/jjs/git/fake-soi-db/test",
+      "current": null
     }
+
   }
 }
