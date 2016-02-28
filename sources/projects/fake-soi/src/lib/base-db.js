@@ -5,8 +5,8 @@ const soiConfig = require('../fake-soi-get-config')();
 const db = new Locallydb(soiConfig.db.current);
 
 class BaseDatabase {
-    constructor(collection) {
-        this.collection = db.collection(collection);
+    constructor(collectionName) {
+        this.collection = db.collection(collectionName);
     }
 
     _mapAll(list) {
