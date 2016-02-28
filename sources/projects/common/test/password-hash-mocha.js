@@ -31,10 +31,24 @@ describe('Testing password-hash (promise based)', function() {
             });
     });
 
-    it('Testing hash compare', () => {
-        return passwordHash.compare(theSalt, thePassword,
-            theHash).then(res => {
+    it('Testing hash compare (success)', () => {
+        return passwordHash.
+        compare(theSalt, thePassword, theHash).then(res => {
             expect(res).to.equal(true);
         });
     });
+
+    it('Testing hash compare (failure)', (done) => {
+        return passwordHash.
+        compare(theSalt, thePassword, theHash + theHash).then(
+            res => {
+                expect(res).to.equal(false);
+                done();
+            }).catch(err => {
+            expect(err).to.equal(
+                'Not a valid BCrypt hash.');
+            done();
+        });
+    });
+
 });

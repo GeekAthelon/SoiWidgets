@@ -20,7 +20,6 @@ function hash(salt, password) {
         bcrypt.hash(password, salt, null, (err, hash) => {
             /* istanbul ignore if */
             if (err) {
-                console.log(err);
                 reject(err);
             }
             resolve(hash);
@@ -34,7 +33,6 @@ function compare(salt, password, hash) {
         bcrypt.compare(password, hash, (err, res) => {
             /* istanbul ignore if */
             if (err) {
-                console.log(err);
                 reject(err);
             }
             resolve(res);

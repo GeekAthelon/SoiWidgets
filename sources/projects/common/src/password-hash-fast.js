@@ -6,9 +6,6 @@ let longStr = 'XXXXXXXXXX';
 longStr += longStr;
 longStr += longStr;
 longStr += longStr;
-longStr += longStr;
-longStr += longStr;
-
 
 /**
  * Calculate a 32 bit FNV-1a hash
@@ -24,14 +21,15 @@ longStr += longStr;
 const hashFnv32a = function(str, asString, seed) {
     /*jshint bitwise:false */
     let i, l,
-        hval = (seed === undefined) ? 0x811c9dc5 : /* istanbul ignore next */ seed;
+        hval = (seed === undefined) ? 0x811c9dc5 : /* istanbul ignore next */
+        seed;
 
     for (i = 0, l = str.length; i < l; i++) {
         hval ^= str.charCodeAt(i);
         hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) +
             (hval << 24);
     }
-    
+
     /* istanbul ignore else */
     if (asString) {
         // Convert to 8 digit hex string
@@ -41,11 +39,9 @@ const hashFnv32a = function(str, asString, seed) {
     return hval >>> 0;
 };
 
-
 function padHash(hash) {
-	       return (longStr + hash).substr(-60); 
+    return (longStr + hash).substr(-60);
 }
-
 
 function genSalt() {
     return new Promise((resolve, reject) => {
@@ -68,22 +64,19 @@ function hash(salt, password) {
     });
 }
 
-
 function compare(salt, password, hash) {
     return new Promise((resolve, reject) => {
         void(reject);
         let newhash = hashFnv32a(salt + password, true);
-        newhash = padHash(hash);
-        resolve(hash == newhash);
+        newhash = padHash(newhash);
+        resolve(hash === newhash);
     });
 }
-
 
 const passwordHash = {
     genSalt: genSalt,
     hash: hash,
     compare: compare
 };
-
 
 exports = module.exports = passwordHash;

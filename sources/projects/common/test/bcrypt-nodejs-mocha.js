@@ -27,7 +27,6 @@ describe.skip('Testing bcrypt-nodejs (callback based)', function() {
         });
     });
 
-
     it('Testing hash compare', function(done) {
         bcrypt.compare(thePassword, theHash, (err, res) => {
             expect(err).to.equal(null);
