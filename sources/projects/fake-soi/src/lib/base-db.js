@@ -22,7 +22,12 @@ class BaseDatabase {
     }
 
     insert(data) {
-        this.verifyType(data);
+        if (data.length) {
+            data.forEach(item => this.verifyType(item));
+        } else {
+            this.verifyType(data);
+        }
+
         return new Promise((resolve, reject) => {
             void(reject);
             const ret = this.collection.insert(data);
@@ -30,8 +35,14 @@ class BaseDatabase {
         });
     }
 
+
     where(phrase) {
-        return this.collection.where(phrase);
+        return new Promise((resolve, reject) => {
+            void(reject);
+            const list = this.collection.where(phrase);
+            const ret = this._mapAll(list.items);
+            resolve(ret);
+        });
     }
 
     get(cid) {
@@ -55,7 +66,13 @@ class BaseDatabase {
     }
 
     replace(cid, data) {
-        this.collection.replace(cid, data);
+          this.verifyType(data);
+
+        return new Promise((resolve, reject) => {
+            void(reject);
+            this.collection.replace(cid, data);
+            resolve();
+        });        
     }
 
     remove(cid) {
@@ -68,13 +85,11 @@ class BaseDatabase {
 
     removeAll() {
         return new Promise((resolve, reject) => {
-            this.collection.items.forEach(rec => {
-                this.remove(rec.cid);
-            });
-
-            if (this.collection.items.length !== 0) {
-                reject(new Error('removeAll has failed'));
+            while (this.collection.items.length) {
+                const cid = this.collection.items[0].cid;
+                this.remove(cid);
             }
+
             resolve();
         });
     }

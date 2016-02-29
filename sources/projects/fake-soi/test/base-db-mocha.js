@@ -104,4 +104,33 @@ describe('Testing base database functions', function() {
         });
     });
 
+    it('Testing where', (done) => {
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
+
+        const o2 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 5
+        });
+
+        return collection.insert([o1, o2]).then((res) => {
+            return collection.where('@propNumber==10');
+        }).then(res => {
+            if (res.length !== 1) {
+                const rec = res[0];
+                done(new Error('Collection size should have been 1'));
+            } else {
+                const rec = res[0];
+                if (rec.propNumber !== 10) {
+                    done(new Error('Where returned the wrong record'));
+                } else {
+                    done();
+                }
+            }
+        });
+    });
 });
