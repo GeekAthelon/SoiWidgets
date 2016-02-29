@@ -5,7 +5,7 @@ const hiddenType = 'TestEntity';
 
 class TestDatabase extends BaseDatabase {
     constructor() {
-        super('test');
+        super('test', false);
         this.hiddenType = hiddenType;
         this._createEntity = createTestEntity;
     }

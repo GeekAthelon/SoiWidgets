@@ -5,8 +5,8 @@ const soiConfig = require('../fake-soi-get-config')();
 const db = new Locallydb(soiConfig.db.current);
 
 class BaseDatabase {
-    constructor(collectionName) {
-        this.collection = db.collection(collectionName);
+    constructor(collectionName, autosave) {
+        this.collection = db.collection(collectionName, autosave);
     }
 
     _mapAll(list) {
@@ -85,7 +85,8 @@ class BaseDatabase {
         });
     }
 
-    save() {
+    
+    save() {/* istanbul ignore next */
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.save();
