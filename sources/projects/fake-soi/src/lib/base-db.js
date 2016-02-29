@@ -61,12 +61,15 @@ class BaseDatabase {
     }
 
     update(cid, data) {
-        this.collection.update(cid, data);
+        return new Promise((resolve, reject) => {
+            void(reject);
+                    this.collection.update(cid, data);
+            resolve();
+        });
     }
 
     replace(cid, data) {
         this.verifyType(data);
-
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.replace(cid, data);
@@ -75,7 +78,11 @@ class BaseDatabase {
     }
 
     remove(cid) {
-        this.collection.remove(cid);
+        return new Promise((resolve, reject) => {
+            void(reject);
+            this.collection.remove(cid);
+            resolve();
+        });
     }
 
     save() {

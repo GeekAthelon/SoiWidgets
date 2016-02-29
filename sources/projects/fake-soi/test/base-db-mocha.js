@@ -126,7 +126,7 @@ describe('Testing base database functions', function() {
         });
     });
 
-    it('Testing Update', (done) => {
+    it('Testing Replace', (done) => {
         const o1 = databaseO.createEntity({
             propBool: true,
             propString: 'Hello',
@@ -150,6 +150,56 @@ describe('Testing base database functions', function() {
             expect(rec.propBool).to.equal(o2.propBool);
             expect(rec.propString).to.equal(o2.propString);
             expect(rec.propNumber).to.equal(o2.propNumber);
+            done();
+        }).catch(err => {
+            done(err);
+        });
+    });
+
+    it('Testing Update', (done) => {
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
+
+        const o2 = {
+            propNumber: -1
+        };
+
+        let cid;
+
+        return collection.insert(o1).then(_cid => {
+            cid = _cid;
+            return collection.update(cid, o2);
+        }).then(() => {
+            return collection.get(cid);
+        }).then(rec => {
+            expect(rec.propBool).to.equal(o1.propBool);
+            expect(rec.propString).to.equal(o1.propString);
+            expect(rec.propNumber).to.equal(o2.propNumber);
+            done();
+        }).catch(err => {
+            done(err);
+        });
+    });
+
+    it('Testing Remove', (done) => {
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
+
+        let cid;
+
+        return collection.insert(o1).then(_cid => {
+            cid = _cid;
+            return collection.remove(cid);
+        }).then(() => {
+            return collection.get(cid);
+        }).then(rec => {
+            expect(rec).to.equal(undefined);
             done();
         }).catch(err => {
             done(err);
