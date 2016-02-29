@@ -35,7 +35,6 @@ class BaseDatabase {
         });
     }
 
-
     where(phrase) {
         return new Promise((resolve, reject) => {
             void(reject);
@@ -66,13 +65,13 @@ class BaseDatabase {
     }
 
     replace(cid, data) {
-          this.verifyType(data);
+        this.verifyType(data);
 
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.replace(cid, data);
             resolve();
-        });        
+        });
     }
 
     remove(cid) {
@@ -85,6 +84,7 @@ class BaseDatabase {
 
     removeAll() {
         return new Promise((resolve, reject) => {
+            void(reject);
             while (this.collection.items.length) {
                 const cid = this.collection.items[0].cid;
                 this.remove(cid);

@@ -89,18 +89,15 @@ describe('Testing base database functions', function() {
         });
 
         collection.getAll().then(res => {
-            if (res.length !== 0) {
-                done(new Error('Collection size should have been 0'));
-            }
+            expect(res.length).to.equal(0);
             return collection.insert(o1);
         }).then(() => {
             return collection.getAll();
         }).then(res => {
-            if (res.length !== 1) {
-                done(new Error('Collection size should have been 1'));
-            } else {
-                done();
-            }
+            expect(res.length).to.equal(1);
+            done();
+        }).catch(err => {
+            done(err);
         });
     });
 
@@ -117,20 +114,46 @@ describe('Testing base database functions', function() {
             propNumber: 5
         });
 
-        return collection.insert([o1, o2]).then((res) => {
+        return collection.insert([o1, o2]).then(() => {
             return collection.where('@propNumber==10');
         }).then(res => {
-            if (res.length !== 1) {
-                const rec = res[0];
-                done(new Error('Collection size should have been 1'));
-            } else {
-                const rec = res[0];
-                if (rec.propNumber !== 10) {
-                    done(new Error('Where returned the wrong record'));
-                } else {
-                    done();
-                }
-            }
+            expect(res.length).to.equal(1);
+            const rec = res[0];
+            expect(rec.propNumber).to.equal(10);
+            done();
+        }).catch(err => {
+            done(err);
         });
     });
+
+    it('Testing Update', (done) => {
+        const o1 = databaseO.createEntity({
+            propBool: true,
+            propString: 'Hello',
+            propNumber: 10
+        });
+
+        const o2 = databaseO.createEntity({
+            propBool: false,
+            propString: 'World',
+            propNumber: -1
+        });
+
+        let cid;
+
+        return collection.insert(o1).then(_cid => {
+            cid = _cid;
+            return collection.replace(cid, o2);
+        }).then(() => {
+            return collection.get(cid);
+        }).then(rec => {
+            expect(rec.propBool).to.equal(o2.propBool);
+            expect(rec.propString).to.equal(o2.propString);
+            expect(rec.propNumber).to.equal(o2.propNumber);
+            done();
+        }).catch(err => {
+            done(err);
+        });
+    });
+
 });
