@@ -43,10 +43,9 @@ class BaseDatabase {
     }
 
     getAll() {
-        const that = this;
         return new Promise((resolve, reject) => {
             void(reject);
-            const ret = that._mapAll(that.collection.items);
+            const ret = this._mapAll(this.collection.items);
             resolve(ret);
         });
     }
