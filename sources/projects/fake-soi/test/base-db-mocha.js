@@ -206,4 +206,12 @@ describe('Testing base database functions', function() {
         });
     });
 
+    it('Testing Save', (done) => {
+        return collection.save().then(() => {
+            done();
+        }).catch(err => {
+            done(err);
+        });
+    });
+
 });

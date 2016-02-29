@@ -63,7 +63,7 @@ class BaseDatabase {
     update(cid, data) {
         return new Promise((resolve, reject) => {
             void(reject);
-                    this.collection.update(cid, data);
+            this.collection.update(cid, data);
             resolve();
         });
     }
@@ -86,7 +86,11 @@ class BaseDatabase {
     }
 
     save() {
-        this.collection.save();
+        return new Promise((resolve, reject) => {
+            void(reject);
+            this.collection.save();
+            resolve();
+        });
     }
 
     removeAll() {
