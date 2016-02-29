@@ -141,24 +141,27 @@ function runTest(testConfig, done) {
         });
 }
 
-gulp.task('coverage-es5', ['babel'], function(done) {
+gulp.task('coverage-es5', ['build'], function(done) {
+    function fixPath(p) {
+        return p.replace('/projects', '/build');
+    }
+
+    const testSourcesFixed = testSources.map(fixPath);
+    const testTestsFixed = testTests.map(fixPath);
+
     runTest({
-        src: ['build/app/**/*.js', '!build/app/btc.js'],
-        tests: ['build/test/**/*.js'],
+        src: testSourcesFixed,
+        tests: testTestsFixed,
         coverageDir: './coverage'
     }, done);
 });
 
-function runCoverage(done) {
+gulp.task('coverage', function(done) {
     runTest({
         src: testSources,
         tests: testTests,
         coverageDir: './coverage'
     }, done);
-}
-
-gulp.task('coverage', function(done) {
-    runCoverage(done);
 });
 
 // Style and Linting Tasks
