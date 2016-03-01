@@ -85,8 +85,7 @@ class BaseDatabase {
         });
     }
 
-    
-    save() {/* istanbul ignore next */
+    save() { /* istanbul ignore next */
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.save();
