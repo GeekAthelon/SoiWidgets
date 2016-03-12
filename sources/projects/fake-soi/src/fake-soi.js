@@ -66,12 +66,11 @@
         res.render('login', props);
     });
 
-    app.post('/login', function(req, res) {    		    
-        console.log(req.body);    		       		    
+    app.post('/login', function(req, res) {
+        console.log(req.body);
         const props = roomConfig.get('_controls');
         res.render('login', props);
     });
-    
-    
+
     exports = module.exports = app;
 }());
