@@ -9,7 +9,7 @@ describe('Testing base database functions', function() {
     'use strict';
 
     beforeEach(() => {
-        return collection.removeAll();
+        return collection.removeAllAsync();
     });
 
     it('Testing that the test is alive', () => {
@@ -19,12 +19,12 @@ describe('Testing base database functions', function() {
     function testInsertAndGet(o1, o2) {
         let cid;
 
-        return collection.insert(o1).then(_cid => {
+        return collection.insertAsync(o1).then(_cid => {
             cid = _cid;
 
             expect(typeof cid).to.equal('number');
 
-            return collection.get(cid).then(o => {
+            return collection.getAsync(cid).then(o => {
                 expect(o.propBool).to.equal(o2.propBool);
                 expect(o.propString).to.equal(o2.propString);
                 expect(o.propNumber).to.equal(o2.propNumber);
@@ -88,11 +88,11 @@ describe('Testing base database functions', function() {
             propNumber: 10
         });
 
-        collection.getAll().then(res => {
+        collection.getAllAsync().then(res => {
             expect(res.length).to.equal(0);
-            return collection.insert(o1);
+            return collection.insertAsync(o1);
         }).then(() => {
-            return collection.getAll();
+            return collection.getAllAsync();
         }).then(res => {
             expect(res.length).to.equal(1);
             done();
@@ -114,8 +114,8 @@ describe('Testing base database functions', function() {
             propNumber: 5
         });
 
-        return collection.insert([o1, o2]).then(() => {
-            return collection.where('@propNumber==10');
+        return collection.insertAsync([o1, o2]).then(() => {
+            return collection.whereAsync('@propNumber==10');
         }).then(res => {
             expect(res.length).to.equal(1);
             const rec = res[0];
@@ -141,11 +141,11 @@ describe('Testing base database functions', function() {
 
         let cid;
 
-        return collection.insert(o1).then(_cid => {
+        return collection.insertAsync(o1).then(_cid => {
             cid = _cid;
-            return collection.replace(cid, o2);
+            return collection.replaceAsync(cid, o2);
         }).then(() => {
-            return collection.get(cid);
+            return collection.getAsync(cid);
         }).then(rec => {
             expect(rec.propBool).to.equal(o2.propBool);
             expect(rec.propString).to.equal(o2.propString);
@@ -169,11 +169,11 @@ describe('Testing base database functions', function() {
 
         let cid;
 
-        return collection.insert(o1).then(_cid => {
+        return collection.insertAsync(o1).then(_cid => {
             cid = _cid;
-            return collection.update(cid, o2);
+            return collection.updateAsync(cid, o2);
         }).then(() => {
-            return collection.get(cid);
+            return collection.getAsync(cid);
         }).then(rec => {
             expect(rec.propBool).to.equal(o1.propBool);
             expect(rec.propString).to.equal(o1.propString);
@@ -193,11 +193,11 @@ describe('Testing base database functions', function() {
 
         let cid;
 
-        return collection.insert(o1).then(_cid => {
+        return collection.insertAsync(o1).then(_cid => {
             cid = _cid;
-            return collection.remove(cid);
+            return collection.removeAsync(cid);
         }).then(() => {
-            return collection.get(cid);
+            return collection.getAsync(cid);
         }).then(rec => {
             expect(rec).to.equal(undefined);
             done();
@@ -207,7 +207,7 @@ describe('Testing base database functions', function() {
     });
 
     it('Testing Save', (done) => {
-        return collection.save().then(() => {
+        return collection.saveAsync().then(() => {
             done();
         }).catch(err => {
             done(err);

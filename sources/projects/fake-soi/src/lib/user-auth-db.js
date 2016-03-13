@@ -11,6 +11,8 @@ class UserAuthDatabase extends BaseDatabase {
     }
 }
 
+const collection = new UserAuthDatabase();
+
 function UserAuthEntity() {
     this.nickName = '';
     this.isAdmin = false;
@@ -32,10 +34,22 @@ function createUserAuthEntity(o1) {
             o[key] = o1[key];
         });
     }
+
     return o;
 }
 
+function isRegisteredUserAsync(nick) {
+    return new Promise((resolve, reject) => {
+        void(reject);
+        collection.whereAsync(`@nickName=='${nick}'`)
+            .then(list => {
+                resolve(list.length === 1);
+            });
+    });
+}
+
 exports = module.exports = {
-    Database: UserAuthDatabase,
-    createEntity: createUserAuthEntity
+    collection: collection,
+    createEntity: createUserAuthEntity,
+    isRegisteredUserAsync: isRegisteredUserAsync
 };

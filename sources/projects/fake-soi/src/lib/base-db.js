@@ -21,7 +21,7 @@ class BaseDatabase {
         }
     }
 
-    insert(data) {
+    insertAsync(data) {
         if (data.length) {
             data.forEach(item => this.verifyType(item));
         } else {
@@ -35,7 +35,7 @@ class BaseDatabase {
         });
     }
 
-    where(phrase) {
+    whereAsync(phrase) {
         return new Promise((resolve, reject) => {
             void(reject);
             const list = this.collection.where(phrase);
@@ -44,7 +44,7 @@ class BaseDatabase {
         });
     }
 
-    get(cid) {
+    getAsync(cid) {
         return new Promise((resolve, reject) => {
             void(reject);
             const ret = this.collection.get(cid);
@@ -52,7 +52,7 @@ class BaseDatabase {
         });
     }
 
-    getAll() {
+    getAllAsync() {
         return new Promise((resolve, reject) => {
             void(reject);
             const ret = this._mapAll(this.collection.items);
@@ -60,7 +60,7 @@ class BaseDatabase {
         });
     }
 
-    update(cid, data) {
+    updateAsync(cid, data) {
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.update(cid, data);
@@ -68,7 +68,7 @@ class BaseDatabase {
         });
     }
 
-    replace(cid, data) {
+    replaceAsync(cid, data) {
         this.verifyType(data);
         return new Promise((resolve, reject) => {
             void(reject);
@@ -77,7 +77,7 @@ class BaseDatabase {
         });
     }
 
-    remove(cid) {
+    removeAsync(cid) {
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.remove(cid);
@@ -85,7 +85,7 @@ class BaseDatabase {
         });
     }
 
-    save() { /* istanbul ignore next */
+    saveAsync() { /* istanbul ignore next */
         return new Promise((resolve, reject) => {
             void(reject);
             this.collection.save();
@@ -93,12 +93,12 @@ class BaseDatabase {
         });
     }
 
-    removeAll() {
+    removeAllAsync() {
         return new Promise((resolve, reject) => {
             void(reject);
             while (this.collection.items.length) {
                 const cid = this.collection.items[0].cid;
-                this.remove(cid);
+                this.removeAsync(cid);
             }
 
             resolve();
