@@ -16,8 +16,6 @@
     roomConfig.loadAllRooms();
 
     const port = soiConfig.env.port;
-    //app.listen(port);
-    //console.log('Listening to port ' + port);
 
     setTimeout(function() {
         const server = http.createServer(app)
@@ -61,16 +59,48 @@
 
     app.set('jsonp callback name', 'callback');
 
-    app.get('/', function(req, res) {
-        const props = roomConfig.get('_controls');
-        res.render('login', props);
-    });
+    app.route('/ctl/hotlist')
+        .get(function(req, res) {
+            const databaseO = require('./lib/user-auth-db');
+            const props = roomConfig.get('_controls');
 
-    app.post('/login', function(req, res) {
-        console.log(req.body);
-        const props = roomConfig.get('_controls');
-        res.render('login', props);
-    });
+            databaseO.gatherUserDataAsync(req.query.nick).then(userData => {
+                const cfg = {
+                    roomProps: props,
+                    user: userData
+                };
+
+                if (userData.isAuth) {
+                    res.render('hotlist', cfg);
+                } else {
+                    res.redirect('/');
+                }
+            });
+        });
+
+    app.route('/')
+        .get(function(req, res) {
+            const props = roomConfig.get('_controls');
+            res.render('login', {
+                roomProps: props
+            });
+        })
+        .post(function(req, res) {
+            const databaseO = require('./lib/user-auth-db');
+
+            databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
+                //const cfg = {
+                //  roomProps: props,
+                //                user: userData
+                //            };
+
+                if (userData.isAuth) {
+                    res.redirect('/ctl/hotlist?nick=' + encodeURIComponent(userData.prettyNick));
+                } else {
+                    res.redirect('/');
+                }
+            });
+        });
 
     exports = module.exports = app;
 }());

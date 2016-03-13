@@ -1,12 +1,15 @@
 html
   head
-    title The State of Insanity</title>
+    title The State of Insanity
 
-  body(BGCOLOR=body.bgcolor,
-    TEXT=body.text,
-    LINK=body.link,
-    ALINK=body.alink,
-    VLINK=body.vlink,
-    background=body.background)
-    block body
+  body(BGCOLOR=roomProps.body.bgcolor,
+    TEXT=roomProps.body.text,
+    LINK=roomProps.body.link,
+    ALINK=roomProps.body.alink,
+    VLINK=roomProps.body.vlink,
+    background=roomProps.body.background)
     
+    if user
+      h1 User Auth #{user.isAuth}
+    
+    block body

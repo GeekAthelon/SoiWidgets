@@ -1,4 +1,4 @@
-/* globals it: true, describe: true, beforeEach:true */
+/* globals it: true, describe: true, beforeEach:true, afterEach: true */
 
 const expect = require('chai').expect;
 
@@ -74,4 +74,44 @@ describe('Testing user-auth database functions', function() {
         });
     });
 
+    describe('Testing gatherUserDataAsync', () => {
+
+        beforeEach(() => {
+            const o1 = databaseO.createEntity({
+                nickName: '-[Somebody]-',
+                isAdmin: false,
+                password: 'password',
+                salt: 'salt'
+            });
+
+            return testInsertAndGet(o1, o1);
+        });
+
+        afterEach(() => {
+            return collection.removeAllAsync();
+        });
+
+        it('Testing isRegisteredUser when false', () => {
+            return databaseO.gatherUserDataAsync('nobody')
+                .then(res => {
+                    expect(res.isRegistered).to.equal(false);
+                });
+        });
+
+        it('Testing isRegisteredUser when Somebody', () => {
+            return databaseO.gatherUserDataAsync('-[Somebody]-')
+                .then(res => {
+                    expect(res.isRegistered).to.equal(true);
+                });
+        });
+
+        it('Testing nick formatting', () => {
+            return databaseO.gatherUserDataAsync('-[Somebody]-')
+                .then(res => {
+                    expect(res.simpleNick).to.equal('Somebody');
+                    expect(res.tail).to.equal('priv');
+                });
+        });
+
+    });
 });

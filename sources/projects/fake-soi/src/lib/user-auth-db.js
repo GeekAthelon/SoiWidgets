@@ -3,6 +3,10 @@
 const BaseDatabase = require('./base-db');
 const hiddenType = 'UserAuthEntity';
 
+// jshint -W079
+const Promise = require('bluebird');
+// jshint +W079
+
 class UserAuthDatabase extends BaseDatabase {
     constructor() {
         super('user-auth', false);
@@ -48,8 +52,39 @@ function isRegisteredUserAsync(nick) {
     });
 }
 
+function gatherUserDataAsync(fullNick) {
+    //TODO: Tie this into the database sometime.
+
+    return new Promise((resolve, reject) => {
+        void(reject);
+        const userData = {};
+
+        const t = fullNick.split('@');
+        const nick = t[0];
+        const tail = t[1] || 'priv';
+
+        userData.simpleNick = nick.replace(/[^A-Za-z0-9]/g, '');
+        userData.tail = tail;
+        userData.prettyNick = nick;
+        userData.isAuth = true;
+        userData.isVisitor = true;
+
+        isRegisteredUserAsync(nick).then(isRegistered => {
+            userData.isRegistered = isRegistered;
+        }).then(() => {
+
+            if (fullNick === '') {
+                userData.isAuth = false;
+            }
+
+            resolve(userData);
+        });
+    });
+}
+
 exports = module.exports = {
     collection: collection,
     createEntity: createUserAuthEntity,
-    isRegisteredUserAsync: isRegisteredUserAsync
+    isRegisteredUserAsync: isRegisteredUserAsync,
+    gatherUserDataAsync: gatherUserDataAsync
 };
