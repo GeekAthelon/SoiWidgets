@@ -1,6 +1,6 @@
 'use strict';
 
-let allRooms = ['_controls'];
+let allRooms = ['_controls', 'entrance'];
 
 let rooms = {};
 
@@ -14,8 +14,12 @@ function translateUrl(s, roomName) {
     return s.replace(regex, url);
 }
 
-function getRoomList() {
+function getFullRoomList() {
     return allRooms;
+}
+
+function getPlayerRoomList() {
+    return allRooms.filter(p => p !== '_controls');
 }
 
 function get(roomName) {
@@ -40,7 +44,8 @@ function loadAllRooms() {
 const roomConfig = {
     get: get,
     loadAllRooms: loadAllRooms,
-    getRoomList: getRoomList,
+    getFullRoomList: getFullRoomList,
+    getPlayerRoomList: getPlayerRoomList,
     getRoomPath: getRoomPath
 };
 

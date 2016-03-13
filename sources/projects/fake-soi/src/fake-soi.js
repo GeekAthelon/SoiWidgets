@@ -38,12 +38,12 @@
     app.use(cors());
 
     (function() {
-        const roomList = roomConfig.getRoomList();
+        const roomList = roomConfig.getFullRoomList();
         roomList.forEach(roomName => {
             const roomPath = roomConfig.getRoomPath(roomName);
             const staticPath = path.resolve(__dirname, `../rooms/${roomName}/static`);
 
-            console.log(roomPath, staticPath);
+            console.log('Static: ', roomPath, staticPath);
 
             app.use(roomPath, express.static(staticPath));
             app.use(roomPath, serveIndex(staticPath));
@@ -63,11 +63,20 @@
         .get(function(req, res) {
             const databaseO = require('./lib/user-auth-db');
             const props = roomConfig.get('_controls');
+            const roomList = roomConfig.getPlayerRoomList();
 
             databaseO.gatherUserDataAsync(req.query.nick).then(userData => {
+
+                const roomDetails = {};
+                roomList.forEach(r => {
+                    roomDetails[r] = roomConfig.get(r);
+                });
+
                 const cfg = {
                     roomProps: props,
-                    user: userData
+                    user: userData,
+                    roomList: roomList,
+                    roomDetails: roomDetails
                 };
 
                 if (userData.isAuth) {
