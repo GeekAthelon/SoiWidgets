@@ -17,7 +17,7 @@ describe('Testing user-auth database functions', function() {
             expect(typeof cid).to.equal('number');
 
             return collection.get(cid).then(o => {
-                expect(o.false).to.equal(o2.false);
+                expect(o.isAdmin).to.equal(o2.isAdmin);
                 expect(o.nickName).to.equal(o2.nickName);
                 expect(o.password).to.equal(o2.password);
                 expect(o.salt).to.equal(o2.salt);
