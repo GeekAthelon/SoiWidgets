@@ -1,0 +1,14 @@
+{
+	"language": {
+		"javascript": {
+			"linting.prefer": "JSHint",
+			"linting.usePreferredOnly": true
+		}
+	},
+	"brackets-file-tree-exclude.excludeList": [
+		"/.git/",
+		"/dist/",
+		"/bower_components/",
+		"/node_modules/"
+	]
+}
