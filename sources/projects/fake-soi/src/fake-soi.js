@@ -112,11 +112,6 @@
             const databaseO = require('./lib/user-auth-db');
 
             databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
-                //const cfg = {
-                //  roomProps: props,
-                //                user: userData
-                //            };
-
                 if (userData.isAuth) {
                     res.redirect('/ctl/hotlist?nick=' + encodeURIComponent(userData.prettyNick));
                 } else {
