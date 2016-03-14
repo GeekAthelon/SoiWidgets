@@ -21,9 +21,14 @@ describe('Get Room Config', function() {
         expect(roomData).to.not.equal(null);
     });
 
-    it('roomConfig.getRoomList should return a value', function() {
-        const roomList = roomConfig.getRoomList();
+    it('roomConfig.getFullRoomList should return a value', function() {
+        const roomList = roomConfig.getFullRoomList();
         expect(roomList.length > 0).to.equal(true);
-
     });
+
+    it('roomConfig.getPlayerRoomList should return a value', function() {
+        const roomList = roomConfig.getPlayerRoomList();
+        expect(roomList.length > 0).to.equal(true);
+    });
+
 });
