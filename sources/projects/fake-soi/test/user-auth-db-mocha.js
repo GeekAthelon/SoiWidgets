@@ -108,7 +108,7 @@ describe('Testing user-auth database functions', function() {
         it('Testing nick formatting', () => {
             return databaseO.gatherUserDataAsync('-[Somebody]-')
                 .then(res => {
-                    expect(res.simpleNick).to.equal('Somebody');
+                    expect(res.simpleNick).to.equal('somebody');
                     expect(res.tail).to.equal('priv');
                 });
         });

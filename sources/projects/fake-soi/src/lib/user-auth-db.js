@@ -63,7 +63,7 @@ function gatherUserDataAsync(fullNick) {
         const nick = t[0];
         const tail = t[1] || 'priv';
 
-        userData.simpleNick = nick.replace(/[^A-Za-z0-9]/g, '');
+        userData.simpleNick = nick.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
         userData.tail = tail;
         userData.prettyNick = nick;
         userData.isAuth = true;

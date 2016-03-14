@@ -13,6 +13,7 @@
     const http = require('http');
     const soiConfig = require('./fake-soi-get-config')();
     const roomConfig = require('./lib/room-config');
+    const linkManager = require('./lib/link-manager');
     roomConfig.loadAllRooms();
 
     const port = soiConfig.env.port;
@@ -66,24 +67,37 @@
             const roomList = roomConfig.getPlayerRoomList();
 
             databaseO.gatherUserDataAsync(req.query.nick).then(userData => {
-
+                const roomLinksPromises = [];
+                const roomLinks = {};
                 const roomDetails = {};
                 roomList.forEach(r => {
-                    roomDetails[r] = roomConfig.get(r);
+                    const rDetail = roomConfig.get(r);
+                    roomDetails[r] = rDetail;
+                    roomLinksPromises.push(
+                        linkManager.getRoomLinkAsync(r, r.tail, userData.prettyNick)
+                    );
                 });
 
-                const cfg = {
-                    roomProps: props,
-                    user: userData,
-                    roomList: roomList,
-                    roomDetails: roomDetails
-                };
+                Promise.all(roomLinksPromises).then(ll => {
+                    ll.forEach((item, idx) => {
+                        let roomid = roomList[idx];
+                        roomLinks[roomid] = item;
+                    });
 
-                if (userData.isAuth) {
-                    res.render('hotlist', cfg);
-                } else {
-                    res.redirect('/');
-                }
+                    const cfg = {
+                        roomProps: props,
+                        user: userData,
+                        roomList: roomList,
+                        roomDetails: roomDetails,
+                        roomLinks: roomLinks
+                    };
+
+                    if (userData.isAuth) {
+                        res.render('hotlist', cfg);
+                    } else {
+                        res.redirect('/');
+                    }
+                });
             });
         });
 
