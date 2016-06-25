@@ -1,49 +1,55 @@
 extend _pagebase.pug
 
 block body
+
   center
     form(method="POST")
       h1 Hot Rooms
-      | Quick links should go here
+
+      include ./_userlinks.pug
       br
-      | SOI Links go here
+      include ./_quicklinks.pug
       br
       select(name="vqvau", disabled)
         option XX A Private Area
-      input(type="submit" value="Travel" name="vqxfi" disabled)
+      input(type="submit" value="Travel" name="vqxfi")
       | ...
-      input(type="text" name="vqxfi" size="8" disabled)
-      input(type="submit" name="vqvak" value="Find" disabled)
+      input(type="text" name="vqxfi" size="8")
+      input(type="submit" name="vqvak" value="Find")
       br
       | Show Rooms:
-      input(type="checkbox" name="vqveg" checked disabled)
+      input(type="checkbox" name="vqveg" checked)
       | Corks:
-      input(type="checkbox" name="vqvef" checked disabled)
+      input(type="checkbox" name="vqvef" checked)
       | Color:
-      input(type="checkbox" name="vqveh" checked disabled)
+      input(type="checkbox" name="vqveh" checked)
       | Hidden:
-      input(type="checkbox" name="showhidden" disabled)
-      input(type="submit" name="vqvak" value="Reload This Page" disabled)
-  
-
-    p ... all room activity here is faked ...
-      each room,index in roomList
-        table(border="1", width="80%")
-          tbody
-            tr
-              td(width="20%")
-                i
-                  | #{index+1} ) 
-                  - var url = roomLinks[room];
-                  a(href=url)
-                    | #{room}
-              td(width="80%")
-                b #{roomDetails[room].roomName}
-                br
-                i Open to all
-                i , owned by #{roomDetails[room].roomOwner}
-                blockquote #{roomDetails[room].descriptionOfRoom}
-                b
-                  i Player 1,&#32
-                  i Player 2
+      input(type="checkbox" name="showhidden")
+      
+      
+    form(method="POST")
+      input(type="submit" name="vqvak" value="Reload This Page")
+      include ./_hiddenformfields.pug
+      
+      p ... all room activity here is faked ...
+    
+        each room,index in roomList
+          table(border="1", width="80%")
+            tbody
+              tr
+                td(width="20%")
+                  i
+                    | #{index+1} ) 
+                    - var url = roomLinks[room];
+                    a(href=url)
+                      | #{room}
+                td(width="80%")
+                  b #{roomDetails[room].roomName}
+                  br
+                  i Open to all
+                  i , owned by #{roomDetails[room].roomOwner}
+                  blockquote #{roomDetails[room].descriptionOfRoom}
+                  b
+                    i Player 1,&#32
+                    i Player 2
                                 

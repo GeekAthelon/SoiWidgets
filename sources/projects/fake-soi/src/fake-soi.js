@@ -81,13 +81,13 @@
             showRoom(res, data);
         });
 
-    app.route('/ctl/hotlist')
-        .get(function(req, res) {
+    
+    function showHotList(nick, res) {
             const databaseO = require('./lib/user-auth-db');
             const props = roomConfig.get('_controls');
             const roomList = roomConfig.getPlayerRoomList();
 
-            databaseO.gatherUserDataAsync(req.query.nick).then(userData => {
+        return             databaseO.gatherUserDataAsync(nick).then(userData => {
                 const roomLinksPromises = [];
                 const roomLinks = {};
                 const roomDetails = {};
@@ -120,6 +120,14 @@
                     }
                 });
             });
+    }
+    
+    
+    app.route('/ctl/hotlist')
+        .get(function(req, res) {
+            showHotList(req.query.vqxus, res);
+        }).post(function(req, res) {
+            showHotList(req.body.vqxus, res);
         });
 
     app.route('/')
@@ -134,7 +142,7 @@
 
             databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
                 if (userData.isAuth) {
-                    res.redirect('/ctl/hotlist?nick=' + encodeURIComponent(userData.prettyNick));
+                    res.redirect('/ctl/hotlist?vqxus=' + encodeURIComponent(userData.prettyNick));
                 } else {
                     res.redirect('/');
                 }
