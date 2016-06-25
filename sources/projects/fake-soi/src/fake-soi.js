@@ -81,48 +81,46 @@
             showRoom(res, data);
         });
 
-    
     function showHotList(nick, res) {
-            const databaseO = require('./lib/user-auth-db');
-            const props = roomConfig.get('_controls');
-            const roomList = roomConfig.getPlayerRoomList();
+        const databaseO = require('./lib/user-auth-db');
+        const props = roomConfig.get('_controls');
+        const roomList = roomConfig.getPlayerRoomList();
 
-        return             databaseO.gatherUserDataAsync(nick).then(userData => {
-                const roomLinksPromises = [];
-                const roomLinks = {};
-                const roomDetails = {};
-                roomList.forEach(r => {
-                    const rDetail = roomConfig.get(r);
-                    roomDetails[r] = rDetail;
-                    roomLinksPromises.push(
-                        linkManager.getRoomLinkAsync(r, r.tail, userData.prettyNick)
-                    );
-                });
-
-                return Promise.all(roomLinksPromises).then(ll => {
-                    ll.forEach((item, idx) => {
-                        let roomid = roomList[idx];
-                        roomLinks[roomid] = item;
-                    });
-
-                    const cfg = {
-                        roomProps: props,
-                        user: userData,
-                        roomList: roomList,
-                        roomDetails: roomDetails,
-                        roomLinks: roomLinks
-                    };
-
-                    if (userData.isAuth) {
-                        res.render('hotlist', cfg);
-                    } else {
-                        res.redirect('/');
-                    }
-                });
+        return databaseO.gatherUserDataAsync(nick).then(userData => {
+            const roomLinksPromises = [];
+            const roomLinks = {};
+            const roomDetails = {};
+            roomList.forEach(r => {
+                const rDetail = roomConfig.get(r);
+                roomDetails[r] = rDetail;
+                roomLinksPromises.push(
+                    linkManager.getRoomLinkAsync(r, r.tail, userData.prettyNick)
+                );
             });
+
+            return Promise.all(roomLinksPromises).then(ll => {
+                ll.forEach((item, idx) => {
+                    let roomid = roomList[idx];
+                    roomLinks[roomid] = item;
+                });
+
+                const cfg = {
+                    roomProps: props,
+                    user: userData,
+                    roomList: roomList,
+                    roomDetails: roomDetails,
+                    roomLinks: roomLinks
+                };
+
+                if (userData.isAuth) {
+                    res.render('hotlist', cfg);
+                } else {
+                    res.redirect('/');
+                }
+            });
+        });
     }
-    
-    
+
     app.route('/ctl/hotlist')
         .get(function(req, res) {
             showHotList(req.query.vqxus, res);
