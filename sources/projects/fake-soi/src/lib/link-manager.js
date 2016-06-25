@@ -11,9 +11,8 @@ function getRoomLinkAsync(roomID, tail, nick) {
                     res.prettyNick + '@' + res.tail
                 );
 
-                let link = '/room/' + roomID;
-
-                link += '?nick=' + encodedNick;
+                let link = '/room?room=' + roomID;
+                link += '&nick=' + encodedNick;
                 resolve(link);
             });
     });

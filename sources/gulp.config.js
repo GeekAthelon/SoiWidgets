@@ -8,7 +8,7 @@ projects.fakeSoi = {
     srcFiles: ['./projects/fake-soi/**/*.js'],
     copyFiles: [
         './projects/fake-soi/config/**/*.json',
-        './projects/fake-soi/views/**/*.jade',
+        './projects/fake-soi/views/**/*.pug',
         './projects/fake-soi/rooms/**/static/*'
     ],
     srcDir: './projects/fake-soi/src',

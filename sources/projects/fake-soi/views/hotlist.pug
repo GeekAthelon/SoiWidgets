@@ -1,4 +1,4 @@
-extend _pagebase
+extend _pagebase.pug
 
 block body
   center
@@ -34,7 +34,8 @@ block body
               td(width="20%")
                 i
                   | #{index+1} ) 
-                  a(href='#{roomLinks[room]}')
+                  - var url = roomLinks[room];
+                  a(href=url)
                     | #{room}
               td(width="80%")
                 b #{roomDetails[room].roomName}

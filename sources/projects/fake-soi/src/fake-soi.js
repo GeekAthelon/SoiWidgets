@@ -55,10 +55,31 @@
     const viewPath = path.resolve(__dirname, '../views');
 
     app.set('views', viewPath);
-    app.set('view engine', 'jade');
+    app.set('view engine', 'pug');
     app.locals.pretty = true;
 
     app.set('jsonp callback name', 'callback');
+
+    function showRoom(res, d) {
+        res.send(JSON.stringify(d));
+    }
+
+    app.route('/room')
+        .get(function(req, res) {
+            let data = {
+                nick: req.query.nick,
+                room: req.query.room
+            };
+            showRoom(res, data);
+
+        })
+        .post(function(req, res) {
+            let data = {
+                nick: req.body.nick,
+                room: req.body.room
+            };
+            showRoom(res, data);
+        });
 
     app.route('/ctl/hotlist')
         .get(function(req, res) {
@@ -78,7 +99,7 @@
                     );
                 });
 
-                Promise.all(roomLinksPromises).then(ll => {
+                return Promise.all(roomLinksPromises).then(ll => {
                     ll.forEach((item, idx) => {
                         let roomid = roomList[idx];
                         roomLinks[roomid] = item;
