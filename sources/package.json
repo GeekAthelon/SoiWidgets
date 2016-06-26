@@ -18,8 +18,8 @@
     "express": "^4.13.4",
     "fs-readfile-promise": "^2.0.1",
     "he": "^0.5.0",
-    "jade": "^1.11.0",
     "locallydb": "0.0.9",
+    "pug": "^2.0.0-beta3",
     "serve-index": "^1.7.3"
   },
   "devDependencies": {
