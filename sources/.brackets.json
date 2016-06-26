@@ -10,5 +10,14 @@
 		"/dist/",
 		"/bower_components/",
 		"/node_modules/"
-	]
+	],
+    "typescript": {
+        "target": "ES2015",
+        "module": "AMD",
+        "noImplicitAny": true,
+        "sources" : [
+            "src/declarations/**/*.ts",
+            "src/main/**/*.ts"
+        ]
+    }
 }

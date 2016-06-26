@@ -14,6 +14,8 @@ const babelOptions = {
     presets: ['es2015']
 };
 
+const tsHintTasks = [];
+const tscTasks = [];
 const babelTasks = [];
 const copyFilesTasks = [];
 const jsHintTasks = [];
@@ -44,10 +46,22 @@ const gulpConfig = {};
         babelTasks.push(name);
     }
 
+    function tsctask(key) {
+        const name = 'tsc-' + key;
+        createTscTask(name, key);
+        tscTasks.push(name);
+    }
+
     function jshinttask(key) {
         const name = 'jshint-' + key;
         createJsHintTask(name, key);
         jsHintTasks.push(name);
+    }
+
+    function tshinttask(key) {
+        const name = 'tshint-' + key;
+        createTsHintTask(name, key);
+        tsHintTasks.push(name);
     }
 
     function jscstask(key) {
@@ -68,8 +82,16 @@ const gulpConfig = {};
             btask(key);
         }
 
+        if (proj.tasks.tsc) {
+            tsctask(key);
+        }
+
         if (proj.tasks.jshint) {
             jshinttask(key);
+        }
+
+        if (proj.tasks.tshint) {
+            tshinttask(key);
         }
 
         if (proj.tasks.jscs) {
@@ -198,6 +220,21 @@ function createJsHintTask(name, key) {
     });
 }
 
+function createTsHintTask(name, key) {
+    log('Creating task: ' + name);
+    const proj = projects[key];
+
+    gulp.task(name, function() {
+        gulp.task(name, () =>
+            gulp.src(proj.srcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            .pipe($.tslint())
+            .pipe($.tslint.report("prose"))
+        );
+    });
+}
+
+
 function createCopyFilesTask(name, key) {
     log('Creating task: ' + name);
 
@@ -230,11 +267,36 @@ function createBabelTask(name, key) {
             .pipe(gulp.dest(proj.dest));
     });
 }
+
+function createTscTask(name, key) {
+    log('Creating task: ' + name);
+    const proj = projects[key];
+    gulp.task(name, function() {
+        return gulp.src(proj.srcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            //.pipe($.sourcemaps.init())
+            .pipe($.typescript())
+            .on('error', (err) => {
+                tattle('Build error under Typescript');
+                log(err);
+            })
+            .pipe($.sourcemaps.write('.', {
+                sourceRoot: proj.src
+            }))
+            .pipe(gulp.dest(proj.dest));
+    });
+}
+
+
 gulp.task('copy', copyFilesTasks, function() {});
 
 gulp.task('babel', babelTasks, function() {});
 
+gulp.task('tsc', tscTasks, function() {});
+
 gulp.task('jshint', jsHintTasks, function() {});
+
+gulp.task('tshint', tsHintTasks, function() {});
 
 gulp.task('jscs', jscsTasks, function() {});
 
@@ -263,7 +325,7 @@ gulp.task('sass', function() {
 
 // Full Build
 
-gulp.task('build', ['babel', 'copy'], function() {});
+gulp.task('build', ['tsc', 'babel', 'copy'], function() {});
 
 // Reformatting Tasks
 

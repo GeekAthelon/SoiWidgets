@@ -1,28 +1,43 @@
 'use strict';
 
-const validTasks = 'babelfy jshint jscs formatjs copy test'.split(' ');
+const validTasks = 'tsc babelfy tshint jshint jscs formatjs copy test'.split(' ');
 
 const projects = {};
 
-projects.fakeSoi = {
-    srcFiles: ['./projects/fake-soi/**/*.js'],
+projects.fakeSoi2 = {
+    srcFiles: ['./projects-ts/fake-soi/**/*.ts'],
     copyFiles: [
         './projects/fake-soi/config/**/*.json',
         './projects/fake-soi/views/**/*.pug',
         './projects/fake-soi/rooms/**/static/*'
     ],
     srcDir: './projects/fake-soi/src',
-    dest: './build/fake-soi',
+    dest: './build-ts/fake-soi',
     server: './projects/fake-soi/src/fake-soi.js',
-    tasks: 'babelfy jshint jscs formatjs copy test'
+    tasks: 'tsc tshint jscs formatjs copy test'
 };
 
-projects.common = {
-    srcFiles: ['./projects/common/**/*.js'],
-    dest: './build/common',
-    srcDir: './projects/common/src',
-    tasks: 'babelfy jshint jscs formatjs test'
-};
+
+//projects.fakeSoi = {
+//    srcFiles: ['./projects/fake-soi/**/*.js'],
+//    copyFiles: [
+//        './projects/fake-soi/config/**/*.json',
+//        './projects/fake-soi/views/**/*.pug',
+//        './projects/fake-soi/rooms/**/static/*'
+//    ],
+//    srcDir: './projects/fake-soi/src',
+//    dest: './build/fake-soi',
+//    server: './projects/fake-soi/src/fake-soi.js',
+//    tasks: 'babelfy jshint jscs formatjs copy test'
+//};
+
+//projects.common = {
+//    srcFiles: ['./projects/common/**/*.js'],
+//    dest: './build/common',
+//    srcDir: './projects/common/src',
+//    tasks: 'babelfy jshint jscs formatjs test'
+//};
+
 
 projects.buildfiles = {
     // The paths here are a lie...
