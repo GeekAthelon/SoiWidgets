@@ -1,22 +1,22 @@
 'use strict';
 
-const validTasks = 'tsc babelfy tshint jshint jscs formatjs copy test'.split(' ');
+const validTasks = 'tsc babelfy tshint jshint jscs formatjs formatts copy test'.split(' ');
 
 const projects = {};
 
 projects.fakeSoi2 = {
-    srcFiles: ['./projects-ts/fake-soi/**/*.ts'],
+    jsSrcFiles: ['./projects-ts/fake-soi/**/*.js'],
+    tsSrcFiles: ['./projects-ts/fake-soi/**/*.ts'],
     copyFiles: [
         './projects-ts/fake-soi/config/**/*.json',
         './projects-ts/fake-soi/views/**/*.pug',
         './projects-ts/fake-soi/rooms/**/static/*'
     ],
-    srcDir: './projects/fake-soi/src',
+    srcDir: './projects-ts/fake-soi/src',
     dest: './build-ts/fake-soi',
     server: './build-ts/fake-soi/src/fake-soi.js',
-    tasks: 'tsc tshint jscs formatjs copy test'
+    tasks: 'tsc tshint jscs formatts copy test'
 };
-
 
 //projects.fakeSoi = {
 //    srcFiles: ['./projects/fake-soi/**/*.js'],
@@ -38,12 +38,12 @@ projects.fakeSoi2 = {
 //    tasks: 'babelfy jshint jscs formatjs test'
 //};
 
-
 projects.buildfiles = {
     // The paths here are a lie...
     // but formatjs is off-by-one directory when it
     // formats....
-    srcFiles: ['./gulpfile.js', './gulp.config.js'],
+    jsSrcFiles: ['./gulpfile.js', './gulp.config.js'],
+    tsSrcFiles: [],
     dest: './build',
     srcDir: './build',
     tasks: 'jshint jscs formatjs'

@@ -6,6 +6,8 @@ const args = require('yargs').argv;
 const projects = require('./gulp.config')();
 const del = require('del');
 
+const tsfmt = require('gulp-tsfmt');
+
 const $ = require('gulp-load-plugins')({
     lazy: true
 });
@@ -21,6 +23,7 @@ const copyFilesTasks = [];
 const jsHintTasks = [];
 const jscsTasks = [];
 const formatJsTasks = [];
+const formatTsTasks = [];
 const testTasks = [];
 
 const testSources = [];
@@ -76,7 +79,15 @@ const gulpConfig = {};
         formatJsTasks.push(name);
     }
 
+    function formattstask(key) {
+        const name = 'formatts-' + key;
+        createFormatTsTask(name, key);
+        formatTsTasks.push(name);
+    }
+
     Object.keys(projects).forEach((key) => {
+        /*jshint maxcomplexity: false */
+
         const proj = projects[key];
         if (proj.tasks.babelfy) {
             btask(key);
@@ -100,6 +111,10 @@ const gulpConfig = {};
 
         if (proj.tasks.formatjs) {
             formatjstask(key);
+        }
+
+        if (proj.tasks.formatts) {
+            formattstask(key);
         }
 
         if (proj.tasks.copy) {
@@ -198,7 +213,7 @@ function createJscsTask(name, key) {
     const proj = projects[key];
 
     gulp.task(name, function() {
-        return gulp.src(proj.srcFiles)
+        return gulp.src(proj.jsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             .pipe($.jscs())
             .pipe($.jscs.reporter());
@@ -210,7 +225,7 @@ function createJsHintTask(name, key) {
     const proj = projects[key];
 
     gulp.task(name, function() {
-        return gulp.src(proj.srcFiles)
+        return gulp.src(proj.jsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             .pipe($.jshint())
             .pipe($.jshint.reporter('jshint-stylish', {
@@ -226,14 +241,13 @@ function createTsHintTask(name, key) {
 
     gulp.task(name, function() {
         gulp.task(name, () =>
-            gulp.src(proj.srcFiles)
+            gulp.src(proj.tsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             .pipe($.tslint())
-            .pipe($.tslint.report("prose"))
+            .pipe($.tslint.report('prose'))
         );
     });
 }
-
 
 function createCopyFilesTask(name, key) {
     log('Creating task: ' + name);
@@ -253,7 +267,7 @@ function createBabelTask(name, key) {
     log('Creating task: ' + name);
     const proj = projects[key];
     gulp.task(name, function() {
-        return gulp.src(proj.srcFiles)
+        return gulp.src(proj.jsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             .pipe($.sourcemaps.init())
             .pipe($.babel(babelOptions))
@@ -272,7 +286,7 @@ function createTscTask(name, key) {
     log('Creating task: ' + name);
     const proj = projects[key];
     gulp.task(name, function() {
-        return gulp.src(proj.srcFiles)
+        return gulp.src(proj.jsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             //.pipe($.sourcemaps.init())
             .pipe($.typescript())
@@ -287,22 +301,14 @@ function createTscTask(name, key) {
     });
 }
 
-
 gulp.task('copy', copyFilesTasks, function() {});
-
 gulp.task('babel', babelTasks, function() {});
-
 gulp.task('tsc', tscTasks, function() {});
-
 gulp.task('jshint', jsHintTasks, function() {});
-
 gulp.task('tshint', tsHintTasks, function() {});
-
 gulp.task('jscs', jscsTasks, function() {});
-
 gulp.task('test', testTasks, function() {});
-
-gulp.task('vet', ['jshint', 'jscs'], function() {});
+gulp.task('vet', ['tshint', 'jshint', 'jscs'], function() {});
 
 gulp.task('sass', function() {
     const sass = $.sass;
@@ -335,7 +341,8 @@ function createFormatJsTask(name, key) {
     const dest = path.join(proj.srcDir, '..');
 
     gulp.task(name, function() {
-        return gulp.src(proj.srcFiles)
+        return gulp.src(proj.jsSrcFiles)
+            .pipe($.if(args.verbose, $.print()))
             .pipe($.jsbeautifier({
                 config: '.jsbeautifyrc',
                 mode: 'VERIFY_AND_WRITE'
@@ -345,6 +352,34 @@ function createFormatJsTask(name, key) {
 }
 
 gulp.task('formatjs', formatJsTasks, function() {});
+
+function createFormatTsTask(name, key) {
+    log('Creating task: ' + name);
+    const proj = projects[key];
+    const dest = path.join(proj.srcDir, '..');
+
+    gulp.task(name, function() {
+        gulp.src(proj.tsSrcFiles)
+            .pipe($.if(args.verbose, $.print()))
+            .pipe(tsfmt({
+                IndentSize: 2,
+                TabSize: 2,
+                NewLineCharacter: '\n',
+                ConvertTabsToSpaces: true,
+                InsertSpaceAfterCommaDelimiter: true,
+                InsertSpaceAfterSemicolonInForStatements: true,
+                InsertSpaceBeforeAndAfterBinaryOperators: true,
+                InsertSpaceAfterKeywordsInControlFlowStatements: true,
+                InsertSpaceAfterFunctionKeywordForAnonymousFunctions: false,
+                InsertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis: false,
+                PlaceOpenBraceOnNewLineForFunctions: false,
+                PlaceOpenBraceOnNewLineForControlBlocks: false,
+            }))
+            .pipe(gulp.dest(dest));
+    });
+}
+
+gulp.task('formatts', formatTsTasks, function() {});
 
 function runMonitor(nodeOptions) {
     return $.nodemon(nodeOptions)
