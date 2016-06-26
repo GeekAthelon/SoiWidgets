@@ -7,13 +7,13 @@ const projects = {};
 projects.fakeSoi2 = {
     srcFiles: ['./projects-ts/fake-soi/**/*.ts'],
     copyFiles: [
-        './projects/fake-soi/config/**/*.json',
-        './projects/fake-soi/views/**/*.pug',
-        './projects/fake-soi/rooms/**/static/*'
+        './projects-ts/fake-soi/config/**/*.json',
+        './projects-ts/fake-soi/views/**/*.pug',
+        './projects-ts/fake-soi/rooms/**/static/*'
     ],
     srcDir: './projects/fake-soi/src',
     dest: './build-ts/fake-soi',
-    server: './projects/fake-soi/src/fake-soi.js',
+    server: './build-ts/fake-soi/src/fake-soi.js',
     tasks: 'tsc tshint jscs formatjs copy test'
 };
 

@@ -1,28 +1,32 @@
 /// <reference path="../../typings/node/node.d.ts" />
 /// <reference path="../../typings/bluebird/bluebird.d.ts" />
+/// <reference path="./interfaces/IFakeSoiConfig.ts" />
 
-(function() {
     'use strict';
 
-    
-    const k :number[] = [];
-    
     const express = require('express');
     const app = express();
     const path = require('path');
 
-    const readFile = require('fs-readfile-promise');
+    // const readFile = require('fs-readfile-promise');
     const cors = require('cors');
     const bodyParser = require('body-parser');
-    const serveIndex = require('serve-index');
+    // const serveIndex = require('serve-index');
     const cookieParser = require('cookie-parser');
     const http = require('http');
-    const soiConfig = require('./fake-soi-get-config')();
-    const roomConfig = require('./lib/room-config');
-    const linkManager = require('./lib/link-manager');
-    roomConfig.loadAllRooms();
 
-    const port = soiConfig.env.port;
+     import { loadFakeSoiConfig } from './lib/loadJSON';
+
+     const soiConfigP = loadFakeSoiConfig('config/fake-soi-config.json');
+
+     soiConfigP.then((res: IFakeSoiConfig) => {
+         console.log('Read Configuration File: ', res);
+     }).catch(err => {
+         console.log('Error starting application');
+         console.log(err);
+     });
+
+    const port = 9001; // soiConfig.env.port ;
 
     setTimeout(function() {
         const server = http.createServer(app)
@@ -44,6 +48,7 @@
 
     app.use(cors());
 
+    /*
     (function() {
         const roomList = roomConfig.getFullRoomList();
         roomList.forEach(roomName => {
@@ -57,6 +62,7 @@
 
         });
     }());
+    */
 
     const viewPath = path.resolve(__dirname, '../views');
 
@@ -88,6 +94,7 @@
         });
 
     function showHotList(nick, res) {
+        /*
         const databaseO = require('./lib/user-auth-db');
         const props = roomConfig.get('_controls');
         const roomList = roomConfig.getPlayerRoomList();
@@ -123,8 +130,11 @@
                 } else {
                     res.redirect('/');
                 }
+
             });
+
         });
+          */
     }
 
     app.route('/ctl/hotlist')
@@ -136,12 +146,16 @@
 
     app.route('/')
         .get(function(req, res) {
+            res.send('Index?');
+            /*            
             const props = roomConfig.get('_controls');
             res.render('login', {
                 roomProps: props
             });
+            */
         })
         .post(function(req, res) {
+            /*
             const databaseO = require('./lib/user-auth-db');
 
             databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
@@ -151,7 +165,7 @@
                     res.redirect('/');
                 }
             });
+            */
         });
 
     exports = module.exports = app;
-}());

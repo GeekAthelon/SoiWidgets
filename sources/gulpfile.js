@@ -375,7 +375,7 @@ function runMonitor(nodeOptions) {
 
 gulp.task('serve', ['build'], function() {
     const nodeOptions = {
-        script: 'build/fake-soi/src/fake-soi.js',
+        script: 'build-ts/fake-soi/fake-soi.js',
         delayTime: 1,
         env: {},
         watch: ['']
