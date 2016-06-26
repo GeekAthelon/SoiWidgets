@@ -286,7 +286,7 @@ function createTscTask(name, key) {
     log('Creating task: ' + name);
     const proj = projects[key];
     gulp.task(name, function() {
-        return gulp.src(proj.jsSrcFiles)
+        return gulp.src(proj.tsSrcFiles)
             .pipe($.if(args.verbose, $.print()))
             //.pipe($.sourcemaps.init())
             .pipe($.typescript())

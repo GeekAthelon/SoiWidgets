@@ -24,7 +24,17 @@ export function loadFakeSoiConfig(fileName: string): Promise<IFakeSoiConfig> {
         loadJSONasync<IFakeSoiConfig[]>(fileName).then(list => {
             const data = list.filter(r => r.name === hostname);
             if (data.length === 1) {
-                resolve(data[0]);
+
+                const config = data[0];
+                config.isTest = !!process.env.NODE_TEST;
+
+                if (config.isTest) {
+                    config.db.current = config.db.test;
+                } else {
+                    config.db.current = config.db.real;
+                }
+
+                resolve(config);
             }
             reject(new Error('Could not load config data for: ' + hostname));
         });
