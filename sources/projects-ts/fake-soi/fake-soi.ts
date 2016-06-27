@@ -4,11 +4,10 @@
 
 'use strict';
 
-const soiConfigP = require('./lib/loadJSON').
-    loadFakeSoiConfig('config/fake-soi-config.json');
+const soiConfigP = require('./lib/loadJSON').loadFakeSoiConfig();
 
 soiConfigP.then((soiConfig: IFakeSoiConfig) => {
-    console.log('Read Configuration File: ', soiConfig);
+    console.log('Read Configuration File for server: ', soiConfig.name);
 
     const port = soiConfig.env.port;
 
@@ -24,7 +23,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     const server = http.createServer(app)
         .listen(port, function() {
-            console.log('Express server listening on port :' + port);
+            console.log(`Express server listening on port ${port}.`);
         });
 
     void (server);

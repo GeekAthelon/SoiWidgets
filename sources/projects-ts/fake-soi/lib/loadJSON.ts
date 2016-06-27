@@ -18,7 +18,8 @@ export function loadJSONasync<T>(fileName: string): Promise<T> {
     });
 }
 
-export function loadFakeSoiConfig(fileName: string): Promise<IFakeSoiConfig> {
+export function loadFakeSoiConfig(): Promise<IFakeSoiConfig> {
+    const fileName = 'config/fake-soi-config.json';
     const hostname = os.hostname();
     return new Promise<IFakeSoiConfig>((resolve, reject) => {
         loadJSONasync<IFakeSoiConfig[]>(fileName).then(list => {
