@@ -1,5 +1,5 @@
 /// <reference path="../../../typings/bluebird/bluebird.d.ts" />
-import  * as Promise from 'bluebird';
+import * as Promise from 'bluebird';
 
 const Locallydb = require('locallydb');
 
@@ -29,95 +29,54 @@ export class Database<T> implements IDatabase {
         this.collection = db.collection(collectionName, autosave);
     }
 
-    verifyType(o: T): void {
-        if (o['$$hiddentype$$'] !== this.hiddenType) {
-            throw new Error(`Passed object is of the wrong type. ` +
-                `Expected "${this.hiddenType}" and found "${o['$$hiddentype$$']}"`);
-        }
-    }
-
     insertAsync(data: T);
     insertAsync(data: T[]);
     insertAsync(data: any): Promise<T> {
-        if (data.length) {
-            data.forEach(item => this.verifyType(item));
-        } else {
-            this.verifyType(data);
-        }
-
-        return new Promise<T>((resolve, reject) => {
-            void (reject);
-            const ret = this.collection.insert(data);
-            resolve(ret);
-        });
+        const ret = this.collection.insert(data);
+        return Promise.resolve(ret);
     }
 
     whereAsync(phrase: any): Promise<T[]> {
-        return new Promise<T[]>((resolve, reject) => {
-            void (reject);
-            const list = this.collection.where(phrase);
-            resolve(list.items);
-        });
+        const list = this.collection.where(phrase);
+        return Promise.resolve(list.items);
     }
 
     getAsync(cid): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            void (reject);
-            const ret = this.collection.get(cid);
-            resolve(ret);
-        });
+        const ret = this.collection.get(cid);
+        return Promise.resolve(ret);
     }
 
     getAllAsync(): Promise<T[]> {
-        return new Promise<T[]>((resolve, reject) => {
-            void (reject);
-            resolve(this.collection.items);
-        });
+        return Promise.resolve(this.collection.items);
     }
 
     updateAsync(cid: number, data: T) {
-        return new Promise((resolve, reject) => {
-            void (reject);
-            this.collection.update(cid, data);
-            resolve();
-        });
+        this.collection.update(cid, data);
+        return Promise.resolve();
     }
 
     replaceAsync(cid: number, data: T) {
-        this.verifyType(data);
-        return new Promise((resolve, reject) => {
-            void (reject);
-            this.collection.replace(cid, data);
-            resolve();
-        });
+        this.collection.replace(cid, data);
+        return Promise.resolve();
     }
 
     removeAsync(cid) {
-        return new Promise((resolve, reject) => {
-            void (reject);
-            this.collection.remove(cid);
-            resolve();
-        });
+        this.collection.remove(cid);
+        return Promise.resolve();
     }
 
     saveAsync() { /* istanbul ignore next */
-        return new Promise((resolve, reject) => {
-            void (reject);
-            this.collection.save();
-            resolve();
-        });
+        this.collection.save();
+        return Promise.resolve();
     }
 
     removeAllAsync() {
-        return new Promise((resolve, reject) => {
-            void (reject);
-            while (this.collection.items.length) {
-                const cid = this.collection.items[0].cid;
-                this.removeAsync(cid);
-            }
+        while (this.collection.items.length) {
+            const cid = this.collection.items[0].cid;
+            this.removeAsync(cid);
+        }
 
-            resolve();
-        });
+        return Promise.resolve();
     }
 }
 
