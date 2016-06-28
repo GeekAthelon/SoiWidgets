@@ -1,21 +1,19 @@
 /// <reference path="../../../typings/mocha/mocha.d.ts" />
 
+const soiConfigP = require('../lib/loadJSON').loadFakeSoiConfig();
+const expect = require('chai').expect;
+import { Database } from '../lib/base-db';
+
 interface ITestDatabase {
     propBool: boolean;
     propString: string;
     propNumber: number;
 }
 
-const expect = require('chai').expect;
-import { Database } from '../lib/base-db';
-
-
 describe('Testing base database functions', function() {
     let collection: Database<ITestDatabase>;
 
     before(() => {
-        const soiConfigP = require('../lib/loadJSON').loadFakeSoiConfig();
-
         return soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             collection = new Database<ITestDatabase>(soiConfig.db.current, '/test', true);
         });
