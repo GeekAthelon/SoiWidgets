@@ -22,7 +22,7 @@ projects.common = {
     tsSrcFiles: ['./projects-ts/common/**/*.ts'],
     dest: './build-ts/common',
     srcDir: './projects-ts/common/src',
-    tasks: 'tsc tshint jscs formatts'
+    tasks: 'tsc tshint jscs formatts test'
 };
 
 //projects.fakeSoi = {

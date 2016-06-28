@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/bluebird/bluebird.d.ts" />
+/// <reference path="../../../../typings/bluebird/bluebird.d.ts" />
 import * as Promise from 'bluebird';
 
 const fs = require('fs');
@@ -10,6 +10,7 @@ export function loadJSONasync<T>(fileName: string): Promise<T> {
 
     return new Promise<T>((resolve, reject) => {
         fs.readFile(fullPath, 'utf8', function(err: Error, data: string) {
+            /* istanbul ignore if */
             if (err) {
                 reject(err);
                 return;
@@ -20,7 +21,7 @@ export function loadJSONasync<T>(fileName: string): Promise<T> {
 }
 
 export function loadFakeSoiConfig(): Promise<IFakeSoiConfig> {
-    const fileName = 'config/fake-soi-config.json';
+    const fileName = '../config/fake-soi-config.json';
     const hostname = os.hostname();
     return new Promise<IFakeSoiConfig>((resolve, reject) => {
         loadJSONasync<IFakeSoiConfig[]>(fileName).then(list => {
@@ -30,6 +31,7 @@ export function loadFakeSoiConfig(): Promise<IFakeSoiConfig> {
                 const config = data[0];
                 config.isTest = !!process.env.NODE_TEST;
 
+                /* istanbul ignore next */
                 if (config.isTest) {
                     config.db.current = config.db.test;
                 } else {

@@ -201,9 +201,9 @@ gulp.task('coverage', function(done) {
     const testSourcesFixed = testSources.map(fixPath);
     const testTestsFixed = testTests.map(fixPath);
 
-console.log('Coverage');
-console.log(testSourcesFixed);
-console.log(testTestsFixed);
+    console.log('Coverage');
+    console.log(testSourcesFixed);
+    console.log(testTestsFixed);
 
     runTest({
         src: testSourcesFixed,
@@ -421,7 +421,7 @@ function runMonitor(nodeOptions) {
 
 gulp.task('serve', ['build'], function() {
     const nodeOptions = {
-        script: 'build-ts/fake-soi/fake-soi.js',
+        script: 'build-ts/fake-soi/src/fake-soi.js',
         delayTime: 1,
         env: {},
         watch: ['']

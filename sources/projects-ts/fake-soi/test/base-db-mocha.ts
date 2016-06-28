@@ -1,9 +1,9 @@
 /// <reference path="../../../typings/mocha/mocha.d.ts" />
 /// <reference path="../../../typings/bluebird/bluebird.d.ts" />
 
-const soiConfigP = require('../lib/loadJSON').loadFakeSoiConfig();
+const soiConfigP = require('../src/lib/loadJSON').loadFakeSoiConfig();
 const expect = require('chai').expect;
-import { Database } from '../lib/base-db';
+import { Database } from '../src//lib/base-db';
 
 interface ITestDatabase {
     propBool: boolean;

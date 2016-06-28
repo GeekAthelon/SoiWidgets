@@ -35,13 +35,11 @@ export default class PasswordHash implements IPasswordInterface {
             bcrypt.compare(password, hash, (err, res) => {
                 /* istanbul ignore if */
                 if (err) {
-                    //reject(err);
                     console.log('There was an error in password-hash-bcrypt');
                     console.log(err);
                     resolve(false);
                 }
                 resolve(res);
-
             });
         });
     }
