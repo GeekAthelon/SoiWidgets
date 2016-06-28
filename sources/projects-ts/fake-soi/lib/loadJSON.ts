@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/bluebird/bluebird.d.ts" />
+import  * as Promise from 'bluebird';
 
 const fs = require('fs');
 const path = require('path');

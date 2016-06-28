@@ -1,4 +1,5 @@
-'use strict';
+/// <reference path="../../../typings/bluebird/bluebird.d.ts" />
+import  * as Promise from 'bluebird';
 
 const Locallydb = require('locallydb');
 
