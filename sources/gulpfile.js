@@ -201,6 +201,10 @@ gulp.task('coverage', function(done) {
     const testSourcesFixed = testSources.map(fixPath);
     const testTestsFixed = testTests.map(fixPath);
 
+console.log('Coverage');
+console.log(testSourcesFixed);
+console.log(testTestsFixed);
+
     runTest({
         src: testSourcesFixed,
         tests: testTestsFixed,

@@ -1,7 +1,6 @@
 'use strict';
 
 const validTasks = 'tsc babelfy tshint jshint jscs formatjs formatts copy test'.split(' ');
-
 const projects = {};
 
 projects.fakeSoi2 = {
@@ -18,6 +17,14 @@ projects.fakeSoi2 = {
     tasks: 'tsc tshint jscs formatts copy test'
 };
 
+projects.common = {
+    jsSrcFiles: ['./projects-ts/common/**/*.js'],
+    tsSrcFiles: ['./projects-ts/common/**/*.ts'],
+    dest: './build-ts/common',
+    srcDir: './projects-ts/common/src',
+    tasks: 'tsc tshint jscs formatts'
+};
+
 //projects.fakeSoi = {
 //    srcFiles: ['./projects/fake-soi/**/*.js'],
 //    copyFiles: [
@@ -29,13 +36,6 @@ projects.fakeSoi2 = {
 //    dest: './build/fake-soi',
 //    server: './projects/fake-soi/src/fake-soi.js',
 //    tasks: 'babelfy jshint jscs formatjs copy test'
-//};
-
-//projects.common = {
-//    srcFiles: ['./projects/common/**/*.js'],
-//    dest: './build/common',
-//    srcDir: './projects/common/src',
-//    tasks: 'babelfy jshint jscs formatjs test'
 //};
 
 projects.buildfiles = {

@@ -79,4 +79,3 @@ export class Database<T> implements IDatabase {
         return Promise.resolve();
     }
 }
-
