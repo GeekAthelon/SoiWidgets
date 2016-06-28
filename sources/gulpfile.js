@@ -180,7 +180,7 @@ function runTest(testConfig, done) {
 
 gulp.task('coverage-es5', ['build'], function(done) {
     function fixPath(p) {
-        return p.replace('/projects', '/build');
+        return p.replace('/projects', '/build-ts');
     }
 
     const testSourcesFixed = testSources.map(fixPath);
@@ -194,9 +194,16 @@ gulp.task('coverage-es5', ['build'], function(done) {
 });
 
 gulp.task('coverage', function(done) {
+    function fixPath(p) {
+        return p.replace('/projects-ts', '/build-ts');
+    }
+
+    const testSourcesFixed = testSources.map(fixPath);
+    const testTestsFixed = testTests.map(fixPath);
+
     runTest({
-        src: testSources,
-        tests: testTests,
+        src: testSourcesFixed,
+        tests: testTestsFixed,
         coverageDir: './coverage'
     }, done);
 });
