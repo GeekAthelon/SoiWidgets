@@ -25,7 +25,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     const cors = require('cors');
     const bodyParser = require('body-parser');
-    // const serveIndex = require('serve-index');
+    const serveIndex = require('serve-index');
     const cookieParser = require('cookie-parser');
     const http = require('http');
 
@@ -45,21 +45,29 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     app.use(cors());
 
-    /*
-    (function() {
-        const roomList = roomConfig.getFullRoomList();
-        roomList.forEach(roomName => {
-            const roomPath = roomConfig.getRoomPath(roomName);
-            const staticPath = path.resolve(__dirname, `../rooms/${roomName}/static`);
-    
-            console.log('Static: ', roomPath, staticPath);
-    
-            app.use(roomPath, express.static(staticPath));
-            app.use(roomPath, serveIndex(staticPath));
-    
+
+    function prepRoomsAsync(): Promise<void> {
+        return RoomData.getRoomCodesAsync().then(codes => {
+            codes.forEach(code => {
+
+                RoomData.getRoomDataAsync(code).then(roomData => {
+                    const staticPath = path.resolve(__dirname, `../rooms/${code}/static`);
+                    const roomPath = `/room/${code}/`;
+
+                    roomData.body.background = roomData.body.background.replace('~/', roomPath);
+
+                    app.use(roomPath, express.static(staticPath));
+                    app.use(roomPath, serveIndex(staticPath));
+
+                    console.log('Found room', code);
+                    console.log(`Mapped ${roomPath} to ${staticPath}`);
+                //    console.log('data', roomData);
+                });
+            });
+
         });
-    }());
-    */
+    }
+    prepRoomsAsync();
 
     const viewPath = path.resolve(__dirname, '../views');
 
@@ -157,8 +165,6 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             userData: IUserData,
             roomData: IRoomData
         ) => {
-
-
             console.log(`Template is ${roomData.template}`);
 
             res.render(roomData.template, {
@@ -178,14 +184,6 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
         .get(function(req, res) {
             let soiUserData = <ISoiUserData>req.query;
             renderPage(res, soiUserData);
-
-
-            /*            
-            const props = roomConfig.get('_controls');
-            res.render('login', {
-                roomProps: props
-            });
-            */
         })
         .post(function(req, res) {
             /*

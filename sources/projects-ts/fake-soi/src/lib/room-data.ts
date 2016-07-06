@@ -38,4 +38,15 @@ export namespace RoomData {
         const data = roomList.filter(roomData => roomData.code === lookupName)[0];
         return Promise.resolve(data);
     }
+
+    export function getRoomDataAsync(roomName: string): Promise<IRoomData> {
+        const lookupName = roomName;
+        const data = roomList.filter(roomData => roomData.code === lookupName)[0];
+        return Promise.resolve(data);
+    }
+
+    export function getRoomCodesAsync(): Promise<string[]> {
+        const codes = roomList.map((room: IRoomData) => room.code);
+        return Promise.resolve(codes);
+    }
 }
