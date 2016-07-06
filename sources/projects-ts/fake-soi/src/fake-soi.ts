@@ -7,9 +7,7 @@
 const Promise = require('bluebird');
 
 import {UserData} from './lib/user-data';
-
-
-
+import {RoomData} from './lib/room-data';
 
 const soiConfigP = require('./lib/loadJSON').loadFakeSoiConfig();
 
@@ -146,14 +144,30 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
         });
 
     function renderPage(res: any, soiUserData: ISoiUserData): Promise<void> {
-        const userDataP = UserData.getUserDataAsync(soiUserData);
+        let userDataP = UserData.getUserDataAsync(soiUserData);
 
-        userDataP.then(val => {
-            console.log('val', val);
+        const roomDataP = userDataP.then(userData => {
+            return RoomData.getControlRoomDataAsync(userData.roomName, userData.controlRoomName);
         });
 
-        return Promise.all([userDataP]).spread((userData) => {
-            res.send(JSON.stringify(userData));
+        return Promise.all([
+            userDataP,
+            roomDataP
+        ]).spread((
+            userData: IUserData,
+            roomData: IRoomData
+        ) => {
+
+
+            console.log(`Template is ${roomData.template}`);
+
+            res.render(roomData.template, {
+                userData,
+                roomData
+            });
+
+            // const out = [userData, roomData];
+            // res.send('<pre>' + JSON.stringify(out, null, 2) + '</pre>');
         }).catch(err => {
             console.log('Acck.. error:', err);
             res.send('Ther was an unexpected error:' + err);
