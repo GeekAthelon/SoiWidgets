@@ -3,34 +3,34 @@
 	{
 		"selected_items":
 		[
+			[
+				"toun",
+				"tongueWidth"
+			],
+			[
+				"to",
+				"tongueHeight"
+			],
+			[
+				"testTe",
+				"testTestsFixed"
+			],
+			[
+				"pas",
+				"passwordHashModule	const"
+			],
+			[
+				"col",
+				"collectionName	parameter"
+			],
+			[
+				"J",
+				"jsonLoader	const"
+			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "projects-ts/fake-soi/fake-soi.ts",
-			"settings":
-			{
-				"buffer_size": 4555,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gulp.config.js",
-			"settings":
-			{
-				"buffer_size": 2032,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gulpfile.js",
-			"settings":
-			{
-				"buffer_size": 10350,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -39,7 +39,7 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 373.0,
+		"height": 392.0,
 		"last_filter": "Package Control: ",
 		"selected_items":
 		[
@@ -77,10 +77,38 @@
 	},
 	"file_history":
 	[
-		"/home/jjs/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
-		"/home/jjs/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/jjs/Projects/Athelon/SoiWidgets/sources/tslint.json",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/interfaces/IUserData.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/src/fake-soi.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/src/lib/user-data-.ts",
+		"/home/jjs/Documents/personal/3D/moped_parts/sachs.scad",
+		"/home/jjs/Documents/personal/3D/judson/fridge.scad",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/src/lib/loadJSON.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/test/base-db-mocha.ts",
 		"/home/jjs/Projects/Athelon/SoiWidgets/sources/tsconfig.json",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/build-ts/fake-soi/src/lib/loadJSON.js",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/src/password-hash-bcrypt.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/tslint.json",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/src/lib/base-db.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/gulp.config.js",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/gulpfile.js",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/interfaces/IPasswordInterface.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/test/password-hash-mocha.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/src/password-hash-fast.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/test/bcrypt-nodejs-mocha.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/lib/base-db.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/fake-soi.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/src/string-format.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/common/test/string-format-mocha.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/lib/loadJSON.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/interfaces/IFakeSoiConfig.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/config/fake-soi-config.json",
+		"/home/jjs/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects/fake-soi/src/lib/base-db.js",
+		"/home/jjs/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects/fake-soi/src/lib/test-db.js",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/interfaces/fakeSoiConfig.ts",
+		"/home/jjs/Projects/Athelon/SoiWidgets/sources/projects-ts/fake-soi/lib/load-json.ts",
+		"/home/jjs/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
 		"/home/jjs/.config/sublime-text-3/Packages/ESLint/ESLint.sublime-settings",
 		"/home/jjs/.config/sublime-text-3/Packages/User/ESLint.sublime-settings",
 		"/home/jjs/.config/sublime-text-3/Packages/TypeScript/TypeScript.sublime-settings",
@@ -92,9 +120,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 99.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -102,6 +131,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"fake-soi",
+			"serve",
+			"/lib/loadJSON'",
+			"src/",
+			"src",
+			"testSources",
+			"coverage",
+			"verify",
+			"console",
+			"wrong obj",
+			"wrong object",
+			"coverageDir",
+			"_mapAll",
+			"tsc",
+			"port",
+			"9001",
+			"runTest",
+			"test",
+			"srcFiles",
+			"format",
+			"tsfmt",
+			"format",
+			"copyFile",
+			"cd",
+			"soiConfig",
 			"createFormatJsTask",
 			"formatjs",
 			"format",
@@ -123,112 +177,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "projects-ts/fake-soi/fake-soi.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4555,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3868,
-								3868
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": true,
-								"indentSize": 4,
-								"tabSize": 4
-							},
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2710.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "gulp.config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2032,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								533,
-								533
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": true,
-								"indentSize": 4,
-								"tabSize": 4
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "gulpfile.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10350,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9749,
-								9749
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 7390.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -275,11 +225,11 @@
 	{
 		"height": 0.0
 	},
-	"pinned_build_system": "",
+	"pinned_build_system": "Packages/TypeScript/TypeScript.sublime-build",
 	"project": "fake-soi.sublime-project",
 	"replace":
 	{
-		"height": 54.0
+		"height": 68.0
 	},
 	"save_all_on_build": true,
 	"select_file":

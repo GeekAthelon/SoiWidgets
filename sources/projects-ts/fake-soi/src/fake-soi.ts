@@ -1,12 +1,22 @@
-/// <reference path="../../../typings/node/node.d.ts" />
-/// <reference path="../../../typings/bluebird/bluebird.d.ts" />
-/// <reference path=".././interfaces/IFakeSoiConfig.ts" />
+/// <reference path='../../../typings/node/node.d.ts' />
+/// <zreference path='../../../typings/bluebird/bluebird.d.ts' />
+/// <reference path='.././interfaces/IFakeSoiConfig.ts' />
+/// <reference path='.././interfaces/IUserData.ts' />
 
-'use strict';
+
+const Promise = require('bluebird');
+
+import {UserData} from './lib/user-data';
+
+
+
 
 const soiConfigP = require('./lib/loadJSON').loadFakeSoiConfig();
 
 soiConfigP.then((soiConfig: IFakeSoiConfig) => {
+
+    'use strict';
+
     console.log('Read Configuration File for server: ', soiConfig.name);
 
     const port = soiConfig.env.port;
@@ -128,14 +138,34 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     app.route('/ctl/hotlist')
         .get(function(req, res) {
+            let soiUseData = <ISoiUserData>req.query;
             showHotList(req.query.vqxus, res);
         }).post(function(req, res) {
+            let soiUseData = <ISoiUserData>req.body;
             showHotList(req.body.vqxus, res);
         });
 
+    function renderPage(res: any, soiUserData: ISoiUserData): Promise<void> {
+        const userDataP = UserData.getUserDataAsync(soiUserData);
+
+        userDataP.then(val => {
+            console.log('val', val);
+        });
+
+        return Promise.all([userDataP]).spread((userData) => {
+            res.send(JSON.stringify(userData));
+        }).catch(err => {
+            console.log('Acck.. error:', err);
+            res.send('Ther was an unexpected error:' + err);
+        });
+    }
+
     app.route('/')
         .get(function(req, res) {
-            res.send('Index?');
+            let soiUserData = <ISoiUserData>req.query;
+            renderPage(res, soiUserData);
+
+
             /*            
             const props = roomConfig.get('_controls');
             res.render('login', {
@@ -146,7 +176,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
         .post(function(req, res) {
             /*
             const databaseO = require('./lib/user-auth-db');
-    
+     
             databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
                 if (userData.isAuth) {
                     res.redirect('/ctl/hotlist?vqxus=' + encodeURIComponent(userData.prettyNick));
