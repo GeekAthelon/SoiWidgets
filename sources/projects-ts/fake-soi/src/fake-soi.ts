@@ -12,9 +12,6 @@ import {RoomData} from './lib/room-data';
 const soiConfigP = require('./lib/loadJSON').loadFakeSoiConfig();
 
 soiConfigP.then((soiConfig: IFakeSoiConfig) => {
-
-    'use strict';
-
     console.log('Read Configuration File for server: ', soiConfig.name);
 
     const port = soiConfig.env.port;
@@ -52,7 +49,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
                 RoomData.getRoomDataAsync(code).then(roomData => {
                     const staticPath = path.resolve(__dirname, `../rooms/${code}/static`);
-                    const roomPath = `/room/${code}/`;
+                    const roomPath = `/room-static/${code}/`;
 
                     roomData.body.background = roomData.body.background.replace('~/', roomPath);
 
@@ -61,10 +58,8 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
                     console.log('Found room', code);
                     console.log(`Mapped ${roomPath} to ${staticPath}`);
-                //    console.log('data', roomData);
                 });
             });
-
         });
     }
     prepRoomsAsync();
@@ -167,9 +162,12 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
         ) => {
             console.log(`Template is ${roomData.template}`);
 
+            let soiUserData = UserData.toSoiProperties(userData);
+
             res.render(roomData.template, {
                 userData,
-                roomData
+                roomData,
+                soiUserData 
             });
 
             // const out = [userData, roomData];
@@ -186,6 +184,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             renderPage(res, soiUserData);
         })
         .post(function(req, res) {
+            res.send("Logged in");
             /*
             const databaseO = require('./lib/user-auth-db');
      

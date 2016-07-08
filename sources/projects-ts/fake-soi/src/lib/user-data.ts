@@ -7,8 +7,8 @@ export namespace UserData {
     export function getUserDataAsync(soiUserData: ISoiUserData): Promise<IUserData> {
 
         let data: IUserData = {
-            givenName: 'Visitor',
-            simpleNick: 'Visitor',
+            givenName: `Athelon's Visitor`,
+            simpleNick: `athelonsvisitor`,
             roomName: 'c',
             roomTail: 'priv',
             fullRoomName: 'c@priv',
@@ -22,5 +22,13 @@ export namespace UserData {
         }
 
         return Promise.resolve(data);
+    }
+
+    export function toSoiProperties(userDate: IUserData) : ISoiUserData {
+        const result : ISoiUserData = {
+            vqxus : userDate.givenName
+        };
+
+        return result;
     }
 }
