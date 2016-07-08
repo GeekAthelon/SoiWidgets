@@ -139,10 +139,10 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     app.route('/ctl/hotlist')
         .get(function(req, res) {
-            let soiUseData = <ISoiUserData>req.query;
+            // let soiUserData = <ISoiUserData>req.query;
             showHotList(req.query.vqxus, res);
         }).post(function(req, res) {
-            let soiUseData = <ISoiUserData>req.body;
+            // let soiUserData = <ISoiUserData>req.body;
             showHotList(req.body.vqxus, res);
         });
 
@@ -167,7 +167,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             res.render(roomData.template, {
                 userData,
                 roomData,
-                soiUserData 
+                soiUserData
             });
 
             // const out = [userData, roomData];
@@ -184,7 +184,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             renderPage(res, soiUserData);
         })
         .post(function(req, res) {
-            res.send("Logged in");
+            res.send('Logged in');
             /*
             const databaseO = require('./lib/user-auth-db');
      

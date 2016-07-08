@@ -24,9 +24,9 @@ export namespace UserData {
         return Promise.resolve(data);
     }
 
-    export function toSoiProperties(userDate: IUserData) : ISoiUserData {
-        const result : ISoiUserData = {
-            vqxus : userDate.givenName
+    export function toSoiProperties(userDate: IUserData): ISoiUserData {
+        const result: ISoiUserData = {
+            vqxus: userDate.givenName
         };
 
         return result;
