@@ -40,15 +40,15 @@ block body
                 td(width="20%")
                   i
                     | #{index+1} ) 
-                    - var url = roomLinks[room];
+                    - var url = roomLinks[room.code];
                     a(href=url)
-                      | #{room}
+                      | #{room.code}
                 td(width="80%")
-                  b #{roomDetails[room].roomName}
+                  b #{room.name}
                   br
                   i Open to all
-                  i , owned by #{roomDetails[room].roomOwner}
-                  blockquote #{roomDetails[room].descriptionOfRoom}
+                  i , owned by #{room.owner}
+                  blockquote #{room.description}
                   b
                     i Player 1,&#32
                     i Player 2

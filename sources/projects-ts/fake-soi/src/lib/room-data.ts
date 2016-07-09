@@ -33,6 +33,28 @@ export namespace RoomData {
         }
     });
 
+    addRoom({
+        template: 'room.pug',
+        code: 'lobby',
+        name: 'The main lobby',
+        tail: 'priv',
+        description: 'This is the lobby room',
+        owner: 'system',
+        textLeft: 'Text left of the chat box',
+        textUnderChat: 'Text under the chat box',
+        iconUrl: 'URL2',
+        textTop: `<h1>Welcome to the LOBBY</h1>`,
+        textBottom: 'Blah, blah, blah',
+        body: {
+            background: '~/503.gif',
+            bgcolor: 'black',
+            text: 'deb887',
+            link: 'deb887',
+            alink: 'deb887',
+            vlink: 'deb887'
+        }
+    });
+
     export function getControlRoomDataAsync(roomName: string, controlName: string): Promise<IRoomData> {
         const lookupName = `${roomName}_${controlName}`;
         const data = roomList.filter(roomData => roomData.code === lookupName)[0];
@@ -49,4 +71,12 @@ export namespace RoomData {
         const codes = roomList.map((room: IRoomData) => room.code);
         return Promise.resolve(codes);
     }
+
+    export function getAllRoomDataAsync(): Promise<IRoomData[]> {
+        return getRoomCodesAsync().then(codes => {
+            const promises = codes.map(code => getRoomDataAsync(code));
+            return Promise.all(promises);
+        });
+    }
 }
+
