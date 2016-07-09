@@ -119,12 +119,10 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
             let roomLinks = {};
             allData.forEach(room => {
-                let url = `/room/${room.code}?vqxus=${encodeURIComponent(userData.givenName)}`;
-
+                let encodedName = encodeURIComponent(userData.givenName);
+                let url = `/room/${room.code}?vqxus=${encodedName}`;
                 roomLinks[room.code] = url;
-                });
-
-            console.log(JSON.stringify(roomLinks, null, 2));
+            });
 
             res.render('hotlist.pug', {
                 userData,
