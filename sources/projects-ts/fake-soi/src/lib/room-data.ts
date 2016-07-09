@@ -78,5 +78,11 @@ export namespace RoomData {
             return Promise.all(promises);
         });
     }
+
+    export function getUrlToRoom(code: string, userData: IUserData) {
+             let encodedName = encodeURIComponent(userData.givenName);
+                let url = `/room/${code}?vqxus=${encodedName}`;
+        return url;
+    }
 }
 
