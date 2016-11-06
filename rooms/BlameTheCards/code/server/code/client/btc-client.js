@@ -138,10 +138,9 @@
                     const playPosition = playerAnswers.indexOf(card.num);
                     acard.innerHTML = '' + atemplate;
 
-                    if (playPosition !== -1) {
+                    const mark = (playPosition !== -1) ? (playPosition + 1) : "";
                         acard.getElementsByClassName('answer-card-marker-span')[0]
-                            .innerHTML = playPosition + 1;
-                    }
+                            .innerHTML = mark;
 
                     acard.getElementsByClassName('answer-card-text')[0].innerHTML = card.text;
                     acard.setAttribute('data-card-num', card.num);
