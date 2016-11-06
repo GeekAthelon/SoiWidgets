@@ -10,9 +10,16 @@
     const cookieParser = require('cookie-parser');
     const fs = require('fs');
     const http = require('http');
+    const https = require('https');
     const initWebSockets = require('./app-init/websockets');
     const initMainRoom = require('./app-init/main-room');
     const initLounges = require('./app-init/lounges');
+
+
+    const options = {
+      key: fs.readFileSync('/home/athelon/lets_encrypt/privkey.pem'),
+      cert: fs.readFileSync('/home/athelon/lets_encrypt/cert.pem')
+    };
 
     // Views
 
@@ -28,18 +35,7 @@
     };
 
     const port = btcConfig.env.port;
-    //app.listen(port);
-    //console.log('Listening to port ' + port);
-
-    setTimeout(function() {
-        const server = http.createServer(app).listen(port, function() {
-            console.log('Express server listening on port ' + port);
-            initMainRoom(app, cardSources);
-            initLounges(app, cardSources);
-            initWebSockets(app, server);
-        });
-    }, 1000);
-
+        
     app.use(cookieParser());
     app.use(bodyParser.json({
         inflate: true,
@@ -103,6 +99,14 @@
             res.send(data);
         });
     });
+
+        const server = https.createServer(options, app).listen(port, function() {
+            console.log('Express server listening on port ' + port);
+            initMainRoom(app, cardSources);
+            initLounges(app, cardSources);
+            initWebSockets(app, server);
+        });
+
 
     exports = module.exports = app;
 }());

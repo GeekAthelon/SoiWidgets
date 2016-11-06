@@ -45,7 +45,7 @@
       "isDev": true
     }
   },  
-  "node-server": {
+  "geekathelon": {
     "soi": {
       "postUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe",
       "getUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
@@ -62,7 +62,7 @@
     },
     "env": {
       "port": 5000,
-      "url": "http://76.188.44.119:5000",
+      "url": "https://geekathelon.daplie.me:5000",
       "dbPathReal": "/home/athelon/btc-db/real",
       "dbPathTest": "/home/athelon/btc-db/unit-test",
       "isDev": false
