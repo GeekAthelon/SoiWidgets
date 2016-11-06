@@ -1,8 +1,13 @@
-/// <reference path="../../../typings/node/node.d.ts" />
-/// <reference path="../../../typings/bluebird/bluebird.d.ts" />
-/// <reference path=".././interfaces/IFakeSoiConfig.ts" />
+/// <reference path='../../../typings/node/node.d.ts' />
+/// <zreference path='../../../typings/bluebird/bluebird.d.ts' />
+/// <reference path='.././interfaces/IFakeSoiConfig.ts' />
+/// <reference path='.././interfaces/IUserData.ts' />
 
-'use strict';
+
+const Promise = require('bluebird');
+
+import {UserData} from './lib/user-data';
+import {RoomData} from './lib/room-data';
 
 const soiConfigP = require('./lib/loadJSON').loadFakeSoiConfig();
 
@@ -17,7 +22,7 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     const cors = require('cors');
     const bodyParser = require('body-parser');
-    // const serveIndex = require('serve-index');
+    const serveIndex = require('serve-index');
     const cookieParser = require('cookie-parser');
     const http = require('http');
 
@@ -37,21 +42,27 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
 
     app.use(cors());
 
-    /*
-    (function() {
-        const roomList = roomConfig.getFullRoomList();
-        roomList.forEach(roomName => {
-            const roomPath = roomConfig.getRoomPath(roomName);
-            const staticPath = path.resolve(__dirname, `../rooms/${roomName}/static`);
-    
-            console.log('Static: ', roomPath, staticPath);
-    
-            app.use(roomPath, express.static(staticPath));
-            app.use(roomPath, serveIndex(staticPath));
-    
+
+    function prepRoomsAsync(): Promise<void> {
+        return RoomData.getRoomCodesAsync().then(codes => {
+            codes.forEach(code => {
+
+                RoomData.getRoomDataAsync(code).then(roomData => {
+                    const staticPath = path.resolve(__dirname, `../rooms/${code}/static`);
+                    const roomPath = `/room-static/${code}/`;
+
+                    roomData.body.background = roomData.body.background.replace('~/', roomPath);
+
+                    app.use(roomPath, express.static(staticPath));
+                    app.use(roomPath, serveIndex(staticPath));
+
+                    console.log('Found room', code);
+                    console.log(`Mapped ${roomPath} to ${staticPath}`);
+                });
+            });
         });
-    }());
-    */
+    }
+    prepRoomsAsync();
 
     const viewPath = path.resolve(__dirname, '../views');
 
@@ -82,74 +93,113 @@ soiConfigP.then((soiConfig: IFakeSoiConfig) => {
             showRoom(res, data);
         });
 
-    function showHotList(nick, res) {
-        /*
-        const databaseO = require('./lib/user-auth-db');
-        const props = roomConfig.get('_controls');
-        const roomList = roomConfig.getPlayerRoomList();
-    
-        return databaseO.gatherUserDataAsync(nick).then(userData => {
-            const roomLinksPromises = [];
-            const roomLinks = {};
-            const roomDetails = {};
-            roomList.forEach(r => {
-                const rDetail = roomConfig.get(r);
-                roomDetails[r] = rDetail;
-                roomLinksPromises.push(
-                    linkManager.getRoomLinkAsync(r, r.tail, userData.prettyNick)
-                );
-            });
-    
-            return Promise.all(roomLinksPromises).then(ll => {
-                ll.forEach((item, idx) => {
-                    let roomid = roomList[idx];
-                    roomLinks[roomid] = item;
-                });
-    
-                const cfg = {
-                    roomProps: props,
-                    user: userData,
-                    roomList: roomList,
-                    roomDetails: roomDetails,
-                    roomLinks: roomLinks
-                };
-    
-                if (userData.isAuth) {
-                    res.render('hotlist', cfg);
-                } else {
-                    res.redirect('/');
-                }
-    
-            });
-    
+    function showHotList(soiUserData: ISoiUserData, res: any) {
+        let userDataP = UserData.getUserDataAsync(soiUserData);
+
+        const allDataP = userDataP.then(userData => {
+            return RoomData.getAllRoomDataAsync();
         });
-          */
+
+        const roomDataP = userDataP.then(userData => {
+            return RoomData.getControlRoomDataAsync(userData.roomName, userData.controlRoomName);
+        });
+
+
+        return Promise.all([
+            userDataP,
+            allDataP,
+            roomDataP
+        ]).spread((
+            userData: IUserData,
+            allData: IRoomData[],
+            roomData
+        ) => {
+
+            let soiUserData = UserData.toSoiProperties(userData);
+
+            let roomLinks = {};
+            allData.forEach(room => {
+                roomLinks[room.code] = RoomData.getUrlToRoom(room.code, userData);
+            });
+
+            res.render('hotlist.pug', {
+                userData,
+                roomData,
+                roomList: allData,
+                soiUserData,
+                roomLinks
+            });
+
+            // const out = [userData, roomData];
+            // res.send('<pre>' + JSON.stringify(out, null, 2) + '</pre>');
+        }).catch(err => {
+            console.log('Acck.. error:', err);
+            res.send('Ther was an unexpected error:' + err);
+        });
     }
 
     app.route('/ctl/hotlist')
         .get(function(req, res) {
-            showHotList(req.query.vqxus, res);
+            let soiUserData = <ISoiUserData>req.query;
+            showHotList(soiUserData, res);
         }).post(function(req, res) {
-            showHotList(req.body.vqxus, res);
+            let soiUserData = <ISoiUserData>req.body;
+            showHotList(soiUserData, res);
         });
+
+    function renderPage(res: any, soiUserData: ISoiUserData): Promise<void> {
+        const userDataP = UserData.getUserDataAsync(soiUserData);
+
+        const roomDataP = userDataP.then(userData => {
+            return RoomData.getControlRoomDataAsync(userData.roomName, userData.controlRoomName);
+        });
+
+        return Promise.all([
+            userDataP,
+            roomDataP
+        ]).spread((
+            userData: IUserData,
+            roomData: IRoomData
+        ) => {
+            console.log(`Template is ${roomData.template}`);
+
+            let soiUserData = UserData.toSoiProperties(userData);
+
+            res.render(roomData.template, {
+                userData,
+                roomData,
+                soiUserData
+            });
+
+            // const out = [userData, roomData];
+            // res.send('<pre>' + JSON.stringify(out, null, 2) + '</pre>');
+        }).catch(err => {
+            console.log('Acck.. error:', err);
+            res.send('Ther was an unexpected error:' + err);
+        });
+    }
 
     app.route('/')
         .get(function(req, res) {
-            res.send('Index?');
-            /*            
-            const props = roomConfig.get('_controls');
-            res.render('login', {
-                roomProps: props
-            });
-            */
+            let soiUserData = <ISoiUserData>req.query;
+            renderPage(res, soiUserData);
         })
         .post(function(req, res) {
+            let soiUserData = <ISoiUserData>req.body;
+
+            let userDataP = UserData.getUserDataAsync(soiUserData);
+
+            userDataP.then(userData => {
+                res.redirect('/ctl/hotlist?vqxus=' + encodeURIComponent(userData.givenName));
+            });
+
+
+            //res.send('Logged in');
             /*
             const databaseO = require('./lib/user-auth-db');
-    
+     
             databaseO.gatherUserDataAsync(req.body.vqxus).then(userData => {
                 if (userData.isAuth) {
-                    res.redirect('/ctl/hotlist?vqxus=' + encodeURIComponent(userData.prettyNick));
                 } else {
                     res.redirect('/');
                 }
