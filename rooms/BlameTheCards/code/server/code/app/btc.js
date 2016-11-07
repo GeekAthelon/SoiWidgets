@@ -9,16 +9,14 @@
     const bodyParser = require('body-parser');
     const cookieParser = require('cookie-parser');
     const fs = require('fs');
-    const http = require('http');
     const https = require('https');
     const initWebSockets = require('./app-init/websockets');
     const initMainRoom = require('./app-init/main-room');
     const initLounges = require('./app-init/lounges');
 
-
     const options = {
-      key: fs.readFileSync('/home/athelon/lets_encrypt/privkey.pem'),
-      cert: fs.readFileSync('/home/athelon/lets_encrypt/cert.pem')
+        key: fs.readFileSync('/home/athelon/lets_encrypt/privkey.pem'),
+        cert: fs.readFileSync('/home/athelon/lets_encrypt/cert.pem')
     };
 
     // Views
@@ -35,7 +33,7 @@
     };
 
     const port = btcConfig.env.port;
-        
+
     app.use(cookieParser());
     app.use(bodyParser.json({
         inflate: true,
@@ -100,14 +98,14 @@
         });
     });
 
-        const server = https.createServer(options, app).listen(port, function() {
-            console.log('Express server listening on port ' + port);
-            initMainRoom(app, cardSources);
-            initLounges(app, cardSources);
-            initWebSockets(app, server);
-        });
+    const server = https.createServer(options, app).listen(port, function() {
+        console.log('Express server listening on port ' + port);
+        initMainRoom(app, cardSources);
+        initLounges(app, cardSources);
+        initWebSockets(app, server);
+    });
 
-	https.createServer(options, app).listen(443, function() {});
+    https.createServer(options, app).listen(443, function() {});
 
     exports = module.exports = app;
 }());

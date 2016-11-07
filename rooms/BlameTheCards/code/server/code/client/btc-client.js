@@ -138,9 +138,9 @@
                     const playPosition = playerAnswers.indexOf(card.num);
                     acard.innerHTML = '' + atemplate;
 
-                    const mark = (playPosition !== -1) ? (playPosition + 1) : "";
-                        acard.getElementsByClassName('answer-card-marker-span')[0]
-                            .innerHTML = mark;
+                    const mark = (playPosition !== -1) ? (playPosition + 1) : '';
+                    acard.getElementsByClassName('answer-card-marker-span')[0]
+                        .innerHTML = mark;
 
                     acard.getElementsByClassName('answer-card-text')[0].innerHTML = card.text;
                     acard.setAttribute('data-card-num', card.num);
