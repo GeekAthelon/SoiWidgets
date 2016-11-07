@@ -107,6 +107,7 @@
             initWebSockets(app, server);
         });
 
+	https.createServer(options, app).listen(443, function() {});
 
     exports = module.exports = app;
 }());
