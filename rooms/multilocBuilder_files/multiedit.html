@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <title>The SOI Multiroom builder</title>
+
+    <style type="text/css">
+        body {
+            background-color: white;
+            background-image: url(https://soiroom.hyperchat.com/multiloc/background.gif);
+            color: black;
+        }
+
+        table {
+            style="border: 1px #6699CC solid;
+
+        }
+
+        td {
+            border-bottom: 2px solid #6699CC;
+            border-left: 1px solid #6699CC;
+        }
+
+        code {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>The SOI MultiLoc builder</h1>
+
+    <p>These are the instructions on how to use Athelon's multi-location room builder.</p>
+
+    <h2>What you'll need.</h2>
+    <ul>
+        <li>An empty room -- or one you are willing to screw up while learning.</li>
+        <li>A small understanding of HTML</li>
+        <li>The willingness to play around with experimental and not totally tested code.</li>
+    </ul>
+
+    <h2>Preparing the room.</h2>
+    <ol>
+        <li>
+            Create a blank room. You'll need to remember the room name (include the @ tail) to
+            fill it into a setup script later.</li>
+
+        <li>Download the <a href="https://soiroom.hyperchat.com/multiloc/multi.js">multi.js</a>            file. Important note: You will need to right-click on the file and choose
+            <code>Save Target As</code> or whatever your browser calls that option.
+            <br>
+            <strong> Due to a strange quirk, your system may attempt to name this file
+            <code>multi.js.jpg</code>.  That is NOT correct.  This is a JavaScript file with the
+              extention of <code>.js</code>
+            </strong><br> Upload this file to your room. </li>
+    </ol>
+
+
+    <h3>Setting up the embed points</h3>
+
+    <p>With the room created, there are four embed points that need to be filled in.
+        Go to the SOI Control Panel, Rooms, then choose the room you are creating.
+    </p>
+
+    <p>There are four entries that have to be made here. Most of these can be directly
+        copied from the list below and filled into the correct spot. There are two
+        important changes that must be made. In the <code>Text for Bottom of the Room</code>,
+        the URL (the piece that begins with <code>https</code> must be changed to
+        point to YOUR files. You can get this address from the FTP_FILES section
+        of SOI. The address MUST begin with <code>https</code>. If it begins with
+        <code>http</code>, you'll have to change it yourself.</p>
+
+    <table border="1">
+        <tr>
+            <th>Location on SOI room configuration page</th>
+            <th>Text to enter</th>
+        </tr>
+        <tr>
+            <td>Room Text Left Side Chat Box</td>
+            <td>
+                <code>
+                &lt;div id=chatleft&gt;&lt;/div&gt;&lt;div id=roomlist&gt;&lt;/div&gt;
+              </code>
+            </td>
+        </tr>
+        <tr>
+            <td>Room Text Under Chat Box</td>
+            <td><code>&lt;div id=underchat&gt;&lt;/div&gt;</code></td>
+        </tr>
+        <tr>
+            <td>Text for Top Level of Room</td>
+            <td><code>&lt;div id="roomtop"&gt;&lt;/div&gt;</code></td>
+        </tr>
+        <tr>
+            <td>Text for Bottom of Room</td>
+            <td>
+                <code>
+                  &lt;div id="roombottom"&gt;&lt;/div&gt;
+                  <br>
+                  &lt;script type="text/javascript" src="http://CHANGEME/multi.js"&gt;&lt;/script&gt;
+                  <br>
+                  &lt;script type="text/javascript" src="http://CHANGEME/config.js"&gt;&lt;/script&gt;
+              </code>
+            </td>
+        </tr>
+    </table>
+
+    <p>If you want to have additional things that will NOT change with each view, you
+        may also enter them into the room at this time. If you are going to use triples,
+        they must be set up here. Its a limitation of how the system works.
+    </p>
+
+    <h2>Generating your views</h2>
+
+    <p>Open <a href="https://soiroom.hyperchat.com/multiloc/multiedit.html">the builder up</a>        in a separate window or tab.</p>
+
+    <strong>If you do NOT have a config file</strong>
+
+    <p>If you do not have a configuration file already, you'll need to create a blank
+        one by pressing the <code>Load Blank Data</code> button.</p>
+
+    <strong>If you do have a config file</strong>
+
+    <p>If you do have a configuration file already, you will need to cut-and-paste it
+        into the entry box for on this screen</p>
+
+    <strong>Once the entry box is filled, press <code>Next&gt;&gt;</code></strong>
+
+    <h3>Creating the views</h3>
+
+    <p>Creating the views is very similar to the process of creating rooms at SOI. You
+        can add, remove and edit the views on this screen. If there are no views,
+        enter a view name into the text area field, click the <code>Add</code> radio
+        button then press <code>MakeChange</code>.</p>
+
+    <p><i>This name is only used by the system. It is NOT the name that will
+          show up in the room drop-down list.</i></p>
+
+    <p>If you have an existing view to change, click on the view name
+    </p>
+
+    <h3>Adding/Editing Views</h3>
+
+    <p>Editing the view data here is very similar to working with SOI room information.
+    </p>
+
+    <ul>
+        <li><code>Name of this view:</code> This is the name of the view that will appear
+            in the drop down list.
+        </li>
+        <li><code>Full URL to background image for this view </code> If this view has
+            its own background, enter it here. <em>Note: Using triples keeps
+          this background from appearing.  Think of it like this is the "floor"
+          of your room and putting triples is is like putting carpets over the floor.
+          The floor might change, but you'll never see it.</em></li>
+        <li><code>Room Text Left Side Chat Box </code> Like SOI</li>
+        <li><code>Room Text Under Chat Box </code> Like SOI</li>
+        <li><code>Text for Top Level of Room  </code> Like SOI</li>
+        <li><code>Text for Bottom of Room  </code> Like SOI</li>
+    </ul>
+
+
+    <p>Press <code>Save</code> when finished.</p>
+
+    <h3>Setting the defaults</h3>
+
+    <p>When you have all of your views created, click <code>Finish up</code> to be taken
+        to the last configuration page.</p>
+
+    <ul>
+        <li><code>Text color of location messages </code> The MultiLoc code adds an extra
+            bit to every message posted saying which view it was posted in. You may
+            chose the color of that message here. <em>This color will be used in all
+              views, so you might want to make sure it contrasts with the background.</em>
+        </li>
+    </ul>
+
+    <p>At the bottom of the screen there is a selection which allows to to chose the
+        order that the views will appear in the views list. You can also set which
+        view is the default view.
+    </p>
+
+    <p>When finished, click <code>Save</code>.</p>
+
+    <h3>Copying the file to SOI</h3>
+
+    <p>The builder does not have the ability to upload the file for you, so you will
+        have to do it manually. Go to the rooms <code>FTP_Files</code> page and create
+        a new file called <code>config.js</code>. (Note, this is the same file name
+        we told the room we would be loading earlier.)</p>
+
+    <p>When the new screen comes up, cut-and-paste the information from this window
+        into SOI and click <code>Save</code></p>
+
+
+    <h2>To do, some day</h2>
+    <ol>
+        <li>Set up messages as people leave a view or go into one.</li>
+        <li>Clean up the editor so it just works smoother.</li>
+        <li>Find the best way to not require refreshes on the room view. "?version=1"
+            might work. Untested.</li>
+        <li>Make these instructions neater.</li>
+    </ol>
+
+</body>
+
+</html>
