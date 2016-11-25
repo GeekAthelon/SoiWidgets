@@ -6,7 +6,10 @@ fi
 
 echo Configuring the system.
 
-ddns --hostname geekathelon.daplie.me --agree --email geekathelon@gmail.com --token /usr/local/lib/node_modules/ddns-cli/tests/.daplie.me.jwt 
+TOKEN=/media/redpny/software/node-v6.9.1-linux-armv6l/lib/node_modules/ddns-cli/tests/.daplie.me.jwt
+PATH=/media/redpny/software/node-v6.9.1-linux-armv6l/lib/node_modules/ddns-cli/bin/:$PATH
+
+ddns --hostname geekathelon.daplie.me --agree --email geekathelon@gmail.com --token $TOKEN
 
 cd ~athelon/lets_encrypt/letsencrypt
 ./letsencrypt-auto renew
