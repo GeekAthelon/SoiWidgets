@@ -86,7 +86,7 @@ function makeClosingTags($html) {
 	 if ($tag === "br") {
 	   continue;
 	 }
-	 
+
      if (strpos($tag, '/') === false) {
        $out[] = "</${tag}>";
      }
@@ -146,13 +146,13 @@ function makeLink($extra) {
 function ChatToHtml() {
   global $ROOM;
   global $spiritList;
-  
+
   $fn = getChatLogFileName($ROOM);
-  
+
   if (!file_exists ($fn)) {
     return "";
   }
-  
+
   $txt = file_get_contents($fn);
   if (!$txt) {
     return "";
@@ -177,7 +177,7 @@ function ChatToHtml() {
     $html .= "<b>";     // SOI wraps things in double <b> elements
     $html .= "<b>";
     $name = $entry->from_name;
-	
+
 	if (!in_array ($name , $spiritList)) {
 	  $spiritList[] = $name;
 	}
@@ -211,7 +211,7 @@ function ChatToHtml() {
     $html .= "<hr>";
     $out .= $html;
   }
-  
+
   return $out;
 }
 
@@ -225,10 +225,12 @@ function process() {
   $user = makeParms();
   include "rooms/$ROOM/details.php";
 
+  date_default_timezone_set('America/New_York');
+
   $fields['human_time'] = strftime ("%H:%M", $TIME);
   $fields['link_localcontrols'] = makeLink(array('mode' => 'rControl'));
   $fields['link_hotlist'] = makeLink(array('vqvaj' => 'showHot'));
- 
+
   $fields['php_self'] = $PHP_SELF;
 
   $templateName = "templates/chatroom.html";
@@ -238,11 +240,11 @@ function process() {
   $fields['room_body'] = $chat;
 
   $roomDetails['chat_entry_box'] = makeChatEntryBox($user);
-  
+
   if ($user->on_auto === "on") {
     $fields['url_self'] = makeLink(array('on_auto' => 'on'));
     $fields['link_auto'] = makeLink(array('on_auto' => 'off'));
-    $fields['link_auto_text'] = "Stop auto";    
+    $fields['link_auto_text'] = "Stop auto";
     $fields['header_refresh'] = makeHeaderRefresh();
   } else {
     $fields['url_self'] = makeLink(array('on_auto' => 'off'));
@@ -296,7 +298,7 @@ function processTalk() {
 	} else {
 	  $txt = "";
 	}
-	
+
     if (!$txt || $txt === "") {
       $log = array();
     } else {
@@ -346,24 +348,24 @@ function isset_or(&$check, $alternate = NULL) {
 
 function makeChatEntryBox($user) {
   global $spiritList;
-  
+
   $out = array();
-    
+
   $l = count($spiritList);
-  
+
   if ($user->on_auto === "off") {
     $out[] = 'From:<input name="vqxha" size="11" value="##vqxha##" type="text">';
     $out[] = 'To:<input name="vqxto" size="11" type="text">';
     $out[] = '<select name="vqvdy">';
     $out[] = '  <option selected="selected">&lt;==</option>';
     $out[] = '  <option>**The Room**</option>';
-	
+
 	for($i = 0; $i < $l; $i++) {
 	  $name = $spiritList[$i];
 	  $name = cleanStringForSpiritList($name);
 	  $out[] = "  <option>$name</option>";
 	}
-	
+
     $out[] = '</select>';
     $out[] = 'Show:<input name="vqxby" size="3" value="20" type="text">';
     $out[] = '<br>';
@@ -391,30 +393,30 @@ function makeHotList() {
 
   $templateName = "templates/blank_file.html";
   $template = file_get_contents($templateName);
-  
+
   $roomList = array("gtest", "dice", "dice2", "jsgames", "refresh", "map", "timewarp", "ponyrace", "flair", "BlameTheCards");
   $out = array();
-  
+
   $out[] = "<h1>The fake HOT list</h1>";
   $out[] = "<p>I know this isn't really a hot list, but one can navigate " .
   "the rooms here using it, so it will work.  Its the chat rooms that are " .
   "really important here.</p>";
-  
+
   $out[] = "<ul>";
   for ($i = 0; $i < count($roomList); $i++) {
     $room = $roomList[$i];
 	$url = makeLink(array('vqxro' => $room));
-	
+
 	$out[] = "<li>";
 	$out[] = "<a href='$url'>$room</a>";
 	$out[] = "</li>";
   }
   $out[] = "</ul>";
-  
+
   $fields = array();
   $fields['body'] = implode(PHP_EOL, $out);
-  
-  
+
+
   $template = replaceFields($template, $roomDetails);
   $template = replaceFields($template, $fields);
   print $template;
@@ -426,21 +428,21 @@ function login() {
 
   $templateName = "templates/blank_file.html";
   $template = file_get_contents($templateName);
-  
+
   $roomList = array("gtest", "dice");
   $out = array();
-    
-  
+
+
   $out[] = <<< EOF
               <h1>This is not SOI</h1>
 			  <p>This site kind of looks like SOI in some ways,
 			  its a place that Athelon uses for testing, since he
 			  can develop things so much faster here.</p>
-			  
+
 			  <p>Be warned, there are <strong>no</strong> registered names here.<p>
-  
+
               By what name art thou known here?
-              <form action="##php_self###chatmark" method="POST">			  
+              <form action="##php_self###chatmark" method="POST">
               <input name="vqxsq" value="##vqxsq##" type="hidden">
               <input name="vqxha" value="##vqxha##" >
               <input name="vqxus" value="##vqxus##" type="hidden">
@@ -450,12 +452,12 @@ function login() {
 
             </form>
 EOF;
-    
+
   $z = array();
   $z['body'] = implode(PHP_EOL, $out);
-  
+
   $template = replaceFields($template, $z);
-  
+
   $template = replaceFields($template, $roomDetails);
   $template = replaceFields($template, $user);
   //$template = replaceFields($template, $fields);
