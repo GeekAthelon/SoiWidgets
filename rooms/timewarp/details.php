@@ -2,21 +2,21 @@
 
 $top = <<<EOF
 
+<link rel="stylesheet" type="text/css" href="http://127.0.0.1:5723/rooms/timewarp/timewarp.css">
   <!--
-   <link rel="stylesheet" type="text/css" href="http://127.0.0.1/fakesoi/rooms/timewarp/timewarp.css">
      <link rel="stylesheet" type="text/css" href="http://soiroom.hyperchat.com/timewarp/timewarp?v4.css">
      <link rel="stylesheet" type="text/css" href="http://soiroom.hyperchat.com/timewarp/timewarp.css?v4">
+     <link rel="stylesheet" type="text/css" href="http://76.188.44.119:8080/SoiWidgets/rooms/timewarp/timewarp.css">
   -->
-    <link rel="stylesheet" type="text/css" href="http://76.188.44.119:8080/SoiWidgets/rooms/timewarp/timewarp.css">
 
-  
+
   <table id="triple1">
   <tr>
   <td>
   <table id="triple2">
   <tr>
   <td>
-  
+
   <center><!-- Have to have a wrapper -->
   <p>Athelon's experiments in TimeWarping and image changing!<br>The currently displayed time is:
          <b><i>
@@ -50,8 +50,8 @@ $top = <<<EOF
 	 to click <code>FIND</code>.
   </p>
   </center>
-  
- 
+
+
        <center><!-- Have to have a wrapper -->
   		<script type="text/html" data-time-type="text" data-time-views="00"><img src="http://soiroom.hyperchat.com/timewarp/citystreet00.jpg"></script>
 		<script type="text/html" data-time-type="text" data-time-views="01,23"><img src="http://soiroom.hyperchat.com/timewarp/citystreet01.jpg"></script>
@@ -66,23 +66,23 @@ $top = <<<EOF
 		<script type="text/html" data-time-type="text" data-time-views="10,14"><img src="http://soiroom.hyperchat.com/timewarp/citystreet10.jpg"></script>
 		<script type="text/html" data-time-type="text" data-time-views="11,13"><img src="http://soiroom.hyperchat.com/timewarp/citystreet11.jpg"></script>
 		<script type="text/html" data-time-type="text" data-time-views="12"><img src="http://soiroom.hyperchat.com/timewarp/citystreet12.jpg"></script>
-		
+
        </center>
-  
-  
+
+
        <p> <!-- Have to have a wrapper -->
 		<script type="text/html"  data-time-type="text" data-time-views="00">
 			Midnight and the city streets are empty.  Not even the trashman bother working at this hour.
 		</script>
-  
-		<script type="text/html"  data-time-type="text" data-time-views="01">		
+
+		<script type="text/html"  data-time-type="text" data-time-views="01">
 		  Early morning.  Still early enough in the morning to be considered bed-time.
 		</script>
-	
+
 		<script type="text/html"  data-time-type="text" data-time-views="02">
 		  Street girls begin to work their trade.
 		</script>
-	
+
 		<script type="text/html"  data-time-type="text" data-time-views="03">
 		  The first hints of sun appear -- or are those distant lights from a mall?
 		</script>
@@ -120,7 +120,7 @@ $top = <<<EOF
 		</script>
 
 		<script type="text/html"  data-time-type="text" data-time-views="13">
-		  The paint is still drying... 
+		  The paint is still drying...
 		</script>
 
 		<script type="text/html"  data-time-type="text" data-time-views="14">
@@ -167,14 +167,14 @@ $top = <<<EOF
 		  No-one around -- silent.
 		</script>
 		</p>
-		
-	
-  </div>
-  
-  <p style="clear:both"></p>
-  
 
-  <!--  
+
+  </div>
+
+  <p style="clear:both"></p>
+
+
+  <!--
 	<script type="text/javascript" src="rooms/timewarp/timewarp.js"></script>
    <script type="text/javascript" src="http://soiroom.hyperchat.com/timewarp/timewarp.js?v4"></script>
     -->
@@ -194,12 +194,12 @@ $roomDetails = array (
   "color_text" => "white",
   "color_vlink" => "green",
   "color_alink" => "olive",
-  
+
   "roomname" => "TimeWarp",
   "room_desc" => "TimeWarp",
   "room_short" => "timewarp",
   "room_tail" => "priv",
-  
+
   "room_top" => $top,
 
   "room_left" => "",
