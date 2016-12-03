@@ -15,6 +15,7 @@ cd ~athelon/lets_encrypt/letsencrypt
 ./letsencrypt-auto renew
 cd ..
 
+cp /etc/letsencrypt/live/geekathelon.daplie.me/fullchain.pem .
 cp /etc/letsencrypt/live/geekathelon.daplie.me/privkey.pem .
 cp /etc/letsencrypt/live/geekathelon.daplie.me/cert.pem .
 

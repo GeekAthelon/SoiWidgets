@@ -16,7 +16,8 @@
 
     const options = {
         key: fs.readFileSync('/home/athelon/lets_encrypt/privkey.pem'),
-        cert: fs.readFileSync('/home/athelon/lets_encrypt/cert.pem')
+        cert: fs.readFileSync('/home/athelon/lets_encrypt/fullchain.pem'),
+        ca: fs.readFileSync('/home/athelon/lets_encrypt/cert.pem')
     };
 
     // Views
