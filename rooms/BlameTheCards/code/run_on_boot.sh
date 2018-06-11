@@ -1,3 +1,4 @@
+HOSTNAME=soiathelon.ddns.net
 
 if [ `id -u` -ne 0 ] ; then
 	echo "Please run as root" 
@@ -6,20 +7,13 @@ fi
 
 echo Configuring the system.
 
-TOKEN=/media/redpny/software/node-v6.9.1-linux-armv6l/lib/node_modules/ddns-cli/tests/.daplie.me.jwt
-PATH=/media/redpny/software/node-v6.9.1-linux-armv6l/lib/node_modules/ddns-cli/bin/:$PATH
-
-ddns --hostname geekathelon.daplie.me --agree --email geekathelon@gmail.com --token $TOKEN
-
 cd ~athelon/lets_encrypt/letsencrypt
-./letsencrypt-auto renew
+   ./letsencrypt-auto renew
 cd ..
 
-cp /etc/letsencrypt/live/geekathelon.daplie.me/fullchain.pem .
-cp /etc/letsencrypt/live/geekathelon.daplie.me/privkey.pem .
-cp /etc/letsencrypt/live/geekathelon.daplie.me/cert.pem .
-
-
+cp /etc/letsencrypt/live/$HOSTNAME/fullchain.pem .
+cp /etc/letsencrypt/live/$HOSTNAME/privkey.pem .
+cp /etc/letsencrypt/live/$HOSTNAME/cert.pem .
 
 
 echo Running game

@@ -49,7 +49,7 @@
     "soi": {
       "postUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe",
       "getUrl": "http://ssomf.hyperchat.com/cgi-bin/somf.exe?vqvcook=1&vqxus={nick}&vqxha={nick}&roomsite={roomsite}&vqxfi={room}&vqvak=Find",
-      "nick": "BTC has returned!",
+      "nick": "It lives again - BTC",
       "room": "btc",
       "roomsite": "soi"
     },
@@ -62,7 +62,7 @@
     },
     "env": {
       "port": 5000,
-      "url": "https://geekathelon.daplie.me:5000",
+      "url": "https://soiathelon.ddns.net:5000",
       "dbPathReal": "/home/athelon/btc-db/real",
       "dbPathTest": "/home/athelon/btc-db/unit-test",
       "isDev": false
