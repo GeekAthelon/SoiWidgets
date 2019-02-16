@@ -75,6 +75,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function getName(name) {
       flairs.forEach(function(user) {
+        // Protection from malformed data
+        if (!user) {
+          return;
+        }
         var n1 = user[0];
         if (n1 === name) {
           flair = user[1];
