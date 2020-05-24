@@ -1,0 +1,33 @@
+.flipit-cell {
+    background-color: darkgreen;
+    color: white;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.flipit-cell span {
+    height: 25px;
+    width: 25px;
+    background: darkolivegreen;
+    border-radius: 50%;
+    display: inline-block;
+    padding: 0.25em;
+}
+
+.flipit-cell .cell_white {
+    background: repeating-radial-gradient(
+        circle,
+        white,
+        white 10px,
+        black 20px
+    );
+}
+
+.flipit-cell .cell_black {
+    background: repeating-radial-gradient(
+        circle,
+        black,
+        black 10px,
+        white 20px
+    );
+}
