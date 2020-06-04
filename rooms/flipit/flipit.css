@@ -6,24 +6,30 @@
     position: relative;
 }
 
-.no-flipit-cell:after {
+.flipit-cell.flipit-recent {
+    background-color: turquoise;
+}
+
+.flipit-cell:after {
     content: attr(data-cell);
     background-color: transparent;
     color: orange;
     display: block;
     text-align: center;
     position: absolute;
-    top: 10px;
-    left: 10px;
+    font-family: monospace;
+    width: 30px;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 0px;
 }
 
 .flipit-cell span {
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
     background: darkolivegreen;
     border-radius: 50%;
     display: inline-block;
-    padding: 0.25em;
 }
 
 .flipit-cell .cell_white {
@@ -31,16 +37,45 @@
         circle,
         white,
         white 10px,
-        black 20px
+        black 15px
     );
 }
-
 
 .flipit-cell .cell_black {
     background: repeating-radial-gradient(
         circle,
         black,
         black 10px,
-        white 20px
+        white 15px
     );
+}
+
+.flipit-cell .cell_black.cell_hint,
+.flipit-cell .cell_white.cell_hint {
+    background: repeating-radial-gradient(
+        circle,
+        black,
+        white 5px,
+        black 10px,
+        white 15px,
+        black 29px
+    );
+}
+
+.flipit-cell .cell_hint {
+    background: repeating-radial-gradient(
+        circle,
+        grey,
+        grey 5px,
+        grey 10px,
+        grey 15px,
+        grey 29px
+    );
+}
+
+.error-message {
+    background-color: black;
+    border: 2px solid red;
+    color: white;
+    display: none;
 }
